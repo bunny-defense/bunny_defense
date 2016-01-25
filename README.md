@@ -7,10 +7,20 @@ The project's current state is a quick scala mockup of the gui.
 
 ## Building
 
-How to compile and/or run:
-
-At the level of the src directory
+How to compile:
 
 ```bash
-sbt
+make
+```
+
+How to run:
+
+```bash
+make run
+```
+
+How to package in a (kinda executable) .jar:
+
+```bash
+make package
 ```
