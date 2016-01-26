@@ -3,6 +3,7 @@ package path
 
 import collection.mutable.ListBuffer
 
+
 object Waypoint {
   def distance( a: Waypoint, b: Waypoint ): Double = {
     return math.sqrt(
