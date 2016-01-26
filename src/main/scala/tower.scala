@@ -1,13 +1,12 @@
 
-package runtime
+package game_mechanics
 
-import path._
+import path._ // Really necessary ?
 
-/* Creates an abstract class of tower */
-
+/* Abstract tower superclass from which evey tower will be derived */
 abstract class Tower {
-  val x = 2
-  val y = 2
+  var x = 2
+  var y = 2
   val size = 1
   val damages = 5
   }

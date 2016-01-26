@@ -3,8 +3,7 @@ package runtime
 
 import path._
 
-/* Creates an abstract class of bunnies. Then every species of bunny is a
-subclass of this class */
+/* Abstract bunny superclass from which every ennemy is derived. */
 abstract class Bunny {
   var hp = 10
   var x = 2.
@@ -14,6 +13,7 @@ abstract class Bunny {
   var path = new Path
 }
 
+/* Large and tough but slow bunny */
 class Heavy_Bunny extends Bunny {
   this.hp = 20
   this.shield = 1.5

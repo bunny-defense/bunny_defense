@@ -1,7 +1,7 @@
 
-package game_mechanism
+package game_mechanics
 
-/* The cell for the game mechanism, it can be walkable */
+/* The cell for the game mechanics, it can be walkable */
 class MapCell(x:Int, y:Int) {
 
   var walkable = true

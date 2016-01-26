@@ -4,70 +4,53 @@ package runtime
 import swing._
 import swing.event._
 
-object MapCell {
-  val cellsize = 40
-  val dimension = new Dimension( cellsize, cellsize )
-  val white = new Color( 255, 255, 255 )
-  val blue = new Color( 0, 0, 255 )
-}
-
-class MapCell extends Button {
-  this.preferredSize = MapCell.dimension
-  this.background = MapCell.white
-  //this.border = Swing.LineBorder( MapCell.blue )
-}
+import gui._
 
 object TowerDefense extends SimpleSwingApplication
 {
 
+  /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
     println( x, y )
   }
 
-  def make_grid(): GridPanel = {
-    return new GridPanel(10, 20) {
-      for( i <- 0 until 200 ) {
-        contents += new MapCell {
-          action = Action("") {
-            on_cell_clicked( i % 20, i / 20 ) }
-        }
-      }
-    }
-  }
-
+  /* Triggered when a button from the build menu is clicked */
   def on_build_button( id:Int ): Unit = {}
 
+  /* Triggered when the play button is clicked */
   def on_play_button(): Unit = {}
 
+  /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
     val dimension = new Dimension( 30, 30 )
     return new GridPanel( 3, 5 ) {
       for( i <- 0 until 15 ) {
         val button = new Button { action = Action ("") { on_build_button( i ) } }
         button.preferredSize = dimension
-        button.background = MapCell.white
+        button.background = Colors.white
         contents += button
       }
     }
   }
 
+  /* Returns a panel containing the in-game menu (next to the map) */
   def make_menu(): BorderPanel = {
     return new BorderPanel {
       val play_button = new Button { action = Action("") { on_play_button() } }
-      play_button.preferredSize = MapCell.dimension
-      play_button.background = MapCell.white
-      //play_button.border = Swing.LineBorder( MapCell.blue )
+      play_button.preferredSize = new Dimension( 50, 50 )
+      play_button.background = Colors.white
       add( play_button, BorderPanel.Position.Center )
       add( make_build_menu(), BorderPanel.Position.West )
     }
   }
 
+  /* ========== MAIN ========== */
   def top = new MainFrame
   {
     title = "Tower Defense"
     contents = new BorderPanel
     {
-      add( make_grid(), BorderPanel.Position.Center )
+      add( new MapPanel(10,20), BorderPanel.Position.Center )
       add( make_menu(), BorderPanel.Position.South )
     }
   }
