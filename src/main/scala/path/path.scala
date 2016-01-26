@@ -19,7 +19,7 @@ class Waypoint {
 
 class Path {
   val wps = new ListBuffer[Waypoint]()
-  val progress = 0.
+  var progress = 0.0
   def Path( p:Path ) {
     for( wp <- p.wps ) {
       this.add( wp )

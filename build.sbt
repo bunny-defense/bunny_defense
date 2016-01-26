@@ -5,5 +5,6 @@ lazy val root = (project in file(".")).
   settings(
     name := "Tower Defense",
     mainClass in Compile := Some("runtime.TowerDefense"),
-    libraryDependencies += swing
+    libraryDependencies += swing,
+    scalacOptions += "-deprecation"
   )
