@@ -7,6 +7,7 @@ import path._
 subclass of this class */
 abstract class Bunny {
   val hp = 10
+  val shield = 1
   val x = 2.
   val y = 2.
   val speed = 1.
@@ -15,6 +16,7 @@ abstract class Bunny {
 
 class Heavy_Bunny extends Bunny {
   val hp = 20
+  val shield = 1.5
   val x = 2.
   val y = 2.
   val speed = 0.5
