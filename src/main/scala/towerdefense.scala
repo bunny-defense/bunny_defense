@@ -22,7 +22,6 @@ object TowerDefense extends SimpleSwingApplication
 
   def on_cell_clicked( x:Int, y:Int ): Unit = {
     println( x, y )
-
   }
 
   def make_grid(): GridPanel = {

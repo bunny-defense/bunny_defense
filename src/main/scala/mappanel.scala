@@ -2,7 +2,6 @@
 package gui
 
 import swing._
-import gui.MapButton
 
 class MapPanel(rows: Int,cols: Int) extends GridPanel(rows,cols) {
   
