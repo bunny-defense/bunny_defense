@@ -10,13 +10,18 @@ object Waypoint {
 }
 
 class Waypoint(x0: Double, y0: Double) {
-  val x = x0
-  val y = y0
+  var x = x0
+  var y = y0
 
   def this() { this(0,0) }
 
   def +(other: Waypoint): Waypoint = {
     return new Waypoint( x + other.x, y + other.y )
+  }
+  def +=(other: Waypoint): Waypoint = {
+    x += other.x
+    y += other.y
+    return this
   }
   def *(scalar: Double): Waypoint = {
     return new Waypoint( x * scalar, y * scalar )
