@@ -11,11 +11,13 @@ abstract class Bunny {
   var shield = 1.0
   var speed  = 1.0
   var path   = new Path()
+  var reward = 10
 }
 
 /* Large and tough but slow bunny */
 class Heavy_Bunny extends Bunny {
-  this.hp = 20
+  this.hp     = 20
   this.shield = 1.5
-  this.speed = 0.5
+  this.speed  = 0.5
+  this.reward =15
 }
