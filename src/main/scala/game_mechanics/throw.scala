@@ -17,12 +17,12 @@ abstract class Throw {
 
 /* Update of the position of the throw */
     def update_pos(dt : Int, dir: Waypoint): Unit = {
-      this.pos += this.speed * (this.target - this.pos) * dir
+      this.pos += dt * this.speed * (this.target - this.pos) * dir
     }
 
 /* One step of progress */
-    def progress(dt: Int): Unit= {
-      update_pos(dt)
+    def progress(dt: Int, dir: Waypoint): Unit= {
+      update_pos(dt,dir)
       this.hit = (target.x == pos.x && target.y == pos.y)
     }
   }
