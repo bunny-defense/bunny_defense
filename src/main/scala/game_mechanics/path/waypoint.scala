@@ -9,7 +9,14 @@ object Waypoint {
   }
 }
 
-class Waypoint {
-  val x = 0
-  val y = 0
+class Waypoint(x0: Int, y0: Int) {
+  val x = x0
+  val y = y0
+
+  def this() { this(0,0) }
+
+  def +(other: Waypoint): Waypoint = {
+    return new Waypoint( x + other.x, y + other.y )
+  }
+
 }
