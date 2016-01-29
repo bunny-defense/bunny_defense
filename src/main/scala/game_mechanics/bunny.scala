@@ -21,3 +21,10 @@ class Heavy_Bunny extends Bunny {
   this.speed  = 0.5
   this.reward =15
 }
+
+class Otter extends Bunny {
+  this.hp     = 100
+  this.shield = 1.5
+  this.speed  = 0.5
+  this.reward = 100
+}
