@@ -1,7 +1,7 @@
 
 package game_mechanics
 
-import path._
+import game_mechanics.path._
 
 /* Abstract bunny superclass from which every ennemy is derived. */
 abstract class Bunny {

@@ -9,9 +9,9 @@ import game_mechanics.path.Waypoint
 
 abstract class Throw {
     var target   : Waypoint
-    val speed    = 1.
-    val damage   = 5.
-    val AOE      = 0.
+    val speed    = 1.0
+    val damage   = 5.0
+    val AOE      = 0.0
     var pos      : Waypoint
     var hit      = false
 
@@ -22,7 +22,7 @@ abstract class Throw {
 
 /* One step of progress */
     def progress(dt: Int): Unit= {
-      maj_pos(dt)
-      this.hit = (target.x = pos.x && target.y = pos.y)
+      update_pos(dt)
+      this.hit = (target.x == pos.x && target.y == pos.y)
     }
   }
