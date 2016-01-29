@@ -18,6 +18,9 @@ class Waypoint(x0: Double, y0: Double) {
   def +(other: Waypoint): Waypoint = {
     return new Waypoint( x + other.x, y + other.y )
   }
+  def -(other: Waypoint): Waypoint = {
+    return new Waypoint( x - other.x, y - other.y )
+  }
   def +=(other: Waypoint): Waypoint = {
     x += other.x
     y += other.y
