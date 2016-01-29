@@ -15,4 +15,8 @@ class MapPanel(rows: Int,cols: Int) extends GridPanel(rows,cols) {
     }
   }
 
+  override def paint(g: Graphics2D): Unit = {
+    super.paint(g)
+  }
+
 }
