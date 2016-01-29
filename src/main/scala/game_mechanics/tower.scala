@@ -9,7 +9,7 @@ abstract class Tower {
   var y = 2
   val size = 1
   val damages = 5
-  val radius
-  val sell_cost
-  val buy_cost
+  val radius = 1
+  val sell_cost = 10
+  val buy_cost = 10
  }
