@@ -6,7 +6,5 @@ trait ProgressTrait {
   val path: Path
   /* The path considered */
   def move( distance: Double ): Unit
-  /* Makes the bunny walk the given distance. If a waypoint is walked on, increases i and decreases progress conveniently. */
-  def get_position: ()Waypoint
   /* Returns the current actual position of the bunny (taking progress into account) */
 }

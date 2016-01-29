@@ -7,8 +7,6 @@ trait Waypoint_object { /* WARNING : Name different from object name in waypoint
 trait WaypointTrait {
   var x: Double
   var y: Double
-  /* The coordinates of the waypoint */
-  def this: ()Waypoint
   /* No argument, returns an "empty" waypoint (coordinates (0,0)) */
   def +(other: Waypoint): Waypoint
   /* Returns the waypoint with coordinates sum of those if this waypoint, and of other */

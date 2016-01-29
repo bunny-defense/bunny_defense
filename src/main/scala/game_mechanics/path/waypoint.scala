@@ -9,6 +9,7 @@ object Waypoint {
   }
 }
 
+/* 2D Point */
 class Waypoint(x0: Double, y0: Double) {
   var x = x0
   var y = y0
