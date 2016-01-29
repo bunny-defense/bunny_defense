@@ -9,5 +9,4 @@ class MapCell(x:Int, y:Int) {
   def UpgradeCell(new_value: Boolean): Unit = {
     this.walkable = new_value
   }
-  
 }

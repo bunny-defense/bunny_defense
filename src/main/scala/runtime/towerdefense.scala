@@ -25,9 +25,8 @@ object TowerDefense extends SimpleSwingApplication
     val dimension = new Dimension( 30, 30 )
     return new GridPanel( 3, 5 ) {
       for( i <- 0 until 15 ) {
-        val button = new Button { action = Action ("") { on_build_button( i ) } }
+        val button = new BuyButton { action = Action ("") { on_build_button( i ) } }
         button.preferredSize = dimension
-        button.background = Colors.white
         contents += button
       }
     }
@@ -36,7 +35,7 @@ object TowerDefense extends SimpleSwingApplication
   /* Returns a panel containing the in-game menu (next to the map) */
   def make_menu(): BorderPanel = {
     return new BorderPanel {
-      val play_button = new BuyButton { action = Action("") { on_play_button() } }
+      val play_button = new Button { action = Action("") { on_play_button() } }
       play_button.preferredSize = new Dimension( 50, 50 )
       play_button.background = Colors.red
       add( play_button, BorderPanel.Position.South )
