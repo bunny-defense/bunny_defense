@@ -17,6 +17,8 @@ class MapPanel(rows: Int,cols: Int) extends GridPanel(rows,cols) {
 
   override def paint(g: Graphics2D): Unit = {
     super.paint(g)
+    g.setColor( Colors.black )
+    g.drawString( "Hello", 10, 10 )
   }
 
 }
