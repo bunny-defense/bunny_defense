@@ -22,6 +22,6 @@ class Progress(p: Path) {
     val current = path.at(i-1)
     val next = path.at(i)
     val ratio = progress / Waypoint.distance( current, next )
-    return new Waypoint()
+    return (current + next) / ratio
   }
 }
