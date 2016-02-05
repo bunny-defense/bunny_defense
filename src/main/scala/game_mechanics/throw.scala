@@ -4,11 +4,11 @@
 package game_mechanics
 
 import game_mechanics.path.Waypoint
-
+import game_mechanics.Bunny
 /* The abstract class of a throw */
 
 abstract class Throw {
-    var target   : Waypoint
+    var target   : Bunny
     val speed    = 1.0
     val damage   = 5.0
     val AOE      = 0.0
@@ -18,8 +18,8 @@ abstract class Throw {
 /* Update of the position of the throw */
     def update_pos(dt : Int, dir: Waypoint): Unit = {
       val a = this.pos
-      this.pos += (this.target - this.pos) * dt * this.speed
-      if (((this.pos-this.target)&a) <= 0.0) {
+      this.pos += (this.target.pos - this.pos) * dt * this.speed
+      if (((this.pos-this.target) & a) <= 0.0) {
           this.pos = this.target
         }
     }
@@ -29,4 +29,15 @@ abstract class Throw {
       update_pos(dt,dir)
       this.hit = (target.x == pos.x && target.y == pos.y)
     }
+
+    var time_to_touch = 1
+
+    def auto_touch(dt : Int): Unit = {
+      if (time_to_touch == 0) {
+      this.pos = this.target
+    }
+    else {
+      time_to_touch -= dt
+    }
   }
+}
