@@ -47,7 +47,9 @@ class MapPanel(map: GameMap) extends Panel {
     }
     for( x <- 0 until cols ) {
       for( y <- 0 until rows ) {
-        g.drawImage( map.graphic_map(x)(y), 0, 0, null )
+        g.drawImage( map.graphic_map(x)(y),
+          x * MapButton.cellsize,
+          y * MapButton.cellsize, null )
       }
     }
   }
