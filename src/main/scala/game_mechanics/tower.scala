@@ -32,16 +32,13 @@ abstract class Tower {
   /* Checks if the tower can attack a rabbit. Takes a rabbit list, and
   checks if the cooldown is over */
   def try_attack(Bl : Buffer[Bunny]) : Throw = {
-    if (cooldown <= 0) {
-      val bun : Buffer[Bunny] = Bl.filter{
+      val bunnies : Buffer[Bunny] = Bl.filter({
             x => ((x.pos - this.pos).norm <= this.radius)
-          }
-      if ( bun.length == 0) {
-          val bunny = bun.head
+          })
+      if ( cooldown == 0 && bunnies.length == 0) {
           cooldown = throw_cooldown
-          return (attack(bunny))
+          return (attack(bunnies.head))
         }
-      }
       else {
         cooldown -= 1
         return null
