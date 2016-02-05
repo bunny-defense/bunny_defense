@@ -13,7 +13,6 @@ abstract class Throw {
     val damage   = 5.0
     val AOE      = 0.0
     var pos      : Waypoint
-    var hit      = false
 
 /* Update of the position of the throw */
     def update_pos(dt : Int, dir: Waypoint): Unit = {
@@ -27,7 +26,9 @@ abstract class Throw {
 /* One step of progress */
     def progress(dt: Int, dir: Waypoint): Unit= {
       update_pos(dt,dir)
-      this.hit = (target.x == pos.x && target.y == pos.y)
+      if (target.x == pos.x && target.y == pos.y) {
+        target.takedamage(this.damage)
+      }
     }
 
     var time_to_touch = 1
