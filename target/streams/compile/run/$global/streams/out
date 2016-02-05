@@ -7,22 +7,41 @@
 [0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
 [0m[[0mdebug[0m] [0m	Thread run-main-0 exited.[0m
 [0m[[0mdebug[0m] [0mWaiting for thread AWT-EventQueue-0 to terminate.[0m
-[0m[[0mdebug[0m] [0mDisposing 1 top-level windows...[0m
-[0m[[0mdebug[0m] [0mWaiting 2 s to let AWT thread exit.[0m
-[0m[[0mdebug[0m] [0mNot interrupting system thread Thread[AWT-XAWT,6,system][0m
-[0m[[0mdebug[0m] [0mNot interrupting system thread Thread[XToolkt-Shutdown-Thread,5,system][0m
-[0m[[0mdebug[0m] [0mNot interrupting system thread Thread[Java2D Disposer,10,system][0m
-[0m[[0mdebug[0m] [0mInterrupting thread AWT-EventQueue-0[0m
-[0m[[0mdebug[0m] [0m	Interrupted AWT-EventQueue-0[0m
-[0m[[0mdebug[0m] [0mNot interrupting system thread Thread[AWT-Shutdown,5,system][0m
+[0m[[31merror[0m] [0m(AWT-EventQueue-0) java.lang.IllegalArgumentException: input == null![0m
+java.lang.IllegalArgumentException: input == null!
+	at javax.imageio.ImageIO.read(ImageIO.java:1388)
+	at game_mechanics.GameMap$$anonfun$1$$anonfun$apply$mcVI$sp$1.apply$mcVI$sp(gamemap.scala:17)
+	at scala.collection.immutable.Range.foreach$mVc$sp(Range.scala:141)
+	at game_mechanics.GameMap$$anonfun$1.apply$mcVI$sp(gamemap.scala:16)
+	at scala.collection.immutable.Range.foreach$mVc$sp(Range.scala:141)
+	at game_mechanics.GameMap.<init>(gamemap.scala:15)
+	at runtime.TowerDefense$$anon$4$$anon$5.<init>(towerdefense.scala:54)
+	at runtime.TowerDefense$$anon$4.<init>(towerdefense.scala:52)
+	at runtime.TowerDefense$.top(towerdefense.scala:49)
+	at runtime.TowerDefense$.top(towerdefense.scala:10)
+	at scala.swing.SimpleSwingApplication.startup(SimpleSwingApplication.scala:26)
+	at scala.swing.SwingApplication$$anonfun$main$1.apply$mcV$sp(SwingApplication.scala:7)
+	at scala.swing.Swing$$anon$10.run(Swing.scala:32)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:312)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:745)
+	at java.awt.EventQueue.access$300(EventQueue.java:103)
+	at java.awt.EventQueue$3.run(EventQueue.java:706)
+	at java.awt.EventQueue$3.run(EventQueue.java:704)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:77)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:715)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:242)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:150)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:146)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:138)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:91)
 [0m[[0mdebug[0m] [0m	Thread AWT-EventQueue-0 exited.[0m
-[0m[[0mdebug[0m] [0mWaiting for thread AWT-Shutdown to terminate.[0m
-[0m[[0mdebug[0m] [0m	Thread AWT-Shutdown exited.[0m
 [0m[[0mdebug[0m] [0mInterrupting remaining threads (should be all daemons).[0m
 [0m[[0mdebug[0m] [0mDisposing 1 top-level windows...[0m
 [0m[[0mdebug[0m] [0mWaiting 2 s to let AWT thread exit.[0m
-[0m[[0mdebug[0m] [0mNot interrupting system thread Thread[AWT-XAWT,6,system][0m
 [0m[[0mdebug[0m] [0mNot interrupting system thread Thread[XToolkt-Shutdown-Thread,5,system][0m
 [0m[[0mdebug[0m] [0mNot interrupting system thread Thread[Java2D Disposer,10,system][0m
+[0m[[0mdebug[0m] [0mNot interrupting system thread Thread[AWT-XAWT,6,system][0m
 [0m[[0mdebug[0m] [0mSandboxed run complete..[0m
 [0m[[0mdebug[0m] [0mExited with code 0[0m

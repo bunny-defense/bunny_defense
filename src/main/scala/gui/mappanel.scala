@@ -3,6 +3,8 @@ package gui
 
 import swing._
 import swing.event._
+
+
 import runtime.TowerDefense
 import game_mechanics.GameMap
 
@@ -42,6 +44,11 @@ class MapPanel(map: GameMap) extends Panel {
         0,
         i * MapButton.cellsize,
         MapButton.cellsize * rows )
+    }
+    for( x <- 0 until cols ) {
+      for( y <- 0 until rows ) {
+        g.drawImage( map.graphic_map(x)(y), 0, 0, null )
+      }
     }
   }
 
