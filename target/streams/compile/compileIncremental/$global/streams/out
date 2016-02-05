@@ -1,22 +1,22 @@
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mInitial source changes: [0m
 [0m[[0mdebug[0m] [0m	removed:Set()[0m
-[0m[[0mdebug[0m] [0m	added: Set()[0m
-[0m[[0mdebug[0m] [0m	modified: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala)[0m
+[0m[[0mdebug[0m] [0m	added: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala)[0m
+[0m[[0mdebug[0m] [0m	modified: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala)[0m
 [0m[[0mdebug[0m] [0mInvalidated products: Set()[0m
 [0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
 [0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
-[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala)[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala)[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
 [0m[[0mdebug[0m] [0m	product: Set()[0m
 [0m[[0mdebug[0m] [0m	binary dep: Set()[0m
 [0m[[0mdebug[0m] [0m	external source: Set()[0m
-[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala)[0m
-[0m[[0minfo[0m] [0mCompiling 4 Scala sources to /import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes...[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala)[0m
+[0m[[0minfo[0m] [0mCompiling 6 Scala sources to /import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes...[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.5[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.5[0m
-[0m[[0mdebug[0m] [0mRunning cached compiler 45c69e8, interfacing (CompilerInterface) with Scala compiler version 2.10.5[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 36358f96, interfacing (CompilerInterface) with Scala compiler version 2.10.5[0m
 [0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
 [0m[[0mdebug[0m] [0m	-deprecation[0m
 [0m[[0mdebug[0m] [0m	-bootclasspath[0m
