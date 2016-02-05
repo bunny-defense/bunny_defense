@@ -4,7 +4,7 @@ package game_mechanics
 import path._ // Really necessary ?
 import game_mechanics._
 import scala.collection.mutable._
-import Math
+import Math._
 
 /* Abstract tower superclass from which evey tower will be derived */
 abstract class Tower {
@@ -21,23 +21,20 @@ abstract class Tower {
 
   /* Creates a Throw object, with the characteristics of the tower */
   def attack(B : Bunny): Unit = {
-    Throw_carrot : Throw = new Throw{
-                              target = B;
-                              speed = this.throw_speed;
-                              damage = this.damages;
-                              AOE = aoe_radius;
-                              pos = this.pos
-                            }
+    var throw_carrot = new Throw(B,this.pos)
+    throw_carrot.speed = this.throw_speed
+    throw_carrot.damage = this.damages
+    throw_carrot.AOE = this.aoe_radius
   }
 
   /* Checks if the tower can attack a rabbit. Takes a rabbit list, and
   checks if the cooldown is over */
-  def try_attack(Bl = Buffer[Bunny]) : Unit = {
+  def try_attack(Bl : Buffer[Bunny]) : Unit = {
     if (cooldown <= 0) {
-      bun = Bl.filter(x => (Math.abs(x.pos - this.pos) < this.radius))
-      if not(bun.isEmpty {
-          bunny = bun.head
-          Attack(bunny)
+      var bun = Bl.filter(x => ((x.pos - this.pos).norm() < this.radius))
+      if (!(bun.isEmpty)) {
+          var bunny = bun.head
+          attack(bunny)
           cooldown = throw_cooldown
         }
       }
@@ -45,3 +42,4 @@ abstract class Tower {
         cooldown -= 1
       }
     }
+  }

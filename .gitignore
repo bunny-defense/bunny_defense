@@ -3,3 +3,5 @@ project
 *.swp
 *.class
 *.jar
+*.xml
+

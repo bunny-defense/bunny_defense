@@ -1,6 +1,8 @@
 
 package game_mechanics.path
 
+import Math._
+
 object Waypoint {
   def distance( a: Waypoint, b: Waypoint ): Double = {
     return math.sqrt(
@@ -41,4 +43,9 @@ class Waypoint(x0: Double, y0: Double) {
     return vect.x * x + vect.y * y
   }
 
+  def norm() : Double = {
+    return (Math.pow(this.x,2.0)+Math.pow(this.y,2.0))
+  }
 }
+
+
