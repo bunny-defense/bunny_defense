@@ -33,5 +33,8 @@ class Waypoint(x0: Double, y0: Double) {
   def /(scalar: Double): Waypoint = {
     return new Waypoint( x / scalar, y / scalar )
   }
+  def &(vect: Waypoint) : Double = {
+    return vect.x * x + vect.y * y
+  }
 
 }

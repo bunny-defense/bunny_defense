@@ -37,6 +37,7 @@ object TowerDefense extends SimpleSwingApplication
     return new BorderPanel {
       val play_button = new Button { action = Action("") { on_play_button() } }
       play_button.preferredSize = new Dimension( 50, 50 )
+      play_button.text = "Play"
       play_button.background = Colors.red
       add( play_button, BorderPanel.Position.South )
       add( make_build_menu(), BorderPanel.Position.West )

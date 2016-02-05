@@ -17,7 +17,11 @@ abstract class Throw {
 
 /* Update of the position of the throw */
     def update_pos(dt : Int, dir: Waypoint): Unit = {
-      this.pos += dt * this.speed * (this.target - this.pos) * dir
+      val a = this.pos
+      this.pos += (this.target - this.pos) * dt * this.speed
+      if (((this.pos-this.target)&a) <= 0.0) {
+          this.pos = this.target
+        }
     }
 
 /* One step of progress */
