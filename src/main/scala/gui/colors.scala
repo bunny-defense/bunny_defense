@@ -10,3 +10,4 @@ object Colors {
   val red   = new Color( 255,   0,   0 )
   val blue  = new Color(   0,   0, 255 )
   val green = new Color(   0, 255,   0 )
+}
