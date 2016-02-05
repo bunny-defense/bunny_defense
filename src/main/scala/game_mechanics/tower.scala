@@ -21,7 +21,7 @@ abstract class Tower {
   var to_sell = false 
 
   /* Creates a Throw object, with the characteristics of the tower */
-  def attack(B : Bunny): Unit = {
+  def attack(B : Bunny): Throw = {
     var throw_carrot = new Throw(B,this.pos)
     throw_carrot.speed = this.throw_speed
     throw_carrot.damage = this.damages
@@ -31,17 +31,20 @@ abstract class Tower {
 
   /* Checks if the tower can attack a rabbit. Takes a rabbit list, and
   checks if the cooldown is over */
-  def try_attack(Bl : Buffer[Bunny]) : Unit = {
+  def try_attack(Bl : Buffer[Bunny]) : Throw = {
     if (cooldown <= 0) {
-      var bun = Bl.filter(x => ((x.pos - this.pos).norm() < this.radius))
-      if (!(bun.isEmpty)) {
-          var bunny = bun.head
+      val bun : Buffer[Bunny] = Bl.filter{
+            x => ((x.pos - this.pos).norm <= this.radius)
+          }
+      if ( bun.length == 0) {
+          val bunny = bun.head
           cooldown = throw_cooldown
           return (attack(bunny))
         }
       }
       else {
         cooldown -= 1
+        return null
       }
     }
   }
