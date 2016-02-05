@@ -3,9 +3,11 @@ package game_mechanics
 import game_mechanics._
 import scala.collection.mutable._
 
-class one_round(player:Player) { 
+class one_round(player:Player) {
 
-  def one_round(Bl : Buffer[Bunny], Bt : Buffer[Tower], Bth : Buffer[Throw]): Unit
+  def one_round(Bl : ListBuffer[Bunny],
+                Bt : ListBuffer[Tower],
+                Bth : ListBuffer[Throw]): Unit
   /**
   * One round of the game_loop
   */
