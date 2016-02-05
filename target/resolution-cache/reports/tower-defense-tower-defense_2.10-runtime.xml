@@ -7,15 +7,15 @@
 		revision="0.1-SNAPSHOT"
 		conf="runtime"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20160205161447"/>
+		date="20160205164445"/>
 	<dependencies>
 		<module organisation="org.scala-lang" name="scala-swing">
 			<revision name="2.10.6" status="release" pubdate="20151005235738" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.10.6/" downloaded="false" searched="true" default="false" conf="default(compile), default, compile, runtime, master" position="0">
 				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html          "/>
-				<metadata-artifact status="no" details="" size="2809" time="0" location="/home/remi/.ivy2/cache/org.scala-lang/scala-swing/ivy-2.10.6.xml" searched="true" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/scala-swing/2.10.6/scala-swing-2.10.6.pom"/>
+				<metadata-artifact status="no" details="" size="2809" time="0" location="/import/klerun/.ivy2/cache/org.scala-lang/scala-swing/ivy-2.10.6.xml" searched="true" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/scala-swing/2.10.6/scala-swing-2.10.6.pom"/>
 				<caller organisation="tower-defense" name="tower-defense_2.10" conf="compile, runtime" rev="2.10+" rev-constraint-default="2.10+" rev-constraint-dynamic="2.10+" callerrev="0.1-SNAPSHOT"/>
 				<artifacts>
-					<artifact name="scala-swing" type="jar" ext="jar" status="no" details="" size="707297" time="0" location="/home/remi/.ivy2/cache/org.scala-lang/scala-swing/jars/scala-swing-2.10.6.jar">
+					<artifact name="scala-swing" type="jar" ext="jar" status="no" details="" size="707297" time="0" location="/import/klerun/.ivy2/cache/org.scala-lang/scala-swing/jars/scala-swing-2.10.6.jar">
 						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/scala-swing/2.10.6/scala-swing-2.10.6.jar"/>
 					</artifact>
 				</artifacts>
@@ -24,18 +24,18 @@
 		<module organisation="org.scala-lang" name="scala-library">
 			<revision name="2.10.6" status="release" pubdate="20150922130247" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.10.6/" downloaded="false" searched="false" default="false" conf="compile, runtime, compile(*), runtime(*), master(compile), master, default(compile), default" position="1">
 				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html          "/>
-				<metadata-artifact status="no" details="" size="2669" time="0" location="/home/remi/.ivy2/cache/org.scala-lang/scala-library/ivy-2.10.6.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/scala-library/2.10.6/scala-library-2.10.6.pom"/>
+				<metadata-artifact status="no" details="" size="2669" time="0" location="/import/klerun/.ivy2/cache/org.scala-lang/scala-library/ivy-2.10.6.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/scala-library/2.10.6/scala-library-2.10.6.pom"/>
 				<caller organisation="org.scala-lang" name="scala-swing" conf="default, compile, runtime, master" rev="2.10.6" rev-constraint-default="2.10.6" rev-constraint-dynamic="2.10.6" callerrev="2.10.6"/>
 				<caller organisation="tower-defense" name="tower-defense_2.10" conf="compile, runtime" rev="2.10.5" rev-constraint-default="2.10.5" rev-constraint-dynamic="2.10.5" callerrev="0.1-SNAPSHOT"/>
 				<artifacts>
-					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="7132001" time="0" location="/home/remi/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.10.6.jar">
+					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="7132001" time="0" location="/import/klerun/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.10.6.jar">
 						<origin-location is-local="false" location="https://jcenter.bintray.com/org/scala-lang/scala-library/2.10.6/scala-library-2.10.6.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 			<revision name="2.10.5" status="release" pubdate="20150227025400" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.10.5/" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="-1">
 				<license name="BSD-like" url="http://www.scala-lang.org/downloads/license.html          "/>
-				<metadata-artifact status="no" details="" size="2487" time="0" location="/home/remi/.ivy2/cache/org.scala-lang/scala-library/ivy-2.10.5.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/scala-library/2.10.5/scala-library-2.10.5.pom"/>
+				<metadata-artifact status="no" details="" size="2487" time="0" location="/import/klerun/.ivy2/cache/org.scala-lang/scala-library/ivy-2.10.5.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/scala-lang/scala-library/2.10.5/scala-library-2.10.5.pom"/>
 				<evicted-by rev="2.10.6"/>
 				<caller organisation="tower-defense" name="tower-defense_2.10" conf="compile, runtime" rev="2.10.5" rev-constraint-default="2.10.5" rev-constraint-dynamic="2.10.5" callerrev="0.1-SNAPSHOT"/>
 				<artifacts>
