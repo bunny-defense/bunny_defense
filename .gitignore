@@ -1,3 +1,7 @@
 *~
 project
 *.swp
+*.class
+*.jar
+*.xml
+target/streams

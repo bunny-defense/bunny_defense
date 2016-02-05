@@ -7,12 +7,12 @@ import game_mechanics.path.Waypoint
 
 /* The abstract class of a throw */
 
-abstract class Throw {
-    var target   : Bunny
-    val speed    = 1.0
-    val damage   = 5.0
-    val AOE      = 0.0
-    var pos      : Waypoint
+class Throw (B:Bunny, T: Waypoint) {
+    var target   = B
+    var speed    = 1.0
+    var damage   = 5.0
+    var AOE      = 0.0
+    var pos      = T
 
 /* Update of the position of the throw */
     def update_pos(dt : Int, dir: Waypoint): Unit = {
