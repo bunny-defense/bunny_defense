@@ -4,4 +4,4 @@ project
 *.class
 *.jar
 *.xml
-
+target/streams
