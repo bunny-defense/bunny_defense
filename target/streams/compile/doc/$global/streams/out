@@ -1,0 +1,23 @@
+[0m[[0minfo[0m] [0mMain Scala API documentation to /home/remi/Travaux_ENS/Prog_2/projet_prog2/target/scala-2.10/api...[0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.5[0m
+[0m[[0mdebug[0m] [0mCalling Scaladoc with arguments:[0m
+[0m[[0mdebug[0m] [0m	-deprecation[0m
+[0m[[0mdebug[0m] [0m	-d[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/target/scala-2.10/api[0m
+[0m[[0mdebug[0m] [0m	-bootclasspath[0m
+[0m[[0mdebug[0m] [0m	/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rhino.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jfr.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/classes:/home/remi/.sbt/boot/scala-2.10.5/lib/scala-library.jar[0m
+[0m[[0mdebug[0m] [0m	-classpath[0m
+[0m[[0mdebug[0m] [0m	/home/remi/.ivy2/cache/org.scala-lang/scala-swing/jars/scala-swing-2.10.6.jar[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/game_mechanics/bunny.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/game_mechanics/mapcell.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/game_mechanics/path/path.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/game_mechanics/path/progress.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/game_mechanics/throw.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/game_mechanics/tower.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/gui/colors.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/gui/game_button.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/gui/mapbutton.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/gui/mappanel.scala[0m
+[0m[[0mdebug[0m] [0m	/home/remi/Travaux_ENS/Prog_2/projet_prog2/src/main/scala/runtime/towerdefense.scala[0m
+[0m[[0minfo[0m] [0mMain Scala API documentation successful.[0m
