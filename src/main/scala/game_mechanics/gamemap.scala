@@ -2,6 +2,7 @@
 package game_mechanics
 
 import io.Source
+import util.Random
 
 import java.awt.image.BufferedImage
 import java.io.File
@@ -14,13 +15,17 @@ class GameMap(width0: Int, height0: Int)
   val graphic_map = Array.ofDim[BufferedImage](width,height)
   val obstruction_map = Array.ofDim[Boolean](width,height)
 
-  val io = new File(getClass().getResource("/bunny_icon.png").getPath())
-  println( io )
-  val test_image = ImageIO.read(io)
+  val rng = new Random()
+
+  val ground_image = ImageIO.read(new File(getClass().getResource("/ground/dirt.jpg").getPath()))
+  val grass_image  = ImageIO.read(new File(getClass().getResource("/ground/grass4.png").getPath()))
 
   for( x <- 0 until width ) {
     for( y <- 0 until height ) {
-      graphic_map(x)(y) = test_image
+      if( rng.nextDouble() < 0.2 )
+        graphic_map(x)(y) = ground_image
+      else
+        graphic_map(x)(y) = grass_image
     }
   }
 }

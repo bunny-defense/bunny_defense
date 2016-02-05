@@ -1,2 +1,19 @@
 [0m[[0mdebug[0m] [0mCopy resource mappings: [0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/mobs,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/mobs)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/projectiles,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/projectiles)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground)[0m
 [0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/bunny_icon.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/bunny_icon.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/mobs/bunny1.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/mobs/bunny1.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/mobs/bunny1_originalsize.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/mobs/bunny1_originalsize.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/mobs/bunny3_animated.gif,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/mobs/bunny3_animated.gif)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/mobs/bunny3.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/mobs/bunny3.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/mobs/bunny2.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/mobs/bunny2.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/projectiles/carrot.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/projectiles/carrot.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground/dirt.jpg,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground/dirt.jpg)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground/ocean_animated.gif,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground/ocean_animated.gif)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground/grass3.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground/grass3.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground/grass4.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground/grass4.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground/grass1.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground/grass1.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground/ocean.gif,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground/ocean.gif)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground/mossy_stone.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground/mossy_stone.png)[0m
+[0m[[0mdebug[0m] [0m	(/import/klerun/Documents/scala/projet_prog2/src/main/resources/ground/grass2.png,/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes/ground/grass2.png)[0m
