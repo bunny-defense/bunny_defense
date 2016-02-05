@@ -5,7 +5,7 @@ import game_mechanics.path._
 
 /* Abstract bunny superclass from which every ennemy is derived. */
 abstract class Bunny {
-  var hp              = 10
+  var hp              = 10.0
   var pos : Waypoint  = new Waypoint(2.0,2.0)
   var shield          = 1.0
   var speed           = 1.0
