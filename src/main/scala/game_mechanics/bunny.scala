@@ -11,6 +11,9 @@ abstract class Bunny {
   var speed           = 1.0
   var path            = new Path()
   var reward          = 10
+  def takedamage(dmg: Double): Unit = {
+    this.hp -= dmg
+  }
 }
 
 /* Large and tough but slow bunny */
@@ -18,7 +21,7 @@ class Heavy_Bunny extends Bunny {
   this.hp     = 20
   this.shield = 1.5
   this.speed  = 0.5
-  this.reward =15
+  this.reward = 15
 }
 
 class Otter extends Bunny {
