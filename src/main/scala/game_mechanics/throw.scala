@@ -4,7 +4,7 @@
 package game_mechanics
 
 import game_mechanics.path.Waypoint
-import game_mechanics.Bunny
+
 /* The abstract class of a throw */
 
 abstract class Throw {
@@ -18,15 +18,15 @@ abstract class Throw {
     def update_pos(dt : Int, dir: Waypoint): Unit = {
       val a = this.pos
       this.pos += (this.target.pos - this.pos) * dt * this.speed
-      if (((this.pos-this.target) & a) <= 0.0) {
-          this.pos = this.target
+      if (((this.pos-this.target.pos) & a) <= 0.0) {
+          this.pos = this.target.pos
         }
     }
 
 /* One step of progress */
     def progress(dt: Int, dir: Waypoint): Unit= {
       update_pos(dt,dir)
-      if (target.x == pos.x && target.y == pos.y) {
+      if (this.target.pos == this.pos) {
         target.takedamage(this.damage)
       }
     }
@@ -35,7 +35,7 @@ abstract class Throw {
 
     def auto_touch(dt : Int): Unit = {
       if (time_to_touch == 0) {
-      this.pos = this.target
+      this.pos = this.target.pos
     }
     else {
       time_to_touch -= dt
