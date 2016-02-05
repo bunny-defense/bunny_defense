@@ -4,9 +4,13 @@ package gui
 import swing._
 import swing.event._
 import runtime.TowerDefense
+import game_mechanics.GameMap
 
 /* Represents the map on the screen */
-class MapPanel(rows: Int,cols: Int) extends GridPanel(rows,cols) {
+class MapPanel(map: GameMap) extends Panel {
+
+  val rows = map.height
+  val cols = map.width
 
   preferredSize = new Dimension(
     MapButton.cellsize * cols,
@@ -21,6 +25,7 @@ class MapPanel(rows: Int,cols: Int) extends GridPanel(rows,cols) {
         e.point.y / MapButton.cellsize )
   }
 
+  /* Drawing on the map */
   override def paintComponent(g: Graphics2D): Unit = {
     super.paintComponent(g)
     g.setColor( Colors.black )

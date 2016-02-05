@@ -5,6 +5,7 @@ import swing._
 import swing.event._
 
 import gui._
+import game_mechanics._
 
 object TowerDefense extends SimpleSwingApplication
 {
@@ -50,7 +51,7 @@ object TowerDefense extends SimpleSwingApplication
     title = "Tower Defense"
     contents = new BorderPanel
     {
-      add( new MapPanel(10,20), BorderPanel.Position.Center )
+      add( new MapPanel(new GameMap(10,20)), BorderPanel.Position.Center )
       add( make_menu(), BorderPanel.Position.East)
     }
   }

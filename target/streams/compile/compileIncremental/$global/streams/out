@@ -1,32 +1,76 @@
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mInitial source changes: [0m
 [0m[[0mdebug[0m] [0m	removed:Set()[0m
-[0m[[0mdebug[0m] [0m	added: Set()[0m
-[0m[[0mdebug[0m] [0m	modified: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala)[0m
+[0m[[0mdebug[0m] [0m	added: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala)[0m
+[0m[[0mdebug[0m] [0m	modified: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala)[0m
 [0m[[0mdebug[0m] [0mInvalidated products: Set()[0m
 [0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
 [0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
-[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala)[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala)[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
 [0m[[0mdebug[0m] [0m	product: Set()[0m
 [0m[[0mdebug[0m] [0m	binary dep: Set()[0m
 [0m[[0mdebug[0m] [0m	external source: Set()[0m
-[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala)[0m
-[0m[[0minfo[0m] [0mCompiling 1 Scala source to /import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes...[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala, /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala)[0m
+[0m[[0minfo[0m] [0mCompiling 6 Scala sources to /import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes...[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.5[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.10.5[0m
-[0m[[0mdebug[0m] [0mRunning cached compiler 57d775df, interfacing (CompilerInterface) with Scala compiler version 2.10.5[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 3a256c38, interfacing (CompilerInterface) with Scala compiler version 2.10.5[0m
 [0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
 [0m[[0mdebug[0m] [0m	-deprecation[0m
 [0m[[0mdebug[0m] [0m	-bootclasspath[0m
 [0m[[0mdebug[0m] [0m	/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rhino.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jfr.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/classes:/import/klerun/.sbt/boot/scala-2.10.5/lib/scala-library.jar[0m
 [0m[[0mdebug[0m] [0m	-classpath[0m
 [0m[[0mdebug[0m] [0m	/import/klerun/Documents/scala/projet_prog2/target/scala-2.10/classes:/import/klerun/.ivy2/cache/org.scala-lang/scala-swing/jars/scala-swing-2.10.6.jar[0m
-[0m[[0mdebug[0m] [0mScala compilation took 2.517054776 s[0m
+[0m[[0mdebug[0m] [0mScala compilation took 3.58366233 s[0m
+[0m[[0mdebug[0m] [0mInvalidating /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala)[0m
+[0m[[0mdebug[0m] [0mThe /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	vGap_=, layoutManager, vGap, peer, MapPanel, contents, <init>, columns, rows_=, columns_=, hGap_=, hGap, rows, cols.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala: Set(MapPanel, contents, <init>)[0m
+[0m[[0mdebug[0m] [0mInvalidating /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala)[0m
+[0m[[0mdebug[0m] [0mThe /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/waypoint.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	==.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mNone of the modified names appears in /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala. This dependency is not being considered for invalidation.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala: Set(==)[0m
+[0m[[0mdebug[0m] [0mNone of the modified names appears in /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/progress.scala. This dependency is not being considered for invalidation.[0m
+[0m[[0mdebug[0m] [0mNone of the modified names appears in /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/path/path.scala. This dependency is not being considered for invalidation.[0m
+[0m[[0mdebug[0m] [0mInvalidating /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala)[0m
+[0m[[0mdebug[0m] [0mThe /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/gamemap.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, $asInstanceOf, equals, asInstanceOf, synchronized, $isInstanceOf, height, notifyAll, isInstanceOf, <init>, GameMap, ==, clone, toString, !=, getClass, ne, width, eq, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala: Set(<init>, GameMap)[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala: Set(asInstanceOf, height, isInstanceOf, <init>, GameMap, width)[0m
+[0m[[0mdebug[0m] [0mInvalidating /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala)[0m
+[0m[[0mdebug[0m] [0mThe /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/bunny.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	x, y, pos, takedamage, hp.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala: Set(pos, takedamage)[0m
+[0m[[0mdebug[0m] [0mInvalidating /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala)[0m
+[0m[[0mdebug[0m] [0mThe /import/klerun/Documents/scala/projet_prog2/src/main/scala/game_mechanics/throw.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	target, auto_touch, hit, time_to_touch.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
 [0m[[0mdebug[0m] [0mNew invalidations:[0m
-[0m[[0mdebug[0m] [0m	Set()[0m
-[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0m	Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala)[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala)[0m
+[0m[[0mdebug[0m] [0mIncluding /import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala by /import/klerun/Documents/scala/projet_prog2/src/main/scala/runtime/towerdefense.scala[0m
 [0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
-[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0m	Set(/import/klerun/Documents/scala/projet_prog2/src/main/scala/gui/mappanel.scala)[0m
 [0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m
