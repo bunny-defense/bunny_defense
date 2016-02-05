@@ -51,7 +51,7 @@ object TowerDefense extends SimpleSwingApplication
     title = "Tower Defense"
     contents = new BorderPanel
     {
-      add( new MapPanel(new GameMap(10,20)), BorderPanel.Position.Center )
+      add( new MapPanel(new GameMap(20,10)), BorderPanel.Position.Center )
       add( make_menu(), BorderPanel.Position.East)
     }
   }
