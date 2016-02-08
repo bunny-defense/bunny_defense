@@ -3,20 +3,24 @@ package game_mechanics.path
 
 import collection.mutable.ListBuffer
 
+/* a Path is a list of waypoints */
 class Path {
-  val wps = new ListBuffer[Waypoint]()
+  val waypoints = new ListBuffer[Waypoint]()
+
   def Path( p:Path ) = {
-    for( wp <- p.wps ) {
+    for( wp <- p.waypoints ) {
       this.add( wp )
     }
   }
   def add(wp: Waypoint): Unit = {
-    wps += wp
+    waypoints += wp
   }
+
+  /* Returns the waypoint of index i */
   def at(i: Int): Waypoint = {
-    return wps.apply(i)
+    return waypoints.apply(i)
   }
   def length(): Int = {
-    return wps.length
+    return waypoints.length
   }
 }

@@ -20,6 +20,7 @@ abstract class Bunny {
   def move(dt: Double): Unit = {
     path.move(dt*this.speed)
     this.pos = path.get_position
+  }
 }
 
 /* Large and tough but slow bunny */
