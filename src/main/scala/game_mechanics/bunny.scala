@@ -10,12 +10,16 @@ abstract class Bunny {
   var pos : Waypoint  = new Waypoint(2.0,2.0)
   var shield          = 1.0
   var speed           = 1.0
-  var path            = new Path()
+  var path            : Progress
   var reward          = 10
 
   def takedamage(dmg: Double): Unit = {
     this.hp -= dmg
   }
+
+  def move(dt: Double): Unit = {
+    path.move(dt*this.speed)
+    this.pos = path.get_position
 }
 
 /* Large and tough but slow bunny */
