@@ -15,7 +15,7 @@ class Throw (B:Bunny, T: Waypoint) {
     var pos      = T
 
 /* Update of the position of the throw */
-    def update_pos(dt : Double, dir: Waypoint): Unit = {
+    def update_pos(dt : Double): Unit = {
       val a = this.pos
       this.pos += (this.target.pos - this.pos) * dt * this.speed
       if (((this.pos-this.target.pos) & a) <= 0.0) {
@@ -24,7 +24,7 @@ class Throw (B:Bunny, T: Waypoint) {
     }
 
 /* One step of progress */
-    def progress(dt: Double, dir: Waypoint): Unit= {
+    def progress(dt: Double): Unit= {
       update_pos(dt,dir)
       if (this.target.pos == this.pos) {
         target.takedamage(this.damage)

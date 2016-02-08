@@ -35,7 +35,7 @@ abstract class Tower(P:Waypoint) {
       val bunnies : ListBuffer[Bunny] = Bl.filter({
             x => ((x.pos - this.pos).norm <= this.radius)
           })
-      if ( cooldown == 0 && bunnies.length == 0) {
+      if ( cooldown <= 0 && bunnies.length == 0) {
           cooldown = throw_cooldown
           return (ListBuffer(attack(bunnies.head)))
         }
