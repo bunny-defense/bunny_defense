@@ -1,6 +1,7 @@
 
 package game_mechanics
 
+import runtime.Controller
 import path._ // Really necessary ?
 import game_mechanics._
 import scala.collection.mutable._
@@ -14,36 +15,45 @@ abstract class Tower(P:Waypoint) {
   var radius = 100
   var aoe_radius = 0
   var throw_speed = 1
-  var throw_cooldown = 10
-  var cooldown = 0
+  var throw_cooldown = 10.0
+  var cooldown = 0.0
   var sell_cost = 5
   var buy_cost = 10
   var to_sell = false 
+  /* The tower keeps a selected target until it goes out of range */
+  var current_target = null
+
+  /* Returns whether or not the bunny is in the range of the tower */
+  def in_range(B: Bunny): Boolean = {
+    return ((B.pos - pos).norm <= radius)
+  }
+
+  /* Returns the target of the tower */
+  def get_target(): Bunny = {
+    if( current_target = null || !in_range(current_target) )
+      current_target = Controller.bunnies.filter( in_range ).head
+    return current_target
+  }
 
   /* Creates a Throw object, with the characteristics of the tower */
   def attack(B: Bunny): Throw = {
-    var throw_carrot = new Throw(B,this.pos)
-    throw_carrot.speed = this.throw_speed
-    throw_carrot.damage = this.damages
-    throw_carrot.AOE = this.aoe_radius
-    return throw_carrot
+    if( cooldown <= 0 ) {
+      var throw_carrot = new Throw(B,this.pos)
+      throw_carrot.speed = this.throw_speed
+      throw_carrot.damage = this.damages
+      throw_carrot.AOE = this.aoe_radius
+      return throw_carrot
+      cooldown = throw_cooldown /* Resetting the cooldown */
+    }
   }
 
-  /* Checks if the tower can attack a rabbit. Takes a rabbit list, and
-  checks if the cooldown is over */
-  def try_attack(Bl: ListBuffer[Bunny]): ListBuffer[Throw] = {
-      val bunnies : ListBuffer[Bunny] = Bl.filter({
-            x => ((x.pos - this.pos).norm <= this.radius)
-          })
-      if ( cooldown == 0 && bunnies.length == 0) {
-          cooldown = throw_cooldown
-          return (ListBuffer(attack(bunnies.head)))
-        }
-      else {
-        cooldown -= 1
-        return null
-      }
-    }
+  /* Updates the tower */
+  def update(dt: Double): Unit = {
+    if( cooldown <= 0 )
+      attack( get_target() )
+    else
+      cooldown -= dt
+  }
 
   def sell_turret(): Unit = {
     this.to_sell = true
@@ -66,7 +76,8 @@ class HeavyTower(P:Waypoint) extends Tower(P) {
   this.sell_cost = 7
 }
 
-class CircularTower(P:Waypoint) extends Tower(P) {
+/* AOE Tower (spinning scarecrow) */
+class ScarecrowTower(P:Waypoint) extends Tower(P) {
   this.radius = 10
   this.damages = 4
   this.buy_cost = 15
