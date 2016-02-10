@@ -1,39 +1,58 @@
 
 package game_mechanics
 
+import runtime.Controller
 import game_mechanics.path._
 
-/* Abstract bunny superclass from which every ennemy is derived. */
-abstract class Bunny {
+/* Bunny superclass from which every ennemy is derived. */
+class Bunny(path0: Progress) {
 
   var hp              = 10.0
   var pos : Waypoint  = new Waypoint(2.0,2.0)
   var shield          = 1.0
   var speed           = 1.0
-  var path            : Progress
-  var reward          = 10
+  var path            = path0
+  /* Amount of gold earned when killed */
+  val reward          = 10
+  /* Damage done to the player when core reached */
+  val damage          = 1
 
-  def takedamage(dmg: Double): Unit = {
+  def remove_hp(dmg: Double): Unit = {
     this.hp -= dmg
   }
 
+  /* Moves the bunny along the path */
   def move(dt: Double): Unit = {
     path.move(dt*this.speed)
     this.pos = path.get_position
   }
+
+  def update(dt: Double): Unit = {
+    if( hp <= 0 )
+    {
+      Player.add_gold( reward )
+      Controller -= this
+    }
+    move(dt)
+    if( path.reached )
+    {
+      Player.remove_hp( damage )
+      Controller -= this
+    }
+  }
 }
 
 /* Large and tough but slow bunny */
-class Heavy_Bunny extends Bunny {
+class Heavy_Bunny(path0: Progress) extends Bunny(path0) {
   this.hp     = 20
   this.shield = 1.5
   this.speed  = 0.5
-  this.reward = 15
+  override val reward = 15
 }
 
-class Otter extends Bunny {
+class Otter(path0: Progress) extends Bunny(path0) {
   this.hp     = 100
   this.shield = 1.5
   this.speed  = 0.5
-  this.reward = 100
+  override val reward = 100
 }

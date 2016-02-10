@@ -9,10 +9,10 @@ class Path {
 
   def Path( p:Path ) = {
     for( wp <- p.waypoints ) {
-      this.add( wp )
+      waypoints += wp
     }
   }
-  def add(wp: Waypoint): Unit = {
+  def +=(wp: Waypoint): Unit = {
     waypoints += wp
   }
 

@@ -3,16 +3,21 @@ package game_mechanics
 import game_mechanics._
 
 
-class Player {
-  var hp = 10
+object Player {
+  var hp   = 10
   var gold = 150
 
-  def remove_hp(): Unit = {
-    this.hp -= 1
+  def reset(): Unit = {
+    hp   = 10
+    gold = 150
+  }
+
+  def remove_hp(amount: Int): Unit = {
+    this.hp -= amount
   }
 
   def add_hp(amount : Int): Unit = {
-    this.hp += 1
+    this.hp += amount
   }
 
   def add_gold(amount : Int) : Unit = {

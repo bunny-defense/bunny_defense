@@ -8,8 +8,15 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+object GameMap
+{
+  val ground_image = ImageIO.read(new File(getClass().getResource("/ground/dirt.jpg").getPath()))
+  val grass_image  = ImageIO.read(new File(getClass().getResource("/ground/grass4.png").getPath()))
+}
+
 class GameMap(width0: Int, height0: Int)
 {
+  import GameMap._
   val width  = width0
   val height = height0
   val graphic_map = Array.ofDim[BufferedImage](width,height)
@@ -17,8 +24,6 @@ class GameMap(width0: Int, height0: Int)
 
   val rng = new Random()
 
-  val ground_image = ImageIO.read(new File(getClass().getResource("/ground/dirt.jpg").getPath()))
-  val grass_image  = ImageIO.read(new File(getClass().getResource("/ground/grass4.png").getPath()))
 
   for( x <- 0 until width ) {
     for( y <- 0 until height ) {

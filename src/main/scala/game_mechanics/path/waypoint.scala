@@ -46,6 +46,11 @@ class Waypoint(x0: Double, y0: Double) {
   def norm() : Double = {
     return (Math.pow(this.x,2.0)+Math.pow(this.y,2.0))
   }
+
+  def normalize() : Waypoint = {
+    val n = norm
+    return new Waypoint( x / n, y / n )
+  }
 }
 
 

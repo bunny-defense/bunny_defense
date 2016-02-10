@@ -4,9 +4,17 @@ package gui
 import swing._
 import swing.event._
 
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
 
 import runtime.TowerDefense
 import game_mechanics.GameMap
+
+object MapPanel
+{
+  val bunny_sprite = ImageIO.read(new File(getClass().getResource("/mobs/bunny1.png").getPath()))
+}
 
 /* Represents the map on the screen */
 class MapPanel(map: GameMap) extends Panel {
