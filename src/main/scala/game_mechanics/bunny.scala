@@ -32,12 +32,14 @@ class Bunny(path0: Progress) {
     {
       Player.add_gold( reward )
       Controller -= this
+      println( "Added ", reward, " gold" )
     }
     move(dt)
     if( path.reached )
     {
       Player.remove_hp( damage )
       Controller -= this
+      println( "Bunny reached core" )
     }
   }
 }

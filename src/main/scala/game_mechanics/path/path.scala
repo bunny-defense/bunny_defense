@@ -23,4 +23,7 @@ class Path {
   def length(): Int = {
     return waypoints.length
   }
+  def last(): Waypoint = {
+    return waypoints.last
+  }
 }

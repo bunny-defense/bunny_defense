@@ -8,6 +8,8 @@ class Progress(p: Path) {
   var progress = 0.0
   val path = p
   def move( distance: Double ): Unit = {
+    if( reached )
+      return
     val current = path.at(i-1)
     val next = path.at(i)
     val dist = Waypoint.distance( current, next )
@@ -22,13 +24,15 @@ class Progress(p: Path) {
     }
   }
   def get_position(): Waypoint = {
+    if( reached )
+      return path.last
     val current = path.at(i-1)
     val next = path.at(i)
     val ratio = progress / Waypoint.distance( current, next )
-    return (current + next) / ratio
+    return current * ( 1 - ratio ) + next * ratio
   }
 
   def reached(): Boolean = {
-    return i > path.length()
+    return i >= path.length()
   }
 }

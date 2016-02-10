@@ -51,6 +51,10 @@ class Waypoint(x0: Double, y0: Double) {
     val n = norm
     return new Waypoint( x / n, y / n )
   }
+
+  override def toString(): String = {
+    return "(" + x.toString + "," + y.toString + ")"
+  }
 }
 
 

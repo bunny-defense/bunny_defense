@@ -10,6 +10,8 @@ import game_mechanics._
 object TowerDefense extends SimpleSwingApplication
 {
 
+  val map_panel = new MapPanel(new GameMap(20,10))
+
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
     println( x, y )
@@ -51,8 +53,13 @@ object TowerDefense extends SimpleSwingApplication
     title = "Tower Defense"
     contents = new BorderPanel
     {
-      add( new MapPanel(new GameMap(20,10)), BorderPanel.Position.Center )
+      add( map_panel, BorderPanel.Position.Center )
       add( make_menu(), BorderPanel.Position.East)
     }
+  }
+
+  override def main(args: Array[String]): Unit = {
+    super.main(args)
+    Controller.run()
   }
 }

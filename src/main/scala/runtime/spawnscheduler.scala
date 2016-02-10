@@ -20,9 +20,10 @@ object SpawnScheduler
   def update(dt: Double): Unit = {
     if( started )
     {
-      while( spawn_stack.top._1 < (System.nanoTime - start_time) )
+      while( !spawn_stack.isEmpty && spawn_stack.top._1 < (System.nanoTime - start_time) )
       {
         Controller += spawn_stack.pop()._2
+        println( "Bunny spawned" )
       }
     }
   }
