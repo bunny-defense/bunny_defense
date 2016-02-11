@@ -3,13 +3,22 @@
 
 package game_mechanics
 
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
+
 import runtime.Controller
 import game_mechanics.path.Waypoint
 
-/* The abstract class of a throw */
+object Throw
+{
+  val carrot_sprite = ImageIO.read(new File(getClass().getResource("/projectiles/carrot.png").getPath()))
+}
 
+/* The class of a throw */
 class Throw (target:Bunny, origin: Waypoint) {
-  var speed    = 1.0
+  import Throw._
+  var speed    = 10.0
   var damage   = 5.0
   var AOE      = 0.0
   var pos      = origin
@@ -27,6 +36,12 @@ class Throw (target:Bunny, origin: Waypoint) {
       target.remove_hp( damage )
       Controller -= this
     }
+    if( target.hp <= 0 )
+      Controller -= this
+  }
+
+  def graphic(): BufferedImage = {
+    return carrot_sprite
   }
 
   /*

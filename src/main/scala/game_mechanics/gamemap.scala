@@ -33,4 +33,14 @@ class GameMap(width0: Int, height0: Int)
         graphic_map(x)(y) = grass_image
     }
   }
+
+  def +=(tower: Tower): Boolean = {
+    if( !obstruction_map(tower.pos.x.toInt)(tower.pos.y.toInt) )
+    {
+      obstruction_map(tower.pos.x.toInt)(tower.pos.y.toInt) = true
+      graphic_map(tower.pos.x.toInt)(tower.pos.y.toInt) = tower.graphic
+      return true
+    }
+    return false
+  }
 }

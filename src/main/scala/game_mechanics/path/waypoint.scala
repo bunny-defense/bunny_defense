@@ -44,7 +44,7 @@ class Waypoint(x0: Double, y0: Double) {
   }
 
   def norm() : Double = {
-    return (Math.pow(this.x,2.0)+Math.pow(this.y,2.0))
+    return Math.sqrt(Math.pow(this.x,2.0)+Math.pow(this.y,2.0))
   }
 
   def normalize() : Waypoint = {
@@ -54,6 +54,10 @@ class Waypoint(x0: Double, y0: Double) {
 
   override def toString(): String = {
     return "(" + x.toString + "," + y.toString + ")"
+  }
+
+  override def clone(): Waypoint = {
+    return new Waypoint( x, y )
   }
 }
 

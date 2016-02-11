@@ -14,13 +14,35 @@ object Controller
 
   val framerate = 1.0/30.0 * 1000
 
-    val spawn_schedule = new Stack[(Double,Bunny)]
-    val testpath = new Path
-    testpath += new Waypoint(0,5)
-    testpath += new Waypoint(20,0)
-    spawn_schedule.push( (0.00, new Bunny( new Progress(testpath))) )
-    SpawnScheduler.set_schedule( spawn_schedule )
-    SpawnScheduler.start()
+  var selected_tower : Option[Tower] = None
+
+  val spawn_schedule = new Stack[(Double,Bunny)]
+  val testpath = new Path
+  testpath += new Waypoint(0,5)
+  testpath += new Waypoint(20,0)
+  spawn_schedule.push( (0.00, new Bunny( new Progress(testpath))) )
+  SpawnScheduler.set_schedule( spawn_schedule )
+  SpawnScheduler.start()
+
+  /* Triggered when a map cell is clicked */
+  def on_cell_clicked( x:Int, y:Int ): Unit = {
+    println( x, y )
+    if( selected_tower != None )
+    {
+      Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
+      selected_tower = None
+    }
+  }
+
+  /* Triggered when a button from the build menu is clicked */
+  def on_build_button( id:Int ): Unit = {
+    println( "Build ", id )
+    if( id == 0 )
+      selected_tower = Some(new Tower(new Waypoint( 0.0, 0.0 )))
+  }
+
+  /* Triggered when the play button is clicked */
+  def on_play_button(): Unit = {}
 
   def update(dt: Double): Unit = {
     /* Update projectiles */

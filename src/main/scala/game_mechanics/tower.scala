@@ -7,16 +7,27 @@ import game_mechanics._
 import scala.collection.mutable._
 import Math._
 
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
+
+object Tower
+{
+  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/tower.png").getPath()))
+}
+
 /* Tower superclass from which evey special tower is derived */
-class Tower(pos:Waypoint) {
+class Tower(pos0:Waypoint) {
+  import Tower._
+  val pos            = pos0
   val size           = 1
   val damages        = 5
-  val range          = 100
+  val range          = 5
   val aoe_radius     = 0
   /* Speed of the shot projectile */
   val throw_speed    = 1
   /* Cooldown time in seconds */
-  val throw_cooldown = 10.0
+  val throw_cooldown = 1.0
   /* Cooldown counter */
   var cooldown       = 0.0
   val buy_cost       = 10
@@ -31,13 +42,21 @@ class Tower(pos:Waypoint) {
 
   /* Returns the target of the tower */
   def get_target(): Option[Bunny] = {
-    if( current_target == None || !in_range(current_target.get) )
-      current_target = Some(Controller.bunnies.filter( in_range ).head)
+    if( current_target == None
+      || !in_range(current_target.get)
+      || current_target.get.hp <= 0 )
+    {
+      val bunnies = Controller.bunnies.filter( in_range )
+      if( !bunnies.isEmpty )
+        current_target = Some(bunnies.head)
+      else
+        current_target = None
+    }
     return current_target
   }
 
   def fire_at(bunny: Bunny): Unit = {
-    var throw_carrot    = new Throw(bunny,this.pos)
+    var throw_carrot    = new Throw(bunny,this.pos.clone())
     throw_carrot.speed  = throw_speed
     throw_carrot.damage = damages
     throw_carrot.AOE    = aoe_radius
@@ -58,6 +77,14 @@ class Tower(pos:Waypoint) {
       attack()
     else
       cooldown -= dt
+  }
+
+  def graphic(): BufferedImage = {
+    return tower_graphic
+  }
+
+  def clone_at(newpos: Waypoint): Tower = {
+    return new Tower(newpos)
   }
 }
 

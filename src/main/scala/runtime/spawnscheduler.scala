@@ -22,7 +22,7 @@ object SpawnScheduler
     {
       while( !spawn_stack.isEmpty && spawn_stack.top._1 < (System.nanoTime - start_time) )
       {
-        Controller += spawn_stack.pop()._2
+        Controller += spawn_stack.pop()._2.copy()
         println( "Bunny spawned" )
       }
     }

@@ -17,6 +17,11 @@ class Bunny(path0: Progress) {
   /* Damage done to the player when core reached */
   val damage          = 1
 
+  /* Prototype design pattern */
+  def copy(): Bunny = {
+    return new Bunny( new Progress( path.path ) )
+  }
+
   def remove_hp(dmg: Double): Unit = {
     this.hp -= dmg
   }
