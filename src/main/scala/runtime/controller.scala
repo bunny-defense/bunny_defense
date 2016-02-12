@@ -21,11 +21,11 @@ object Controller
   val spawn_schedule = new Stack[(Double,Bunny)]
   val testpath = new Path
   testpath += new Waypoint(0,5)
-  testpath += new Waypoint(20,5)
+  testpath += new Waypoint(30,5)
   for( i <- 1 until 15 )
   {
     /*spawn_schedule.push( (5.00 * i, new Bunny( new Progress(testpath))) )*/
-    spawn_schedule.push( ((15 - i).toDouble, new Heavy_Bunny (new Progress(testpath))))
+    spawn_schedule.push( ((15 - i).toDouble, new Bunny (new Progress(testpath))))
   }
   SpawnScheduler.set_schedule( spawn_schedule )
 /*  SpawnScheduler.start() */
@@ -78,9 +78,14 @@ object Controller
       val start = System.currentTimeMillis
       update(dt)
       TowerDefense.map_panel.repaint()
+      TowerDefense.info_panel.repaint()
       val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
       Thread.sleep(miliseconds)
       dt = (System.currentTimeMillis - start).toDouble / 1000
+      if (Player.hp <= 0) {
+        println("You lose")
+        return
+      }
       /* Debugging stuff */
       /*
       counter += 1
