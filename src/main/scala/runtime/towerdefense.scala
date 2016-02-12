@@ -47,8 +47,8 @@ object TowerDefense extends SimpleSwingApplication
     contents = new BorderPanel
     {
       add( map_panel, BorderPanel.Position.Center )
-      add( new BorderPanel {
-        add( new InfoPanel, BorderPanel.Position.North )
+      add( new BorderPanel { 
+          add( new InfoPanel, BorderPanel.Position.North )
         add( make_menu(), BorderPanel.Position.Center )
       }, BorderPanel.Position.East)
     }

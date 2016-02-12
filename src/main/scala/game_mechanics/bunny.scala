@@ -23,8 +23,7 @@ class Bunny(path0: Progress) {
     return new Bunny( new Progress( path.path ) )
   }
 
-  def remove_hp(dmg: Double): Unit = {
-    this.hp -= dmg
+  def remove_hp(dmg: Double): Unit = { this.hp -= dmg
   }
 
   /* Moves the bunny along the path */
@@ -67,5 +66,10 @@ class Otter(path0: Progress) extends Bunny(path0) {
   this.hp     = 100
   this.shield = 1.5
   this.speed  = 0.5
+  override val damage = 5
   override val reward = 100
+}
+
+class Golden_Bunny(path0: Progress) extends Bunny(path0) {
+  override val reward = 1000
 }
