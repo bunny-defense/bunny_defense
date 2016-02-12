@@ -55,6 +55,7 @@ class Tower(pos0:Waypoint) {
     return current_target
   }
 
+  /* Self descriptive */
   def fire_at(bunny: Bunny): Unit = {
     var throw_carrot    = new Throw(bunny,this.pos.clone())
     throw_carrot.speed  = throw_speed
@@ -90,7 +91,7 @@ class Tower(pos0:Waypoint) {
 
 class QuickTower(pos:Waypoint) extends Tower(pos) {
   override val range       = 75
-  override val throw_speed = 5.
+  override val throw_speed = 5.0
   override val damages     = 4
   override val buy_cost    = 15
   override val sell_cost   = 8
@@ -98,7 +99,7 @@ class QuickTower(pos:Waypoint) extends Tower(pos) {
 
 class HeavyTower(pos:Waypoint) extends Tower(pos) {
   override val range       = 75
-  override val throw_speed = 15.
+  override val throw_speed = 15.0
   override val damages     = 9
   override val buy_cost    = 12
   override val sell_cost   = 7
