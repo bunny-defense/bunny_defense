@@ -18,20 +18,23 @@ object Throw
 /* The class of a throw */
 class Throw (target:Bunny, origin: Waypoint) {
   import Throw._
-  var speed    = 10.0
+  var speed    = 1.0
   var damage   = 5.0
   var AOE      = 0.0
   var pos      = origin
+  var hit      = false
 
   /* Update of the position of the throw */
   def move(dt : Double): Unit = {
-    pos += (target.pos - pos).normalize() * (this.speed * dt)
+    val next_pos = pos + (target.pos - pos).normalize() * (speed * dt)
+    hit = ((target.pos - pos) & (target.pos - next_pos)) < 0.0
+    pos = next_pos
   }
 
   /* One step of progress */
   def update(dt: Double): Unit= {
     move(dt)
-    if (((pos-target.pos) & pos) <= 0.0)
+    if (hit)
     {
       target.remove_hp( damage )
       Controller -= this

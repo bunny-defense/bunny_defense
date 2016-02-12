@@ -20,7 +20,7 @@ object TowerDefense extends SimpleSwingApplication
     return new GridPanel( 3, 5 ) {
       for( i <- 0 until 15 ) {
         val button = new BuyButton { action = Action ("") { Controller.on_build_button( i ) } }
-        button.preferredSize = dimension
+        button.maximumSize = dimension
         if( i == 0 )
           button.icon = new ImageIcon( Tower.tower_graphic )
         contents += button

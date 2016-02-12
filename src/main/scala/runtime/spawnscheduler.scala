@@ -22,7 +22,9 @@ object SpawnScheduler
       while( !spawn_stack.isEmpty && spawn_stack.top._1 <
             spent_time)
       {
-        Controller += spawn_stack.pop()._2.copy()
+        val bunny = spawn_stack.pop()._2.copy()
+        bunny.update(dt)
+        Controller += bunny
         println( "Bunny spawned" )
       }
     }

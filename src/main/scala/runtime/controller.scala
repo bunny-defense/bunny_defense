@@ -21,9 +21,12 @@ object Controller
   val spawn_schedule = new Stack[(Double,Bunny)]
   val testpath = new Path
   testpath += new Waypoint(0,5)
-  testpath += new Waypoint(20,0)
-  spawn_schedule.push( (5.00, new Bunny( new Progress(testpath))) )
-  spawn_schedule.push( (0.00, new Heavy_Bunny (new Progress(testpath))))
+  testpath += new Waypoint(20,5)
+  for( i <- 1 until 15 )
+  {
+    /*spawn_schedule.push( (5.00 * i, new Bunny( new Progress(testpath))) )*/
+    spawn_schedule.push( ((15 - i).toDouble, new Heavy_Bunny (new Progress(testpath))))
+  }
   SpawnScheduler.set_schedule( spawn_schedule )
 /*  SpawnScheduler.start() */
 
