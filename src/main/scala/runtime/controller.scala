@@ -19,18 +19,18 @@ object Controller
 
   var selected_tower : Option[Tower] = None
 
-/*  val spawn_schedule = new Stack[(Double,Bunny)]
+  val spawn_schedule = new Queue[(Double,Bunny)]
   val testpath = new Path
   testpath += new Waypoint(0,5)
   testpath += new Waypoint(30,5)
   for( i <- 1 until 15 )
   {
-    spawn_schedule.push( (5.00 * i, new Bunny( new Progress(testpath))) )
-    spawn_schedule.push( ((15 - i).toDouble, new Bunny (new Progress(testpath))))
+    spawn_schedule += ( (5.00 * i, new Bunny( new Progress(testpath))) )
+    spawn_schedule += ( ((15 - i).toDouble, new Heavy_Bunny (new Progress(testpath))))
   }
   SpawnScheduler.set_schedule( spawn_schedule )
   SpawnScheduler.start()
-*/
+
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
     println( x, y )
@@ -52,8 +52,8 @@ object Controller
   def on_play_button(): Unit = {
     println( "New wave")
     wave_counter += 1
-    val spawnscheduler = new Spawner(wave_counter).create
-    SpawnScheduler.set_schedule(spawnscheduler)
+    /* val spawnscheduler = new Spawner(wave_counter).create
+    SpawnScheduler.set_schedule(spawnscheduler) */
     SpawnScheduler.start()}
 
   def update(dt: Double): Unit = {
