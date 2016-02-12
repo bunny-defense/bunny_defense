@@ -21,7 +21,6 @@ class InfoPanel() extends Panel
 {
   import InfoPanel._
   background = Colors.lightGrey
-  preferredSize = new Dimension(100, 100)
   override def paintComponent(g: Graphics2D): Unit = {
     super.paintComponent(g)
     val xm = size.width

@@ -12,16 +12,17 @@ import game_mechanics._
 object TowerDefense extends SimpleSwingApplication
 {
 
-  val map_panel = new MapPanel(new GameMap(30,25))
+  val map_panel  = new MapPanel(new GameMap(30,25))
+  val info_panel = new InfoPanel
 
   /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
     val dimension = new Dimension( 30, 30 )
     return new GridPanel( 3, 5 ) {
-      preferredSize = new Dimension( 5 * 50, 3 * 50 )
+      preferredSize = new Dimension( 5 * 30, 3 * 30 )
       for( i <- 0 until 15 ) {
         val button = new BuyButton { action = Action ("") { Controller.on_build_button( i ) } }
-        button.maximumSize = dimension
+        button.preferredSize = dimension
         if( i == 0 )
           button.icon = new ImageIcon( Tower.tower_graphic )
         contents += button
@@ -30,14 +31,16 @@ object TowerDefense extends SimpleSwingApplication
   }
 
   /* Returns a panel containing the in-game menu (next to the map) */
-  def make_menu(): BorderPanel = {
-    return new BorderPanel {
+  def make_menu(): BoxPanel = {
+    return new BoxPanel(Orientation.Vertical) {
       val play_button = new Button { action = Action("") { Controller.on_play_button() } }
-      play_button.preferredSize = new Dimension( 50, 50 )
+      play_button.preferredSize = new Dimension( 100, 50 )
       play_button.text = "Play"
       play_button.background = Colors.green
-      add( play_button, BorderPanel.Position.South )
-      add( make_build_menu(), BorderPanel.Position.West )
+      contents += info_panel
+      contents += make_build_menu()
+      contents += Swing.VGlue
+      contents += play_button
     }
   }
 
@@ -48,9 +51,8 @@ object TowerDefense extends SimpleSwingApplication
     contents = new BorderPanel
     {
       add( map_panel, BorderPanel.Position.Center )
-      add( new BorderPanel { 
-          add( new InfoPanel, BorderPanel.Position.North )
-        add( make_menu(), BorderPanel.Position.Center )
+      add( new BoxPanel(Orientation.Vertical) {
+        contents += make_menu()
       }, BorderPanel.Position.East)
     }
   }
