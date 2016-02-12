@@ -78,6 +78,7 @@ object Controller
       val start = System.currentTimeMillis
       update(dt)
       TowerDefense.map_panel.repaint()
+      TowerDefense.info_panel.repaint()
       val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
       Thread.sleep(miliseconds)
       dt = (System.currentTimeMillis - start).toDouble / 1000
