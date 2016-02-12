@@ -25,7 +25,7 @@ class Throw (target:Bunny, origin: Waypoint) {
 
   /* Update of the position of the throw */
   def move(dt : Double): Unit = {
-    pos += (target.pos - pos).normalize() * speed * dt
+    pos += (target.pos - pos).normalize() * (this.speed * dt)
   }
 
   /* One step of progress */

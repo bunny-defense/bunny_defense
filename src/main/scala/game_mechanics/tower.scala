@@ -25,7 +25,7 @@ class Tower(pos0:Waypoint) {
   val range          = 5
   val aoe_radius     = 0
   /* Speed of the shot projectile */
-  val throw_speed    = 1
+  val throw_speed    = 10.0
   /* Cooldown time in seconds */
   val throw_cooldown = 1.0
   /* Cooldown counter */
@@ -90,7 +90,7 @@ class Tower(pos0:Waypoint) {
 
 class QuickTower(pos:Waypoint) extends Tower(pos) {
   override val range       = 75
-  override val throw_speed = 5
+  override val throw_speed = 5.
   override val damages     = 4
   override val buy_cost    = 15
   override val sell_cost   = 8
@@ -98,7 +98,7 @@ class QuickTower(pos:Waypoint) extends Tower(pos) {
 
 class HeavyTower(pos:Waypoint) extends Tower(pos) {
   override val range       = 75
-  override val throw_speed = 15
+  override val throw_speed = 15.
   override val damages     = 9
   override val buy_cost    = 12
   override val sell_cost   = 7
