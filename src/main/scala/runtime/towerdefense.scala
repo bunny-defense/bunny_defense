@@ -18,6 +18,7 @@ object TowerDefense extends SimpleSwingApplication
   def make_build_menu(): GridPanel = {
     val dimension = new Dimension( 30, 30 )
     return new GridPanel( 3, 5 ) {
+      preferredSize = new Dimension( 5 * 50, 3 * 50 )
       for( i <- 0 until 15 ) {
         val button = new BuyButton { action = Action ("") { Controller.on_build_button( i ) } }
         button.maximumSize = dimension

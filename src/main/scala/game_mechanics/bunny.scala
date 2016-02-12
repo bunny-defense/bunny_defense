@@ -38,7 +38,7 @@ class Bunny(path0: Progress) {
       Controller += new GoldAnimation(reward, pos.clone())
       Player.add_gold( reward )
       Controller -= this
-      println( "Added ", reward, " gold" )
+      println( "Added " + reward.toString + " gold" )
     }
     move(dt)
     if( path.reached )
@@ -62,8 +62,16 @@ class Heavy_Bunny(path0: Progress) extends Bunny(path0) {
   }
 }
 
+/* Fast "Bunny" */
+class Hare(path0: Progress) extends Bunny(path0: Progress)
+{
+  hp     = 5
+  shield = 0.0
+  speed  = 2.0
+}
+
 class Otter(path0: Progress) extends Bunny(path0) {
-  this.hp     = 100
+  this.hp     = 1000
   this.shield = 1.5
   this.speed  = 0.5
   override val damage = 5
