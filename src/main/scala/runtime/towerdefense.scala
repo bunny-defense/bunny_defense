@@ -12,7 +12,7 @@ import game_mechanics._
 object TowerDefense extends SimpleSwingApplication
 {
 
-  val map_panel = new MapPanel(new GameMap(20,10))
+  val map_panel = new MapPanel(new GameMap(30,25))
 
   /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
@@ -48,6 +48,7 @@ object TowerDefense extends SimpleSwingApplication
     {
       add( map_panel, BorderPanel.Position.Center )
       add( new BorderPanel {
+        add( new InfoPanel, BorderPanel.Position.North )
         add( make_menu(), BorderPanel.Position.Center )
       }, BorderPanel.Position.East)
     }
