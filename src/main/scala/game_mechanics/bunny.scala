@@ -3,6 +3,7 @@ package game_mechanics
 
 import runtime.Controller
 import game_mechanics.path._
+import gui.GoldAnimation
 
 /* Bunny superclass from which every ennemy is derived. */
 class Bunny(path0: Progress) {
@@ -29,12 +30,13 @@ class Bunny(path0: Progress) {
   /* Moves the bunny along the path */
   def move(dt: Double): Unit = {
     path.move(dt*this.speed)
-    this.pos = path.get_position
+    pos = path.get_position
   }
 
   def update(dt: Double): Unit = {
     if( hp <= 0 )
     {
+      Controller += new GoldAnimation(reward, pos.clone())
       Player.add_gold( reward )
       Controller -= this
       println( "Added ", reward, " gold" )
