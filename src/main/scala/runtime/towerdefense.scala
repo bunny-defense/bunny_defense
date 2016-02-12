@@ -34,7 +34,7 @@ object TowerDefense extends SimpleSwingApplication
       val play_button = new Button { action = Action("") { Controller.on_play_button() } }
       play_button.preferredSize = new Dimension( 50, 50 )
       play_button.text = "Play"
-      play_button.background = Colors.red
+      play_button.background = Colors.green
       add( play_button, BorderPanel.Position.South )
       add( make_build_menu(), BorderPanel.Position.West )
     }
@@ -47,7 +47,9 @@ object TowerDefense extends SimpleSwingApplication
     contents = new BorderPanel
     {
       add( map_panel, BorderPanel.Position.Center )
-      add( make_menu(), BorderPanel.Position.East)
+      add( new BorderPanel {
+        add( make_menu(), BorderPanel.Position.Center )
+      }, BorderPanel.Position.East)
     }
   }
 
