@@ -25,7 +25,7 @@ class Tower(pos0:Waypoint) {
   val range          = 5
   val aoe_radius     = 0
   /* Speed of the shot projectile */
-  val throw_speed    = 1.0
+  val throw_speed    = 10.0
   /* Cooldown time in seconds */
   val throw_cooldown = 1.0
   /* Cooldown counter */
