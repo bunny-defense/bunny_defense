@@ -3,7 +3,7 @@ package runtime
 
 import collection.mutable.{ListBuffer,Stack}
 
-import game_mechanics.{Bunny,Throw,Tower}
+import game_mechanics.{Bunny,Throw,Tower,Player}
 import game_mechanics.path._
 import gui.Animatable
 
@@ -24,12 +24,12 @@ object Controller
   testpath += new Waypoint(20,0)
   spawn_schedule.push( (0.00, new Bunny( new Progress(testpath))) )
   SpawnScheduler.set_schedule( spawn_schedule )
-  SpawnScheduler.start()
+/*  SpawnScheduler.start() */
 
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
     println( x, y )
-    if( selected_tower != None )
+    if( selected_tower != None && Player.remove_gold(selected_tower.get.buy_cost))
     {
       Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
       selected_tower = None
@@ -44,7 +44,9 @@ object Controller
   }
 
   /* Triggered when the play button is clicked */
-  def on_play_button(): Unit = {}
+  def on_play_button(): Unit = {
+    println( "New wave")
+    SpawnScheduler.start()}
 
   def update(dt: Double): Unit = {
     /* Update animations */
