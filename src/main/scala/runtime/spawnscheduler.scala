@@ -8,19 +8,19 @@ import game_mechanics.Bunny
 /* The spawn scheduler takes care of spawning ennemies in the order and timing set */
 object SpawnScheduler
 {
-  var start_time  = System.nanoTime
   var started     = false
   var spawn_stack = new Stack[(Double,Bunny)]
-
+  var spent_time  = 0.0
   def start(): Unit = {
-    start_time = System.nanoTime
     started    = true
   }
 
   def update(dt: Double): Unit = {
     if( started )
     {
-      while( !spawn_stack.isEmpty && spawn_stack.top._1 < (System.nanoTime - start_time) )
+      spent_time += dt
+      while( !spawn_stack.isEmpty && spawn_stack.top._1 <
+            spent_time)
       {
         Controller += spawn_stack.pop()._2.copy()
         println( "Bunny spawned" )

@@ -57,6 +57,10 @@ class Heavy_Bunny(path0: Progress) extends Bunny(path0) {
   this.shield = 1.5
   this.speed  = 0.5
   override val reward = 15
+
+  override def copy(): Heavy_Bunny = {
+    return new Heavy_Bunny( new Progress( path.path ) )
+  }
 }
 
 class Otter(path0: Progress) extends Bunny(path0) {

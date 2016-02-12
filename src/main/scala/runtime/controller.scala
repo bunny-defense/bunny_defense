@@ -3,7 +3,7 @@ package runtime
 
 import collection.mutable.{ListBuffer,Stack}
 
-import game_mechanics.{Bunny,Throw,Tower,Player}
+import game_mechanics._
 import game_mechanics.path._
 import gui.Animatable
 
@@ -22,7 +22,8 @@ object Controller
   val testpath = new Path
   testpath += new Waypoint(0,5)
   testpath += new Waypoint(20,0)
-  spawn_schedule.push( (0.00, new Bunny( new Progress(testpath))) )
+  spawn_schedule.push( (5.00, new Bunny( new Progress(testpath))) )
+  spawn_schedule.push( (0.00, new Heavy_Bunny (new Progress(testpath))))
   SpawnScheduler.set_schedule( spawn_schedule )
 /*  SpawnScheduler.start() */
 
@@ -67,7 +68,7 @@ object Controller
 
   def run(): Unit = {
     println( "Running" )
-    var dt = 0.0
+    var dt: Double = 0.0
     var counter = 0
     while( true )
     {
