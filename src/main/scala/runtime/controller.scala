@@ -5,12 +5,14 @@ import collection.mutable.{ListBuffer,Stack}
 
 import game_mechanics.{Bunny,Throw,Tower}
 import game_mechanics.path._
+import gui.Animatable
 
 object Controller
 {
   val bunnies     = new ListBuffer[Bunny]
   val projectiles = new ListBuffer[Throw]
   val towers      = new ListBuffer[Tower]
+  val animations  = new ListBuffer[Animatable]
 
   val framerate = 1.0/30.0 * 1000
 
@@ -45,6 +47,9 @@ object Controller
   def on_play_button(): Unit = {}
 
   def update(dt: Double): Unit = {
+    /* Update animations */
+    for( animation <- animations )
+      animation.update(dt)
     /* Update projectiles */
     for( projectile <- projectiles )
       projectile.update(dt)
@@ -112,5 +117,15 @@ object Controller
 
   def -=(tower: Tower): Unit = {
     towers -= tower
+  }
+
+  /* ANIMATIONS */
+
+  def +=(animation: Animatable): Unit = {
+    animations += animation
+  }
+
+  def -=(animation: Animatable): Unit = {
+    animations -= animation
   }
 }

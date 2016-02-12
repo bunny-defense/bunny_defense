@@ -56,18 +56,23 @@ class MapPanel(map0: GameMap) extends Panel {
       val y = bunny.pos.y * cellsize
       g.drawImage( bunny_sprite, x.toInt, y.toInt, null )
     }
+    /* Drawing the towers */
     for( tower <- Controller.towers )
     {
       val x = tower.pos.x * cellsize
       val y = tower.pos.y * cellsize
       g.drawImage( tower.graphic, x.toInt, y.toInt, null )
     }
+    /* Drawing projectiles */
     for( projectile <- Controller.projectiles )
     {
       val x = projectile.pos.x * cellsize
       val y = projectile.pos.y * cellsize
       g.drawImage( projectile.graphic, x.toInt, y.toInt, null )
     }
+   for( animation <- Controller.animations )
+     animation.draw(g)
+    /* Drawing selected tower */
     Controller.selected_tower match {
       case None => {}
       case Some(tower) => {
@@ -83,7 +88,5 @@ class MapPanel(map0: GameMap) extends Panel {
         g.drawOval( circlex, circley, 2 * range, 2 * range )
       }
     }
-    /*g.drawImage( bunny_sprite, cellsize, cellsize, null )*/
   }
-
 }
