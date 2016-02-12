@@ -23,9 +23,8 @@ class Spawner(id: Int) {
 
   def create(): Queue[(Double,Bunny)]= {
     for (appear <- iter) {
-      val bun = mappage.get(id)
       spawn_scheduler += ((((appear(0)).toDouble),
-        mappage(id)))
+        mappage(appear(1).toInt)))
     }
     /* SpawnScheduler.set_schedule(spawn_scheduler) */
     return(spawn_scheduler)
