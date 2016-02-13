@@ -81,3 +81,4 @@ class Otter(path0: Progress) extends Bunny(path0) {
 class Golden_Bunny(path0: Progress) extends Bunny(path0) {
   override val reward = 1000
 }
+

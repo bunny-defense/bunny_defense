@@ -1,7 +1,7 @@
 
 package runtime
 
-import collection.mutable.Stack
+import collection.mutable.Queue
 
 import game_mechanics.Bunny
 
@@ -9,7 +9,7 @@ import game_mechanics.Bunny
 object SpawnScheduler
 {
   var started     = false
-  var spawn_stack = new Stack[(Double,Bunny)]
+  var spawn_queue= new Queue[(Double,Bunny)]
   var spent_time  = 0.0
   def start(): Unit = {
     started    = true
@@ -19,10 +19,10 @@ object SpawnScheduler
     if( started )
     {
       spent_time += dt
-      while( !spawn_stack.isEmpty && spawn_stack.top._1 <
+      while( !spawn_queue.isEmpty && spawn_queue.head._1 <
             spent_time)
       {
-        val bunny = spawn_stack.pop()._2.copy()
+        val bunny = spawn_queue.dequeue._2.copy()
         bunny.update(dt)
         Controller += bunny
         println( "Bunny spawned" )
@@ -30,7 +30,11 @@ object SpawnScheduler
     }
   }
 
-  def set_schedule(schedule: Stack[(Double,Bunny)]): Unit = {
-    spawn_stack = schedule.clone()
+  def set_schedule(schedule: Queue[(Double,Bunny)]): Unit = {
+    spawn_queue= schedule.clone()
+  }
+
+  def is_empty(): Boolean = {
+    spawn_queue.isEmpty
   }
 }
