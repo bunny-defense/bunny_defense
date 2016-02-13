@@ -33,4 +33,8 @@ object SpawnScheduler
   def set_schedule(schedule: Queue[(Double,Bunny)]): Unit = {
     spawn_queue= schedule.clone()
   }
+
+  def is_empty(): Boolean = {
+    spawn_queue.isEmpty
+  }
 }

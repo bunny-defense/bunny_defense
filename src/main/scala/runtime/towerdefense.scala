@@ -14,7 +14,6 @@ object TowerDefense extends SimpleSwingApplication
 
   val map_panel  = new MapPanel(new GameMap(30,25))
   val info_panel = new InfoPanel
-
   /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
     val dimension = new Dimension( 30, 30 )
