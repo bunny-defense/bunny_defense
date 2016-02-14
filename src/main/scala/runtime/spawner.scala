@@ -6,6 +6,7 @@ import game_mechanics.path._
 import runtime._
 import collection.mutable.Queue
 import collection.immutable.Map
+import util.Random
 
 class Spawner(id: Int) {
 
@@ -16,16 +17,25 @@ class Spawner(id: Int) {
   test_path += new Waypoint(0,5)
   test_path += new Waypoint(30,5)
 
+  val law = new Random()
+
   val mappage: Map[String, Bunny] = Map(
     "Bunny" -> (new Bunny (new Progress(test_path))),
     "Heavy_Bunny" -> (new Heavy_Bunny (new Progress(test_path))),
     "Hare"-> (new Hare (new Progress(test_path))),
-    "Otter"-> (new Otter (new Progress(test_path)))
+    "Otter"-> (new Otter (new Progress(test_path))),
+    "Golden_Bunny" -> (new Golden_Bunny (new Progress(test_path)))
   )
   def create(): Queue[(Double,Bunny)]= {
     for (appear <- iter) {
+      if (law.nextDouble > 1/1000) {
       spawn_scheduler += ((((appear(0)).toDouble),
                           mappage(appear(1).trim)))
+                      }
+      else {
+        spawn_scheduler += (((appear(0)).toDouble,
+                            mappage("Golden_Bunny")))
+                      }
     }
     return(spawn_scheduler)
   }
