@@ -1,6 +1,8 @@
 
 package runtime
 
+import swing.event._
+
 import collection.mutable.{ListBuffer,Queue}
 
 import runtime._
@@ -27,8 +29,9 @@ object Controller
       Player.remove_gold(selected_tower.get.buy_cost))
       {
         Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
-        selected_tower = None
         TowerDefense.map_panel.map += towers(0)
+        if (!TowerDefense.keymap(Key.Shift) )
+          {selected_tower = None }
       }
       else if ( selected_tower != None &&
                 TowerDefense.map_panel.map.obstructed(x,y)) {
