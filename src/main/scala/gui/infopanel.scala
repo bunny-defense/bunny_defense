@@ -8,7 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import game_mechanics.Player
-
+import runtime.Controller
 object InfoPanel
 {
   val wave = 1
@@ -25,8 +25,9 @@ class InfoPanel() extends Panel
     super.paintComponent(g)
     val xm = size.width
     val ym = size.height
-    g.drawString("Gold : " + (Player.gold.toString), (xm/2-34), ym/3+5)
-    g.drawString("Lives : " + (Player.hp.toString), (xm/2-34), 2*ym/3+5)
+    g.drawString("Wave : " + (Controller.wave_counter.toString),(xm/2-34),ym/4+5)
+    g.drawString("Gold : " + (Player.gold.toString),(xm/2-34),2*ym/4+5)
+    g.drawString("Lives : " + (Player.hp.toString),(xm/2-34),3*ym/4+5)
     /* If other entries are added in the menu :
      Let n be the number of entries, the coordinates of the k-th entry is
      (xm/2)-offset, (k*ym/(n+1))+5 */

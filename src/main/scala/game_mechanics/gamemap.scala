@@ -24,9 +24,9 @@ class GameMap(width0: Int, height0: Int)
 
   val rng = new Random()
 
-
   for( x <- 0 until width ) {
     for( y <- 0 until height ) {
+      obstruction_map(x)(y) = false
       if( rng.nextDouble() < 0.2 )
         graphic_map(x)(y) = ground_image
       else
@@ -42,5 +42,9 @@ class GameMap(width0: Int, height0: Int)
       return true
     }
     return false
+  }
+
+  def obstructed(x: Int, y: Int) : Boolean = {
+    obstruction_map(x)(y)
   }
 }

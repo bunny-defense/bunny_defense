@@ -22,19 +22,26 @@ object Controller
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
     println( x, y )
-    if( selected_tower != None && Player.remove_gold(selected_tower.get.buy_cost))
-    {
-      Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
-      selected_tower = None
+    if( selected_tower != None &&
+      !TowerDefense.map_panel.map.obstructed(x,y) &&
+      Player.remove_gold(selected_tower.get.buy_cost))
+      {
+        Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
+        selected_tower = None
+        TowerDefense.map_panel.map += towers(0)
+      }
+      else if ( selected_tower != None &&
+                TowerDefense.map_panel.map.obstructed(x,y)) {
+        println("Cell obstructed ("+x.toString+","+y.toString+")")
+      }
+      else if (selected_tower != None){
+        println("Not enough money! Current money = "+ Player.gold.toString)
+      }
     }
-    else if ( selected_tower != None ) {
-      selected_tower = None
-      println("Not enough money!")
-    }
-  }
 
   /* Triggered when a button from the build menu is clicked */
   def on_build_button( id:Int ): Unit = {
+
     println( "Build ", id )
     if( id == 0 )
       selected_tower = Some(new Tower(new Waypoint( 0.0, 0.0 )))
@@ -90,6 +97,7 @@ object Controller
         println("Wave Ended")
         started = false
         SpawnScheduler.reset_time
+        println("Reset time")
       }
       if (Player.hp <= 0) {
           println("You lose")
