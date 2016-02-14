@@ -3,6 +3,7 @@ package runtime
 
 import swing._
 import swing.event._
+import java.awt.event._
 
 import collection.mutable.HashMap
 
@@ -16,7 +17,7 @@ object TowerDefense extends SimpleSwingApplication
 
   val map_panel  = new MapPanel(new GameMap(30,25))
   val info_panel = new InfoPanel
-  val keymap     = new HashMap[Key.Value,Boolean]
+  val keymap     = new HashMap[Key.Value,Boolean] { override def default(key: Key.Value) = false }
 
   /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
@@ -53,17 +54,18 @@ object TowerDefense extends SimpleSwingApplication
     {
       contents += map_panel
       contents += make_menu()
+
+      listenTo(this.keys)
+
+      reactions += {
+        case KeyPressed(_,key,_,_) =>
+          keymap += (key -> true)
+        case KeyReleased(_,key,_,_) =>
+          keymap += (key -> false)
+      }
     }
   }
 
-  listenTo(keys)
-
-  reactions += {
-    case KeyPressed(_,key,_,_) =>
-      keymap += (key -> true)
-    case KeyReleased(_,key,_,_) =>
-      keymap += (key -> false)
-  }
 
   /* ========== MAIN ========== */
   override def main(args: Array[String]): Unit = {
