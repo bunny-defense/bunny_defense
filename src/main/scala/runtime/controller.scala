@@ -89,6 +89,7 @@ object Controller
       if (started && bunnies.isEmpty && SpawnScheduler.is_empty) {
         println("Wave Ended")
         started = false
+        SpawnScheduler.reset_time
       }
       if (Player.hp <= 0) {
           println("You lose")

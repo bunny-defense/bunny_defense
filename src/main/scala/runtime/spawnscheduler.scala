@@ -37,4 +37,8 @@ object SpawnScheduler
   def is_empty(): Boolean = {
     spawn_queue.isEmpty
   }
+
+  def reset_time(): Unit = {
+    spent_time = 0.0
+  }
 }
