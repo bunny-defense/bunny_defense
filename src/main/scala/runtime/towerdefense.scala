@@ -63,6 +63,8 @@ object TowerDefense extends SimpleSwingApplication
         case KeyReleased(_,key,_,_) =>
           keymap += (key -> false)
       }
+      focusable = true
+      requestFocus
     }
   }
 
