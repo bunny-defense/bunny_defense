@@ -30,9 +30,10 @@ object Controller
       {
         Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
         TowerDefense.map_panel.map += towers(0)
-        if (!TowerDefense.keymap(Key.Shift) ) {
+        if ( !TowerDefense.keymap(Key.Shift) ) {
           selected_tower = None
         }
+      }
       else if ( selected_tower != None &&
                 TowerDefense.map_panel.map.obstructed(x,y)) {
         println("Cell obstructed ("+x.toString+","+y.toString+")")
