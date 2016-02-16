@@ -11,4 +11,5 @@ object BuyButton {
 class BuyButton extends Button {
   this.preferredSize = BuyButton.dimension
   this.background    = Colors.white
+  this.focusable     = false
 }
