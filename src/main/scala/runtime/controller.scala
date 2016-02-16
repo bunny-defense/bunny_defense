@@ -53,18 +53,13 @@ object Controller
 
   /* Triggered when the play button is clicked */
   def on_play_button(): Unit = {
-    if (!started) {
       println( "New wave")
       wave_counter += 1
+      TowerDefense.play_button.enabled = false
       var spawnscheduler = new Spawner(wave_counter).create
       SpawnScheduler.set_schedule(spawnscheduler)
       SpawnScheduler.start()
       this.started = true
-    }
-    else {
-      println("Precedent Wave not ended")
-    }
-
   }
 
   def update(dt: Double): Unit = {
@@ -100,6 +95,7 @@ object Controller
       if (started && bunnies.isEmpty && SpawnScheduler.is_empty) {
         println("Wave Ended")
         started = false
+        TowerDefense.play_button.enabled = true
         SpawnScheduler.reset_time
         println("Reset time")
       }
