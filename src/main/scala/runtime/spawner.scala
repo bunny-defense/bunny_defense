@@ -8,14 +8,20 @@ import collection.mutable.Queue
 import collection.immutable.Map
 import util.Random
 
-class Spawner(id: Int) {
+object Spawner
+{
+  val bunnystart = new Waypoint(0,5)
+  val bunnyend = new Waypoint(30,5)
+}
 
+class Spawner(id: Int) {
+  import Spawner._
   val src = scala.io.Source.fromFile("src/main/resources/waves/wave"+id.toString+".csv")
   val iter = src.getLines().filter( _ != "" ).map(_.split(","))
   var spawn_scheduler = new Queue[(Double,Bunny)]
   val test_path = new Path
-  test_path += new Waypoint(0,5)
-  test_path += new Waypoint(30,5)
+  test_path += bunnystart
+  test_path += bunnyend
 
   val law = new Random()
 
