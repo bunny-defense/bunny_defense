@@ -54,7 +54,7 @@ class Tower(pos0:Waypoint) {
     val p = Spawner.bunnyend 
     if( current_target == None
       || !in_range(current_target.get)
-      || !(current_target.get == closest_to_p(p).get)
+      || !(current_target == closest_to_p(p))
       || current_target.get.hp <= 0 )
     {
       def distance_comp(x: Bunny,y: Bunny) = (x.pos-p).norm < (y.pos-p).norm
