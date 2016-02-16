@@ -17,7 +17,7 @@ object Spawner
 class Spawner(id: Int) {
   import Spawner._
   val src = scala.io.Source.fromFile("src/main/resources/waves/wave"+id.toString+".csv")
-  val iter = src.getLines().map(_.split(","))
+  val iter = src.getLines().filter( _ != "" ).map(_.split(","))
   var spawn_scheduler = new Queue[(Double,Bunny)]
   val test_path = new Path
   test_path += bunnystart
@@ -32,16 +32,14 @@ class Spawner(id: Int) {
     "Otter"-> (new Otter (new Progress(test_path))),
     "Golden_Bunny" -> (new Golden_Bunny (new Progress(test_path)))
   )
-  def create(): Queue[(Double,Bunny)]= {
+  def create(): Queue[(Double,Bunny)] = {
     for (appear <- iter) {
       if (law.nextDouble > 1/1000) {
-      spawn_scheduler += ((((appear(0)).toDouble),
-                          mappage(appear(1).trim)))
-                      }
+        spawn_scheduler += ((appear(0).toDouble, mappage(appear(1).trim)))
+      }
       else {
-        spawn_scheduler += (((appear(0)).toDouble,
-                            mappage("Golden_Bunny")))
-                      }
+        spawn_scheduler += ((appear(0).toDouble, mappage("Golden_Bunny")))
+      }
     }
     return(spawn_scheduler)
   }

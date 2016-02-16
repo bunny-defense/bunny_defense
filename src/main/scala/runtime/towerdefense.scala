@@ -59,10 +59,14 @@ object TowerDefense extends SimpleSwingApplication
       listenTo(this.keys)
 
       reactions += {
-        case KeyPressed(_,key,_,_) =>
+        case KeyPressed(_,key,_,_) => {
           keymap += (key -> true)
-        case KeyReleased(_,key,_,_) =>
+          println( "key pressed" )
+        }
+        case KeyReleased(_,key,_,_) => {
           keymap += (key -> false)
+          println( "key released" )
+        }
       }
       focusable = true
       requestFocus

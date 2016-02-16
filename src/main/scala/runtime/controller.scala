@@ -96,8 +96,6 @@ object Controller
         println("Wave Ended")
         started = false
         TowerDefense.play_button.enabled = true
-        SpawnScheduler.reset_time
-        println("Reset time")
       }
       if (Player.hp <= 0) {
           println("You lose")

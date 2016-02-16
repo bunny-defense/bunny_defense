@@ -9,9 +9,11 @@ import game_mechanics.Bunny
 object SpawnScheduler
 {
   var started     = false
-  var spawn_queue= new Queue[(Double,Bunny)]
+  var spawn_queue = new Queue[(Double,Bunny)]
   var spent_time  = 0.0
+
   def start(): Unit = {
+    reset_time
     started    = true
   }
 
@@ -31,7 +33,7 @@ object SpawnScheduler
   }
 
   def set_schedule(schedule: Queue[(Double,Bunny)]): Unit = {
-    spawn_queue= schedule.clone()
+    spawn_queue = schedule.clone()
   }
 
   def is_empty(): Boolean = {
