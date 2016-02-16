@@ -33,6 +33,7 @@ object Controller
         if (!TowerDefense.keymap(Key.Shift) ) {
           selected_tower = None
         }
+      }
       else if ( selected_tower != None &&
                 TowerDefense.map_panel.map.obstructed(x,y)) {
         println("Cell obstructed ("+x.toString+","+y.toString+")")
