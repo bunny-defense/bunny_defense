@@ -2,6 +2,7 @@
 package game_mechanics
 
 import runtime.Controller
+import runtime.Spawner
 import path._ // Really necessary ?
 import game_mechanics._
 import scala.collection.mutable._
@@ -40,13 +41,24 @@ class Tower(pos0:Waypoint) {
     return ((bunny.pos - pos).norm <= range)
   }
 
+  def closest_to_p(p: Waypoint): Option[Bunny] = {
+    /* Returns the bunny that is the closest to a given point p */
+    def distance_comp(x: Bunny,y: Bunny) = (x.pos-p).norm < (y.pos-p).norm
+    val bunnies = Controller.bunnies.filter(in_range).sortWith(distance_comp)
+    if (bunnies.isEmpty) {return None}
+    else {return Some(bunnies.head)}
+  }
+
   /* Returns the target of the tower */
   def get_target(): Option[Bunny] = {
+    val p = Spawner.bunnyend 
     if( current_target == None
       || !in_range(current_target.get)
+      || !(current_target.get == closest_to_p(p).get)
       || current_target.get.hp <= 0 )
     {
-      val bunnies = Controller.bunnies.filter( in_range )
+      def distance_comp(x: Bunny,y: Bunny) = (x.pos-p).norm < (y.pos-p).norm
+      val bunnies = Controller.bunnies.filter(in_range).sortWith(distance_comp)
       if( !bunnies.isEmpty )
         current_target = Some(bunnies.head)
       else
