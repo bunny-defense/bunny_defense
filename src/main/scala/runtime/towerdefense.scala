@@ -3,6 +3,7 @@ package runtime
 
 import swing._
 import swing.event._
+import util.Random
 import java.awt.event._
 
 import collection.mutable.HashMap
@@ -70,7 +71,15 @@ object TowerDefense extends SimpleSwingApplication
 
   def top = new MainFrame
   {
-    title = "Bunny Defense 9001"
+    val titles = Array(
+      "Tower Defense",
+      "Bunny Defense 9001",
+      "Ravioli ravioli give me the formuoli",
+      "Never forgetti",
+      "200% more carrots!",
+      "A hare in my soup"
+    )
+    title = titles(Random.nextInt(titles.length))
     contents = new BoxPanel(Orientation.Horizontal)
     {
       contents += map_panel
