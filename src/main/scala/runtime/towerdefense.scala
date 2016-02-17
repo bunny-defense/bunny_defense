@@ -4,6 +4,7 @@ package runtime
 import swing._
 import swing.event._
 import util.Random
+import io.Source
 import java.awt.event._
 
 import collection.mutable.HashMap
@@ -71,26 +72,7 @@ object TowerDefense extends SimpleSwingApplication
 
   def top = new MainFrame
   {
-    val titles = Array(
-      "Tower Defense",
-      "Bunny Defense 9001",
-      "Ravioli ravioli give me the formuoli",
-      "Never forgetti",
-      "200% more carrots!",
-      "A Hare in my soup",
-      "The Hare dryer",
-      "A fit bunny or a bit funny ?",
-      "Let's \"hop\" in",
-      "Hop-timistic",
-      "Do you even carrot all ?",
-      "I accidentally the carrot",
-      "Is this even a game ?",
-      "Interesting title bar",
-      "Wake up, Neo",
-      "Hello, do you have the time ?",
-      "It's dangerous outside, you otter take this",
-      "You'll win, one way or an otter"
-    )
+    val titles = Source.fromFile("src/main/resources/misc/titles").getLines().toArray
     title = titles(Random.nextInt(titles.length))
     contents = new BoxPanel(Orientation.Horizontal)
     {
