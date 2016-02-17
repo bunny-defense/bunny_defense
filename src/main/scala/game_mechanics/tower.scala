@@ -31,7 +31,7 @@ class Tower(pos0:Waypoint) {
   val throw_cooldown = 1.0
   /* Cooldown counter */
   var cooldown       = 0.0
-  val buy_cost       = 10
+  val buy_cost       = 50
   val sell_cost      = 5
   /* The tower keeps a selected target until it goes out of range */
   var current_target : Option[Bunny] = None
@@ -111,7 +111,7 @@ class QuickTower(pos:Waypoint) extends Tower(pos) {
   override val throw_cooldown = 0.5
   override val throw_speed    = 20.0
   override val damages        = 4
-  override val buy_cost       = 15
+  override val buy_cost       = 75
   override val sell_cost      = 8
 
   override def clone_at(newpos: Waypoint): QuickTower = {
@@ -133,7 +133,7 @@ class HeavyTower(pos:Waypoint) extends Tower(pos) {
   override val range       = 4
   override val throw_speed = 15.0
   override val damages     = 9
-  override val buy_cost    = 12
+  override val buy_cost    = 150
   override val sell_cost   = 7
 
   override def clone_at(newpos: Waypoint): HeavyTower = {

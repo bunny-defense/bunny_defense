@@ -30,5 +30,9 @@ class BuyButton(tower0: Option[Tower]) extends Button {
     case MoneyChanged =>
       if( tower != None )
         this.enabled = Player.gold >= tower.get.buy_cost
+      if( this.enabled )
+        this.background = Colors.white
+      else
+        this.background = Colors.lightred
   }
 }
