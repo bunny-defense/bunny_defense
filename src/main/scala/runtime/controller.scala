@@ -8,7 +8,7 @@ import collection.mutable.{ListBuffer,Queue}
 import runtime._
 import game_mechanics._
 import game_mechanics.path._
-import gui.Animatable
+import gui._
 
 object Controller
 {
@@ -44,11 +44,8 @@ object Controller
   }
 
   /* Triggered when a button from the build menu is clicked */
-  def on_build_button( id:Int ): Unit = {
-
-    println( "Build ", id )
-    if( id == 0 )
-      selected_tower = Some(new Tower(new Waypoint( 0.0, 0.0 )))
+  def on_build_button( button: BuyButton ): Unit = {
+    selected_tower = button.tower
   }
 
   /* Triggered when the play button is clicked */

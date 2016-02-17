@@ -14,7 +14,7 @@ import javax.imageio.ImageIO
 
 object Tower
 {
-  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/tower.png").getPath()))
+  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/base_tower.png").getPath()))
 }
 
 /* Tower superclass from which evey special tower is derived */
@@ -101,28 +101,60 @@ class Tower(pos0:Waypoint) {
   }
 }
 
+object QuickTower
+{
+  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/quick_tower.png").getPath()))
+}
 class QuickTower(pos:Waypoint) extends Tower(pos) {
-  override val range       = 75
-  override val throw_speed = 5.0
-  override val damages     = 4
-  override val buy_cost    = 15
-  override val sell_cost   = 8
+  import QuickTower._
+  override val range          = 2
+  override val throw_cooldown = 0.5
+  override val throw_speed    = 20.0
+  override val damages        = 4
+  override val buy_cost       = 15
+  override val sell_cost      = 8
+
+  override def clone_at(newpos: Waypoint): QuickTower = {
+    return new QuickTower(newpos)
+  }
+
+  override def graphic(): BufferedImage = {
+    return tower_graphic
+  }
+}
+
+object HeavyTower
+{
+  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/heavy_tower.png").getPath()))
 }
 
 class HeavyTower(pos:Waypoint) extends Tower(pos) {
-  override val range       = 75
+  import HeavyTower._
+  override val range       = 4
   override val throw_speed = 15.0
   override val damages     = 9
   override val buy_cost    = 12
   override val sell_cost   = 7
+
+  override def clone_at(newpos: Waypoint): HeavyTower = {
+    return new HeavyTower(newpos)
+  }
+
+  override def graphic(): BufferedImage = {
+    return tower_graphic
+  }
 }
 
 /* AOE Tower (spinning scarecrow) */
 class ScarecrowTower(pos:Waypoint) extends Tower(pos) {
-  override val range     = 10
+  override val range     = 4
   override val damages   = 4
   override val buy_cost  = 15
   override val sell_cost = 8
+
+  override def clone_at(newpos: Waypoint): ScarecrowTower = {
+    return new ScarecrowTower(newpos)
+  }
 
   override def attack(): Unit = {
     val bunnies : ListBuffer[Bunny] = Controller.bunnies.filter( in_range )

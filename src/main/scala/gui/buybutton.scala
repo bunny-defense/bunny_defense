@@ -3,6 +3,8 @@ package gui
 
 import swing._
 
+import javax.swing.ImageIcon
+
 import runtime.Controller
 import game_mechanics.{Tower,Player,MoneyChanged}
 
@@ -12,9 +14,13 @@ object BuyButton {
 }
 
 class BuyButton(tower0: Option[Tower]) extends Button {
-  this.preferredSize = BuyButton.dimension
+  import BuyButton._
+  this.preferredSize = dimension
   this.background    = Colors.white
   this.focusable     = false
+  this.action        = Action("") { Controller.on_build_button(this) }
+  if( tower0 != None )
+    this.icon        = new ImageIcon( tower0.get.graphic )
 
   val tower          = tower0
 

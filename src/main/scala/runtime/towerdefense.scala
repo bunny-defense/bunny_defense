@@ -26,17 +26,24 @@ object TowerDefense extends SimpleSwingApplication
 
   /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
+    val dimension = new Dimension( 50, 50 )
+    val waypoint  = new Waypoint( 0, 0 )
+
+    /* Tower types list */
+    import collection.mutable.Queue
+    val towers = new Queue[Tower]
+    towers += new Tower(waypoint)
+    towers += new QuickTower(waypoint)
+    towers += new HeavyTower(waypoint)
+    towers += new ScarecrowTower(waypoint)
+    /* To fill... */
+
     return new GridPanel( 3, 5 ) {
-      val dimension = new Dimension( 50, 50 )
-      val waypoint  = new Waypoint( 0, 0 )
       for( i <- 0 until 15 ) {
-        val button = new BuyButton( Some(new Tower(waypoint)) ) {
-          action = Action("") { Controller.on_build_button(i) }
-        }
+        val tower  = try { Some(towers.dequeue) } catch { case e: Exception => None }
+        val button = new BuyButton( tower )
         button.minimumSize = dimension
         button.maximumSize = dimension
-        if( i == 0 )
-          button.icon = new ImageIcon( Tower.tower_graphic )
         contents += button
       }
     }
