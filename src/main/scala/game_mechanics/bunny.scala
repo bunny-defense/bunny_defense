@@ -1,13 +1,22 @@
 
 package game_mechanics
 
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
+
 import runtime.Controller
 import game_mechanics.path._
 import gui.GoldAnimation
 
+object Bunny
+{
+  val bunny_graphic = ImageIO.read(new File(getClass().getResource("/mobs/bunny1.png").getPath()))
+}
+
 /* Bunny superclass from which every ennemy is derived. */
 class Bunny(path0: Progress) {
-
+  import Bunny._
   var hp              = 10.0
   var pos : Waypoint  = path0.path.waypoints(0)
   var shield          = 1.0
@@ -47,6 +56,10 @@ class Bunny(path0: Progress) {
       println( "Bunny reached core" )
     }
   }
+
+  def graphic(): BufferedImage = {
+    return bunny_graphic
+  }
 }
 
 /* Large and tough but slow bunny */
@@ -74,9 +87,17 @@ class Otter(path0: Progress) extends Bunny(path0) {
   override val reward = 100
 }
 
+object Golden_Bunny
+{
+  val bunny_graphic = ImageIO.read(new File(getClass().getResource("/mobs/goldenbunny.png").getPath()))
+}
+
 class Golden_Bunny(path0: Progress) extends Bunny(path0) {
   this.speed = 2.0
   this.hp = 20
   override val reward = 1000
+  override def copy(): Golden_Bunny = {
+    return new Golden_Bunny( new Progress( path.path ) )
+  }
 }
 
