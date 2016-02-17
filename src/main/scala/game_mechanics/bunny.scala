@@ -9,7 +9,7 @@ import gui.GoldAnimation
 class Bunny(path0: Progress) {
 
   var hp              = 10.0
-  var pos : Waypoint  = new Waypoint(2.0,2.0)
+  var pos : Waypoint  = path0.path.waypoints(0)
   var shield          = 1.0
   var speed           = 1.0
   var path            = path0
@@ -38,7 +38,6 @@ class Bunny(path0: Progress) {
       Controller += new GoldAnimation(reward, pos.clone())
       Player.add_gold( reward )
       Controller -= this
-      println( "Added " + reward.toString + " gold" )
     }
     move(dt)
     if( path.reached )

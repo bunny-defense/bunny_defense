@@ -23,7 +23,6 @@ object Controller
 
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
-    println( x, y )
     if( selected_tower != None &&
       !TowerDefense.map_panel.map.obstructed(x,y) &&
       Player.remove_gold(selected_tower.get.buy_cost))
@@ -52,11 +51,9 @@ object Controller
   def on_play_button(): Unit = {
       println( "New wave")
       wave_counter += 1
-      TowerDefense.play_button.enabled = false
-      var spawnscheduler = new Spawner(wave_counter).create
-      SpawnScheduler.set_schedule(spawnscheduler)
+      var spawnschedule = new Spawner(wave_counter).create
+      SpawnScheduler.set_schedule(spawnschedule)
       SpawnScheduler.start()
-      this.started = true
   }
 
   def update(dt: Double): Unit = {
@@ -89,11 +86,6 @@ object Controller
       val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
       Thread.sleep(miliseconds)
       dt = (System.currentTimeMillis - start).toDouble / 1000
-      if (started && bunnies.isEmpty && SpawnScheduler.is_empty) {
-        println("Wave Ended")
-        started = false
-        TowerDefense.play_button.enabled = true
-      }
       if (Player.hp <= 0) {
           println("You lose")
           return
