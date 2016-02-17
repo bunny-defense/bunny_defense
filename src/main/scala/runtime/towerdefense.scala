@@ -11,6 +11,7 @@ import javax.swing.ImageIcon
 
 import gui._
 import game_mechanics._
+import game_mechanics.path._
 
 object TowerDefense extends SimpleSwingApplication
 {
@@ -27,8 +28,11 @@ object TowerDefense extends SimpleSwingApplication
   def make_build_menu(): GridPanel = {
     return new GridPanel( 3, 5 ) {
       val dimension = new Dimension( 50, 50 )
+      val waypoint  = new Waypoint( 0, 0 )
       for( i <- 0 until 15 ) {
-        val button = new BuyButton { action = Action ("") { Controller.on_build_button( i ) } }
+        val button = new BuyButton( Some(new Tower(waypoint)) ) {
+          action = Action("") { Controller.on_build_button(i) }
+        }
         button.minimumSize = dimension
         button.maximumSize = dimension
         if( i == 0 )

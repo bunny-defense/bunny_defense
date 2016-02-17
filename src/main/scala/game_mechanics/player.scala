@@ -1,9 +1,13 @@
 package game_mechanics
 
+import swing._
+import swing.event._
+
 import game_mechanics._
 
+case object MoneyChanged extends Event
 
-object Player {
+object Player extends Publisher {
   var hp   = 10
   var gold = 150
 
@@ -22,16 +26,18 @@ object Player {
 
   def add_gold(amount : Int) : Unit = {
     this.gold += amount
+    publish( MoneyChanged )
   }
 
   def remove_gold(amount : Int) : Boolean = {
-    if (this.gold - amount >= 0) {
+    if (this.gold - amount >= 0)
+    {
       this.gold -= amount
+      publish( MoneyChanged )
       return true
     }
-    else {
+    else
       return false
-    }
   }
 }
 
