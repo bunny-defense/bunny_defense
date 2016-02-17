@@ -20,6 +20,7 @@ object Controller
   val framerate = 1.0/30.0 * 1000
   var started = false
   var selected_tower : Option[Tower] = None
+  var selected_cell : Option[Tower] = None
 
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
@@ -32,7 +33,9 @@ object Controller
     }
     else if ( selected_tower != None &&
       TowerDefense.map_panel.map.obstructed(x,y)) {
-      println("Cell obstructed ("+x.toString+","+y.toString+")")
+      selected_cell = towers.filter(_.pos.x.toInt == x.toInt &&
+                                    _.pos.y.toInt == y.toInt
+                                  )
     }
     else if (selected_tower != None){
       println("Not enough money! Current money = "+ Player.gold.toString)
@@ -81,8 +84,12 @@ object Controller
       {
       val start = System.currentTimeMillis
       update(dt)
+      if ( TowerDefense.keymap(Key.Esc)) {
+        selected_tower = None
+      }
       TowerDefense.map_panel.repaint()
       TowerDefense.info_panel.repaint()
+      TowerDefense.tower_panel.repaint()
       val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
       Thread.sleep(miliseconds)
       dt = (System.currentTimeMillis - start).toDouble / 1000
