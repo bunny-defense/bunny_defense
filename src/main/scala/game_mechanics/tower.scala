@@ -24,7 +24,7 @@ trait TowerType
   val throw_speed    = 10.0   /* Speed of the shot projectile */
   val throw_cooldown = 1.0   /* Cooldown time in seconds */
   val buy_cost       = 50
-  val sell_cost      = 5
+  val sell_cost      = 25
 }
 
 object BaseTower extends TowerType
@@ -39,7 +39,7 @@ object QuickTower extends TowerType
   override val throw_speed    = 20.0
   override val damage         = 4
   override val buy_cost       = 75
-  override val sell_cost      = 8
+  override val sell_cost      = 35
 }
 
 object HeavyTower extends TowerType
@@ -51,7 +51,7 @@ object HeavyTower extends TowerType
   override val throw_speed   = 15.0
   override val damage        = 9
   override val buy_cost      = 150
-  override val sell_cost     = 7
+  override val sell_cost     = 75
 }
 
 /* Tower superclass from which evey special tower is derived */

@@ -29,16 +29,16 @@ class ThePanel() extends Panel {
 class TowerPanel() extends BoxPanel(Orientation.Horizontal) {
   val sell_button = new Button {
     action = Action("") {
-      Controller.towers -= Controller.selected_cell.get
+      Controller -= Controller.selected_cell.get
       Player.add_gold(Controller.selected_cell.get.sell_cost)
       Controller.selected_cell = None
     }
+    preferredSize = new Dimension( 200, 100 )
     enabled = false
     listenTo(Controller)
     reactions += {
-      case SelectedCell => enabled = true
+      case SelectedCell   => enabled = true
       case NoSelectedCell => enabled = false
-
     }
     text = "Sell Tower"
   }
