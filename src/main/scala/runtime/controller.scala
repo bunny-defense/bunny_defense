@@ -24,22 +24,22 @@ object Controller
 
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
+    // Placing new towers
     if( selected_tower != None &&
-      !TowerDefense.map_panel.map.obstructed(x,y) &&
-      Player.remove_gold(selected_tower.get.buy_cost))
+      !TowerDefense.map_panel.map.obstructed(x,y) )
     {
-      Controller += selected_tower.get.clone_at( new CellPos(x,y) )
+      if( Player.remove_gold(selected_tower.get.buy_cost) )
+        Controller += selected_tower.get.clone_at( new CellPos(x,y) )
+      else
+        println("Not enough money! Current money = "+ Player.gold.toString)
       TowerDefense.map_panel.map += towers(0)
     }
+    // Selecting a placed tower
     else if ( selected_tower == None &&
       TowerDefense.map_panel.map.obstructed(x,y)) {
       selected_cell = Some(towers.filter((_.pos.x.toInt == x.toInt )).
                              filter((_.pos.y.toInt == y.toInt
                                   )).head)
-    }
-    else if (selected_tower != None &&
-             Player.remove_gold(selected_tower.get.buy_cost) ){
-      println("Not enough money! Current money = "+ Player.gold.toString)
     }
     if ( !TowerDefense.keymap(Key.Shift) ) {
       selected_tower = None
