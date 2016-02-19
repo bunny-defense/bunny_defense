@@ -2,6 +2,7 @@
 package runtime
 
 import swing.event._
+import swing._
 
 import collection.mutable.{ListBuffer,Queue}
 
@@ -10,37 +11,54 @@ import game_mechanics._
 import game_mechanics.path._
 import gui._
 
-object Controller
-{
-  val bunnies     = new ListBuffer[Bunny]
-  val projectiles = new ListBuffer[Throw]
-  val towers      = new ListBuffer[Tower]
-  val animations  = new ListBuffer[Animatable]
-  var wave_counter = 0
-  val framerate = 1.0/30.0 * 1000
-  var started = false
-  var selected_tower : Option[Tower] = None
-  var selected_cell : Option[Tower] = None
 
+case object SelectedCell extends Event
+case object NoSelectedCell extends Event
+
+object Controller extends Publisher
+{
+  val bunnies      = new ListBuffer[Bunny]
+  val projectiles  = new ListBuffer[Throw]
+  val towers       = new ListBuffer[Tower]
+  val animations   = new ListBuffer[Animatable]
+  var wave_counter = 0
+  val framerate    = 1.0/30.0 * 1000
+  var started      = false
+  var selected_tower : Option[Tower] = None
+  private var _selected_cell  : Option[Tower] = None
+
+  def selected_cell_=(tower: Option[Tower]): Unit =  {
+      if (tower != None) {
+        publish(SelectedCell)
+      }
+      else {
+        publish(NoSelectedCell)
+      }
+      _selected_cell = tower
+    }
+
+  def selected_cell =  _selected_cell
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
+    // Placing a new tower
     if( selected_tower != None &&
-      !TowerDefense.map_panel.map.obstructed(x,y) &&
-      Player.remove_gold(selected_tower.get.buy_cost))
+      !TowerDefense.map_panel.map.obstructed(x,y) )
     {
-      Controller += selected_tower.get.clone_at( new CellPos(x,y) )
-      TowerDefense.map_panel.map += towers(0)
+      if( Player.remove_gold(selected_tower.get.buy_cost) )
+        {
+          Controller += selected_tower.get.clone_at( new CellPos(x,y) )
+          TowerDefense.map_panel.map += towers(0)
+        }
+      else
+        println("Not enough money! Current money = "+ Player.gold.toString)
     }
-    else if ( selected_tower == None &&
-      TowerDefense.map_panel.map.obstructed(x,y)) {
-      selected_cell = Some(towers.filter((_.pos.x.toInt == x.toInt )).
-                             filter((_.pos.y.toInt == y.toInt
-                                  )).head)
+    // Selecting a placed tower
+    else if ( selected_tower == None )
+    {
+      val position = new CellPos(x,y)
+      _selected_cell = towers.find( _.pos == position )
     }
-    else if (selected_tower != None &&
-             Player.remove_gold(selected_tower.get.buy_cost) ){
-      println("Not enough money! Current money = "+ Player.gold.toString)
-    }
+    // Building multiple towers
     if ( !TowerDefense.keymap(Key.Shift) ) {
       selected_tower = None
     }
@@ -87,11 +105,11 @@ object Controller
       update(dt)
       if ( TowerDefense.keymap(Key.Escape)) {
         selected_tower = None
-        selected_cell  = None
+        _selected_cell  = None
       }
       TowerDefense.map_panel.repaint()
       TowerDefense.info_panel.repaint()
-      TowerDefense.tower_panel.repaint()
+      TowerDefense.tower_panel.thepanel.repaint()
       val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
       Thread.sleep(miliseconds)
       dt = (System.currentTimeMillis - start).toDouble / 1000
@@ -99,17 +117,6 @@ object Controller
           println("You lose")
           return
         }
-      /* Debugging stuff */
-      /*
-      counter += 1
-      if( counter >= 30 )
-      {
-        counter = 0
-        if( !bunnies.isEmpty )
-          println( dt )
-          println( bunnies.head.pos )
-      }
-       */
     }
   }
 

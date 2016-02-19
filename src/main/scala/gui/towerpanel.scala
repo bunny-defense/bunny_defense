@@ -3,12 +3,13 @@ package gui
 
 import swing._
 
-import runtime.Controller
+import runtime.{Controller, SelectedCell, NoSelectedCell}
 import game_mechanics._
 
-class TowerPanel() extends Panel {
+
+
+class ThePanel() extends Panel {
   background = Colors.lightGrey
-  preferredSize = new Dimension( 10, 100 )
   override def paintComponent(g: Graphics2D): Unit = {
     super.paintComponent(g)
     val xm = size.width
@@ -23,4 +24,25 @@ class TowerPanel() extends Panel {
       }
     }
   }
+}
+
+class TowerPanel() extends BoxPanel(Orientation.Horizontal) {
+  val sell_button = new Button {
+    action = Action("") {
+      Controller.towers -= Controller.selected_cell.get
+      Player.add_gold(Controller.selected_cell.get.sell_cost)
+      Controller.selected_cell = None
+    }
+    enabled = false
+    listenTo(Controller)
+    reactions += {
+      case SelectedCell => enabled = true
+      case NoSelectedCell => enabled = false
+
+    }
+    text = "Sell Tower"
+  }
+  val thepanel = new ThePanel
+  contents += thepanel
+  contents += sell_button
 }

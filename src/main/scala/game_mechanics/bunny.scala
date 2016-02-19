@@ -11,7 +11,9 @@ import gui.GoldAnimation
 
 trait BunnyType
 {
-  val bunny_graphic = ImageIO.read(new File(getClass().getResource("/mobs/bunny1.png").getPath()))
+  val bunny_graphic =
+    ImageIO.read(
+      new File(getClass().getResource("/mobs/bunny1.png").getPath()))
   val initial_hp    = 10.0  /* Initial amount of HP */
   val shield        = 1.0   /* Damage dampening */
   val speed         = 1.0   /* Speed of the bunny in tiles per second */
@@ -38,7 +40,7 @@ object Hare extends BunnyType
   override val speed      = 2.0
 }
 
-/* The boss! */
+/* A boss! */
 object Otter extends BunnyType
 {
   override val initial_hp = 1000.0
@@ -51,7 +53,9 @@ object Otter extends BunnyType
 /* Rare golden bunny worth a lot of money */
 object GoldenBunny extends BunnyType
 {
-  override val bunny_graphic = ImageIO.read(new File(getClass().getResource("/mobs/goldenbunny.png").getPath()))
+  override val bunny_graphic =
+    ImageIO.read(new File(
+      getClass().getResource("/mobs/goldenbunny.png").getPath()))
   override val initial_hp    = 20.0
   override val speed         = 2.0
   override val reward        = 1000
