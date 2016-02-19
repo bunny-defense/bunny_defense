@@ -31,13 +31,14 @@ object Controller
       Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
       TowerDefense.map_panel.map += towers(0)
     }
-    else if ( selected_tower != None &&
+    else if ( selected_tower == None &&
       TowerDefense.map_panel.map.obstructed(x,y)) {
-      selected_cell = towers.filter(_.pos.x.toInt == x.toInt &&
-                                    _.pos.y.toInt == y.toInt
-                                  )
+      selected_cell = Some(towers.filter((_.pos.x.toInt == x.toInt )).
+                             filter((_.pos.y.toInt == y.toInt
+                                  )).head)
     }
-    else if (selected_tower != None){
+    else if (selected_tower != None &&
+             Player.remove_gold(selected_tower.get.buy_cost) ){
       println("Not enough money! Current money = "+ Player.gold.toString)
     }
     if ( !TowerDefense.keymap(Key.Shift) ) {
@@ -84,8 +85,9 @@ object Controller
       {
       val start = System.currentTimeMillis
       update(dt)
-      if ( TowerDefense.keymap(Key.Esc)) {
+      if ( TowerDefense.keymap(Key.Escape)) {
         selected_tower = None
+        selected_cell  = None
       }
       TowerDefense.map_panel.repaint()
       TowerDefense.info_panel.repaint()

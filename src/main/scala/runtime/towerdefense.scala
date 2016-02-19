@@ -18,9 +18,18 @@ import game_mechanics.path._
 object TowerDefense extends SimpleSwingApplication
 {
 
-  val map_panel  = new MapPanel(new GameMap(30,25))
-  val info_panel = new InfoPanel
-  val keymap     = new HashMap[Key.Value,Boolean] { override def default(key: Key.Value) = false }
+  val map_panel   = new MapPanel(new GameMap(30,25))
+  val info_panel  = new InfoPanel
+  val tower_panel = new TowerPanel
+  val keymap      = new HashMap[Key.Value,Boolean] { override def default(key: Key.Value) = false }
+
+
+  def make_map() : BoxPanel = {
+    return new BoxPanel(Orientation.Vertical) {
+      contents += map_panel
+      contents += tower_panel
+      }
+    }
 
   /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
@@ -74,11 +83,10 @@ object TowerDefense extends SimpleSwingApplication
   {
     val titles = Source.fromFile("src/main/resources/misc/titles").getLines().toArray
     title = titles(Random.nextInt(titles.length))
-    contents = new BoxPanel(Orientation.Horizontal)
+    contents = new BorderPanel
     {
-      contents += map_panel
-      contents += make_menu()
-
+      add (make_map, BorderPanel.Position.Center)
+      add (make_menu(), BorderPanel.Position.East)
       listenTo(this.keys)
 
       reactions += {

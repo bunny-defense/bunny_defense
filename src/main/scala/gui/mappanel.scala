@@ -72,6 +72,17 @@ class MapPanel(map0: GameMap) extends Panel {
    for( animation <- Controller.animations )
      animation.draw(g)
     /* Drawing selected tower */
+    Controller.selected_cell match {
+      case None => {}
+      case Some(tower) => {
+        g.drawOval(tower.pos.x.toInt * cellsize - tower.range * cellsize 
+                    + cellsize/2,
+                 tower.pos.y.toInt * cellsize - tower.range * cellsize
+                    + cellsize/2,
+                 tower.range*cellsize*2,
+                 tower.range*cellsize*2 )
+             }
+           }
     Controller.selected_tower match {
       case None => {}
       case Some(tower) => {
