@@ -54,6 +54,13 @@ class MapPanel(map0: GameMap) extends Panel {
       val x = bunny.pos.x * cellsize
       val y = bunny.pos.y * cellsize
       g.drawImage( bunny.graphic, x.toInt, y.toInt, null )
+      // Health bar
+      val health_ratio = bunny.hp / bunny.initial_hp
+      g.setColor( Colors.red )
+      g.fillRect( x.toInt, y.toInt - 3, cellsize, 3 )
+      g.setColor( Colors.green )
+      g.fillRect( x.toInt, y.toInt - 3, (health_ratio * cellsize).toInt, 3 )
+      g.setColor( Colors.black )
     }
     /* Drawing the towers */
     for( tower <- Controller.towers )

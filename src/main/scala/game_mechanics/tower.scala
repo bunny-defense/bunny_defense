@@ -12,33 +12,57 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-object Tower
+trait TowerType
 {
   val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/base_tower.png").getPath()))
-}
-
-/* Tower superclass from which evey special tower is derived */
-class Tower(pos0:Waypoint) {
-  import Tower._
-  val pos            = pos0
   val size           = 1
   val damages        = 5
   val range          = 5
   val aoe_radius     = 0
-  /* Speed of the shot projectile */
-  val throw_speed    = 10.0
-  /* Cooldown time in seconds */
-  val throw_cooldown = 1.0
-  /* Cooldown counter */
-  var cooldown       = 0.0
+  val throw_speed    = 10.0   /* Speed of the shot projectile */
+  val throw_cooldown = 1.0   /* Cooldown time in seconds */
   val buy_cost       = 50
   val sell_cost      = 5
+}
+
+object BaseTower extends TowerType
+
+object QuickTower extends TowerType
+{
+  override val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/quick_tower.png").getPath()))
+  override val range          = 2
+  override val throw_cooldown = 0.5
+  override val throw_speed    = 20.0
+  override val damages        = 4
+  override val buy_cost       = 75
+  override val sell_cost      = 8
+}
+
+object HeavyTower extends TowerType
+{
+  override val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/heavy_tower.png").getPath()))
+  override val range       = 4
+  override val throw_speed = 15.0
+  override val damages     = 9
+  override val buy_cost    = 150
+  override val sell_cost   = 7
+}
+
+/* Tower superclass from which evey special tower is derived */
+class Tower(tower_type : TowerType, pos0 : CellPos) {
+  val pos            = pos0
+  /* Cooldown counter */
+  var cooldown       = 0.0
   /* The tower keeps a selected target until it goes out of range */
   var current_target : Option[Bunny] = None
 
+  // ==============================
+  //  FIRING MECHANICS
+  // ==============================
+
   /* Returns whether or not the bunny is in the range of the tower */
   def in_range(bunny: Bunny): Boolean = {
-    return ((bunny.pos - pos).norm <= range)
+    return ((bunny.pos - pos).norm <= tower_type.range)
   }
 
   def closest_to_p(p: Waypoint): Option[Bunny] = {
@@ -69,10 +93,10 @@ class Tower(pos0:Waypoint) {
 
   /* Self descriptive */
   def fire_at(bunny: Bunny): Unit = {
-    var throw_carrot    = new Throw(bunny,this.pos.clone())
-    throw_carrot.speed  = throw_speed
-    throw_carrot.damage = damages
-    throw_carrot.AOE    = aoe_radius
+    var throw_carrot    = new Throw(bunny,this.pos.toDouble)
+    throw_carrot.speed  = tower_type.throw_speed
+    throw_carrot.damage = tower_type.damages
+    throw_carrot.AOE    = tower_type.aoe_radius
     Controller += throw_carrot
   }
 
@@ -80,9 +104,13 @@ class Tower(pos0:Waypoint) {
   def attack(): Unit = {
     if( get_target() == None )
       return
-    cooldown = throw_cooldown /* Resetting the cooldown */
+    cooldown = tower_type.throw_cooldown /* Resetting the cooldown */
     fire_at( current_target.get )
   }
+
+  // ==============================
+  //  UPDATING LOGIC
+  // ==============================
 
   /* Updates the tower */
   def update(dt: Double): Unit = {
@@ -92,75 +120,45 @@ class Tower(pos0:Waypoint) {
       cooldown -= dt
   }
 
+  // ==============================
+  //  GETTERS
+  // ==============================
+
+  def range() : Int = {
+    return tower_type.range
+  }
+
+  def buy_cost() : Int = {
+    return tower_type.buy_cost
+  }
+
   def graphic(): BufferedImage = {
-    return tower_graphic
+    return tower_type.tower_graphic
   }
 
-  def clone_at(newpos: Waypoint): Tower = {
-    return new Tower(newpos)
-  }
-}
-
-object QuickTower
-{
-  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/quick_tower.png").getPath()))
-}
-class QuickTower(pos:Waypoint) extends Tower(pos) {
-  import QuickTower._
-  override val range          = 2
-  override val throw_cooldown = 0.5
-  override val throw_speed    = 20.0
-  override val damages        = 4
-  override val buy_cost       = 75
-  override val sell_cost      = 8
-
-  override def clone_at(newpos: Waypoint): QuickTower = {
-    return new QuickTower(newpos)
-  }
-
-  override def graphic(): BufferedImage = {
-    return tower_graphic
-  }
-}
-
-object HeavyTower
-{
-  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/heavy_tower.png").getPath()))
-}
-
-class HeavyTower(pos:Waypoint) extends Tower(pos) {
-  import HeavyTower._
-  override val range       = 4
-  override val throw_speed = 15.0
-  override val damages     = 9
-  override val buy_cost    = 150
-  override val sell_cost   = 7
-
-  override def clone_at(newpos: Waypoint): HeavyTower = {
-    return new HeavyTower(newpos)
-  }
-
-  override def graphic(): BufferedImage = {
-    return tower_graphic
+  def clone_at(newpos: CellPos): Tower = {
+    return new Tower(tower_type, newpos)
   }
 }
 
 /* AOE Tower (spinning scarecrow) */
-class ScarecrowTower(pos:Waypoint) extends Tower(pos) {
+object ScarecrowTower extends TowerType
+{
   override val range     = 4
   override val damages   = 4
   override val buy_cost  = 15
   override val sell_cost = 8
+}
 
-  override def clone_at(newpos: Waypoint): ScarecrowTower = {
-    return new ScarecrowTower(newpos)
-  }
-
+class AOETower(tower_type : TowerType, pos : CellPos) extends Tower( tower_type, pos )
+{
   override def attack(): Unit = {
     val bunnies : ListBuffer[Bunny] = Controller.bunnies.filter( in_range )
     if (bunnies.length == 0) {
-      cooldown = throw_cooldown
+      cooldown = tower_type.throw_cooldown
       bunnies.map( fire_at )
     }
   }
 }
+
+
