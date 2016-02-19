@@ -30,10 +30,10 @@ object TowerDefense extends SimpleSwingApplication
     /* Tower types list */
     import collection.mutable.Queue
     val towers = new Queue[Tower]
-    towers += new Tower(waypoint)
-    towers += new QuickTower(waypoint)
-    towers += new HeavyTower(waypoint)
-    towers += new ScarecrowTower(waypoint)
+    towers += new Tower(BaseTower, waypoint)
+    towers += new Tower(QuickTower,waypoint)
+    towers += new Tower(HeavyTower,waypoint)
+    towers += new AOETower(ScarecrowTower,waypoint)
     /* To fill... */
 
     return new GridPanel( 3, 5 ) {
