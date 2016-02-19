@@ -12,19 +12,19 @@ import gui._
 
 object Controller
 {
-  val bunnies     = new ListBuffer[Bunny]
-  val projectiles = new ListBuffer[Throw]
-  val towers      = new ListBuffer[Tower]
-  val animations  = new ListBuffer[Animatable]
+  val bunnies      = new ListBuffer[Bunny]
+  val projectiles  = new ListBuffer[Throw]
+  val towers       = new ListBuffer[Tower]
+  val animations   = new ListBuffer[Animatable]
   var wave_counter = 0
-  val framerate = 1.0/30.0 * 1000
-  var started = false
+  val framerate    = 1.0/30.0 * 1000
+  var started      = false
   var selected_tower : Option[Tower] = None
-  var selected_cell : Option[Tower] = None
+  var selected_cell  : Option[Tower] = None
 
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
-    // Placing new towers
+    // Placing a new tower
     if( selected_tower != None &&
       !TowerDefense.map_panel.map.obstructed(x,y) )
     {
@@ -37,12 +37,12 @@ object Controller
         println("Not enough money! Current money = "+ Player.gold.toString)
     }
     // Selecting a placed tower
-    else if ( selected_tower == None &&
-      TowerDefense.map_panel.map.obstructed(x,y)) {
-      selected_cell = Some(towers.filter((_.pos.x.toInt == x.toInt )).
-                             filter((_.pos.y.toInt == y.toInt
-                                  )).head)
+    else if ( selected_tower == None )
+    {
+      val position = new CellPos(x,y)
+      selected_cell = towers.find( _.pos == position )
     }
+    // Building multiple towers
     if ( !TowerDefense.keymap(Key.Shift) ) {
       selected_tower = None
     }
