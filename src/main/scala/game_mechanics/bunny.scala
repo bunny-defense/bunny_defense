@@ -94,6 +94,10 @@ class Bunny(bunny_type: BunnyType,path0: Progress) {
     }
   }
 
+  def initial_hp(): Double = {
+    return bunny_type.initial_hp
+  }
+
   def graphic(): BufferedImage = {
     return bunny_type.bunny_graphic
   }
