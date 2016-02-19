@@ -6,3 +6,4 @@ project
 *.xml
 target
 target
+#*
