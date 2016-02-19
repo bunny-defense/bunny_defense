@@ -14,7 +14,9 @@ import javax.imageio.ImageIO
 
 trait TowerType
 {
-  val tower_graphic  = ImageIO.read(new File(getClass().getResource("/towers/base_tower.png").getPath()))
+  val tower_graphic  =
+    ImageIO.read(
+      new File(getClass().getResource("/towers/base_tower.png").getPath()))
   val size           = 1
   val damage         = 5
   val range          = 5
@@ -29,7 +31,9 @@ object BaseTower extends TowerType
 
 object QuickTower extends TowerType
 {
-  override val tower_graphic  = ImageIO.read(new File(getClass().getResource("/towers/quick_tower.png").getPath()))
+  override val tower_graphic  =
+    ImageIO.read(
+      new File(getClass().getResource("/towers/quick_tower.png").getPath()))
   override val range          = 2
   override val throw_cooldown = 0.5
   override val throw_speed    = 20.0
@@ -40,7 +44,9 @@ object QuickTower extends TowerType
 
 object HeavyTower extends TowerType
 {
-  override val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/heavy_tower.png").getPath()))
+  override val tower_graphic =
+    ImageIO.read(
+      new File(getClass().getResource("/towers/heavy_tower.png").getPath()))
   override val range         = 4
   override val throw_speed   = 15.0
   override val damage        = 9

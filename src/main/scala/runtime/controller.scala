@@ -101,17 +101,6 @@ object Controller
           println("You lose")
           return
         }
-      /* Debugging stuff */
-      /*
-      counter += 1
-      if( counter >= 30 )
-      {
-        counter = 0
-        if( !bunnies.isEmpty )
-          println( dt )
-          println( bunnies.head.pos )
-      }
-       */
     }
   }
 
