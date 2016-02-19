@@ -2,6 +2,7 @@
 package runtime
 
 import swing.event._
+import swing._
 
 import collection.mutable.{ListBuffer,Queue}
 
@@ -10,7 +11,11 @@ import game_mechanics._
 import game_mechanics.path._
 import gui._
 
-object Controller
+
+case object SelectedCell extends Event
+case object NoSelectedCell extends Event
+
+object Controller extends Publisher
 {
   val bunnies      = new ListBuffer[Bunny]
   val projectiles  = new ListBuffer[Throw]
@@ -20,8 +25,19 @@ object Controller
   val framerate    = 1.0/30.0 * 1000
   var started      = false
   var selected_tower : Option[Tower] = None
-  var selected_cell  : Option[Tower] = None
+  private var _selected_cell  : Option[Tower] = None
 
+  def selected_cell_=(tower: Option[Tower]): Unit =  {
+      if (tower != None) {
+        publish(SelectedCell)
+      }
+      else {
+        publish(NoSelectedCell)
+      }
+      _selected_cell = tower
+    }
+
+  def selected_cell =  _selected_cell
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
     // Placing a new tower
@@ -40,7 +56,7 @@ object Controller
     else if ( selected_tower == None )
     {
       val position = new CellPos(x,y)
-      selected_cell = towers.find( _.pos == position )
+      _selected_cell = towers.find( _.pos == position )
     }
     // Building multiple towers
     if ( !TowerDefense.keymap(Key.Shift) ) {
@@ -89,11 +105,11 @@ object Controller
       update(dt)
       if ( TowerDefense.keymap(Key.Escape)) {
         selected_tower = None
-        selected_cell  = None
+        _selected_cell  = None
       }
       TowerDefense.map_panel.repaint()
       TowerDefense.info_panel.repaint()
-      TowerDefense.tower_panel.repaint()
+      TowerDefense.tower_panel.thepanel.repaint()
       val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
       Thread.sleep(miliseconds)
       dt = (System.currentTimeMillis - start).toDouble / 1000
