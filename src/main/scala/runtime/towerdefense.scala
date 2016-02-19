@@ -48,34 +48,34 @@ object TowerDefense extends SimpleSwingApplication
     return new GridPanel( 3, 5 ) {
       for( i <- 0 until 15 ) {
         val tower  = try { Some(towers.dequeue) } catch { case e: Exception => None }
-        val button = new BuyButton( tower )
-        button.minimumSize = dimension
-        button.maximumSize = dimension
-        contents += button
+        contents += new BuyButton( tower )
       }
     }
   }
 
   /* Returns a panel containing the in-game menu (next to the map) */
-  def make_menu(): BoxPanel = {
-    return new BoxPanel(Orientation.Vertical) {
-      val play_button = new Button {
-        action = Action("") { Controller.on_play_button() }
-        listenTo(SpawnScheduler)
-        reactions += {
-          case WaveStarted =>
-            enabled = false
-          case WaveEnded   =>
-            enabled = true
-        }
-        text       = "Play"
-        background = Colors.green
+  def make_menu(): BorderPanel = {
+    val play_button = new Button {
+      action = Action("") { Controller.on_play_button() }
+      listenTo(SpawnScheduler)
+      reactions += {
+        case WaveStarted =>
+          enabled = false
+        case WaveEnded   =>
+          enabled = true
       }
-
+      text       = "Play"
+      background = Colors.green
+      preferredSize = new Dimension( 100, 100 )
+    }
+    val build_menu = new BoxPanel(Orientation.Vertical) {
       contents += info_panel
       contents += make_build_menu()
       contents += Swing.VGlue
-      contents += play_button
+    }
+    return new BorderPanel {
+      add( build_menu, BorderPanel.Position.Center )
+      add( play_button, BorderPanel.Position.South )
     }
   }
 
@@ -83,6 +83,7 @@ object TowerDefense extends SimpleSwingApplication
   {
     val titles = Source.fromFile("src/main/resources/misc/titles").getLines().toArray
     title = titles(Random.nextInt(titles.length))
+    resizable = false
     contents = new BorderPanel
     {
       add (make_map, BorderPanel.Position.Center)

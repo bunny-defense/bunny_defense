@@ -49,7 +49,6 @@ class GameMap(width0: Int, height0: Int)
 
   def -=(tower: Tower): Unit = {
     obstruction_map(tower.pos.x)(tower.pos.y) = false
-    println( "TOWA REMOUVED" )
   }
 
   def obstructed(x: Int, y: Int) : Boolean = {
