@@ -8,7 +8,7 @@ import collection.mutable.{ListBuffer,Queue}
 import runtime._
 import game_mechanics._
 import game_mechanics.path._
-import gui.Animatable
+import gui._
 
 object Controller
 {
@@ -23,48 +23,37 @@ object Controller
 
   /* Triggered when a map cell is clicked */
   def on_cell_clicked( x:Int, y:Int ): Unit = {
-    println( x, y )
     if( selected_tower != None &&
       !TowerDefense.map_panel.map.obstructed(x,y) &&
       Player.remove_gold(selected_tower.get.buy_cost))
-      {
-        Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
-        TowerDefense.map_panel.map += towers(0)
-        if ( !TowerDefense.keymap(Key.Shift) ) {
-          selected_tower = None
-        }
-      }
-      else if ( selected_tower != None &&
-                TowerDefense.map_panel.map.obstructed(x,y)) {
-        println("Cell obstructed ("+x.toString+","+y.toString+")")
-      }
-      else if (selected_tower != None){
-        println("Not enough money! Current money = "+ Player.gold.toString)
-      }
+    {
+      Controller += selected_tower.get.clone_at( new CellPos(x,y) )
+      TowerDefense.map_panel.map += towers(0)
     }
+    else if ( selected_tower != None &&
+      TowerDefense.map_panel.map.obstructed(x,y)) {
+      println("Cell obstructed ("+x.toString+","+y.toString+")")
+    }
+    else if (selected_tower != None){
+      println("Not enough money! Current money = "+ Player.gold.toString)
+    }
+    if ( !TowerDefense.keymap(Key.Shift) ) {
+      selected_tower = None
+    }
+  }
 
   /* Triggered when a button from the build menu is clicked */
-  def on_build_button( id:Int ): Unit = {
-
-    println( "Build ", id )
-    if( id == 0 )
-      selected_tower = Some(new Tower(new Waypoint( 0.0, 0.0 )))
+  def on_build_button( button: BuyButton ): Unit = {
+    selected_tower = button.tower
   }
 
   /* Triggered when the play button is clicked */
   def on_play_button(): Unit = {
-    if (!started) {
       println( "New wave")
       wave_counter += 1
-      var spawnscheduler = new Spawner(wave_counter).create
-      SpawnScheduler.set_schedule(spawnscheduler)
+      var spawnschedule = new Spawner(wave_counter).create
+      SpawnScheduler.set_schedule(spawnschedule)
       SpawnScheduler.start()
-      this.started = true
-    }
-    else {
-      println("Precedent Wave not ended")
-    }
-
   }
 
   def update(dt: Double): Unit = {
@@ -97,12 +86,6 @@ object Controller
       val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
       Thread.sleep(miliseconds)
       dt = (System.currentTimeMillis - start).toDouble / 1000
-      if (started && bunnies.isEmpty && SpawnScheduler.is_empty) {
-        println("Wave Ended")
-        started = false
-        SpawnScheduler.reset_time
-        println("Reset time")
-      }
       if (Player.hp <= 0) {
           println("You lose")
           return

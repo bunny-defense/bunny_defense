@@ -14,8 +14,7 @@ import game_mechanics.GameMap
 
 object MapPanel
 {
-  val cellsize     = 32
-  val bunny_sprite = ImageIO.read(new File(getClass().getResource("/mobs/bunny1.png").getPath()))
+  val cellsize = 32
 }
 
 /* Represents the map on the screen */
@@ -54,7 +53,7 @@ class MapPanel(map0: GameMap) extends Panel {
     {
       val x = bunny.pos.x * cellsize
       val y = bunny.pos.y * cellsize
-      g.drawImage( bunny_sprite, x.toInt, y.toInt, null )
+      g.drawImage( bunny.graphic, x.toInt, y.toInt, null )
     }
     /* Drawing the towers */
     for( tower <- Controller.towers )
