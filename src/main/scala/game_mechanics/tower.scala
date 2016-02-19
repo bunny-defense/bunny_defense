@@ -14,9 +14,9 @@ import javax.imageio.ImageIO
 
 trait TowerType
 {
-  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/base_tower.png").getPath()))
+  val tower_graphic  = ImageIO.read(new File(getClass().getResource("/towers/base_tower.png").getPath()))
   val size           = 1
-  val damages        = 5
+  val damage         = 5
   val range          = 5
   val aoe_radius     = 0
   val throw_speed    = 10.0   /* Speed of the shot projectile */
@@ -29,11 +29,11 @@ object BaseTower extends TowerType
 
 object QuickTower extends TowerType
 {
-  override val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/quick_tower.png").getPath()))
+  override val tower_graphic  = ImageIO.read(new File(getClass().getResource("/towers/quick_tower.png").getPath()))
   override val range          = 2
   override val throw_cooldown = 0.5
   override val throw_speed    = 20.0
-  override val damages        = 4
+  override val damage         = 4
   override val buy_cost       = 75
   override val sell_cost      = 8
 }
@@ -41,11 +41,11 @@ object QuickTower extends TowerType
 object HeavyTower extends TowerType
 {
   override val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/heavy_tower.png").getPath()))
-  override val range       = 4
-  override val throw_speed = 15.0
-  override val damages     = 9
-  override val buy_cost    = 150
-  override val sell_cost   = 7
+  override val range         = 4
+  override val throw_speed   = 15.0
+  override val damage        = 9
+  override val buy_cost      = 150
+  override val sell_cost     = 7
 }
 
 /* Tower superclass from which evey special tower is derived */
@@ -95,7 +95,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
   def fire_at(bunny: Bunny): Unit = {
     var throw_carrot    = new Throw(bunny,this.pos.toDouble)
     throw_carrot.speed  = tower_type.throw_speed
-    throw_carrot.damage = tower_type.damages
+    throw_carrot.damage = tower_type.damage
     throw_carrot.AOE    = tower_type.aoe_radius
     Controller += throw_carrot
   }
@@ -124,12 +124,24 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
   //  GETTERS
   // ==============================
 
+  def damage() : Int = {
+    return tower_type.damage
+  }
+
   def range() : Int = {
     return tower_type.range
   }
 
+  def throw_speed(): Double = {
+    return tower_type.throw_speed
+  }
+
   def buy_cost() : Int = {
     return tower_type.buy_cost
+  }
+
+  def sell_cost() : Int = {
+    return tower_type.sell_cost
   }
 
   def graphic(): BufferedImage = {
@@ -145,7 +157,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
 object ScarecrowTower extends TowerType
 {
   override val range     = 4
-  override val damages   = 4
+  override val damage    = 4
   override val buy_cost  = 15
   override val sell_cost = 8
 }
