@@ -146,7 +146,6 @@ object Controller extends Publisher
   def -=(tower: Tower): Unit = {
     towers -= tower
     TowerDefense.map_panel.map -= tower
-    println( "TOWA REMOUVED" )
   }
 
   /* ANIMATIONS */
