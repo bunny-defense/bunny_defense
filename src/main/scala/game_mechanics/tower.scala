@@ -49,7 +49,7 @@ object HeavyTower extends TowerType
 }
 
 /* Tower superclass from which evey special tower is derived */
-class Tower(tower_type : TowerType, pos0 : Waypoint) {
+class Tower(tower_type : TowerType, pos0 : CellPos) {
   val pos            = pos0
   /* Cooldown counter */
   var cooldown       = 0.0
@@ -93,7 +93,7 @@ class Tower(tower_type : TowerType, pos0 : Waypoint) {
 
   /* Self descriptive */
   def fire_at(bunny: Bunny): Unit = {
-    var throw_carrot    = new Throw(bunny,this.pos.clone())
+    var throw_carrot    = new Throw(bunny,this.pos.toDouble)
     throw_carrot.speed  = tower_type.throw_speed
     throw_carrot.damage = tower_type.damages
     throw_carrot.AOE    = tower_type.aoe_radius
@@ -136,7 +136,7 @@ class Tower(tower_type : TowerType, pos0 : Waypoint) {
     return tower_type.tower_graphic
   }
 
-  def clone_at(newpos: Waypoint): Tower = {
+  def clone_at(newpos: CellPos): Tower = {
     return new Tower(tower_type, newpos)
   }
 }
@@ -150,7 +150,7 @@ object ScarecrowTower extends TowerType
   override val sell_cost = 8
 }
 
-class AOETower(tower_type : TowerType, pos : Waypoint) extends Tower( tower_type, pos )
+class AOETower(tower_type : TowerType, pos : CellPos) extends Tower( tower_type, pos )
 {
   override def attack(): Unit = {
     val bunnies : ListBuffer[Bunny] = Controller.bunnies.filter( in_range )

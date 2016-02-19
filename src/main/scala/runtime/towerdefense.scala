@@ -25,7 +25,7 @@ object TowerDefense extends SimpleSwingApplication
   /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
     val dimension = new Dimension( 50, 50 )
-    val waypoint  = new Waypoint( 0, 0 )
+    val waypoint  = new CellPos( 0, 0 )
 
     /* Tower types list */
     import collection.mutable.Queue

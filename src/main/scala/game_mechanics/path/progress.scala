@@ -12,7 +12,7 @@ class Progress(p: Path) {
       return
     val current = path.at(i-1)
     val next = path.at(i)
-    val dist = Waypoint.distance( current, next )
+    val dist = current distance_to next
     /* If we have reached the next node we reset progress along the line and go to the next one */
     if( (dist - progress) < distance ) {
       progress = 0.0
@@ -28,7 +28,7 @@ class Progress(p: Path) {
       return path.last
     val current = path.at(i-1)
     val next = path.at(i)
-    val ratio = progress / Waypoint.distance( current, next )
+    val ratio = progress / ( current distance_to next )
     return current * ( 1 - ratio ) + next * ratio
   }
 

@@ -27,7 +27,7 @@ object Controller
       !TowerDefense.map_panel.map.obstructed(x,y) &&
       Player.remove_gold(selected_tower.get.buy_cost))
     {
-      Controller += selected_tower.get.clone_at( new Waypoint(x.toDouble,y.toDouble) )
+      Controller += selected_tower.get.clone_at( new CellPos(x,y) )
       TowerDefense.map_panel.map += towers(0)
     }
     else if ( selected_tower != None &&
