@@ -10,16 +10,20 @@ import javax.imageio.ImageIO
 
 object GameMap
 {
-  val ground_image = ImageIO.read(new File(getClass().getResource("/ground/dirt.jpg").getPath()))
-  val grass_image  = ImageIO.read(new File(getClass().getResource("/ground/grass4.png").getPath()))
+  val ground_image =
+    ImageIO.read(
+      new File(getClass().getResource("/ground/dirt.jpg").getPath()))
+  val grass_image  =
+    ImageIO.read(
+      new File(getClass().getResource("/ground/grass4.png").getPath()))
 }
 
 class GameMap(width0: Int, height0: Int)
 {
   import GameMap._
-  val width  = width0
-  val height = height0
-  val graphic_map = Array.ofDim[BufferedImage](width,height)
+  val width           = width0
+  val height          = height0
+  val graphic_map     = Array.ofDim[BufferedImage](width,height)
   val obstruction_map = Array.ofDim[Boolean](width,height)
 
   val rng = new Random()
@@ -35,12 +39,16 @@ class GameMap(width0: Int, height0: Int)
   }
 
   def +=(tower: Tower): Boolean = {
-    if( !obstruction_map(tower.pos.x.toInt)(tower.pos.y.toInt) )
+    if( !obstruction_map(tower.pos.x)(tower.pos.y) )
     {
-      obstruction_map(tower.pos.x.toInt)(tower.pos.y.toInt) = true
+      obstruction_map(tower.pos.x)(tower.pos.y) = true
       return true
     }
     return false
+  }
+
+  def -=(tower: Tower): Unit = {
+    obstruction_map(tower.pos.x)(tower.pos.y) = false
   }
 
   def obstructed(x: Int, y: Int) : Boolean = {

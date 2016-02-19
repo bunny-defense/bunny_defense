@@ -27,15 +27,14 @@ object Controller extends Publisher
   var selected_tower : Option[Tower] = None
   private var _selected_cell  : Option[Tower] = None
 
-  def selected_cell_=(tower: Option[Tower]): Unit =  {
-      if (tower != None) {
-        publish(SelectedCell)
-      }
-      else {
-        publish(NoSelectedCell)
-      }
-      _selected_cell = tower
-    }
+  def selected_cell_=(tower: Option[Tower]): Unit =
+  {
+    if (tower != None)
+      publish(SelectedCell)
+    else
+      publish(NoSelectedCell)
+    _selected_cell = tower
+  }
 
   def selected_cell =  _selected_cell
   /* Triggered when a map cell is clicked */
@@ -45,10 +44,7 @@ object Controller extends Publisher
       !TowerDefense.map_panel.map.obstructed(x,y) )
     {
       if( Player.remove_gold(selected_tower.get.buy_cost) )
-        {
           Controller += selected_tower.get.clone_at( new CellPos(x,y) )
-          TowerDefense.map_panel.map += towers(0)
-        }
       else
         println("Not enough money! Current money = "+ Player.gold.toString)
     }
@@ -56,7 +52,7 @@ object Controller extends Publisher
     else if ( selected_tower == None )
     {
       val position = new CellPos(x,y)
-      _selected_cell = towers.find( _.pos == position )
+      selected_cell = towers.find( _.pos == position )
     }
     // Building multiple towers
     if ( !TowerDefense.keymap(Key.Shift) ) {
@@ -105,7 +101,7 @@ object Controller extends Publisher
       update(dt)
       if ( TowerDefense.keymap(Key.Escape)) {
         selected_tower = None
-        _selected_cell  = None
+        selected_cell  = None
       }
       TowerDefense.map_panel.repaint()
       TowerDefense.info_panel.repaint()
@@ -144,10 +140,12 @@ object Controller extends Publisher
 
   def +=(tower: Tower): Unit = {
     towers += tower
+    TowerDefense.map_panel.map += tower
   }
 
   def -=(tower: Tower): Unit = {
     towers -= tower
+    TowerDefense.map_panel.map -= tower
   }
 
   /* ANIMATIONS */

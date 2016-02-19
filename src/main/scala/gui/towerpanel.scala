@@ -33,12 +33,12 @@ class TowerPanel() extends BoxPanel(Orientation.Horizontal) {
       Player.add_gold(Controller.selected_cell.get.sell_cost)
       Controller.selected_cell = None
     }
+    preferredSize = new Dimension( 200, 100 )
     enabled = false
     listenTo(Controller)
     reactions += {
-      case SelectedCell => enabled = true
+      case SelectedCell   => enabled = true
       case NoSelectedCell => enabled = false
-
     }
     text = "Sell Tower"
   }
