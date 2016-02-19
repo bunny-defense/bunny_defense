@@ -1,0 +1,12 @@
+Hello, traveller ! And welcome to the long lost land of wave generation. Few have had the courage to venture this far. Only one, actually, me, Diffrac, you almighty god and master that you love and respect.
+
+wave_gen.ml is given a wave number as argument and generates a .csv file in the folder above. Can be compiled bu running comp.sh.
+
+wave_gen.sh generates many waves by looping wave_gen compiled from wave_gen.ml. For now, the number of waves wanted is WRITTEN IN wave_gen.sh, NOT given as an argument.
+
+
+TO DO (better) :
+
+*Balancing waves. (Right now it's harder than Ghosts 'n Goblins)
+	   Complexifying the (wave number -> difficulty index) function ; adjusting bunnies' and bosses' stats, creating waves with multiple bosses/bosses and bunnies
+*Take the number of waves to generate as an argument of wave_gen.sh
