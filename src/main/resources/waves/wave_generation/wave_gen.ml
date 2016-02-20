@@ -3,11 +3,11 @@ open Printf
 (*
 let file = "example.dat"
 let message = "Hello!"
-
+  
 let () =
   (* Write message to file *)
   let oc = open_out file in    (* create or truncate file, return channel *)
-  fprintf oc "%s\n" message;   (* write something *)
+  fprintf oc "%s\n" message;   (* write something *)   
   close_out oc;                (* flush and close the channel *)
 *)
 
@@ -18,11 +18,16 @@ let frt (x,y,z,t) = t;;
 
 
 Random.init (int_of_float(Unix.gettimeofday ()));;
-
+  
 let random_int n = Random.int n;;
-
+  
 let n_wave = int_of_string(Sys.argv.(1));;
+
+(* The following functions are to be targeted for game balancing matters ; they define crucial values regarding difficulty *)
 let difficulty = 20 + n_wave*n_wave;;
+let spawn_time = 0.2 +. 0.8/.((float_of_int n_wave)**0.7);; (* 1 sec at wave 1, decreases to 0.2 sec as game goes *)
+
+  
 let bunnies = [|"Bunny",1,200,1 ; "HeavyBunny",3,50,1 ; "Hare",1,35,3|];;
 let bosses = [|"Otter",15,10,10|];;
 (* bunnies and bosses : list of (bunny type, difficulty points, inverse rarity, first possible wave of appearance) *)
@@ -32,14 +37,14 @@ let sum_rarity_bunn =
     res := (!res) + (trd bunnies.(i))
   done;
   !res;;
-
+  
 let sum_rarity_boss =
   let res = ref 0 in
   for i=0 to Array.length(bosses)-1 do
     res := (!res) + (trd bosses.(i))
   done;
   !res;;
-
+  
 let file_name = "../wave" ^ (string_of_int n_wave) ^ ".csv";;
 let oc = open_out file_name;;
 
@@ -76,9 +81,9 @@ let rec wave n t=
 	      fprintf oc "%f, %s\n" t (frs bunny);
 	      diff_decr := diff
 	    end;
-	  wave (n-(!diff_decr)) (t+.1.);;
-
-
+	  wave (n-(!diff_decr)) (t+.spawn_time);;
+  
+  
 let print_wave n t=
   let r = random_int 100 in
   if (n_wave >= 10) && (r < 6) then
@@ -90,7 +95,7 @@ let print_wave n t=
   else
     (* No boss for now... *)
     wave n t;;
-
-
+  
+  
 print_wave difficulty 0.;;
-
+    

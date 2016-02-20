@@ -1,3 +1,1 @@
-#!/bin/bash
-
-for i in `seq 1 $1`; do  ./wave_gen $i ; done
+rm -rf ../wave*.csv; for i in {1..30}; do ./wave_gen $i; done;
