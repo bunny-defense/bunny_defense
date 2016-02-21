@@ -21,7 +21,9 @@ object TowerDefense extends SimpleSwingApplication
   val map_panel   = new MapPanel(new GameMap(30,25))
   val info_panel  = new InfoPanel
   val tower_panel = new TowerPanel
-  val keymap      = new HashMap[Key.Value,Boolean] { override def default(key: Key.Value) = false }
+  val keymap      = new HashMap[Key.Value,Boolean] {
+      override def default(key: Key.Value) = false
+    }
 
 
   def make_map() : BoxPanel = {
@@ -47,8 +49,12 @@ object TowerDefense extends SimpleSwingApplication
 
     return new GridPanel( 3, 5 ) {
       for( i <- 0 until 15 ) {
-        val tower  = try { Some(towers.dequeue) } catch { case e: Exception => None }
-        contents += new BuyButton( tower )
+        val tower  = try { Some(towers.dequeue) }
+        catch { case e: Exception => None }
+        val button = new BuyButton( tower )
+        button.minimumSize = dimension
+        button.maximumSize = dimension
+        contents += button
       }
     }
   }
@@ -81,7 +87,8 @@ object TowerDefense extends SimpleSwingApplication
 
   def top = new MainFrame
   {
-    val titles = Source.fromFile("src/main/resources/misc/titles").getLines().toArray
+    val titles = Source.fromFile("src/main/resources/misc/titles").
+                getLines().toArray
     title = titles(Random.nextInt(titles.length))
     resizable = false
     contents = new BorderPanel
