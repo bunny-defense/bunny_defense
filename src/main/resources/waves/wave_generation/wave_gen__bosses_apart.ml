@@ -25,18 +25,22 @@ let atan_variation init_val final_val inflex_point = (* int -> float *)
   else
     function x -> (1.57 +. atan(inflex_point -. float_of_int(x)))*.((init_val -. final_val)/.(3.1416)) +. final_val;;
 
-let bunnies_alone = [|"Bunny",1,1,atan_variation 200. 10. 20. ; "HeavyBunny",3,1,atan_variation 50. 100. 15. ; "Hare",1,3,atan_variation 25. 40. 10.|];;
-let bosses_alone = [|"Otter",1500,10,atan_variation 1. 10. 20.|];;
+let bunnies = [|"Bunny",1,1,atan_variation 200. 10. 20. ; "HeavyBunny",3,1,atan_variation 50. 100. 15. ; "Hare",1,3,atan_variation 25. 40. 10.|];;
+let bosses = [|"Otter",15,10,atan_variation 10. 10. 1.|];;
 (* bunnies and bosses : list of (bunny type, difficulty points, first possible wave of appearance, inverse rarity as a function of n_wave) *)
-let bunnies = Array.concat [bunnies_alone; bosses_alone];;
-  
-let sum_rarity =
+let sum_rarity_bunn =
   let res = ref 0. in
   for i=0 to Array.length(bunnies)-1 do
     res := (!res) +. ((frt bunnies.(i)) n_wave)
   done;
   !res;;
-
+  
+let sum_rarity_boss =
+  let res = ref 0. in
+  for i=0 to Array.length(bosses)-1 do
+    res := (!res) +. ((frt bosses.(i)) n_wave)
+  done;
+  !res;;
   
 let file_name = "../wave" ^ (string_of_int n_wave) ^ ".csv";;
 let oc = open_out file_name;;
@@ -51,12 +55,22 @@ let chose_bunny i =
   done;
   !bunny_index;;
 
+ let chose_boss i =
+  (* i is a random integer between 0 and sum_rarity_boss-1, choses a random boss based on rarity *)
+  let j = ref (float_of_int(i) -. ((frt bosses.(0)) n_wave))
+  and boss_index = ref 0 in
+  while (!j >= 0.) && (!boss_index < Array.length(bosses)) do
+    incr boss_index;
+    j:= (!j) -. ((frt bosses.(!boss_index)) n_wave)
+  done;
+  !boss_index;;
+
 let rec wave n t=
-  (* Prints a wave corresponding to the difficulty n in file wave_{n_wave}, starting at time t *)
+  (* Prints a NON BOSS wave corresponding to the difficulty n in file wave_{n_wave}, starting at time t *)
   match n with
   |n when n <= 0
       -> ()
-  |n  ->  let bunny = bunnies.(chose_bunny (random_int (int_of_float sum_rarity))) in
+  |n  ->  let bunny = bunnies.(chose_bunny (random_int (int_of_float sum_rarity_bunn))) in
 	  (* Note that we need a random integer below rarity which is an integer...
              Not a big deal, but worth noting the small approximation we're making *)
 	  let diff_decr = ref 0 in 
@@ -69,5 +83,19 @@ let rec wave n t=
 	  wave (n-(!diff_decr)) (t+.spawn_time);;
   
   
-wave difficulty 0.;;
+let print_wave n t=
+  let r = random_int 100 in
+  if (n_wave >= 10) && (r < 6) then
+    (* BOSS TIME, B*TCHES *)
+    begin
+      let boss=bosses.(chose_boss (random_int (int_of_float sum_rarity_boss))) in
+      (* Same as before, we're making a small approximation *)
+      fprintf oc "%f, %s\n" t (frs boss)
+    end
+  else
+    (* No boss for now... *)
+    wave n t;;
+  
+  
+print_wave difficulty 0.;;
     
