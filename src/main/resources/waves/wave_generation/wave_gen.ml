@@ -14,8 +14,8 @@ let random_int n = Random.int n;;
 let n_wave = int_of_string(Sys.argv.(1));;
 
 (* The following functions are to be targeted for game balancing matters ; they define crucial values regarding difficulty *)
-let difficulty = 20 + n_wave*n_wave;;
-let spawn_time = 0.2 +. 0.8/.((float_of_int n_wave)**0.7);; (* 1 sec at wave 1, decreases to 0.2 sec as game goes *)
+let difficulty = 20 + int_of_float((float_of_int n_wave) ** 3.);;
+let spawn_time = 0.1 +. 0.9/.((float_of_int n_wave)**0.7);; (* 1 sec at wave 1, decreases to 0.1 sec as game goes *)
 
 let atan_variation init_val final_val inflex_point = (* int -> float *)
   (* Returns a function going from init_val to final_val with atangent variations, with an inflexion point at inflex_point *)
@@ -59,14 +59,25 @@ let rec wave n t=
   |n  ->  let bunny = bunnies.(chose_bunny (random_int (int_of_float sum_rarity))) in
 	  (* Note that we need a random integer below rarity which is an integer...
              Not a big deal, but worth noting the small approximation we're making *)
-	  let diff_decr = ref 0 in 
+	  let diff_decr = ref 0
+	  and time_elapsed = ref spawn_time in
 	  if n_wave >= trd bunny then
 	    begin
 	      let diff = scd bunny in
-	      fprintf oc "%f, %s\n" t (frs bunny);
-	      diff_decr := diff
+	      if n-diff >= 0
+	      then
+		begin
+		  fprintf oc "%f, %s\n" t (frs bunny);
+		  diff_decr := diff;
+		end
+	      else
+		begin
+		  diff_decr := 0; (* The bunny selected cannot spawn, let's try again with another bunny.
+                                    (Difficulty level unchanged since nothing spawned) *)
+		  time_elapsed := 0.
+		end;
 	    end;
-	  wave (n-(!diff_decr)) (t+.spawn_time);;
+	  wave (n-(!diff_decr)) (t+.(!time_elapsed));;
   
   
 wave difficulty 0.;;
