@@ -38,6 +38,10 @@ class GameMap(width0: Int, height0: Int)
     }
   }
 
+  for (i<-0 until 30) {
+    obstruction_map(i)(12) = true
+  }
+
   def +=(tower: Tower): Boolean = {
     if( !obstruction_map(tower.pos.x)(tower.pos.y) )
     {

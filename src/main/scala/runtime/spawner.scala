@@ -10,8 +10,8 @@ import util.Random
 
 object Spawner
 {
-  val bunnystart = new Waypoint(0,5)
-  val bunnyend = new Waypoint(30,5)
+  val bunnystart = new Waypoint(0,12)
+  val bunnyend = new Waypoint(30,12)
 }
 
 class Spawner(id: Int) {
