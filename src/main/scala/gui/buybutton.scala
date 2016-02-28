@@ -29,7 +29,7 @@ class BuyButton(tower0: Option[Tower]) extends Button {
   reactions += {
     case MoneyChanged => {
       if( tower != None )
-        this.enabled = Player.gold >= tower.get.buy_cost
+        this.enabled = (Player.gold >= tower.get.buy_cost) && this.enabled
       if( this.enabled )
         this.background = Colors.white
       else
@@ -37,7 +37,13 @@ class BuyButton(tower0: Option[Tower]) extends Button {
     }
     case WaveStarted =>
       enabled = false
+      this.background = Colors.lightred
     case WaveEnded =>
-      enabled = true
+      if ( tower != None ) {
+        this.enabled = (Player.gold >= tower.get.buy_cost)
+        if ( this.enabled ) {
+          this.background = Colors.white
+        }
+      }
     }
 }
