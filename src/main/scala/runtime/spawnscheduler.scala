@@ -3,7 +3,6 @@ package runtime
 
 import swing._
 import swing.event._
-
 import collection.mutable.Queue
 
 import game_mechanics.Bunny
@@ -30,7 +29,7 @@ object SpawnScheduler extends Publisher
       spent_time += dt
       while( !spawn_queue.isEmpty && spawn_queue.head._1 < spent_time)
         Controller += spawn_queue.dequeue._2.copy()
-      if( spawn_queue.isEmpty )
+      if( spawn_queue.isEmpty && Controller.bunnies.isEmpty )
       {
         started = false
         publish( WaveEnded )

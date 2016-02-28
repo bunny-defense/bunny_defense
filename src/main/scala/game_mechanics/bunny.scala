@@ -66,6 +66,7 @@ class Bunny(bunny_type: BunnyType,path0: Progress) {
   var hp              = bunny_type.initial_hp
   var pos : Waypoint  = path0.path.waypoints(0)
   var path            = path0
+  val shield          = bunny_type.shield
 
   /* Prototype design pattern */
   def copy(): Bunny = {
@@ -73,7 +74,9 @@ class Bunny(bunny_type: BunnyType,path0: Progress) {
   }
 
   def remove_hp(dmg: Double): Unit = {
-    this.hp -= dmg
+    if (dmg-this.shield > 0) {
+      this.hp -= (dmg - this.shield)
+    }
   }
 
   /* Moves the bunny along the path */
