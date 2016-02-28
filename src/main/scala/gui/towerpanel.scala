@@ -6,7 +6,7 @@ import swing._
 import runtime.{Controller, SelectedCell, NoSelectedCell}
 import game_mechanics._
 
-
+/* An info Panel that shows information of the selected tower */
 
 class TowerInfoPanel() extends Panel {
   background = Colors.lightGrey

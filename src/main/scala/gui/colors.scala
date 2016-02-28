@@ -3,6 +3,8 @@ package gui
 
 import swing.Color
 
+/* RGB colors for the whole GUI */
+
 object Colors {
 
   val white      = new Color( 255, 255, 255 )

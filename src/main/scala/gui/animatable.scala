@@ -6,6 +6,8 @@ import java.awt.Graphics2D
 import game_mechanics.path.Waypoint
 import runtime.Controller
 
+/* Creates nice animations when bunnies die */
+
 abstract class Animatable
 {
   def update(dt: Double): Unit

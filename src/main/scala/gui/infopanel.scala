@@ -6,6 +6,8 @@ import swing._
 import game_mechanics.Player
 import runtime.{Controller,SpawnScheduler}
 
+/* An info panel that shows the current gold, HP and wave number */
+
 class InfoPanel() extends Panel
 {
   background = Colors.lightGrey

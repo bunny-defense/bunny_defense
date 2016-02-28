@@ -8,6 +8,9 @@ import javax.swing.ImageIcon
 import runtime._
 import game_mechanics.{Tower,Player,MoneyChanged}
 
+
+/*Creates a Button for the shop. It reacts to money movements and Play buttons*/
+
 object BuyButton {
   val cellsize = 40
   val dimension = new Dimension (cellsize, cellsize)
