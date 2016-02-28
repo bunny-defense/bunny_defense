@@ -14,15 +14,15 @@ abstract class Animatable
 
 class GoldAnimation(amount: Int,origin: Waypoint) extends Animatable
 {
-  var pos      = origin
-  val target   = origin + new Waypoint(0,-1)
-  var distance = 1.0
+  var pos    = origin
+  val target = origin + new Waypoint(0,-1)
+  var timer  = 1.0
 
 
   def update(dt: Double): Unit = {
-    distance -= dt
-    pos = origin * distance + target * (1 - distance)
-    if( distance <= 0 )
+    timer -= dt
+    pos = origin * timer + target * (1 - timer)
+    if( timer <= 0 )
       Controller -= this
   }
 
