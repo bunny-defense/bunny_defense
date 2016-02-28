@@ -5,7 +5,7 @@ import swing._
 
 import javax.swing.ImageIcon
 
-import runtime.Controller
+import runtime._
 import game_mechanics.{Tower,Player,MoneyChanged}
 
 object BuyButton {
@@ -24,15 +24,20 @@ class BuyButton(tower0: Option[Tower]) extends Button {
 
   val tower          = tower0
 
-  listenTo(Player)
+  listenTo(Player,SpawnScheduler)
 
   reactions += {
-    case MoneyChanged =>
+    case MoneyChanged => {
       if( tower != None )
         this.enabled = Player.gold >= tower.get.buy_cost
       if( this.enabled )
         this.background = Colors.white
       else
         this.background = Colors.lightred
-  }
+    }
+    case WaveStarted =>
+      enabled = false
+    case WaveEnded =>
+      enabled = true
+    }
 }
