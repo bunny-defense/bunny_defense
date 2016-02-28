@@ -164,7 +164,7 @@ object ScarecrowTower extends TowerType
 {
   override val range     = 4
   override val damage    = 4
-  override val buy_cost  = 15
+  override val buy_cost  = 150
   override val sell_cost = 8
 }
 
