@@ -24,7 +24,7 @@ class BuyButton(tower0: Option[Tower]) extends Button {
   if( tower0 != None )
     this.icon        = new ImageIcon( tower0.get.graphic )
   this.preferredSize = dimension
-
+  var on_play        = false
   val tower          = tower0
 
   listenTo(Player,SpawnScheduler)
@@ -32,17 +32,19 @@ class BuyButton(tower0: Option[Tower]) extends Button {
   reactions += {
     case MoneyChanged => {
       if( tower != None )
-        this.enabled = (Player.gold >= tower.get.buy_cost) && this.enabled
+        this.enabled = (Player.gold >= tower.get.buy_cost) && !on_play
       if( this.enabled )
         this.background = Colors.white
       else
         this.background = Colors.lightred
     }
     case WaveStarted =>
+      on_play = true
       enabled = false
       this.background = Colors.lightred
     case WaveEnded =>
       if ( tower != None ) {
+        on_play      = false
         this.enabled = (Player.gold >= tower.get.buy_cost)
         if ( this.enabled ) {
           this.background = Colors.white
