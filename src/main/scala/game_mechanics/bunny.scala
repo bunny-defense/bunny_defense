@@ -16,7 +16,7 @@ trait BunnyType
       new File(getClass().getResource("/mobs/bunny1.png").getPath()))
   val initial_hp    = 10.0  /* Initial amount of HP */
   val shield        = 1.0   /* Damage dampening */
-  val speed         = 1.0   /* Speed of the bunny in tiles per second */
+  val speed         = 2.0   /* Speed of the bunny in tiles per second */
   val reward        = 10    /* Amount of gold earned when killed */
   val damage        = 1     /* Damage done to the player when core reached */
 }
@@ -28,7 +28,7 @@ object HeavyBunny extends BunnyType
 {
   override val initial_hp = 20.0
   override val shield     = 1.5
-  override val speed      = 0.5
+  override val speed      = 1.0
   override val reward     = 15
 }
 
@@ -37,7 +37,7 @@ object Hare extends BunnyType
 {
   override val initial_hp = 5.0
   override val shield     = 0.0
-  override val speed      = 2.0
+  override val speed      = 4.0
 }
 
 /* A boss! */
@@ -45,7 +45,7 @@ object Otter extends BunnyType
 {
   override val initial_hp = 1000.0
   override val shield     = 1.5
-  override val speed      = 0.5
+  override val speed      = 1.0
   override val damage     = 5
   override val reward     = 100
 }
@@ -57,7 +57,7 @@ object GoldenBunny extends BunnyType
     ImageIO.read(new File(
       getClass().getResource("/mobs/goldenbunny.png").getPath()))
   override val initial_hp    = 20.0
-  override val speed         = 2.0
+  override val speed         = 8.0
   override val reward        = 1000
 }
 

@@ -61,6 +61,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
   var cooldown       = 0.0
   /* The tower keeps a selected target until it goes out of range */
   var current_target : Option[Bunny] = None
+  val towertype      = tower_type
 
   // ==============================
   //  FIRING MECHANICS
@@ -81,7 +82,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
 
   /* Returns the target of the tower */
   def get_target(): Option[Bunny] = {
-    val p = Spawner.bunnyend 
+    val p = Spawner.bunnyend
     if( current_target == None
       || !in_range(current_target.get)
       || !(current_target == closest_to_p(p))
