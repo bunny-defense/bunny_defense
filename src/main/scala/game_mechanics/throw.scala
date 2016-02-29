@@ -46,19 +46,4 @@ class Throw (target:Bunny, origin: Waypoint) {
   def graphic(): BufferedImage = {
     return carrot_sprite
   }
-
-  /*
-
-  var time_to_touch = 1
-
-  def auto_touch(dt : Double): Unit = {
-    if (time_to_touch == 0) {
-      this.pos = this.target.pos
-    }
-    else {
-      time_to_touch -= dt
-    }
-  }
-
-   */
 }
