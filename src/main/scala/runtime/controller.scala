@@ -70,7 +70,6 @@ object Controller extends Publisher
 
     /* Triggered when the play button is clicked */
     def on_play_button(): Unit = {
-        println( "New wave")
         wave_counter += 1
         var spawnschedule = new Spawner(wave_counter).create
         SpawnScheduler.set_schedule(spawnschedule)
@@ -95,7 +94,6 @@ object Controller extends Publisher
     }
 
     def run(): Unit = {
-        println( "Running" )
         var dt: Double = 0.0
         var counter = 0
         while( true )
@@ -113,7 +111,7 @@ object Controller extends Publisher
             Thread.sleep(miliseconds)
             dt = (System.currentTimeMillis - start).toDouble / 1000
             if (Player.hp <= 0) {
-                println("You lose")
+                Dialog.showMessage( TowerDefense.map_panel, "Game Over" )
                 return
             }
         }

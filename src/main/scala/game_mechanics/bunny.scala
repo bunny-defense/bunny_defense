@@ -100,7 +100,6 @@ class Bunny(bunny_type: BunnyType,path0: Progress) {
         {
             Player.remove_hp( bunny_type.damage )
             Controller -= this
-            println( "Bunny reached core" )
         }
     }
 

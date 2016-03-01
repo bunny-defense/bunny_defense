@@ -12,7 +12,7 @@ import runtime._
 object Spawner
 {
   val bunnystart = new Waypoint(
-      0,
+      -1,
       TowerDefense.map_panel.map.height / 2)
   val bunnyend   = new Waypoint(
       TowerDefense.map_panel.map.width,
