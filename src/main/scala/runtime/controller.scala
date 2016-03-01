@@ -27,9 +27,12 @@ object Controller extends Publisher
     var wave_counter = 0
     val framerate    = 1.0/30.0 * 1000
     var started      = false
-    var selected_tower : Option[TowerType] = None
-    private var _selected_cell  : Option[Tower] = None
+    /* The tower type selected for construction */
+    var selected_tower          : Option[TowerType] = None
+    /* The tower currently selected */
+    private var _selected_cell  : Option[Tower]     = None
 
+    /* selected_cell GETTER */
     def selected_cell_=(tower: Option[Tower]): Unit =
     {
         if (tower != None)
@@ -39,7 +42,11 @@ object Controller extends Publisher
         _selected_cell = tower
     }
 
+    /* selected_cell SETTER */
     def selected_cell =  _selected_cell
+
+    /* ==================== CALLBACKS ==================== */
+
     /* Triggered when a map cell is clicked */
     def on_cell_clicked( x:Int, y:Int ): Unit = {
         // Placing a new tower
@@ -76,6 +83,9 @@ object Controller extends Publisher
         SpawnScheduler.start()
     }
 
+    /* ==================== MAIN LOOP ==================== */
+
+    /* Update the game for dt time */
     def update(dt: Double): Unit = {
         /* Update animations */
         for( animation <- animations )
@@ -93,29 +103,39 @@ object Controller extends Publisher
         SpawnScheduler.update(dt)
     }
 
+    /* Run the game */
     def run(): Unit = {
         var dt: Double = 0.0
-        var counter = 0
         while( true )
         {
             val start = System.currentTimeMillis
+
+            /* Update */
             update(dt)
             if ( TowerDefense.keymap(Key.Escape)) {
                 selected_tower = None
                 selected_cell  = None
             }
+
+            /* Render */
             TowerDefense.map_panel.repaint()
             TowerDefense.info_panel.repaint()
             TowerDefense.tower_panel.thepanel.repaint()
+
+            /* Delta time and step time computing */
             val miliseconds = Math.abs( framerate.toInt - (System.currentTimeMillis - start) )
-            Thread.sleep(miliseconds)
+            Thread.sleep(miliseconds) // So that the cpu doesn't max out for nothing
             dt = (System.currentTimeMillis - start).toDouble / 1000
+
+            /* If player loses all health */
             if (Player.hp <= 0) {
                 Dialog.showMessage( TowerDefense.map_panel, "Game Over" )
                 return
             }
         }
     }
+
+    /* ==================== COLLECTION-LIKE BEHAVIOR ==================== */
 
     /* BUNNIES */
 
