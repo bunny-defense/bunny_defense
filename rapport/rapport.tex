@@ -52,7 +52,12 @@ Le contrôleur principal est l'objet \texttt{Controller}. Il contient la boucle
 \texttt{update}-\texttt{render} ainsi que l'ensemble des modèles actifs :
 les tours, les ennemis et les projectiles. À chaque tour de boucle, tous ces
 modèles sont mis à jour et dessinés à l'écran. La mise à jour des mouvements se
-fait par méthode d'Euler (plus de détails en section \ref{models}).
+fait par méthode d'Euler (plus de détails en section \ref{models}). \\
+
+\noindent Le \texttt{SpawnScheduler} est un contr\^oleur qui g\`ere
+l'apparition des ennemis. Il contient une file de paires
+<temps,type d'ennemi> et fait appa\^itre l'ennemi du type correspondant quand
+le temps est atteint.
 
 % Needs more stuff in here :)
 
@@ -62,20 +67,20 @@ Pour les modèles, nous avons distingués 3 modèles principaux.
 
 \subsection{Les ennemis}
 Les ennemis, qui possèdent leur chemin et vont principalement avancer en
-recalculant la trajectoire au dur et à mesure, à l'aide de la méthode d'Euler.
+recalculant la trajectoire au fur et à mesure, à l'aide de la méthode d'Euler.
 Les ennemis ont les attributs suivants:
 \begin{itemize}
-    \item HP, qui représente leurs points de vie
-    \item Shield, qui représente la réduction de dégâts
-    \item Speed, qui représente leur vitesse de déplacement
-    \item Reward, la récompense.
+    \item \texttt{hp}, qui représente leurs points de vie
+    \item \texttt{shield}, qui représente la réduction de dégâts
+    \item \texttt{Speed}, qui représente leur vitesse de déplacement
+    \item \texttt{Reward}, la récompense.
 \end{itemize}
 
-Pour bouger, l'ennemi connaît la position de la case suivante dans laquelle il
-doit aller. Le mouvement qu'il effectue est continu, c'est-à-dire qu'il va de case
-en case mais de manière continue, ce qui l'amène à devoir recalculer son moouvement
-à chaque nouvelle case atteinte. Pour l'instant, il n'a besoin que de sa case de
-départ (pour l'apparition) et de sa case d'arrivée.\\
+Le chemin d'un ennemi est constitu\'e d'un liste de points de passage.
+\`A chaque mise \`a jour du jeu, l'ennemi effectue une interpolation lin\'eaire
+entre le point de passage pr\'ec\'edent et le suivant. La distance qu'il
+parcoure est d\'etermin\'ee par m\'ethode d'Euler:
+$$ distance(t+\Delta t) = distance(t) + vitesse * \Delta t $$
 À chaque mise à jour par le contrôleur, les monstres vérifient leur nombre de HP,
 et demandent au contrôleur de l'oublier s'ils atteignent un nombre de HP négatif.
 
@@ -104,7 +109,17 @@ sa cible de se retirer des HP.
 
 \section{Vues}
 
-% TODO
+Le panneau \texttt{MapPanel} dessine sur la fen\^etre le contenu de la carte du
+jeu: tuiles, tours, ennemis, ... Il est redessin\'e a chaque tour de boucle. \\
+
+\noindent Le panneau \texttt{InfoPanel} dessine sur la fen\^etre des informations g\'enerales
+sur l'\'etat du jeu: or, vies restantes, num\'ero de vague, ... \\
+
+\noindent Le panneau \texttt{TowerPanel} dessine sur la fen\^etre les informations sur
+la tour actuellement s\'electionn\'ee si une tour est s\'electionn\'ee. \\
+
+\noindent En plus de ces vues, divers boutons ont \'et\'e rajout\'es \`a
+l'interface: bouton d'achat et de vente de tours, lancement de la vague, ...
 
 \section{Autres fonctionnalités développées}
 
