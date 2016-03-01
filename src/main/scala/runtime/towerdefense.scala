@@ -36,15 +36,14 @@ object TowerDefense extends SimpleSwingApplication
   /* Returns a panel containing the build menu */
   def make_build_menu(): GridPanel = {
     val dimension = new Dimension( 50, 50 )
-    val waypoint  = new CellPos( 0, 0 )
 
     /* Tower types list */
     import collection.mutable.Queue
-    val towers = new Queue[Tower]
-    towers += new Tower(BaseTower, waypoint)
-    towers += new Tower(QuickTower,waypoint)
-    towers += new Tower(HeavyTower,waypoint)
-    towers += new AOETower(ScarecrowTower,waypoint)
+    val towers = new Queue[TowerType]
+    towers += BaseTower
+    towers += QuickTower
+    towers += HeavyTower
+    towers += ScarecrowTower
     /* To fill... */
 
     return new GridPanel( 3, 5 ) {
