@@ -1,10 +1,6 @@
 
 # Projet Programmation 2 : Tower Defense
 
-## Current state
-
-The project's current state is a quick scala mockup of the gui.
-
 ## Building
 
 How to compile:
@@ -13,7 +9,7 @@ How to compile:
 make
 ```
 
-How to run:
+How to run: (also compiles)
 
 ```bash
 make run
