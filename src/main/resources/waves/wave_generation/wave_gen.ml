@@ -29,6 +29,15 @@ let bunnies_alone = [|"Bunny",1,1,atan_variation 200. 10. 20. ; "HeavyBunny",3,1
 let bosses_alone = [|"Otter",1500,10,atan_variation 1. 10. 20.|];;
 (* bunnies and bosses : list of (bunny type, difficulty points, first possible wave of appearance, inverse rarity as a function of n_wave) *)
 let bunnies = Array.concat [bunnies_alone; bosses_alone];;
+
+let min_difficulty =
+  (* The lowest difficulty of all bunnies *)
+  let res = ref (scd bunnies.(0)) in
+  for i=0 to Array.length(bunnies)-1 do
+    if (scd bunnies.(i)) < (!res)
+    then res := (scd bunnies.(i))
+  done;
+  !res;;
   
 let sum_rarity =
   let res = ref 0. in
@@ -77,7 +86,11 @@ let rec wave n t=
 		  time_elapsed := 0.
 		end;
 	    end;
-	  wave (n-(!diff_decr)) (t+.(!time_elapsed));;
+	  if (n-(!diff_decr)) >= 0
+	  then wave (n-(!diff_decr)) (t+.(!time_elapsed))
+	  else if n >= min_difficulty
+	  then wave n t (* Even if a bunny can't spawn now, one can possibly spawn, so let us try again *)
+	  else ()(* Yeah nothing's gonna spawn bro *);;
   
   
 wave difficulty 0.;;

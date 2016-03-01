@@ -3,6 +3,8 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}        % Kinda useless, I just used it to display Borat
 \usepackage{tikz}            % Pretty picturessss
 \usetikzlibrary{positioning} % Mah nodes need GPS
 \usetikzlibrary{calc}        % Whaaat ? Math in tikz ? Is this real life ?
@@ -104,7 +106,68 @@ sa cible de se retirer des HP.
 
 % TODO
 
+\section{Autres fonctionnalités développées}
+
+\subsection{Génération automatique de vagues}
+
+\subsubsection*{Encodage des vagues}
+
+Les vagues sont stockées dans des fichiers \texttt{.csv} de la forme suivante :
+
+\begin{verbatim}
+0.000000, Bunny
+0.249445, Bunny
+0.498891, HeavyBunny
+0.748336, Bunny
+0.997781, Hare
+1.247226, Hare
+1.496672, HeavyBunny
+1.746117, Bunny
+1.995562, Bunny
+2.245007, Bunny
+2.494453, Bunny
+2.743898, HeavyBunny
+2.993343, Bunny
+3.242788, Bunny
+...
+\end{verbatim}
+
+Le flottant est le temps (en secondes) d'apparition de l'unité, et le string qui suit est son identifiant. \newline
+
+\subsubsection*{Génération des vagues}
+
+Les fichiers de vagues sont générés automatiquement par un script \texttt{CamL} qui reçoit en argument le numéro de la vague. Chaque unité dispose des attributs suivants :
+
+\begin{enumerate}
+\item Son nom.
+\item Sa difficulté, c'est-à-dire à quel point cette unité sera difficile à vaincre.
+\item La première vague possible d'apparition.
+\item Sa rareté, qui dépend du numéro de la vague. Par exemple, l'unité de base sera commune en début de jeu, puis sera progressivement remplacée par des unités plus difficiles.
+\end{enumerate}
+
+Etant donné un numéro de vague, le programme génère une vague aléatoire comme suit.
+
+\begin{itemize}
+\item A partir du numéro de la vague, un indice de difficulté est calculé selon une fonction donnée. Actuellement, il s'agit d'un polynôme de degré trois.
+\item Encore à partir du numéro de la vague, un temps d'apparition $dt$ est calculé. Actuellement, ce temps décroît d'une seconde à un dixième de seconde avec une décroissance en $\frac{1}{x^{0.7}}$.
+\item A partir des raretés des unités, une unité est choisie aléatoirement pour apparaître à l'instant présent. On compare ensuite sa difficulté à la difficulté de la vague : soit $d = \text{diff}_{\text{vague}} - \text{diff}_{\text{unité}}$.
+  \begin{itemize}
+  \item Si $d >= 0$, l'unité peut apparaître ; on écrit donc dans le fichier de sortie l'instant présent ainsi que le nom de l'unité, et on recommence cet algorithme à partir d'une date incrémentée de $dt$.
+  \item Si $d < 0$, l'unité est trop puissante pour apparaître. Si la difficulté est telle qu'une des unités peut apparaître, on recommence ; sinon, l'algorithme se termine.
+  \end{itemize}
+\end{itemize}
+
+L'intérêt de cette méthode de génération est que l'utilisation de fonctions pour la difficulté d'une vague, la rareté d'une unité et le temps d'apparition des unités permet très facilement d'effectuer des modification d'équilibrage d'une part en ne modifiant que ces fonctions et non le programme, et d'autre part nous laisse une grande liberté d'action sur l'allure des vagues tout au long du jeu.
+
 \section{Conclusion} % Maybe ?
+
+Ca marche. \newline
+\begin{figure}[h]
+    \includegraphics{great_success.png} 
+\end{figure}
+
+
+
 
 % TODO
 
