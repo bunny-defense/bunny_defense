@@ -3,7 +3,8 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath}
+\usepackage{verbatim}        % Wanted multiline comments
+\usepackage{amsmath}         % Needed some math mode stuff
 \usepackage{graphicx}        % Kinda useless, I just used it to display Borat
 \usepackage{tikz}            % Pretty picturessss
 \usetikzlibrary{positioning} % Mah nodes need GPS
@@ -74,6 +75,7 @@ Les ennemis ont les attributs suivants:
     \item \texttt{shield}, qui représente la réduction de dégâts
     \item \texttt{Speed}, qui représente leur vitesse de déplacement
     \item \texttt{Reward}, la récompense.
+    \item \texttt{bunny\_type}, le type de l'ennemi
 \end{itemize}
 
 Le chemin d'un ennemi est constitu\'e d'un liste de points de passage.
@@ -82,7 +84,10 @@ entre le point de passage pr\'ec\'edent et le suivant. La distance qu'il
 parcoure est d\'etermin\'ee par m\'ethode d'Euler:
 $$ distance(t+\Delta t) = distance(t) + vitesse * \Delta t $$
 À chaque mise à jour par le contrôleur, les monstres vérifient leur nombre de HP,
-et demandent au contrôleur de l'oublier s'ils atteignent un nombre de HP négatif.
+et demandent au contrôleur de l'oublier s'ils atteignent un nombre de HP négatif. \\
+
+\noindent Afin de g\'erer plusieurs types d'ennemis, chaque instance d'ennemi poss\`ede un
+objet type qui impl\'emente un trait de type.
 
 \subsection{Les tours}
 
@@ -90,13 +95,16 @@ Une tour a une position fixe, et diverses caractéristiques, dont la portée, le
 dégâts, le coût, et le cooldown. Pour tirer, la tour prend à chaque nouveau tir
 l'ennemi qui est le plus avancé vers le core, et crée un objet projectile dont
 la cible est le l'ennemi visé. Il transmet les propriétés de dégâts et de vitesse
-du projectile à celui-ci.
+du projectile à celui-ci. \\
+
+\noindent De m\^eme que pour les ennemis, les tours poss\`edent un objet type
+impl\'ementant un trait de type.
 
 \subsection{Les projectiles}
 
 Un projectile est un objet créé par une tour. Il a pour attributs:
 \begin{itemize}
-    \item Une cible qui est un ennemi,
+    \item une cible qui est un ennemi,
     \item une vitesse,
     \item une position courante,
     \item des dégâts.
@@ -174,13 +182,16 @@ Etant donné un numéro de vague, le programme génère une vague aléatoire com
 
 L'intérêt de cette méthode de génération est que l'utilisation de fonctions pour la difficulté d'une vague, la rareté d'une unité et le temps d'apparition des unités permet très facilement d'effectuer des modification d'équilibrage d'une part en ne modifiant que ces fonctions et non le programme, et d'autre part nous laisse une grande liberté d'action sur l'allure des vagues tout au long du jeu.
 
-\section{Conclusion} % Maybe ?
+\begin{comment}
 
-Ca marche. \newline
-\begin{figure}[h]
+  \section{Conclusion} % Maybe ?
+
+  Ca marche. \newline
+  \begin{figure}[h]
     \includegraphics{great_success.png} 
-\end{figure}
+  \end{figure}
 
+\end{comment}
 
 
 
