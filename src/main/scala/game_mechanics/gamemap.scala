@@ -38,8 +38,8 @@ class GameMap(width0: Int, height0: Int)
     }
   }
 
-  for (i<-0 until 30) {
-    obstruction_map(i)(12) = true
+  for (i<-0 until width) {
+    obstruction_map(i)(height/2) = true
   }
 
   def +=(tower: Tower): Boolean = {

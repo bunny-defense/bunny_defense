@@ -18,7 +18,7 @@ import game_mechanics.path._
 object TowerDefense extends SimpleSwingApplication
 {
 
-  val map_panel   = new MapPanel(new GameMap(30,25))
+  val map_panel   = new MapPanel(new GameMap(30,15))
   val info_panel  = new InfoPanel
   val tower_panel = new TowerPanel
   val keymap      = new HashMap[Key.Value,Boolean] {

@@ -9,8 +9,9 @@ import java.awt.MouseInfo
 import java.io.File
 import javax.imageio.ImageIO
 
-import runtime.Controller
+import runtime.{Controller,Spawner}
 import game_mechanics.GameMap
+import game_mechanics.path.Waypoint
 
 object MapPanel
 {
@@ -93,6 +94,15 @@ class MapPanel(map0: GameMap) extends Panel {
         Controller.selected_tower match {
             case None => {}
             case Some(tower) => {
+                // PAINT NO-PLACE ZONE
+                g.setColor( Colors.transparent_red )
+                g.fillRect(
+                    0,
+                    Spawner.bunnystart.y.toInt * cellsize,
+                    (Spawner.bunnyend - Spawner.bunnystart).x.toInt * cellsize,
+                    cellsize )
+                g.setColor( Colors.black )
+                // PAINT TOWER AND RANGE
                 val mousepos  = MouseInfo.getPointerInfo().getLocation()
                 val windowpos = locationOnScreen
                 val snapx     = (mousepos.x - windowpos.x) / cellsize * cellsize

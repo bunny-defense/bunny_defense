@@ -1,17 +1,22 @@
 package runtime
 
-import game_mechanics.Bunny
-import game_mechanics._
-import game_mechanics.path._
-import runtime._
 import collection.mutable.Queue
 import collection.immutable.Map
 import util.Random
 
+import game_mechanics.Bunny
+import game_mechanics._
+import game_mechanics.path._
+import runtime._
+
 object Spawner
 {
-  val bunnystart = new Waypoint(0,12)
-  val bunnyend = new Waypoint(30,12)
+  val bunnystart = new Waypoint(
+      0,
+      TowerDefense.map_panel.map.height / 2)
+  val bunnyend   = new Waypoint(
+      TowerDefense.map_panel.map.width,
+      TowerDefense.map_panel.map.height / 2)
 }
 
 class Spawner(id: Int) {
