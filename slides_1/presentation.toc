@@ -1,1 +1,4 @@
 \beamer@endinputifotherversion {3.24pt}
+\beamer@sectionintoc {1}{Architecture}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{MVC}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Design Patterns}{4}{0}{1}
