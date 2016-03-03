@@ -65,15 +65,15 @@ object GoldenBunny extends BunnyType
 }
 
 /* Bunny superclass from which every ennemy is derived. */
-class Bunny(bunny_type: BunnyType,path0: Progress) {
+class Bunny(bunny_type: BunnyType,path0: Path) {
     var hp              = bunny_type.initial_hp
-    var pos : Waypoint  = path0.path.waypoints(0)
-    var path            = path0
+    var pos : Waypoint  = path0.waypoints(0)
+    var path            = new Progress(path0)
     val shield          = bunny_type.shield
 
     /* Prototype design pattern */
     def copy(): Bunny = {
-        return new Bunny( bunny_type, new Progress( path.path ) )
+        return new Bunny( bunny_type, path.path )
     }
 
     def remove_hp(dmg: Double): Unit = {

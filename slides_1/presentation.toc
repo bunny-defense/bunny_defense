@@ -1,4 +1,5 @@
 \beamer@endinputifotherversion {3.24pt}
-\beamer@sectionintoc {1}{Architecture}{3}{0}{1}
-\beamer@subsectionintoc {1}{1}{MVC}{3}{0}{1}
-\beamer@subsectionintoc {1}{2}{Design Patterns}{4}{0}{1}
+\beamer@sectionintoc {1}{Fonctionnalit\'es}{3}{0}{1}
+\beamer@sectionintoc {2}{Architecture}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{MVC}{5}{0}{2}
+\beamer@subsectionintoc {2}{2}{Design Patterns}{6}{0}{2}
