@@ -40,7 +40,7 @@ class Spawner(id: Int) {
   )
   def create(): Queue[(Double,Bunny)] = {
     for (appear <- iter) {
-      if (law.nextDouble > 1/1000) {
+      if (law.nextDouble > 1.0/1000.0) {
         val class_name = appear(1).trim
         spawn_scheduler += (( appear(0).toDouble, mappage(class_name) ))
       }
