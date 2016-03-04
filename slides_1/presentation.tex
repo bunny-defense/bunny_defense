@@ -10,6 +10,8 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{calc}
 
+\usepackage{listings}
+\lstset{emph={new, val, trait}, emphstyle=\color{red} }
 \title{Tower Defense}
 \author{Alexis Laouar, R\'emi Oudin, K\'evin Le Run}
 
@@ -26,6 +28,7 @@
 
 \section{Fonctionnalit\'es}
 
+\subsection{Tours}
 \begin{frame}
   \frametitle{Tours}
   \begin{itemize}
@@ -35,12 +38,23 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{Tours}
+    \lstinputlisting{tower.scala}
+\end{frame}
+
+\subsection{Ennemis}
 \begin{frame}
   \frametitle{Ennemis}
   \begin{itemize}
   \item 5 types d'ennemis
   \item Dont 1 boss et 1 easter egg
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ennemis}
+    \lstinputlisting{bunny.scala}
 \end{frame}
 
 \section{Architecture}
@@ -72,10 +86,36 @@
 
 \begin{frame}
   \frametitle{Type Object}
-  Au lieu d'avoir une classe par type d'ennemi : une classe ennemi et une classe type d'ennemi
+  Au lieu d'avoir une classe par type d'ennemi : une classe ennemi et une classe
+  type d'ennemi
 \end{frame}
 
+\section{Le SpawnScheduler}
 
+\subsection{La création de vagues}
+\begin{frame}
+    \frametitle{Création des vagues}
+    \begin{itemize}
+        \item Les vagues sont stockées dans un fichier csv
+        \item Chaque vague à son fichier, qu'on lit pour stocker dans un buffer
+        \item Un programme Caml génère des vagues automatiquement selon des
+            facteurs de difficulté.
+        \item Un easter egg : Avec une probabilité 1/1000, c'est un lapin doré
+            super rapide mais qui rapporte beaucoup d'argent qui apparaît
+    \end{itemize}
+\end{frame}
+
+\subsection{La gestion d'une vague}
+\begin{frame}
+    \frametitle{Gestion d'une vague}
+        \begin{itemize}
+            \item Le SpawnScheduler calcule le temps déroulé depuis le début de
+                la vague
+            \item Si le temps d'apparition d'un ennemi est inférieur au temps
+                déroulé depuis le début de la vague, on le clone depuis le
+                SpawnScheduler pour le rajouter dans les ennemis vivants.
+        \end{itemize}
+    \end{frame}
 \section{Conclusion}
 
 \end{document}

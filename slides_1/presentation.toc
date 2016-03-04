@@ -1,5 +1,10 @@
-\beamer@endinputifotherversion {3.24pt}
+\beamer@endinputifotherversion {3.36pt}
 \beamer@sectionintoc {1}{Fonctionnalit\'es}{3}{0}{1}
-\beamer@sectionintoc {2}{Architecture}{5}{0}{2}
-\beamer@subsectionintoc {2}{1}{MVC}{5}{0}{2}
-\beamer@subsectionintoc {2}{2}{Design Patterns}{6}{0}{2}
+\beamer@subsectionintoc {1}{1}{Tours}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Ennemis}{5}{0}{1}
+\beamer@sectionintoc {2}{Architecture}{7}{0}{2}
+\beamer@subsectionintoc {2}{1}{MVC}{7}{0}{2}
+\beamer@subsectionintoc {2}{2}{Design Patterns}{8}{0}{2}
+\beamer@sectionintoc {3}{Le SpawnScheduler}{9}{0}{3}
+\beamer@subsectionintoc {3}{1}{La cr\IeC {\'e}ation de vagues}{9}{0}{3}
+\beamer@subsectionintoc {3}{2}{La gestion d'une vague}{10}{0}{3}
