@@ -17,14 +17,14 @@ trait TowerType
     val tower_graphic  =
         ImageIO.read(
             new File(getClass().getResource("/towers/base_tower.png").getPath()))
-    val size           = 1
-    val damage         = 5
-    val range          = 5
-    val aoe_radius     = 0
+    val size           = 1      /* Size in tiles */
+    val damage         = 5      /* Damage dealt to bunnies */
+    val range          = 5      /* Range in tiles */
+    val aoe_radius     = 0      /* Not sure what that really means ? */
     val throw_speed    = 10.0   /* Speed of the shot projectile */
-    val throw_cooldown = 1.0   /* Cooldown time in seconds */
-    val buy_cost       = 50
-    val sell_cost      = 25
+    val throw_cooldown = 1.0    /* Cooldown time in seconds */
+    val buy_cost       = 50     /* Gold needed to buy one */
+    val sell_cost      = 25     /* Gold earned when sold */
 }
 
 object BaseTower extends TowerType
@@ -34,7 +34,7 @@ object QuickTower extends TowerType
     override val tower_graphic  =
         ImageIO.read(
             new File(getClass().getResource("/towers/quick_tower.png").getPath()))
-    override val range          = 2
+    override val range          = 3
     override val throw_cooldown = 0.5
     override val throw_speed    = 20.0
     override val damage         = 4

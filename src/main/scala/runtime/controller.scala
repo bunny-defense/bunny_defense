@@ -88,17 +88,13 @@ object Controller extends Publisher
     /* Update the game for dt time */
     def update(dt: Double): Unit = {
         /* Update animations */
-        for( animation <- animations )
-            animation.update(dt)
+        animations.foreach( _.update(dt) )
         /* Update projectiles */
-        for( projectile <- projectiles )
-            projectile.update(dt)
+        projectiles.foreach( _.update(dt) )
         /* Update towers */
-        for( tower <- towers )
-            tower.update(dt)
+        towers.foreach( _.update(dt) )
         /* Update bunnies */
-        for( bunny <- bunnies )
-            bunny.update(dt)
+        bunnies.foreach( _.update(dt) )
         /* Spawn in new bunnies */
         SpawnScheduler.update(dt)
     }
