@@ -38,7 +38,7 @@ class BuyButton(tower0: Option[TowerType]) extends Button {
       else
         this.background = Colors.lightred
     }
-    case WaveStarted =>
+/*    case WaveStarted =>
       on_play = true
       enabled = false
       this.background = Colors.lightred
@@ -49,6 +49,6 @@ class BuyButton(tower0: Option[TowerType]) extends Button {
         if ( this.enabled ) {
           this.background = Colors.white
         }
-      }
+      } */
     }
 }
