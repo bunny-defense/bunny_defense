@@ -173,7 +173,7 @@ class AOETower(tower_type : TowerType, pos : CellPos) extends Tower( tower_type,
 {
   override def attack(): Unit = {
     val bunnies : ListBuffer[Bunny] = Controller.bunnies.filter( in_range )
-    if (bunnies.length == 0) {
+    if (bunnies.length != 0) {
       cooldown = tower_type.throw_cooldown
       bunnies.map( fire_at )
     }
