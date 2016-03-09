@@ -73,6 +73,7 @@ object Controller extends Publisher
     /* Triggered when a button from the build menu is clicked */
     def on_build_button( button: BuyButton ): Unit = {
         selected_tower = button.tower
+        selected_cell = None
     }
 
     /* Triggered when the play button is clicked */
