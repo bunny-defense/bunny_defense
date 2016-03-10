@@ -77,20 +77,7 @@ class MapPanel(map0: GameMap) extends Panel {
             val y = projectile.pos.y * cellsize
             g.drawImage( projectile.graphic, x.toInt, y.toInt, null )
         }
-        for( animation <- Controller.animations )
-            animation.draw(g)
-        /* Drawing selected tower */
-        Controller.selected_cell match {
-            case None => {}
-            case Some(tower) => {
-                g.drawOval(tower.pos.x.toInt * cellsize - tower.range * cellsize
-                    + cellsize/2,
-                    tower.pos.y.toInt * cellsize - tower.range * cellsize
-                        + cellsize/2,
-                    tower.range*cellsize*2,
-                    tower.range*cellsize*2 )
-            }
-        }
+        /* Drawing ghost tower */
         Controller.selected_tower match {
             case None => {}
             case Some(tower) => {
@@ -113,6 +100,20 @@ class MapPanel(map0: GameMap) extends Panel {
                 val circlex = snapx + cellsize / 2 - range
                 val circley = snapy + cellsize / 2 - range
                 g.drawOval( circlex, circley, 2 * range, 2 * range )
+            }
+        }
+        for( animation <- Controller.animations )
+            animation.draw(g)
+        /* Drawing selected tower */
+        Controller.selected_cell match {
+            case None => {}
+            case Some(tower) => {
+                g.drawOval(tower.pos.x.toInt * cellsize - tower.range * cellsize
+                    + cellsize/2,
+                    tower.pos.y.toInt * cellsize - tower.range * cellsize
+                        + cellsize/2,
+                    tower.range*cellsize*2,
+                    tower.range*cellsize*2 )
             }
         }
     }
