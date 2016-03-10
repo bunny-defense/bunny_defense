@@ -81,7 +81,9 @@ object Controller extends Publisher
         wave_counter += 1
         var spawnschedule = new Spawner(wave_counter).create
         SpawnScheduler.set_schedule(spawnschedule)
-        SpawnScheduler.start()
+        val anim = new WaveAnimation(wave_counter)
+        anim.set_continuation( SpawnScheduler.start )
+        this += anim
     }
 
     /* ==================== MAIN LOOP ==================== */
