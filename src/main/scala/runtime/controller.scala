@@ -29,7 +29,7 @@ object Controller extends Publisher
     val framerate    = 1.0/30.0 * 1000
     var started      = false
     var dt: Double   = 0.0
-    var acceleration = 1.0
+    var acceleration = 1
     /* The tower type selected for construction */
     var selected_tower          : Option[TowerType] = None
     /* The tower currently selected */
@@ -91,13 +91,12 @@ object Controller extends Publisher
 
     /* Triggered when the fast forward button is clicked */
     def on_fastforward_button(): Unit = {
-        val start = System.currentTimeMillis
-        if (acceleration == 5.0) {
-            acceleration = 1.0
+        if (acceleration == 5) {
+            acceleration = 1
             publish( FastForwOff )
         }
-        else if (acceleration == 1.0) {
-            acceleration = 5.0
+        else if (acceleration == 1) {
+            acceleration = 5
             publish( FastForwOn )
         }
     }
@@ -123,8 +122,10 @@ object Controller extends Publisher
         while( true )
         {
             val start = System.currentTimeMillis
-            /* Update */
-            update(dt)
+          /* Update */
+            for ( i <- 1 to acceleration ) {
+              update(dt)
+            }
             if ( TowerDefense.keymap(Key.Escape)) {
                 selected_tower = None
                 selected_cell  = None
@@ -140,7 +141,7 @@ object Controller extends Publisher
             if( miliseconds < 0 )
                 println( "Can't keep up !" )
             Thread.sleep(Math.abs(miliseconds)) // So that the cpu doesn't max out for nothing
-            dt = acceleration * (System.currentTimeMillis - start).toDouble / 1000
+            dt = (System.currentTimeMillis - start).toDouble / 1000
 
             /* If player loses all health */
             if (Player.hp <= 0) {
