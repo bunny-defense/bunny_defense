@@ -10,6 +10,7 @@ import javax.imageio.ImageIO
 import runtime.Controller
 import game_mechanics.path.Waypoint
 import gui.DamageAnimation
+import game_mechanics.Player
 
 object Throw
 {
@@ -43,8 +44,15 @@ class Throw (target:Bunny, origin: Waypoint) {
             Controller += new DamageAnimation( damage, pos.clone() )
             Controller -= this
         }
-        if( target.hp <= 0 )
-            Controller -= this
+      if( target.hp <= 0 )
+      {
+        Controller -= this
+        if (hit)
+          /* The bunny is killed by this throw only if it hit ! */
+        {
+          Player.killcount += 1
+        }
+      }
     }
 
     def graphic(): BufferedImage = {
