@@ -23,6 +23,7 @@ object Colors {
     val lightgreen = new Color( 200, 255, 200 )
 
     val blue       = new Color(   0,   0, 255 )
+    val midblue    = new Color(  70,  70, 255 )
     val lightblue  = new Color( 200, 200, 255 )
 
     // Composites

@@ -3,7 +3,7 @@ package gui
 
 import swing._
 
-import runtime.{Controller, SelectedCell, NoSelectedCell}
+import runtime.{Controller, SelectedCell, NoSelectedCell, FastForwOn, FastForwOff}
 import game_mechanics._
 
 /* An info Panel that shows information of the selected tower */
@@ -46,7 +46,21 @@ class TowerPanel() extends BorderPanel {
     }
     text = "Sell Tower"
   }
+  val fastforward_button = new Button {
+    action = Action("") { Controller.on_fastforward_button() }
+    listenTo(Controller)
+    text = "Fast forward : OFF"
+    reactions += {
+      case FastForwOn =>
+        text = "Fast forward : ON"
+      case FastForwOff =>
+        text = "Fast forward : OFF"
+    }
+    background = Colors.midblue
+    preferredSize = new Dimension( 250, 100 )
+  }
   val thepanel = new TowerInfoPanel
   add( thepanel, BorderPanel.Position.Center )
   add( sell_button, BorderPanel.Position.East )
+  add( fastforward_button, BorderPanel.Position.West )
 }

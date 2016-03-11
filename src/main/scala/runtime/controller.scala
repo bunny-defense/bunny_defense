@@ -16,7 +16,8 @@ import gui._
 
 case object SelectedCell extends Event
 case object NoSelectedCell extends Event
-
+case object FastForwOn extends Event
+case object FastForwOff extends Event
 
 object Controller extends Publisher
 {
@@ -27,6 +28,8 @@ object Controller extends Publisher
     var wave_counter = 0
     val framerate    = 1.0/30.0 * 1000
     var started      = false
+    var dt: Double   = 0.0
+    var acceleration = 1.0
     /* The tower type selected for construction */
     var selected_tower          : Option[TowerType] = None
     /* The tower currently selected */
@@ -86,6 +89,19 @@ object Controller extends Publisher
         this += anim
     }
 
+  /* Triggered when the fast forward button is clicked */
+  def on_fastforward_button(): Unit = {
+    val start = System.currentTimeMillis
+    if (acceleration == 5.0) {
+      acceleration = 1.0
+      publish( FastForwOff )
+    }
+    else if (acceleration == 1.0) {
+      acceleration = 5.0
+      publish( FastForwOn )
+    }
+  }
+
     /* ==================== MAIN LOOP ==================== */
 
     /* Update the game for dt time */
@@ -104,11 +120,9 @@ object Controller extends Publisher
 
     /* Run the game */
     def run(): Unit = {
-        var dt: Double = 0.0
         while( true )
         {
             val start = System.currentTimeMillis
-
             /* Update */
             update(dt)
             if ( TowerDefense.keymap(Key.Escape)) {
@@ -126,7 +140,7 @@ object Controller extends Publisher
             if( miliseconds < 0 )
                 println( "Can't keep up !" )
             Thread.sleep(Math.abs(miliseconds)) // So that the cpu doesn't max out for nothing
-            dt = (System.currentTimeMillis - start).toDouble / 1000
+            dt = acceleration * (System.currentTimeMillis - start).toDouble / 1000
 
             /* If player loses all health */
             if (Player.hp <= 0) {
