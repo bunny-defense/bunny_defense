@@ -97,8 +97,8 @@ class WaveAnimation(wave_number: Int) extends Animatable
     val duration = 2.0
     timer = duration
 
-    val origin = new Waypoint( 0, TowerDefense.map_panel.size.height / 2 )
-    val target = origin + new Waypoint( TowerDefense.map_panel.size.width, 0 )
+    val origin = new Waypoint( -image_origin_x.toDouble, TowerDefense.map_panel.size.height / 2 )
+    val target = origin + new Waypoint( TowerDefense.map_panel.size.width + image_origin_x.toDouble, 0 )
 
     override def draw(g: Graphics2D): Unit = {
         val interp = Math.pow( timer * 2 / duration - 1, 3 ) / 2 + 0.5
