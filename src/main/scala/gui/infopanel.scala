@@ -16,15 +16,17 @@ class InfoPanel() extends Panel
     val xm = size.width
     val ym = size.height
     g.drawString("Wave : " + (Controller.wave_counter.toString),
-                  (xm/2-34),ym/5+5)
+      (xm/2-85),ym/6+5)
     g.drawString("Remaining Bunnies :"+ (SpawnScheduler.spawn_queue.length),
-                  (xm-2/34),2*ym/5+5)
+      (xm-2/85),2*ym/6+5)
     g.drawString("Gold : " + (Player.gold.toString),
-                  (xm/2-34),3*ym/5+5)
+      (xm/2-85),3*ym/6+5)
     g.drawString("Lives : " + (Player.hp.toString),
-                  (xm/2-34),4*ym/5+5)
+      (xm/2-85),4*ym/6+5)
+    g.drawString("Bunnies slaughtered : "+ (Player.killcount.toString),
+      (xm/2-85), 5*ym/6+5)
     /* If other entries are added in the menu :
      Let n be the number of entries, the coordinates of the k-th entry is
-     (xm/2)-offset, (k*ym/(n+1))+5 */
+     (xm/2)-34, (k*ym/(n+1))+5 */
   }
 }

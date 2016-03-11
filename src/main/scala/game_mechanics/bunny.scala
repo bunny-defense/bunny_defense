@@ -17,7 +17,7 @@ trait BunnyType
     val initial_hp    = 10.0  /* Initial amount of HP */
     val shield        = 1.0   /* Damage dampening */
     val speed         = 2.0   /* Speed of the bunny in tiles per second */
-    val reward        = 10    /* Amount of gold earned when killed */
+    val reward        = 5    /* Amount of gold earned when killed */
     val damage        = 1     /* Damage done to the player when core reached */
 }
 
@@ -29,7 +29,7 @@ object HeavyBunny extends BunnyType
     override val initial_hp = 20.0
     override val shield     = 1.5
     override val speed      = 1.0
-    override val reward     = 15
+    override val reward     = 10
 }
 
 /* Fast "Bunny" */
