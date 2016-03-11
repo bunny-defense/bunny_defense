@@ -10,7 +10,6 @@ import javax.imageio.ImageIO
 import runtime.Controller
 import game_mechanics.path.Waypoint
 import gui.DamageAnimation
-import game_mechanics.Player
 
 object Throw
 {
