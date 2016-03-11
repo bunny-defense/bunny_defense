@@ -52,7 +52,7 @@ class GoldAnimation(amount: Int,origin: Waypoint) extends Animatable
         pos = origin * timer + target * (1 - timer)
         val string = "+" + amount.toString + " Gold"
         val alpha  = if(timer < 1.0) { timer.toFloat } else { 1.0f }
-        g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
+        g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
         g.setColor( Colors.black )
         g.drawString( string,
             pos.x.toFloat * MapPanel.cellsize + 1,
@@ -97,8 +97,8 @@ class WaveAnimation(wave_number: Int) extends Animatable
     val duration = 2.0
     timer = duration
 
-    val origin = new Waypoint( 0, TowerDefense.map_panel.size.height / 2 )
-    val target = origin + new Waypoint( TowerDefense.map_panel.size.width, 0 )
+    val origin = new Waypoint( -image_origin_x.toDouble, TowerDefense.map_panel.size.height / 2 )
+    val target = origin + new Waypoint( TowerDefense.map_panel.size.width + image_origin_x.toDouble, 0 )
 
     override def draw(g: Graphics2D): Unit = {
         val interp = Math.pow( timer * 2 / duration - 1, 3 ) / 2 + 0.5

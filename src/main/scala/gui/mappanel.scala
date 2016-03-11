@@ -4,6 +4,7 @@ package gui
 import swing._
 import swing.event._
 
+import java.awt.AlphaComposite
 import java.awt.image.BufferedImage
 import java.awt.MouseInfo
 import java.io.File
@@ -103,7 +104,11 @@ class MapPanel(map0: GameMap) extends Panel {
             }
         }
         for( animation <- Controller.animations )
+        {
             animation.draw(g)
+            // Resetting the alpha composite
+            g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) )
+        }
         /* Drawing selected tower */
         Controller.selected_cell match {
             case None => {}
