@@ -122,8 +122,10 @@ object Controller extends Publisher
             TowerDefense.tower_panel.thepanel.repaint()
 
             /* Delta time and step time computing */
-            val miliseconds = Math.abs( framerate.toInt - (System.currentTimeMillis - start) )
-            Thread.sleep(miliseconds) // So that the cpu doesn't max out for nothing
+            val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
+            if( miliseconds < 0 )
+                println( "Can't keep up !" )
+            Thread.sleep(Math.abs(miliseconds)) // So that the cpu doesn't max out for nothing
             dt = (System.currentTimeMillis - start).toDouble / 1000
 
             /* If player loses all health */

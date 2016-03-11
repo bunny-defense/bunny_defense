@@ -48,8 +48,13 @@ class GoldAnimation(amount: Int,origin: Waypoint) extends Animatable
 
     override def draw(g: Graphics2D): Unit = {
         pos = origin * timer + target * (1 - timer)
+        val string = "+" + amount.toString + " Gold"
         g.setColor( Colors.black )
-        g.drawString( "+" + amount.toString + " Gold",
+        g.drawString( string,
+            pos.x.toFloat * MapPanel.cellsize + 1,
+            pos.y.toFloat * MapPanel.cellsize + 1 )
+        g.setColor( Colors.yellow )
+        g.drawString( string,
             pos.x.toFloat * MapPanel.cellsize,
             pos.y.toFloat * MapPanel.cellsize )
     }
