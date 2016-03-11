@@ -29,7 +29,19 @@ object HeavyBunny extends BunnyType
     override val initial_hp = 20.0
     override val shield     = 1.5
     override val speed      = 1.0
-    override val reward     = 10
+    override val reward     = 8
+}
+
+/* A badass bunny, really strong, will become the "default" mob in late game */
+object BadassBunny extends BunnyType
+{
+  override val bunny_graphic =
+    ImageIO.read(
+      new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
+  override val initial_hp = 30.0
+  override val shield     = 2.0
+  override val speed      = 1.5
+  override val reward     = 10
 }
 
 /* Fast "Bunny" */
