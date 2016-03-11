@@ -104,9 +104,11 @@ class MapPanel(map0: GameMap) extends Panel {
             }
         }
         for( animation <- Controller.animations )
+        {
             animation.draw(g)
-        // Resetting the alpha composite
-        g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) );
+            // Resetting the alpha composite
+            g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) )
+        }
         /* Drawing selected tower */
         Controller.selected_cell match {
             case None => {}

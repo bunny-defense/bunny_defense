@@ -52,7 +52,7 @@ class GoldAnimation(amount: Int,origin: Waypoint) extends Animatable
         pos = origin * timer + target * (1 - timer)
         val string = "+" + amount.toString + " Gold"
         val alpha  = if(timer < 1.0) { timer.toFloat } else { 1.0f }
-        g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
+        g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
         g.setColor( Colors.black )
         g.drawString( string,
             pos.x.toFloat * MapPanel.cellsize + 1,
