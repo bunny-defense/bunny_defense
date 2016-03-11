@@ -19,6 +19,7 @@ object TowerDefense extends SimpleSwingApplication
 {
 
     val map_panel   = new MapPanel(new GameMap(30,15))
+    val build_menu  = new BuildMenu( 4, 4 )
     val info_panel  = new InfoPanel
     val tower_panel = new TowerPanel
     val keymap      = new HashMap[Key.Value,Boolean] {
@@ -30,31 +31,6 @@ object TowerDefense extends SimpleSwingApplication
         return new BoxPanel(Orientation.Vertical) {
             contents += map_panel
             contents += tower_panel
-        }
-    }
-
-    /* Returns a panel containing the build menu */
-    def make_build_menu(): GridPanel = {
-        val dimension = new Dimension( 50, 50 )
-
-        /* Tower types list */
-        import collection.mutable.Queue
-        val towers = new Queue[TowerType]
-        towers += BaseTower
-        towers += QuickTower
-        towers += HeavyTower
-        towers += ScarecrowTower
-        /* To fill... */
-
-        return new GridPanel( 3, 5 ) {
-            for( i <- 0 until 15 ) {
-                val tower  = try { Some(towers.dequeue) }
-                catch { case e: Exception => None }
-                val button = new BuyButton( tower )
-                button.minimumSize = dimension
-                button.maximumSize = dimension
-                contents += button
-            }
         }
     }
 
@@ -73,13 +49,13 @@ object TowerDefense extends SimpleSwingApplication
             background = Colors.green
             preferredSize = new Dimension( 100, 100 )
         }
-      val build_menu = new BoxPanel(Orientation.Vertical) {
+      val build_pane = new BoxPanel(Orientation.Vertical) {
         contents += info_panel
-        contents += make_build_menu()
+        contents += build_menu
         contents += Swing.VGlue
       }
       return new BorderPanel {
-        add( build_menu, BorderPanel.Position.Center )
+        add( build_pane, BorderPanel.Position.Center )
         add( play_button, BorderPanel.Position.South )
       }
     }

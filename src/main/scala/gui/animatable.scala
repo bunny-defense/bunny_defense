@@ -9,26 +9,17 @@ import javax.imageio.ImageIO
 
 import game_mechanics.path.Waypoint
 import runtime.{TowerDefense,Controller}
+import utils.Continuable
 
 /* Animation superclass */
 
-abstract class Animatable
+abstract class Animatable extends Continuable
 {
-    type Continuation = () => Unit
-
     var timer  = 1.0
-    var continuation : Option[Continuation] = None
-
-    def set_continuation(cont: Continuation): Unit = {
-        continuation = Some(cont)
-    }
 
     def on_timer_ran_out(): Unit = {
         Controller -= this
-        continuation match {
-            case None => ()
-            case Some(cont) => cont()
-        }
+        continue()
     }
 
     def update(dt: Double): Unit = {
