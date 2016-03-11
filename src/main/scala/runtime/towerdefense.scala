@@ -73,15 +73,15 @@ object TowerDefense extends SimpleSwingApplication
             background = Colors.green
             preferredSize = new Dimension( 100, 100 )
         }
-        val build_menu = new BoxPanel(Orientation.Vertical) {
-            contents += info_panel
-            contents += make_build_menu()
-            contents += Swing.VGlue
-        }
-        return new BorderPanel {
-            add( build_menu, BorderPanel.Position.Center )
-            add( play_button, BorderPanel.Position.South )
-        }
+      val build_menu = new BoxPanel(Orientation.Vertical) {
+        contents += info_panel
+        contents += make_build_menu()
+        contents += Swing.VGlue
+      }
+      return new BorderPanel {
+        add( build_menu, BorderPanel.Position.Center )
+        add( play_button, BorderPanel.Position.South )
+      }
     }
 
     def top = new MainFrame
