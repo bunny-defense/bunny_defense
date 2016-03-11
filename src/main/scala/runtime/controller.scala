@@ -85,22 +85,22 @@ object Controller extends Publisher
         var spawnschedule = new Spawner(wave_counter).create
         SpawnScheduler.set_schedule(spawnschedule)
         val anim = new WaveAnimation(wave_counter)
-        anim.set_continuation( SpawnScheduler.start )
+        anim and_then SpawnScheduler.start
         this += anim
     }
 
-  /* Triggered when the fast forward button is clicked */
-  def on_fastforward_button(): Unit = {
-    val start = System.currentTimeMillis
-    if (acceleration == 5.0) {
-      acceleration = 1.0
-      publish( FastForwOff )
+    /* Triggered when the fast forward button is clicked */
+    def on_fastforward_button(): Unit = {
+        val start = System.currentTimeMillis
+        if (acceleration == 5.0) {
+            acceleration = 1.0
+            publish( FastForwOff )
+        }
+        else if (acceleration == 1.0) {
+            acceleration = 5.0
+            publish( FastForwOn )
+        }
     }
-    else if (acceleration == 1.0) {
-      acceleration = 5.0
-      publish( FastForwOn )
-    }
-  }
 
     /* ==================== MAIN LOOP ==================== */
 
