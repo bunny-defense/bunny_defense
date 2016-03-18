@@ -318,4 +318,29 @@ class JPS(start: CellPos, objectif: CellPos) {
         return None
     }
 
+    val run() : ListBuffer[CellPosed] = {
+        val hammer = new Breaks
+        import hammer.{break,breakable}
+        breakable {
+            while (true) {
+                total,pd, dist = this.get_open()
+                    if (total.isEmpty) {
+                        break()
+                    }
 
+                    pd = this.step(dist, pd)
+                    if (pd.isEmpty) {
+                        break()
+                    }
+            }
+            var open_count = 0
+            while (true) {
+                total,pd,dist = this.get_open()
+                if (total.isEmpty) {
+                    break()
+                }
+                open_count += 1
+            }
+        }
+        return this.all_list
+    }
