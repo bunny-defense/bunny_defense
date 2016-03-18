@@ -46,6 +46,7 @@ object TowerDefense extends SimpleSwingApplication
             text       = "Play"
             background = Colors.green
             preferredSize = new Dimension( 100, 100 )
+            focusable = false
         }
       val build_pane = new BoxPanel(Orientation.Vertical) {
         contents += info_panel
