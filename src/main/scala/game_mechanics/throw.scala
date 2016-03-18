@@ -13,19 +13,17 @@ import gui.DamageAnimation
 
 object Throw
 {
-    val carrot_sprite = ImageIO.read(
-        new File(
-            getClass().getResource("/projectiles/carrot.png").getPath()))
 }
 
 /* The class of a throw */
-class Throw (target:Bunny, origin: Waypoint) {
+class Throw (target:Bunny, origin: Waypoint, firing_tower: TowerType) {
     import Throw._
     var speed    = 1.0
     var damage   = 5.0
     var AOE      = 0.0
     var pos      = origin
     var hit      = false
+    val carrot_sprite = firing_tower.throw_graphic
 
     /* Update of the position of the throw */
     def move(dt : Double): Unit = {

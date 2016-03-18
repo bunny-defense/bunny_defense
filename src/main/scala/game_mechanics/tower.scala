@@ -17,6 +17,10 @@ trait TowerType
     val tower_graphic  =
         ImageIO.read(
             new File(getClass().getResource("/towers/base_tower.png").getPath()))
+    val throw_graphic  =
+        ImageIO.read(
+            new File(
+                getClass().getResource("/projectiles/carrot1.png").getPath()))
     val size           = 1      /* Size in tiles */
     val damage         = 5      /* Damage dealt to bunnies */
     val range          = 5      /* Range in tiles */
@@ -46,7 +50,7 @@ object HeavyTower extends TowerType
 {
     override val tower_graphic =
         ImageIO.read(
-            new File(getClass().getResource("/towers/heavy_tower.png").getPath()))
+            new File(getClass().getResource("/towers/tank.png").getPath()))
     override val range         = 4
     override val throw_speed   = 15.0
     override val damage        = 9
@@ -58,11 +62,31 @@ object HeavyTower extends TowerType
 /* AOE Tower (spinning scarecrow) */
 object ScarecrowTower extends TowerType
 {
+    override val tower_graphic =
+        ImageIO.read(
+            new File(getClass().getResource("/towers/heavy_tower.png").getPath()))
     override val range     = 4
     override val damage    = 6
     override val buy_cost  = 150
-    override val sell_cost = 8
+    override val sell_cost = 80
     override val aoe_radius = 10
+}
+
+/* Human commando in a fishtank who uses phychic powers to continuouly hurt nearby rabbits (metal as hell) */
+object Roberto extends TowerType
+{
+    override val tower_graphic =
+        ImageIO.read(
+            new File(getClass().getResource("/towers/roberto.png").getPath()))
+    override val throw_graphic =
+        ImageIO.read(
+            new File(getClass().getResource("/blank.png").getPath()))
+    override val range     = 6
+    override val damage    = 1
+    override val buy_cost  = 300
+    override val sell_cost = 150
+    override val throw_speed = 100.0
+    override val throw_cooldown = 0.05
 }
 
 /* Tower superclass from which evey special tower is derived */
@@ -70,7 +94,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     val pos            = pos0
     /* Cooldown counter */
     var cooldown       = 0.0
-    /* The tower keeps a selected target until it goes out of range */
+    /* The tower keeps a selected target until it goes out of range or is changed */
     var current_target : Option[Bunny] = None
     val towertype      = tower_type
 
@@ -111,7 +135,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
 
     /* Self descriptive */
     def fire_at(bunny: Bunny): Unit = {
-        var throw_carrot    = new Throw(bunny,this.pos.toDouble)
+        var throw_carrot    = new Throw(bunny, this.pos.toDouble, tower_type)
         throw_carrot.speed  = tower_type.throw_speed
         throw_carrot.damage = tower_type.damage
         throw_carrot.AOE    = tower_type.aoe_radius
