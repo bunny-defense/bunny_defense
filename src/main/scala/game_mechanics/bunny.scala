@@ -92,9 +92,7 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
     }
 
     def remove_hp(dmg: Double): Unit = {
-        if (dmg-this.shield > 0) {
-            this.hp -= (dmg - this.shield)
-        }
+        this.hp -= dmg * (1.0 - this.shield/10.0)
     }
 
     /* Moves the bunny along the path */
