@@ -83,11 +83,19 @@ object Controller extends Publisher
     def on_play_button(button : Button): Unit = {
         button.enabled = false
         wave_counter += 1
-        var spawnschedule = new Spawner(wave_counter).create
+        val spawner = new Spawner(wave_counter)
+        val spawnschedule = spawner.create()
         SpawnScheduler.set_schedule(spawnschedule)
         val anim = new WaveAnimation(wave_counter)
         anim and_then SpawnScheduler.start
-        this += anim
+        if( spawner.has_boss )
+        {
+            val splash_anim = new SplashAnimation(Otter)
+            splash_anim and_then { () => this += anim }
+            this += splash_anim
+        } else {
+            this += anim
+        }
     }
 
     /* Triggered when the fast forward button is clicked */

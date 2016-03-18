@@ -40,7 +40,7 @@ object TowerDefense extends SimpleSwingApplication
             action = Action("") { Controller.on_play_button(this) }
             listenTo(SpawnScheduler)
             reactions += {
-                case WaveEnded   =>
+                case WaveEnded =>
                     enabled = true
             }
             text       = "Play"

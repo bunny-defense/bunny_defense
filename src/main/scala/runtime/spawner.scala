@@ -23,6 +23,7 @@ class Spawner(id: Int) {
   val src = scala.io.Source.fromFile("src/main/resources/waves/wave"+id.toString+".csv")
   val iter = src.getLines().filter( _ != "" ).map(_.split(","))
   var spawn_scheduler = new Queue[(Double,BunnyType)]
+  var has_boss = false
 
   val law = new Random()
 
@@ -38,6 +39,8 @@ class Spawner(id: Int) {
     for (appear <- iter) {
       if (law.nextDouble > 1.0/1000.0) {
         val class_name = appear(1).trim
+        if( class_name == "Otter" )
+            has_boss = true
         spawn_scheduler += (( appear(0).toDouble, mappage(class_name) ))
       }
       else {
