@@ -58,6 +58,9 @@ object Hare extends BunnyType
 /* A boss! */
 object Otter extends BunnyType
 {
+    override val bunny_graphic =
+        ImageIO.read(
+            new File(getClass().getResource("/mobs/otter.png").getPath()))
     override val initial_hp = 1000.0
     override val shield     = 1.5
     override val speed      = 1.0
