@@ -80,7 +80,8 @@ object Controller extends Publisher
     }
 
     /* Triggered when the play button is clicked */
-    def on_play_button(): Unit = {
+    def on_play_button(button : Button): Unit = {
+        button.enabled = false
         wave_counter += 1
         var spawnschedule = new Spawner(wave_counter).create
         SpawnScheduler.set_schedule(spawnschedule)

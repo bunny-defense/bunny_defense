@@ -37,11 +37,9 @@ object TowerDefense extends SimpleSwingApplication
     /* Returns a panel containing the in-game menu (next to the map) */
     def make_menu(): BorderPanel = {
         val play_button = new Button {
-            action = Action("") { Controller.on_play_button() }
+            action = Action("") { Controller.on_play_button(this) }
             listenTo(SpawnScheduler)
             reactions += {
-                case WaveStarted =>
-                    enabled = false
                 case WaveEnded   =>
                     enabled = true
             }
