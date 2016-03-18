@@ -20,7 +20,7 @@ trait TowerType
     val throw_graphic  =
         ImageIO.read(
             new File(
-                getClass().getResource("/projectiles/carrot.png").getPath()))
+                getClass().getResource("/projectiles/carrot1.png").getPath()))
     val size           = 1      /* Size in tiles */
     val damage         = 5      /* Damage dealt to bunnies */
     val range          = 5      /* Range in tiles */
