@@ -29,7 +29,8 @@ object Controller extends Publisher
     val framerate    = 1.0/60.0 * 1000
     var started      = false
     var dt: Double   = 0.0
-    var acceleration = 1
+    var acceleration = 2
+    var is_accelerated = false
     /* The tower type selected for construction */
     var selected_tower          : Option[TowerType] = None
     /* The tower currently selected */
@@ -100,14 +101,8 @@ object Controller extends Publisher
 
     /* Triggered when the fast forward button is clicked */
     def on_fastforward_button(): Unit = {
-        if (acceleration == 5) {
-            acceleration = 1
-            publish( FastForwOff )
-        }
-        else if (acceleration == 1) {
-            acceleration = 5
-            publish( FastForwOn )
-        }
+        is_accelerated = !is_accelerated
+        acceleration = if( is_accelerated ) 5 else 2
     }
 
     /* ==================== MAIN LOOP ==================== */
