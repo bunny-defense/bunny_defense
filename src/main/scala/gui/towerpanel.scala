@@ -47,6 +47,55 @@ class TowerPanel() extends BorderPanel {
         }
         text = "Sell Tower"
     }
+    val upgrade_button = new Button {
+        action = Action("") {
+            Controller.selected_cell match
+            {
+                case None => ()
+                case Some(tower) => {
+                    if(Player.gold >= tower.upgrades.cost) {
+                        tower.upgrades.effect(tower)
+                        Player.remove_gold(tower.upgrades.cost)
+                    }
+                    else {
+                        println("Not enough gold to buy tower upgrade !")
+                    }
+                }
+
+            }
+        }
+        preferredSize = new Dimension ( 200, 100 )
+        background = Colors.lightblue
+        enabled = false
+        listenTo(Controller)
+        reactions += {
+            case SelectedCell   => {
+                enabled = true
+                Controller.selected_cell match
+                {
+                    case None => ()
+                    case Some(tower) => {
+                        /* override def paintComponent(g : Graphics2D) : Unit = {
+                            super.paintComponent(g)
+                            g.drawString( tower.upgrades.name, xm/2-34, ym/4+5 )
+                            g.drawString( tower.upgrades.cost + " gold", xm/2-34, ym/4+5 )
+                            g.drawString( tower.upgrades.description, xm/2-34, ym/4+5 )
+                         } */
+                        text = Controller.selected_cell.get.upgrades.name
+                    }
+                }
+            }
+            case NoSelectedCell => {
+                enabled = false
+                Controller.selected_cell match
+                {
+                    case None => ()
+                    case Some(tower) => text = Controller.selected_cell.get.upgrades.name
+                }
+            }
+        }
+    }
+
     val fastforward_button = new Button {
         action = Action("") { Controller.on_fastforward_button() }
         focusable = false
@@ -62,7 +111,9 @@ class TowerPanel() extends BorderPanel {
         preferredSize = new Dimension( 250, 100 )
     }
     val thepanel = new TowerInfoPanel
+    /* val upgradepanel = new TowerUpgradePanel */
     add( thepanel, BorderPanel.Position.Center )
+    add( upgrade_button, BorderPanel.Position.Center ) /* Will need to let both panels appear */
     add( sell_button, BorderPanel.Position.East )
     add( fastforward_button, BorderPanel.Position.West )
 }
