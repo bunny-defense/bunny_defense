@@ -18,6 +18,19 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     /* Cooldown counter */
     var cooldown       = 0.0
     val towertype      = tower_type
+    var damage         = tower_type.damage
+    var range          = tower_type.range
+    var upgrades : UpgradeTree = BaseTowerUpgrades
+
+    // ==============================
+    //  UPGRADE MECHANICS
+    // ==============================
+    tower_type match
+    {
+        case BaseTower  => upgrades = BaseTowerUpgrades
+        case QuickTower => upgrades = QuickTowerUpgrades
+        case _          => upgrades = BaseTowerUpgrades
+    }
 
     // ==============================
     //  FIRING MECHANICS
@@ -25,7 +38,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
 
     /* Returns whether the bunny is in the range of the tower or not */
     def in_range(bunny: Bunny): Boolean = {
-        return ((bunny.pos - pos).norm <= tower_type.range)
+        return ((bunny.pos - pos).norm <= this.range)
     }
 
     def closest_to(p: Waypoint): Option[Bunny] = {
@@ -47,7 +60,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     }
 
     /* Self descriptive */
-    val fire_at : Bunny => Unit = tower_type.fire_from( this.pos )
+    val fire_at : Bunny => Unit = tower_type.fire_from( this )
 
     /* Creates a Projectile object, with the characteristics of the tower */
     def attack(): Unit = if (tower_type.aoe_radius == 0)
@@ -86,14 +99,6 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     // ==============================
     //  GETTERS
     // ==============================
-
-    def damage() : Int = {
-        return tower_type.damage
-    }
-
-    def range() : Int = {
-        return tower_type.range
-    }
 
     def throw_speed(): Double = {
         return tower_type.throw_speed

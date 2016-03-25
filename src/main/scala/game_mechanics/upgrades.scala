@@ -1,5 +1,6 @@
 package game_mechanics
 import game_mechanics._
+import game_mechanics.tower._
 import Math._
 
 trait UpgradeTree

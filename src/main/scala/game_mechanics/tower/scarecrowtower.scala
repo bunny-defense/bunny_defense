@@ -12,8 +12,8 @@ object ScarecrowTower extends TowerType
         ImageIO.read(
             new File(
                 getClass().getResource("/towers/heavy_tower.png").getPath()))
-    override val range     = 4
-    override val damage    = 6
+    range     = 4
+    damage    = 6
     override val buy_cost  = 1500
     override val sell_cost = 80
     override val aoe_radius = 10

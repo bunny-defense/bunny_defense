@@ -16,8 +16,8 @@ object Roberto extends TowerType
         ImageIO.read(
             new File(
                 getClass().getResource("/blank.png").getPath()))
-    override val range     = 6
-    override val damage    = 1
+    range     = 6
+    damage    = 1
     override val buy_cost  = 3000
     override val sell_cost = 150
     override val throw_speed = 100.0

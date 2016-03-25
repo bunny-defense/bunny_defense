@@ -23,8 +23,8 @@ trait TowerType
             new File(
                 getClass().getResource("/projectiles/carrot1.png").getPath()))
     val size           = 1      /* Size in tiles */
-    val damage         = 5      /* Damage dealt to bunnies */
-    val range          = 5      /* Range in tiles */
+    var damage         = 5      /* Damage dealt to bunnies */
+    var range          = 5      /* Range in tiles */
     val spread         = 0.0    /* Amount of bullet spread */
     val aoe_radius     = 0      /* Not sure what that really means ? */
     val throw_speed    = 10.0   /* Speed of the shot projectile */
@@ -35,11 +35,11 @@ trait TowerType
     var amount         = 0
 
     /* Self descriptive */
-    def fire_from(pos : CellPos)(bunny: Bunny): Unit = {
-        val target_pos = bunny.pos + ( Waypoint.random() * 2 - new Waypoint( 1, 1 ) ) * spread
-        var throw_carrot    = new Projectile(target_pos, pos.toDouble, this)
+    def fire_from(tower : Tower)(bunny: Bunny): Unit = {
+        val target_pos = bunny.pos + (Waypoint.random() * 2 - new Waypoint( 1, 1 )) * spread
+        var throw_carrot    = new Projectile(target_pos, tower.pos.toDouble, this)
         throw_carrot.speed  = throw_speed
-        throw_carrot.damage = damage
+        throw_carrot.damage = tower.damage
         throw_carrot.AOE    = aoe_radius
         Controller += throw_carrot
     }
