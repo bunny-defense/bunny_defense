@@ -12,39 +12,36 @@ import game_mechanics.path.Waypoint
 import gui.DamageAnimation
 
 /* The class of a throw */
-class Projectile (target:Bunny, origin: Waypoint, firing_tower: TowerType) {
+class Projectile (target: Bunny, origin: Waypoint, firing_tower: TowerType) {
     var speed    = 1.0
     var damage   = 5.0
     var AOE      = 0.0
     var pos      = origin
     var hit      = false
     val carrot_sprite = firing_tower.throw_graphic
+    val direction     = (target.pos - origin).normalize()
+    val target_pos    = target.pos + direction * 2
+    val hitradius     = 0.7
 
     /* Update of the position of the throw */
     def move(dt : Double): Unit = {
-        val next_pos = pos + (target.pos - pos).normalize() * (speed * dt)
-        hit = ((target.pos - pos) & (target.pos - next_pos)) < 0.0
+        val next_pos = pos + direction * (speed * dt)
+        hit = ((target_pos - pos) & (target_pos - next_pos)) < 0.0
         pos = next_pos
     }
 
     /* One step of progress */
     def update(dt: Double): Unit= {
         move(dt)
-        if (hit)
+        Controller.bunnies.find( x => x.pos.distance_to(pos) < hitradius ) match
         {
-            target.remove_hp( damage )
-            Controller += new DamageAnimation( damage, pos.clone() )
-            Controller -= this
+            case None => ()
+            case Some(bunny) => {
+                bunny.remove_hp( damage )
+                Controller -= this
+            }
         }
-      if( target.hp <= 0 )
-      {
-        Controller -= this
-        if (hit)
-          /* The bunny is killed by this throw only if it hit ! */
-        {
-          Player.killcount += 1
-        }
-      }
+        if( hit ) { Controller -= this }
     }
 
     def graphic(): BufferedImage = {
