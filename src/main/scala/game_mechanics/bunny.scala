@@ -111,6 +111,7 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
             Controller += new GoldAnimation( bunny_type.reward, pos.clone() )
             Player.add_gold( bunny_type.reward )
             Controller -= this
+            Player.killcount += 1
         }
         move(dt)
         if( path.reached )

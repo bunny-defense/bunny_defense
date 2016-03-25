@@ -12,15 +12,15 @@ import game_mechanics.path.Waypoint
 import gui.DamageAnimation
 
 /* The class of a throw */
-class Projectile (target: Bunny, origin: Waypoint, firing_tower: TowerType) {
+class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType) {
     var speed    = 1.0
     var damage   = 5.0
     var AOE      = 0.0
     var pos      = origin
     var hit      = false
     val carrot_sprite = firing_tower.throw_graphic
-    val direction     = (target.pos - origin).normalize()
-    val target_pos    = target.pos + direction * 2
+    val direction     = (targetpos - origin).normalize()
+    val target_pos    = targetpos + direction * 2
     val hitradius     = 0.7
 
     /* Update of the position of the throw */

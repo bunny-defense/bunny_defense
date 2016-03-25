@@ -26,6 +26,7 @@ trait TowerType
     val size           = 1      /* Size in tiles */
     val damage         = 5      /* Damage dealt to bunnies */
     val range          = 5      /* Range in tiles */
+    val spread         = 0.0    /* Amount of bullet spread */
     val aoe_radius     = 0      /* Not sure what that really means ? */
     val throw_speed    = 10.0   /* Speed of the shot projectile */
     val throw_cooldown = 1.0    /* Cooldown time in seconds */
@@ -34,7 +35,8 @@ trait TowerType
 
     /* Self descriptive */
     def fire_from(pos : CellPos)(bunny: Bunny): Unit = {
-        var throw_carrot    = new Projectile(bunny, pos.toDouble, this)
+        val target_pos = bunny.pos + ( Waypoint.random() * 2 - new Waypoint( 1, 1 ) ) * spread
+        var throw_carrot    = new Projectile(target_pos, pos.toDouble, this)
         throw_carrot.speed  = throw_speed
         throw_carrot.damage = damage
         throw_carrot.AOE    = aoe_radius
@@ -77,10 +79,11 @@ object QuickTower extends TowerType
         ImageIO.read(
             new File(
                 getClass().getResource("/towers/quick_tower.png").getPath()))
-    override val range          = 3
-    override val throw_cooldown = 0.5
+    override val range          = 5
+    override val spread         = 1.0
+    override val throw_cooldown = 0.2
     override val throw_speed    = 20.0
-    override val damage         = 4
+    override val damage         = 1
     override val buy_cost       = 75
     override val sell_cost      = 35
 }
@@ -108,7 +111,7 @@ object ScarecrowTower extends TowerType
                 getClass().getResource("/towers/heavy_tower.png").getPath()))
     override val range     = 4
     override val damage    = 6
-    override val buy_cost  = 150
+    override val buy_cost  = 1500
     override val sell_cost = 80
     override val aoe_radius = 10
 }
@@ -126,7 +129,7 @@ object Roberto extends TowerType
                 getClass().getResource("/blank.png").getPath()))
     override val range     = 6
     override val damage    = 1
-    override val buy_cost  = 300
+    override val buy_cost  = 3000
     override val sell_cost = 150
     override val throw_speed = 100.0
     override val throw_cooldown = 0.05
