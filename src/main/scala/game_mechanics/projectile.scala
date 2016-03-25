@@ -8,6 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.Controller
+import game_mechanics.tower.TowerType
 import game_mechanics.path.Waypoint
 import gui.DamageAnimation
 

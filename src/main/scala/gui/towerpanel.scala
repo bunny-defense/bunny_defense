@@ -5,6 +5,7 @@ import swing._
 
 import runtime.{Controller, SelectedCell, NoSelectedCell, FastForwOn, FastForwOff}
 import game_mechanics._
+import game_mechanics.tower._
 
 /* An info Panel that shows information of the selected tower */
 

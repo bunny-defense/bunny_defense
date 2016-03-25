@@ -11,6 +11,7 @@ import collection.mutable.{ListBuffer,Queue}
 import runtime._
 import game_mechanics._
 import game_mechanics.path._
+import game_mechanics.tower._
 import gui._
 
 
@@ -182,11 +183,13 @@ object Controller extends Publisher
 
     def +=(tower: Tower): Unit = {
         towers += tower
+        tower.towertype.amount += 1
         TowerDefense.map_panel.map += tower
     }
 
     def -=(tower: Tower): Unit = {
         towers -= tower
+        tower.towertype.amount -= 1
         TowerDefense.map_panel.map -= tower
     }
 

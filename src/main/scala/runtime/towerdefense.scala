@@ -14,6 +14,7 @@ import javax.swing.ImageIcon
 import gui._
 import game_mechanics._
 import game_mechanics.path._
+import game_mechanics.tower._
 
 object TowerDefense extends SimpleSwingApplication
 {

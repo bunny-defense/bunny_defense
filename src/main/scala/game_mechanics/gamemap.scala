@@ -8,6 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import utils.Landscape
+import game_mechanics.tower.Tower
 
 object GameMap
 {

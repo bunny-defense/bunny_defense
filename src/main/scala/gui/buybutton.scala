@@ -6,8 +6,8 @@ import swing._
 import javax.swing.ImageIcon
 
 import runtime._
-import game_mechanics.{TowerType,Player,MoneyChanged}
-
+import game_mechanics.{Player,MoneyChanged}
+import game_mechanics.tower.TowerType
 
 /*Creates a Button for the shop. It reacts to money movements and Play buttons*/
 

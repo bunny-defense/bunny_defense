@@ -7,6 +7,7 @@ import collection.mutable.Queue
 
 import game_mechanics._
 import game_mechanics.path._
+import game_mechanics.tower._
 
 case object WaveStarted extends Event
 case object WaveEnded   extends Event

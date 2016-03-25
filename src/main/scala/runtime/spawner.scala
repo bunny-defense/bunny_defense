@@ -6,6 +6,7 @@ import util.Random
 
 import game_mechanics._
 import game_mechanics.path._
+import game_mechanics.tower._
 import runtime._
 
 object Spawner
