@@ -95,6 +95,10 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
         this.hp -= dmg * (1.0 - this.shield/10.0)
     }
 
+    def alive() : Boolean = {
+        hp > 0
+    }
+
     /* Moves the bunny along the path */
     def move(dt: Double): Unit = {
         path.move( dt * bunny_type.speed )
@@ -102,7 +106,7 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
     }
 
     def update(dt: Double): Unit = {
-        if( hp <= 0 )
+        if( !alive )
         {
             Controller += new GoldAnimation( bunny_type.reward, pos.clone() )
             Player.add_gold( bunny_type.reward )
