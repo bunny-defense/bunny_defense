@@ -22,7 +22,7 @@ case object FastForwOff extends Event
 object Controller extends Publisher
 {
     val bunnies      = new ListBuffer[Bunny]
-    val projectiles  = new ListBuffer[Throw]
+    val projectiles  = new ListBuffer[Projectile]
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
     var wave_counter = 0
@@ -170,11 +170,11 @@ object Controller extends Publisher
 
     /* PROJECTILES */
 
-    def +=(projectile: Throw): Unit = {
+    def +=(projectile: Projectile): Unit = {
         projectiles += projectile
     }
 
-    def -=(projectile: Throw): Unit = {
+    def -=(projectile: Projectile): Unit = {
         projectiles -= projectile
     }
 

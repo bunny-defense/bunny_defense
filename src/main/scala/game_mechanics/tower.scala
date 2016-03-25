@@ -34,7 +34,7 @@ trait TowerType
 
     /* Self descriptive */
     def fire_from(pos : CellPos)(bunny: Bunny): Unit = {
-        var throw_carrot    = new Throw(bunny, pos.toDouble, this)
+        var throw_carrot    = new Projectile(bunny, pos.toDouble, this)
         throw_carrot.speed  = throw_speed
         throw_carrot.damage = damage
         throw_carrot.AOE    = aoe_radius
@@ -169,7 +169,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     /* Self descriptive */
     val fire_at : Bunny => Unit = tower_type.fire_from( this.pos )
 
-    /* Creates a Throw object, with the characteristics of the tower */
+    /* Creates a Projectile object, with the characteristics of the tower */
     def attack(): Unit = if (tower_type.aoe_radius == 0)
     {
         {

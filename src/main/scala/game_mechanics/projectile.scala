@@ -11,13 +11,8 @@ import runtime.Controller
 import game_mechanics.path.Waypoint
 import gui.DamageAnimation
 
-object Throw
-{
-}
-
 /* The class of a throw */
-class Throw (target:Bunny, origin: Waypoint, firing_tower: TowerType) {
-    import Throw._
+class Projectile (target:Bunny, origin: Waypoint, firing_tower: TowerType) {
     var speed    = 1.0
     var damage   = 5.0
     var AOE      = 0.0
