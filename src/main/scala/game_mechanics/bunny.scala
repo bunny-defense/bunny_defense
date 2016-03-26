@@ -29,7 +29,19 @@ object HeavyBunny extends BunnyType
     override val initial_hp = 20.0
     override val shield     = 1.5
     override val speed      = 1.0
-    override val reward     = 10
+    override val reward     = 8
+}
+
+/* A badass bunny, really strong, will become the "default" mob in late game */
+object BadassBunny extends BunnyType
+{
+  override val bunny_graphic =
+    ImageIO.read(
+      new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
+  override val initial_hp = 30.0
+  override val shield     = 2.0
+  override val speed      = 1.5
+  override val reward     = 10
 }
 
 /* Fast "Bunny" */
@@ -46,6 +58,9 @@ object Hare extends BunnyType
 /* A boss! */
 object Otter extends BunnyType
 {
+    override val bunny_graphic =
+        ImageIO.read(
+            new File(getClass().getResource("/mobs/otter.png").getPath()))
     override val initial_hp = 1000.0
     override val shield     = 1.5
     override val speed      = 1.0
@@ -77,9 +92,11 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
     }
 
     def remove_hp(dmg: Double): Unit = {
-        if (dmg-this.shield > 0) {
-            this.hp -= (dmg - this.shield)
-        }
+        this.hp -= dmg * (1.0 - this.shield/10.0)
+    }
+
+    def alive() : Boolean = {
+        hp > 0
     }
 
     /* Moves the bunny along the path */
@@ -89,11 +106,12 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
     }
 
     def update(dt: Double): Unit = {
-        if( hp <= 0 )
+        if( !alive )
         {
             Controller += new GoldAnimation( bunny_type.reward, pos.clone() )
             Player.add_gold( bunny_type.reward )
             Controller -= this
+            Player.killcount += 1
         }
         move(dt)
         if( path.reached )

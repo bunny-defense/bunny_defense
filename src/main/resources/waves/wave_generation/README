@@ -1,4 +1,4 @@
-Hello, traveller ! And welcome to the long lost land of wave generation. Few have had the courage to venture this far. Only one, actually, me, Diffrac, you almighty god and master that you love and respect.
+Hello, traveller ! And welcome to the long lost land of wave generation. Few have had the courage to venture this far. Only one, actually, me, Diffrac, your almighty god and master that you love and respect.
 
 wave_gen.ml is given a wave number as argument and generates a .csv file in the folder above. Can be compiled bu running comp.sh.
 

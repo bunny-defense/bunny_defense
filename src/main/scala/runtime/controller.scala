@@ -11,6 +11,7 @@ import collection.mutable.{ListBuffer,Queue}
 import runtime._
 import game_mechanics._
 import game_mechanics.path._
+import game_mechanics.tower._
 import gui._
 
 
@@ -22,14 +23,15 @@ case object FastForwOff extends Event
 object Controller extends Publisher
 {
     val bunnies      = new ListBuffer[Bunny]
-    val projectiles  = new ListBuffer[Throw]
+    val projectiles  = new ListBuffer[Projectile]
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
     var wave_counter = 0
-    val framerate    = 1.0/30.0 * 1000
+    val framerate    = 1.0/60.0 * 1000
     var started      = false
     var dt: Double   = 0.0
-    var acceleration = 1
+    var acceleration = 2
+    var is_accelerated = false
     /* The tower type selected for construction */
     var selected_tower          : Option[TowerType] = None
     /* The tower currently selected */
@@ -80,26 +82,29 @@ object Controller extends Publisher
     }
 
     /* Triggered when the play button is clicked */
-    def on_play_button(): Unit = {
+    def on_play_button(button : Button): Unit = {
+        button.enabled = false
         wave_counter += 1
-        var spawnschedule = new Spawner(wave_counter).create
+        val spawner = new Spawner(wave_counter)
+        val spawnschedule = spawner.create()
         SpawnScheduler.set_schedule(spawnschedule)
         val anim = new WaveAnimation(wave_counter)
-        anim.set_continuation( SpawnScheduler.start )
-        this += anim
+        anim and_then SpawnScheduler.start
+        if( spawner.has_boss )
+        {
+            val splash_anim = new SplashAnimation(Otter)
+            splash_anim and_then { () => this += anim }
+            this += splash_anim
+        } else {
+            this += anim
+        }
     }
 
-  /* Triggered when the fast forward button is clicked */
-  def on_fastforward_button(): Unit = {
-    if (acceleration == 5) {
-      acceleration = 1
-      publish( FastForwOff )
+    /* Triggered when the fast forward button is clicked */
+    def on_fastforward_button(): Unit = {
+        is_accelerated = !is_accelerated
+        acceleration = if( is_accelerated ) 5 else 2
     }
-    else if (acceleration == 1) {
-      acceleration = 5
-      publish( FastForwOn )
-    }
-  }
 
     /* ==================== MAIN LOOP ==================== */
 
@@ -133,6 +138,7 @@ object Controller extends Publisher
 
             /* Render */
             TowerDefense.map_panel.repaint()
+            TowerDefense.build_menu.repaint()
             TowerDefense.info_panel.repaint()
             TowerDefense.tower_panel.thepanel.repaint()
 
@@ -165,11 +171,11 @@ object Controller extends Publisher
 
     /* PROJECTILES */
 
-    def +=(projectile: Throw): Unit = {
+    def +=(projectile: Projectile): Unit = {
         projectiles += projectile
     }
 
-    def -=(projectile: Throw): Unit = {
+    def -=(projectile: Projectile): Unit = {
         projectiles -= projectile
     }
 
@@ -177,11 +183,13 @@ object Controller extends Publisher
 
     def +=(tower: Tower): Unit = {
         towers += tower
+        tower.towertype.amount += 1
         TowerDefense.map_panel.map += tower
     }
 
     def -=(tower: Tower): Unit = {
         towers -= tower
+        tower.towertype.amount -= 1
         TowerDefense.map_panel.map -= tower
     }
 

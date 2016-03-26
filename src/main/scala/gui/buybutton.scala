@@ -6,8 +6,8 @@ import swing._
 import javax.swing.ImageIcon
 
 import runtime._
-import game_mechanics.{TowerType,Player,MoneyChanged}
-
+import game_mechanics.{Player,MoneyChanged}
+import game_mechanics.tower.TowerType
 
 /*Creates a Button for the shop. It reacts to money movements and Play buttons*/
 
@@ -21,8 +21,9 @@ class BuyButton(tower0: Option[TowerType]) extends Button {
   this.background    = Colors.white
   this.focusable     = false
   this.action        = Action("") { Controller.on_build_button(this) }
-  if( tower0 != None )
+  if( tower0 != None ) {
     this.icon        = new ImageIcon( tower0.get.tower_graphic )
+  }
   this.preferredSize = dimension
   var on_play        = false
   val tower          = tower0

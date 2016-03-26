@@ -7,28 +7,20 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+import game_mechanics.BunnyType
 import game_mechanics.path.Waypoint
 import runtime.{TowerDefense,Controller}
+import utils.Continuable
 
 /* Animation superclass */
 
-abstract class Animatable
+abstract class Animatable extends Continuable
 {
-    type Continuation = () => Unit
-
     var timer  = 1.0
-    var continuation : Option[Continuation] = None
-
-    def set_continuation(cont: Continuation): Unit = {
-        continuation = Some(cont)
-    }
 
     def on_timer_ran_out(): Unit = {
         Controller -= this
-        continuation match {
-            case None => ()
-            case Some(cont) => cont()
-        }
+        continue()
     }
 
     def update(dt: Double): Unit = {
@@ -113,5 +105,37 @@ class WaveAnimation(wave_number: Int) extends Animatable
         g.drawString( string,
             pos.x.toFloat - strwidth.toFloat / 2,
             pos.y.toFloat )
+    }
+}
+
+class SplashAnimation(boss : BunnyType) extends Animatable
+{
+    val height = 100
+    val duration = 3.0
+    timer = duration
+
+    val origin = new Waypoint( 0, TowerDefense.map_panel.size.height / 2 )
+    val target = origin + new Waypoint( TowerDefense.map_panel.size.width, 0 )
+
+    override def draw(g: Graphics2D): Unit = {
+        val string = "Boss incoming"
+        val strwidth = g.getFontMetrics().stringWidth( string )
+        val interp = Math.pow( timer * 2 / duration - 1, 3 ) / 2 + 0.5
+        val pos = origin * interp + target * ( 1 - interp )
+        var alpha = (duration / 2 - Math.abs( timer - duration / 2 )).toFloat
+        if( alpha > 1.0f )
+            alpha = 1.0f
+        g.setComposite( AlphaComposite.getInstance(
+            AlphaComposite.SRC_OVER, alpha ) )
+        g.setColor( Colors.darkred )
+        g.fillRect(
+            0,
+            TowerDefense.map_panel.size.height / 2 - height / 2,
+            TowerDefense.map_panel.size.width,
+            height)
+        g.setColor( Colors.yellow )
+        g.drawString( string,
+            pos.x.toFloat - strwidth.toFloat / 2,
+            pos.y toFloat )
     }
 }
