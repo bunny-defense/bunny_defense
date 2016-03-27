@@ -2,132 +2,140 @@
 package game_mechanics
 
 import game_mechanics.path._
+import runtime._
+import Math._
 
 import collection.mutable.{ListBuffer,ListMap,Queue}
 
 
 
-class CellPosed(cell: CellPos, dir : (Int,Int)) {
+class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
     /**
      * Jump point, it is a cell with a possible parent
      * @param cell: the cell
      * @param parent: the parent or nothing
      */
-    val cell = cell
-    var parent = None
-    val dir = dir
-    val set_parent(parent : CellPosed) : Unit = {
-        assert (self.parent.isEmpty, {
-            this.parent = parent
+    var cell = cell_init
+    var dir  = dir_init
+    var parent: Option[CellPosed] = None
+
+    def set_parent(father : CellPosed) : Unit = {
+        assert (this.parent.isEmpty, {
+            this.parent = Some(father)
         }
+    )
     }
 }
 
-/* TODO List: add_node, get_closed_node */
+/* TODO Debugging >< */
 
 class JPS(start: CellPos, objectif: CellPos) {
-  val vert_dist = 1
-  val hor_dist  = 1
-  val diag_dist = (CellPos(1,1) - CellPos(0,0)).norm
-  val start     = start
-  val objectif  = objectif
+  val vert_dist = 1.0
+  val hor_dist  = 1.0
+  val diag_dist = Math.sqrt(2)
   val all_list: ListMap[CellPosed,Double] = new ListMap()
   val queue : Queue[(Double,CellPosed,Double)]
 
 
-  for (dx <- [0,1]) {
-      for (dy <- [-1,0,1]) {
+  for (dx <- Iterator(0,1)) {
+      for (dy <- Iterator(-1,0,1)) {
           if ( dy != 0) {
-              this.add_node(this.start.x,this.start.y,(dx,dy),0)
+              this.add_node(this.start.x,this.start.y,Some((dx,dy)),0)
           }
       }
   }
 
-  val estimate(x: Int, y: Int, dir: Option[(Int,Int)]) : Double = {
-      if (dir.isEmpty || dir=(0,0)) {
+  def estimate(x: Int, y: Int, dir: Option[(Int,Int)]) : Double = {
+      var xx = x
+      var yy = y
+      var add = 0
+      if ((dir.isEmpty)||(dir==(0,0))) {
           add = 0
       }
       else {
           add = 7
-          x += dir[0]
-          y += dir[1]
+          xx = xx+dir.get._1
+          yy = yy+dir.get._2
       }
-      val dx = abs(x - this.objectif.x)
-      val dy = abs(y - this.objectif.y)
-      mini =min(dx,dy)
+      val dx = Math.abs(xx - this.objectif.x);
+      val dy = Math.abs(yy - this.objectif.y);
+      val mini =min(dx,dy);
       return add + 7*mini + 5* ((dx-mini) + (dy-mini))
   }
 
 
-  val add_node(x: Int, y: Int, dir: (Int,Int), dist: Int): CellPosed = {
-      val pd = CellPosed(Cell(x,y),dir)
+  def add_node(x: Int, y: Int, dir: Option[(Int,Int)], dist: Double): CellPosed = {
+      val pd = new CellPosed(new CellPos(x,y),dir.get)
       val current  = this.all_list.get(pd)
-      if ( curren.isEmpty || current > dist) {
-          val total = dist + this.estimate(pd.cell.x, pd.cell.y)
+      if ( current.isEmpty || current.get > dist) {
+          val total = dist + this.estimate(pd.cell.x, pd.cell.y,dir)
           this.all_list.update(pd,dist)
           this.add_open(total,pd,dist)
       }
       return pd
   }
 
-  val get_closed_node(x: Int, y: Int, dir: (Int,Int)) : CellPosed = {
-      val pd = CellPosed(Cell(x,y),dir)
+  def get_closed_node(x: Int, y: Int, dir: (Int,Int), dist: Double) : CellPosed = {
+      val pd = new CellPosed(new CellPos(x,y),dir)
       val current = this.all_list.get(pd)
-      if (!current.isEmpty && current <= dist) {
-          return current
+      if (!current.isEmpty && current.get <= dist) {
+          return(pd)
       }
       this.all_list.update(pd,dist)
       return pd
- }
+  }
 
- val add_open(total, pd, dist): Unit = {
-      queue += (total,pd,dist)
- }
+ def add_open(total: Double, pd: CellPosed, dist: Double): Unit = {
+      this.queue += (new Tuple3(total,pd,dist))
+  }
 
- val get_open() : Option[(Double,CellPosed,Double)] = {
-     while (true):
+ def get_open() : Option[(Double,CellPosed,Double)] = {
+     while (true){
          if (this.queue.isEmpty) {
-             return None,None,None
+             return (None)
          }
-         total,pd,dist = this.queue.dequeue
-         current = this.all_list.get(pd)
-         if (dist == current) {
-             return Some(total,pd,list)
+         val (total,pd,dist) = this.queue.dequeue
+         val current = this.all_list.get(pd)
+         if (dist == current.get) {
+             return Some((total,pd,dist))
          }
+         return(None)
+     }
  }
 
 
-  val horizontal_search(
-    pos: CellPos,
+  def horizontal_search(
+    pos: CellPosed,
     hor_dir: Int,
-    dist: Double): ListBuffer[CellPos] =
+    dist: Double): ListBuffer[CellPosed] =
   {
     /** Manages the horizontal search of jump points
     *  @param pos: current position
     *  @param hor_dir : Horizontal direction (+/- 1)
     *  @param dist : Distance traveled so far
     */
-    val x0 = pos.x
-    val y0 = pos.y
+    var x0 = pos.cell.x
+    var y0 = pos.cell.y
     while (true) {
-      var x1 = pos.x + hor_dir
+      var x1 = pos.cell.x + hor_dir
       /* The cell is not on the map */
       if (!TowerDefense.map_panel.map.on_map(x1,y0))
-        return ([]: ListBuffer[CellPos])
+        return (new ListBuffer[CellPosed]())
       /* The cell is obstructed */
       if (TowerDefense.map_panel.map.obstructed(x1,y0))
-        return ([]: ListBuffer[CellPos])
+        return (new ListBuffer[CellPosed]())
       /* The cell is the core objective, we return the last point of
       * the path */
-      if ( CellPos(x1,y0) == objectif ) {
-        return ([this.add_node(x1, y0, None, dist+hor_dist)]: ListBuffer[CellPos])
+      if ((new CellPos(x1,y0)) == objectif ) {
+        return (new ListBuffer[CellPosed]())
+            (this.add_node(x1, y0, None, dist+hor_dist))
       }
 
       /*We have an open space in (x1,y0) */
       dist += hor_dist
       var x2 = x1+ hor_dir
 
-      var nodes: ListBuffer[CellPos] = []
+      var nodes = new ListBuffer[CellPosed]()
 
       /* Choose the nodes to explore */
       if (TowerDefense.map_panel.map.obstructed(x1,y0-1) &&
@@ -147,39 +155,43 @@ class JPS(start: CellPos, objectif: CellPos) {
 
       x0 = x1
     }
+    return (new ListBuffer[CellPosed]()p)
   }
   /* Same but for vertical search */
-  val vertical_search(
-    pos: CellPos,
+  def vert_search(
+    pos: CellPosed,
     vert_dir: Int,
-    dist: Double): ListBuffer[CellPos] =
+    dist_init: Double): ListBuffer[CellPosed] =
   {
     /** Manages the horizontal search of jump points
     *  @param pos: current position
     *  @param vert_dir : Horizontal direction (+/- 1)
     *  @param dist : Distance traveled so far
     */
-    val x0 = pos.x
-    val y0 = pos.y
+    var x0 = pos.cell.x
+    var y0 = pos.cell.y
+    var dist = dist_init
     while (true) {
-      var y1 = pos.y + vert_dir
+      var y1 = pos.cell.y + vert_dir
       /* The cell is not on the map */
       if (!TowerDefense.map_panel.map.on_map(x0,y1))
-        return ([]: ListBuffer[CellPos])
+        return (new ListBuffer[CellPosed]())
       /* The cell is obstructed */
       if (TowerDefense.map_panel.map.obstructed(x0,y1))
-        return []
+        return (new ListBuffer[CellPosed]())
       /* The cell is the core objective, we return the last point of
       * the path */
-      if ( CellPos(x0,y1) == objectif ) {
-        return [this.add_node(x0, y1, None, dist + vert_dist)]
+      if ((new CellPos(x0,y1))== objectif ) {
+        return (new ListBuffer[CellPosed]
+                (this.add_node(x0, y1, None, dist + vert_dist)))
+      return (new ListBuffer[CellPosed]())
       }
 
       /*We have an open space in (x0,y1) */
-      dist += vert_dist
-      var y2 = y1+ vert_dir
+      dist = dist + vert_dist
+      var y2 = y1 + vert_dir
 
-      var nodes: ListBuffer[CellPos] = []
+      var nodes = new ListBuffer[CellPosed]()
 
       /* Choose the nodes to explore */
       if (TowerDefense.map_panel.map.obstructed(x0-1,y1) &&
@@ -189,11 +201,11 @@ class JPS(start: CellPos, objectif: CellPos) {
 
       if (TowerDefense.map_panel.map.obstructed(x0+1,y1) &&
         !TowerDefense.map_panel.map.obstructed(x0+1,y2)) {
-        nodes += this.add_node(x0,y1,(vert_dir,1),dist)
+        nodes += this.add_node(x0,y1,Some(vert_dir,1),dist)
       }
 
       if (!nodes.isEmpty) {
-        nodes += this.add_node(x0,y1,(vert_dir,0),dist)
+        nodes += this.add_node(x0,y1,Some(vert_dir,0),dist)
         return nodes
       }
 
@@ -201,11 +213,11 @@ class JPS(start: CellPos, objectif: CellPos) {
     }
   }
 
-  val diag_search(
-    pos: CellPos,
+  def diag_search(
+    pos: CellPosed,
     hor_dir: Int,
     vert_dir: Int,
-    dist: Double): ListBuffer[CellPos] =
+    dist_dist: Double): ListBuffer[CellPosed] =
   /** Manages the diagonal path search
   *  @param pos: Start position
   *  @param hor_dir: horizontal direction (+/- 1)
@@ -215,24 +227,26 @@ class JPS(start: CellPos, objectif: CellPos) {
   {
     val x0 = pos.x
     val y0 = pos.y
+    var dist = dist_init
     while (true) {
       var x1 = x0 + hor_dir
       var y1 = y0 + vert_dir
       if (!TowerDefense.map_panel.map.on_map(x1,y1))
-        return ([]: ListBuffer[CellPos])
+        return (new ListBuffer[CellPosed]())
       /* The cell is obstructed */
       if (TowerDefense.map_panel.map.obstructed(x1,y1))
-        return ([]: ListBuffer[CellPos])
+        return (new ListBuffer[CellPosed]())
       /* The cell is the core objective, we return the last point of
       * the path */
-      if (CellPos(x1,y1) == this.objectif) {
-        return ([add_node(x1,y1, None, dist + diag_dist)]:ListBuffer[CellPos])
+      if (new CellPos(x1,y1) == this.objectif) {
+        return (new ListBuffer[CellPosed]
+            (add_node(x1,y1, None, dist + diag_dist)))
         /* There is open space at (x1,y1) */
 
-        dist  += diag_dist
+        dist  = dist + diag_dist
         var x2 = x1 + hor_dir
-        var y2 = y2 + vert_dir
-        var nodes: ListBuffer[CellPos] = []
+        var y2 = y1 + vert_dir
+        var nodes: ListBuffer[CellPos] = new ListBuffer()
 
         if (TowerDefense.map_panel.map.obstructed(x0,y1) &&
           !TowerDefense.map_panel.map.obstructed(x0,y2)) {
@@ -262,7 +276,7 @@ class JPS(start: CellPos, objectif: CellPos) {
         }
 
           if (nodes.isEmpty) {
-            val sub_nodes = this.vertical_search(CellPos(x1,y1), vert_dist, dist)
+            val sub_nodes = this.vert_search(CellPos(x1,y1), vert_dist, dist)
             var vert_done = true
 
             if (!sub_nodes.isEmpty) {
@@ -276,54 +290,57 @@ class JPS(start: CellPos, objectif: CellPos) {
 
             if (!nodes.isEmpty) {
               if (!hor_done) {
-                nodes += add_node(x1, y1, (hor_dir, 0), dist))
+                nodes += this.add_node(x1, y1, (hor_dir, 0), dist)
               }
               if (!vert_node) {
-                  nodes += add_node(x1, y1, (0, vert_dir), dist))
+                  nodes += this.add_node(x1, y1, (0, vert_dir), dist)
               }
-              nodes += add_node(x1, y1, (hor_dir, vert_dir), dist))
+              nodes += this.add_node(x1, y1, (hor_dir, vert_dir), dist)
               return nodes
             }
 
 
-      x0, y0 = x1, y1
+      x0 = x1
+      y0 = y1
       }
     }
+  }
 
-    val step(dist : Double, cell: CellPosed ): Option[CellPosed] = {
-        if ((elem.cell.x, elem.cell.y) == (this.objectif.x,this.objectif.y)) {
-            return elm
-        }
+  def step(dist : Double, elem: CellPosed ): Option[CellPosed] = {
+      if ((elem.cell.x, elem.cell.y) == (this.objectif.x,this.objectif.y)) {
+          return elm
+      }
 
-        val hor_dir  = elm.dir[0]
-        val vert_dir = elm.dir[1]
+      val hor_dir  = elm.dir._1
+      val vert_dir = elm.dir._2
 
-        if (hor_dir != 0 && vert_dir != 0) {
-            nodes = this.diag_search(elm, hor_dir, vert_dir, dist)
-        }
+      if (hor_dir != 0 && vert_dir != 0) {
+          nodes = this.diag_search(elm, hor_dir, vert_dir, dist)
+      }
 
-        else if (vert_dir != 0) {
-            nodes = this.vert_search(elm,vert_dir, dist)
-        }
-        else {
-            assert(hor_dir != 0, {
-                nodes = this.hor_search(elm,hor_dir, dist)
-            }
-            )
-        }
+      else if (vert_dir != 0) {
+          nodes = this.vert_search(elm,vert_dir, dist)
+      }
+      else {
+          assert(hor_dir != 0, {
+          nodes = this.hor_search(elm,hor_dir, dist)
+          }
+          )
+      }
 
-        for node <- nodes
-            node.set_parent(elm)
+      for (node <- nodes) {
+          node.set_parent(elm)
+      }
 
-        return None
-    }
+      return None
+  }
 
-    val run() : ListBuffer[CellPosed] = {
+    def run() : ListBuffer[CellPosed] = {
         val hammer = new Breaks
         import hammer.{break,breakable}
         breakable {
             while (true) {
-                total,pd, dist = this.get_open()
+                val (total, pd, dist) = this.get_open()
                     if (total.isEmpty) {
                         break()
                     }
@@ -335,7 +352,7 @@ class JPS(start: CellPos, objectif: CellPos) {
             }
             var open_count = 0
             while (true) {
-                total,pd,dist = this.get_open()
+                val total,pd,dist = this.get_open()
                 if (total.isEmpty) {
                     break()
                 }
@@ -344,3 +361,4 @@ class JPS(start: CellPos, objectif: CellPos) {
         }
         return this.all_list
     }
+}
