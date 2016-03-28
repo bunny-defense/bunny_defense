@@ -363,7 +363,7 @@ class JPS(start: CellPos, objectif: CellPos) {
           dep = this.all_list.keySet.filter(_== dep.head.parent.get)
           path += dep.head.cell.toDouble
       }
-      return path.reversed
+      return path.reverse
   }
 
   def run() : Option[Path] = {

@@ -28,7 +28,7 @@ class Path {
   }
   def reverse(): Path = {
     val npath = new Path()
-    npath.waypoints = this.waypoints.reverse
+    npath.waypoints.appendAll( this.waypoints.reverse )
     return npath
   }
 }
