@@ -19,10 +19,6 @@ object SpawnScheduler extends Publisher
     var spawn_queue = new Queue[(Double,BunnyType)]
     var spent_time  = 0.0
 
-    val test_path = new Path
-    test_path += Spawner.bunnystart
-    test_path += Spawner.bunnyend
-
     def start(): Unit = {
         reset_time
         started    = true

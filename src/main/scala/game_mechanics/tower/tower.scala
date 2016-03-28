@@ -56,7 +56,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
 
     /* Returns the target of the tower */
     def get_targets(): Option[Bunny] = {
-        return closest_to( Spawner.bunnyend.toFloat )
+        return closest_to( Spawner.bunnyend.toDouble )
     }
 
     /* Self descriptive */
