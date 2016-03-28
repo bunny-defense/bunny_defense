@@ -66,8 +66,8 @@ class GameMap(width0: Int, height0: Int)
     def valid( pos : CellPos ): Boolean = {
         val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend )
         jps.run() match {
-            None    => return false
-            Some(_) => return true
+            case None    => return false
+            case Some(_) => return true
         }
     }
 
