@@ -390,6 +390,7 @@ class JPS(start: CellPos, objectif: CellPos) {
               open_count += 1
           }
       }
+      println(this.all_list)
       println(this.toPath)
       if (!this.all_list.keySet.filter(x => x.cell==this.objectif).isEmpty) {
           return Some(this.toPath)

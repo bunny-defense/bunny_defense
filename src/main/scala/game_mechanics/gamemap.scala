@@ -74,6 +74,6 @@ class GameMap(width0: Int, height0: Int)
     }
 
     def on_map(x:Int, y: Int) : Boolean = {
-        0 <= x && x < this.width && 0 <= y && y < this.height
+        -1 <= x && x <= this.width && 0 <= y && y < this.height
     }
 }
