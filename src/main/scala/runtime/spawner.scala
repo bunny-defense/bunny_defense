@@ -20,6 +20,7 @@ object Spawner
   (new JPS( bunnystart, bunnyend )).run() match {
       case None => throw Exception
       case Some(path) => val path
+  }
 }
 
 class Spawner(id: Int) {
