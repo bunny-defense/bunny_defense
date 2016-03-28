@@ -9,6 +9,8 @@ import javax.imageio.ImageIO
 
 import utils.Landscape
 import game_mechanics.tower.Tower
+import game_mechanics.path.CellPos
+import runtime.Spawner
 
 object GameMap
 {

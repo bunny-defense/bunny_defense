@@ -20,7 +20,7 @@ object BaseTower extends TowerType
 
     override def get_targets(in_range : ListBuffer[Bunny])
         : ListBuffer[Bunny] = {
-        closest_to( in_range, Spawner.bunnyend ) match {
+        closest_to( in_range, Spawner.bunnyend.toFloat ) match {
             case None => new ListBuffer[Bunny]()
             case Some(bunny) => {
                 val list = new ListBuffer[Bunny]

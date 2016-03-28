@@ -11,15 +11,15 @@ import runtime._
 
 object Spawner
 {
-  val bunnystart = new Waypoint(
+  val bunnystart = new CellPos(
       -1,
       TowerDefense.map_panel.map.height / 2)
-  val bunnyend   = new Waypoint(
+  val bunnyend   = new CellPos(
       TowerDefense.map_panel.map.width,
       TowerDefense.map_panel.map.height / 2)
   (new JPS( bunnystart, bunnyend )).run() match {
       case None => throw Exception
-      case Some(path) => val path
+      case Some(p) => val path = p
   }
 }
 

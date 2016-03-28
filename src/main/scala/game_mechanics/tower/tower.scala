@@ -56,7 +56,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
 
     /* Returns the target of the tower */
     def get_targets(): Option[Bunny] = {
-        return closest_to( Spawner.bunnyend )
+        return closest_to( Spawner.bunnyend.toFloat )
     }
 
     /* Self descriptive */
@@ -69,7 +69,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
             val target = get_targets()
             if( target == None )
                 return
-                    cooldown = tower_type.throw_cooldown /* Resetting the cooldown */
+            cooldown = tower_type.throw_cooldown /* Resetting the cooldown */
             fire_at( target.get )
         }
     }
