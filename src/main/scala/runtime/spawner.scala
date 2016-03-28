@@ -17,6 +17,9 @@ object Spawner
   val bunnyend   = new Waypoint(
       TowerDefense.map_panel.map.width,
       TowerDefense.map_panel.map.height / 2)
+  (new JPS( bunnystart, bunnyend )).run() match {
+      None => throw Exception
+      Some(path) => val path
 }
 
 class Spawner(id: Int) {

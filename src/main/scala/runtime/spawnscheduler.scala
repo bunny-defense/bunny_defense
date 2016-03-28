@@ -34,7 +34,7 @@ object SpawnScheduler extends Publisher
         {
             spent_time += dt
             while( !spawn_queue.isEmpty && spawn_queue.head._1 < spent_time)
-                Controller += new Bunny( spawn_queue.dequeue._2, test_path )
+                Controller += new Bunny( spawn_queue.dequeue._2, Spawner.path )
             if( spawn_queue.isEmpty && Controller.bunnies.isEmpty )
             {
                 started = false

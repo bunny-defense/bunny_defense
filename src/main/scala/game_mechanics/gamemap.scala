@@ -34,7 +34,8 @@ class GameMap(width0: Int, height0: Int)
     for( x <- 0 until width ) {
         for( y <- 0 until height ) {
             obstruction_map(x)(y) = false
-            if( y < landscape_top(width - 1 - x) || height - y - 1 < landscape_bottom(x) )
+            if( y < landscape_top(width - 1 - x)
+                || height - y - 1 < landscape_bottom(x) )
                 graphic_map(x)(y) = ground_image
             else
                 graphic_map(x)(y) = grass_image
@@ -62,7 +63,15 @@ class GameMap(width0: Int, height0: Int)
         obstruction_map(x)(y)
     }
 
-  def on_map(x:Int, y: Int) : Boolean = {
-    0 <= x && x < this.width && 0 <= y && y < this.height
-  }
+    def valid( pos : CellPos ): Boolean = {
+        val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend )
+        jps.run() match {
+            None    => return false
+            Some(_) => return true
+        }
+    }
+
+    def on_map(x:Int, y: Int) : Boolean = {
+        0 <= x && x < this.width && 0 <= y && y < this.height
+    }
 }
