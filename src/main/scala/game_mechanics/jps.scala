@@ -355,31 +355,42 @@ class JPS(start: CellPos, objectif: CellPos) {
       return None
   }
 
-    def run() : Option[ListMap[CellPosed,Double]] = {
-        breakable {
-            while (true) {
-                var (total, pd, dist) = this.get_open()
-                    if (total.isEmpty) {
-                        break()
-                    }
+  def toPath(): Path = {
+      var path = new Path()
+      var dep = this.all_list.keySet.filter(_.cell==this.start)
+      path += this.start.toDouble
+      while (dep.head.cell != this.objectif) {
+          dep = this.all_list.keySet.filter(_== dep.head.parent.get)
+          path += dep.head.cell.toDouble
+      }
+      return path
+  }
 
-                    var pd_bis = this.step(dist.get, pd.get)
-                    if (!pd.isEmpty) {
-                        break()
-                    }
-            }
-            var open_count = 0
-            while (true) {
-                val (total,pd,dist) = this.get_open()
-                if (total.isEmpty) {
-                    break
-                }
-                open_count += 1
-            }
-        }
-        if (!this.all_list.keySet.filter(_.cell==this.objectif).isEmpty) {
-            return Some(this.all_list)
-        }
-        return None
-    }
+  def run() : Option[Path] = {
+      breakable {
+          while (true) {
+              var (total, pd, dist) = this.get_open()
+              if (total.isEmpty) {
+                  break()
+              }
+
+              var pd_bis = this.step(dist.get, pd.get)
+              if (!pd.isEmpty) {
+                  break()
+              }
+          }
+          var open_count = 0
+          while (true) {
+              val (total,pd,dist) = this.get_open()
+              if (total.isEmpty) {
+                  break
+              }
+              open_count += 1
+          }
+          if (!this.all_list.keySet.filter(_.cell==this.objectif).isEmpty) {
+              return Some(this.toPath)
+          }
+      }
+  return None
+  }
 }

@@ -3,6 +3,7 @@ package runtime
 import collection.mutable.Queue
 import collection.immutable.Map
 import util.Random
+import util.control.Exception
 
 import game_mechanics._
 import game_mechanics.path._
@@ -18,7 +19,7 @@ object Spawner
       TowerDefense.map_panel.map.width,
       TowerDefense.map_panel.map.height / 2)
   val path =(new JPS( bunnystart, bunnyend )).run() match {
-      case None    => throw Exception
+      case None    => throw new Exception()
       case Some(p) => p
   }
 }
