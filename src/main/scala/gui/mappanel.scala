@@ -86,8 +86,8 @@ class MapPanel(map0: GameMap) extends Panel {
                 g.setColor( Colors.transparent_red )
                 g.fillRect(
                     0,
-                    Spawner.bunnystart.y.toInt * cellsize,
-                    (Spawner.bunnyend - Spawner.bunnystart).x.toInt * cellsize,
+                    Spawner.bunnystart.y * cellsize,
+                    (Spawner.bunnyend - Spawner.bunnystart).x * cellsize,
                     cellsize )
                 g.setColor( Colors.black )
                 // PAINT TOWER AND RANGE

@@ -26,4 +26,9 @@ class Path {
   def last(): Waypoint = {
     return waypoints.last
   }
+  def reverse(): Path = {
+    val npath = new Path()
+    npath.waypoints = this.waypoints.reverse
+    return npath
+  }
 }
