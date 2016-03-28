@@ -43,7 +43,7 @@ class JPS(start: CellPos, objectif: CellPos) {
 
   for (dx <- Iterator(0,1)) {
       for (dy <- Iterator(-1,0,1)) {
-          if ( dy != 0) {
+          if ( dx != 0 || dy != 0 ) {
               this.add_node(this.start.x,this.start.y,Some((dx,dy)),0)
           }
       }
@@ -123,6 +123,7 @@ class JPS(start: CellPos, objectif: CellPos) {
     var dist = dist_init
     while (true) {
       var x1 = x0 + hor_dir
+        println( "Hor", x1, y0 )
       /* The cell is not on the map */
       if (!TowerDefense.map_panel.map.on_map(x1,y0))
         return (new ListBuffer[CellPosed]())
@@ -179,6 +180,7 @@ class JPS(start: CellPos, objectif: CellPos) {
     var dist = dist_init
     while (true) {
         var y1 = y0 + vert_dir
+        println( "Vert", x0, y1 )
         /* The cell is not on the map */
         if (!TowerDefense.map_panel.map.on_map(x0,y1))
             return (new ListBuffer[CellPosed]())
@@ -238,6 +240,7 @@ class JPS(start: CellPos, objectif: CellPos) {
     while (true) {
       var x1 = x0 + hor_dir
       var y1 = y0 + vert_dir
+      println( "Diag", x1, y1 )
       if (!TowerDefense.map_panel.map.on_map(x1,y1))
         return (new ListBuffer[CellPosed]())
       /* The cell is obstructed */
