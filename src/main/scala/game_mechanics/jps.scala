@@ -355,7 +355,7 @@ class JPS(start: CellPos, objectif: CellPos) {
       return None
   }
 
-    def run() : ListMap[CellPosed,Double] = {
+    def run() : Option[ListMap[CellPosed,Double]] = {
         breakable {
             while (true) {
                 var (total, pd, dist) = this.get_open()
@@ -377,6 +377,9 @@ class JPS(start: CellPos, objectif: CellPos) {
                 open_count += 1
             }
         }
-        return this.all_list
+        if (!this.all_list.keySet.filter(_.cell==this.objectif).isEmpty) {
+            return Some(this.all_list)
+        }
+        return None
     }
 }
