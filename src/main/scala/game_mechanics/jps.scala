@@ -357,29 +357,31 @@ class JPS(start: CellPos, objectif: CellPos) {
 
   def toPath(): Path = {
       var path = new Path()
-      var dep = this.all_list.keySet.filter(_.cell==this.start)
-      path += this.start.toDouble
-      while (dep.head.cell != this.objectif) {
+      var dep = this.all_list.keySet.filter(_.cell==this.objectif)
+      path += this.objectif.toDouble
+      while (dep.head.cell != this.start ) {
           dep = this.all_list.keySet.filter(_== dep.head.parent.get)
           path += dep.head.cell.toDouble
       }
-      return path
+      return path.reversed
   }
 
   def run() : Option[Path] = {
-      breakable {
-          while (true) {
-              var (total, pd, dist) = this.get_open()
-              if (total.isEmpty) {
-                  break()
-              }
-
-              var pd_bis = this.step(dist.get, pd.get)
-              if (!pd.isEmpty) {
-                  break()
-              }
+      breakable{
+      while (true) {
+          var (total, pd, dist) = this.get_open()
+          if (total.isEmpty) {
+              break()
           }
-          var open_count = 0
+
+          var pd_bis = this.step(dist.get, pd.get)
+          if (!pd.isEmpty) {
+              break()
+          }
+      }
+      }
+      var open_count = 0
+      breakable {
           while (true) {
               val (total,pd,dist) = this.get_open()
               if (total.isEmpty) {
@@ -387,10 +389,11 @@ class JPS(start: CellPos, objectif: CellPos) {
               }
               open_count += 1
           }
-          if (!this.all_list.keySet.filter(_.cell==this.objectif).isEmpty) {
-              return Some(this.toPath)
-          }
       }
-  return None
+      println(this.toPath)
+      if (!this.all_list.keySet.filter(x => x.cell==this.objectif).isEmpty) {
+          return Some(this.toPath)
+      }
+      return None
   }
 }
