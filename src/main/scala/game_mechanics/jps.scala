@@ -28,6 +28,10 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
             this.parent = Some(father)
         }
     }
+
+    override def toString(): String = {
+        return "(" + cell.x.toString + "," + cell.y.toString + ")"
+    }
 }
 
 /* TODO Debugging >< */
@@ -57,13 +61,13 @@ class JPS(start: CellPos, objectif: CellPos) {
       }
       else {
           add = 7
-          xx = xx+dir.get._1
-          yy = yy+dir.get._2
+          xx = xx + dir.get._1
+          yy = yy + dir.get._2
       }
       val dx = Math.abs(xx - this.objectif.x);
       val dy = Math.abs(yy - this.objectif.y);
-      val mini =min(dx,dy);
-      return add + 7*mini + 5* ((dx-mini) + (dy-mini))
+      val mini = min(dx,dy);
+      return add + 7 * mini + 5 * ((dx-mini) + (dy-mini))
   }
 
 
@@ -325,6 +329,7 @@ class JPS(start: CellPos, objectif: CellPos) {
 
   def step(dist : Double, elem: CellPosed ): Option[CellPosed] = {
       if ((elem.cell.x, elem.cell.y) == (this.objectif.x,this.objectif.y)) {
+          println( "Found the exit !" )
           return Some(elem)
       }
 
@@ -348,14 +353,13 @@ class JPS(start: CellPos, objectif: CellPos) {
           )
       }
       else {
-          assert(hor_dir != 0, {
+          //assert(hor_dir != 0, {
           nodes = this.hor_search(
               (elem.cell.x, elem.cell.y),
               hor_dir,
               dist
           )
-          }
-          )
+          //})
       }
 
       for (node <- nodes) {
