@@ -9,6 +9,7 @@ import runtime.Spawner
 
 object BaseTower extends TowerType
 {
+    /*
     def closest_to(bunnies : ListBuffer[Bunny], p: Waypoint): Option[Bunny] = {
         /* Returns the bunny that is the closest to a given point p */
         def distance_comp(x: Bunny,y: Bunny) =
@@ -20,7 +21,7 @@ object BaseTower extends TowerType
 
     override def get_targets(in_range : ListBuffer[Bunny])
         : ListBuffer[Bunny] = {
-        closest_to( in_range, Spawner.bunnyend.toFloat ) match {
+        closest_to( in_range, Spawner.bunnyend.toDouble ) match {
             case None => new ListBuffer[Bunny]()
             case Some(bunny) => {
                 val list = new ListBuffer[Bunny]
@@ -29,5 +30,6 @@ object BaseTower extends TowerType
             }
         }
     }
+    */
 }
 

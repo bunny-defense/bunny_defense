@@ -17,9 +17,9 @@ object Spawner
   val bunnyend   = new CellPos(
       TowerDefense.map_panel.map.width,
       TowerDefense.map_panel.map.height / 2)
-  (new JPS( bunnystart, bunnyend )).run() match {
-      case None => throw Exception
-      case Some(p) => val path = p
+  val path =(new JPS( bunnystart, bunnyend )).run() match {
+      case None    => throw Exception
+      case Some(p) => p
   }
 }
 
