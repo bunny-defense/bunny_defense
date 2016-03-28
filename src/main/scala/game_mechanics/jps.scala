@@ -38,7 +38,7 @@ class JPS(start: CellPos, objectif: CellPos) {
   val hor_dist  = 1.0
   val diag_dist = Math.sqrt(2)
   val all_list: ListMap[CellPosed,Double] = new ListMap()
-  val queue : Queue[(Double,CellPosed,Double)]
+  val queue : Queue[(Double,CellPosed,Double)] = new Queue()
 
 
   for (dx <- Iterator(0,1)) {
@@ -93,18 +93,18 @@ class JPS(start: CellPos, objectif: CellPos) {
       this.queue += (new Tuple3(total,pd,dist))
   }
 
- def get_open() : Option[(Double,CellPosed,Double)] = {
+ def get_open() : (Option[Double],Option[CellPosed],Option[Double]) = {
      while (true){
          if (this.queue.isEmpty) {
-             return (None)
+             return ((None,None,None))
          }
          val (total,pd,dist) = this.queue.dequeue
          val current = this.all_list.get(pd)
          if (dist == current.get) {
-             return Some((total,pd,dist))
+             return ((Some(total),Some(pd),Some(dist)))
          }
      }
-     return(None)
+     return((None,None,None))
  }
 
 
@@ -358,19 +358,19 @@ class JPS(start: CellPos, objectif: CellPos) {
     def run() : ListMap[CellPosed,Double] = {
         breakable {
             while (true) {
-                val (total,pd,dist):Option[(Double,CellPosed,Double)] = this.get_open()
+                var (total, pd, dist) = this.get_open()
                     if (total.isEmpty) {
                         break()
                     }
 
-                    pd = this.step(dist, pd)
-                    if (pd.isEmpty) {
+                    var pd_bis = this.step(dist.get, pd.get)
+                    if (!pd.isEmpty) {
                         break()
                     }
             }
             var open_count = 0
             while (true) {
-                val total,pd,dist = this.get_open()
+                val (total,pd,dist) = this.get_open()
                 if (total.isEmpty) {
                     break
                 }
