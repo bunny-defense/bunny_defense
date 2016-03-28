@@ -122,7 +122,7 @@ class JPS(start: CellPos, objectif: CellPos) {
     var y0   = pos._2
     var dist = dist_init
     while (true) {
-      var x1 = pos._1 + hor_dir
+      var x1 = x0 + hor_dir
       /* The cell is not on the map */
       if (!TowerDefense.map_panel.map.on_map(x1,y0))
         return (new ListBuffer[CellPosed]())
@@ -178,7 +178,7 @@ class JPS(start: CellPos, objectif: CellPos) {
     var y0 = pos._2
     var dist = dist_init
     while (true) {
-        var y1 = pos._2 + vert_dir
+        var y1 = y0 + vert_dir
         /* The cell is not on the map */
         if (!TowerDefense.map_panel.map.on_map(x0,y1))
             return (new ListBuffer[CellPosed]())
