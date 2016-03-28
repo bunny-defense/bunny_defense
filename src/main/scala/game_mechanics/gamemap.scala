@@ -62,8 +62,12 @@ class GameMap(width0: Int, height0: Int)
     }
 
     def obstructed(x: Int, y: Int) : Boolean = {
-        if( x == -1 || x == this.width )
+        if (!on_map(x,y)) {
             return true
+        }
+        if( x == -1 || x == this.width ) {
+            return false
+        }
         obstruction_map(x)(y)
     }
 
