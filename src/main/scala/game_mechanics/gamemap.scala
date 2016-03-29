@@ -48,7 +48,15 @@ class GameMap(width0: Int, height0: Int)
         if( !obstruction_map(tower.pos.x)(tower.pos.y) )
         {
             obstruction_map(tower.pos.x)(tower.pos.y) = true
-            return true
+            if( valid( tower.pos ) )
+            {
+                return true
+            }
+            else
+            {
+                obstruction_map(tower.pos.x)(tower.pos.y) = false
+                println( "You are blocking the way" )
+            }
         }
         return false
     }

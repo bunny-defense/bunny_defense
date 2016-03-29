@@ -35,7 +35,7 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
         {
             case None     => "np"
             case Some(cp) => "<-" + cp.cell.x.toString + "," + cp.cell.y.toString
-        })
+        }) + "-(" + dir._1.toString + "," + dir._2.toString + ")"
     }
 }
 
@@ -58,7 +58,9 @@ class JPS(start: CellPos, objectif: CellPos) {
   }
   */
 
-  this.add_node( this.start.x, this.start.y, Some((1,0)), 0 )
+  this.add_node( this.start.x, this.start.y, Some((1, 0)), 0 )
+  this.add_node( this.start.x, this.start.y, Some((1, 1)), 0 )
+  this.add_node( this.start.x, this.start.y, Some((1,-1)), 0 )
 
   def estimate(x: Int, y: Int, dir: Option[(Int,Int)]) : Double = {
       var xx = x
@@ -113,6 +115,7 @@ class JPS(start: CellPos, objectif: CellPos) {
          val (total,pd,dist) = this.queue.dequeue
          val current = this.all_list.get(pd)
          if (dist == current.get) {
+             println( "Trying with", total, pd, dist )
              return ((Some(total),Some(pd),Some(dist)))
          }
      }
@@ -135,12 +138,12 @@ class JPS(start: CellPos, objectif: CellPos) {
     var dist = dist_init
     while (true) {
       var x1 = x0 + hor_dir
-        println( "Hor", x1, y0 )
-      /* The cell is not on the map */
+        println( "Horizontal movement to " + x1.toString + "," + y0.toString )
+      /* The cell is not on the map
       if (!TowerDefense.map_panel.map.on_map(x1,y0)) {
           println( x1, y0,  "is not on map" )
           return (new ListBuffer[CellPosed]())
-      }
+      } */
       /* The cell is obstructed */
       if (TowerDefense.map_panel.map.obstructed(x1,y0)) {
         println( x1, y0, "is obstructed" )
@@ -163,11 +166,13 @@ class JPS(start: CellPos, objectif: CellPos) {
       /* Choose the nodes to explore */
       if (TowerDefense.map_panel.map.obstructed(x1,y0-1) &&
         !TowerDefense.map_panel.map.obstructed(x2,y0-1)) {
+            println( "Jump point !" )
             nodes += this.add_node(x1, y0, Some(hor_dir,-1), dist)
       }
 
       if (TowerDefense.map_panel.map.obstructed(x1,y0+1) &&
         !TowerDefense.map_panel.map.obstructed(x2,y0+1)) {
+            println( "Jump point !" )
             nodes += this.add_node(x1, y0, Some(hor_dir,1), dist)
       }
 
@@ -197,7 +202,7 @@ class JPS(start: CellPos, objectif: CellPos) {
     println(x0,y0,dist_init)
     while (true) {
         var y1 = y0 + vert_dir
-        println( "Vert", x0, y1 )
+        println( "Vertical movement to " + x0.toString + "," + y1.toString )
         /* The cell is not on the map */
         if (!TowerDefense.map_panel.map.on_map(x0,y1)) {
             println( x0, y1, "is not on map" )
@@ -263,7 +268,7 @@ class JPS(start: CellPos, objectif: CellPos) {
     while (true) {
       var x1 = x0 + hor_dir
       var y1 = y0 + vert_dir
-      println( "Diag", x1, y1 )
+      println( "Diagional movement to " + x1.toString + "," + y1.toString )
       if (!TowerDefense.map_panel.map.on_map(x1,y1)) {
         println( x1, y1, "is not on map" )
         return (new ListBuffer[CellPosed]())
