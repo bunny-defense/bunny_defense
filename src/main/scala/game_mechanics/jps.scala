@@ -395,6 +395,7 @@ class JPS(start: CellPos, objectif: CellPos) {
       println(dep, "toto")
       path += this.objectif.toDouble
       while (dep.head.cell != this.start ) {
+          println( dep.head )
           dep = this.all_list.keySet.filter(_ == dep.head.parent.get)
           path += dep.head.cell.toDouble
       }

@@ -12,6 +12,10 @@ class CellPos(x0: Int, y0: Int) {
     return x == other.x && y == other.y
   }
 
+  def !=(other: CellPos): Boolean = {
+      return x != other.x || y != other.y
+  }
+
   def +(other: CellPos): CellPos = {
     return new CellPos( x + other.x, y + other.y )
   }
