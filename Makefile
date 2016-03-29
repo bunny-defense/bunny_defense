@@ -3,7 +3,7 @@ default:
 	@sbt compile
 
 
-.PHONY: run clean package feature
+.PHONY: run clean package feature log
 
 run:
 	@sbt run
@@ -16,3 +16,7 @@ clean:
 
 package:
 	@sbt clean package
+
+log:
+	@rm log
+	@make run &> log

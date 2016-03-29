@@ -44,10 +44,6 @@ class GameMap(width0: Int, height0: Int)
         }
     }
 
-    for (i<-0 until width) {
-        obstruction_map(i)(height/2) = true
-    }
-
     def +=(tower: Tower): Boolean = {
         if( !obstruction_map(tower.pos.x)(tower.pos.y) )
         {
@@ -59,6 +55,10 @@ class GameMap(width0: Int, height0: Int)
 
     def -=(tower: Tower): Unit = {
         obstruction_map(tower.pos.x)(tower.pos.y) = false
+    }
+
+    def on_map(x:Int, y: Int) : Boolean = {
+        -1 <= x && x <= this.width && 0 <= y && y < this.height
     }
 
     def obstructed(x: Int, y: Int) : Boolean = {
@@ -77,9 +77,5 @@ class GameMap(width0: Int, height0: Int)
             case None    => return false
             case Some(_) => return true
         }
-    }
-
-    def on_map(x:Int, y: Int) : Boolean = {
-        -1 <= x && x <= this.width && 0 <= y && y < this.height
     }
 }
