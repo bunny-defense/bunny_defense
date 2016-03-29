@@ -39,6 +39,20 @@ class MapPanel(map0: GameMap) extends Panel {
                 e.point.y / cellsize )
     }
 
+    def paintPath(g: Graphics2D): Unit = {
+        val path = Spawner.path
+        for( i <- 1 until path.length )
+        {
+            val prev = path.at(i-1)
+            val curr = path.at(i)
+            g.drawLine(
+                prev.x.toInt * cellsize + cellsize / 2,
+                prev.y.toInt * cellsize + cellsize / 2,
+                curr.x.toInt * cellsize + cellsize / 2,
+                curr.y.toInt * cellsize + cellsize / 2 )
+        }
+    }
+
     /* Drawing on the map */
     override def paintComponent(g: Graphics2D): Unit = {
         super.paintComponent(g)
@@ -50,6 +64,7 @@ class MapPanel(map0: GameMap) extends Panel {
                     y * cellsize, null )
             }
         }
+        paintPath(g)
         /* Drawing the towers */
         for( tower <- Controller.towers )
         {

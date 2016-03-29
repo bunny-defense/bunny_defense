@@ -48,16 +48,6 @@ class JPS(start: CellPos, objectif: CellPos) {
   val all_list: ListMap[CellPosed,Double] = new ListMap()
   val queue : Queue[(Double,CellPosed,Double)] = new Queue()
 
-  /*
-  for (dx <- Iterator(0,1)) {
-      for (dy <- Iterator(-1,0,1)) {
-          if ( dx != 0 || dy != 0 ) {
-              this.add_node(this.start.x,this.start.y,Some((dx,dy)),0)
-          }
-      }
-  }
-  */
-
   this.add_node( this.start.x, this.start.y, Some((1, 0)), 0 )
   this.add_node( this.start.x, this.start.y, Some((1, 1)), 0 )
   this.add_node( this.start.x, this.start.y, Some((1,-1)), 0 )
@@ -84,7 +74,7 @@ class JPS(start: CellPos, objectif: CellPos) {
   def add_node(x: Int, y: Int, dir: Option[(Int,Int)], dist: Double): CellPosed = {
       val pd = new CellPosed(new CellPos(x,y),dir.get)
       val current  = this.all_list.get(pd)
-      println(current, dist,x,y)
+      //println(current, dist,x,y)
       if ( current.isEmpty || current.get > dist) {
           val total = dist + this.estimate(pd.cell.x, pd.cell.y,dir)
           this.all_list.update(pd,dist)
@@ -115,7 +105,7 @@ class JPS(start: CellPos, objectif: CellPos) {
          val (total,pd,dist) = this.queue.dequeue
          val current = this.all_list.get(pd)
          if (dist == current.get) {
-             println( "Trying with", total, pd, dist )
+             //println( "Trying with", total, pd, dist )
              return ((Some(total),Some(pd),Some(dist)))
          }
      }
@@ -138,7 +128,7 @@ class JPS(start: CellPos, objectif: CellPos) {
     var dist = dist_init
     while (true) {
       var x1 = x0 + hor_dir
-        println( "Horizontal movement to " + x1.toString + "," + y0.toString )
+        //println( "Horizontal movement to " + x1.toString + "," + y0.toString )
       /* The cell is not on the map
       if (!TowerDefense.map_panel.map.on_map(x1,y0)) {
           println( x1, y0,  "is not on map" )
@@ -146,7 +136,7 @@ class JPS(start: CellPos, objectif: CellPos) {
       } */
       /* The cell is obstructed */
       if (TowerDefense.map_panel.map.obstructed(x1,y0)) {
-        println( x1, y0, "is obstructed" )
+        //println( x1, y0, "is obstructed" )
         return (new ListBuffer[CellPosed]())
       }
       /* The cell is the core objective, we return the last point of
@@ -166,13 +156,13 @@ class JPS(start: CellPos, objectif: CellPos) {
       /* Choose the nodes to explore */
       if (TowerDefense.map_panel.map.obstructed(x1,y0-1) &&
         !TowerDefense.map_panel.map.obstructed(x2,y0-1)) {
-            println( "Jump point !" )
+            //println( "Jump point !" )
             nodes += this.add_node(x1, y0, Some(hor_dir,-1), dist)
       }
 
       if (TowerDefense.map_panel.map.obstructed(x1,y0+1) &&
         !TowerDefense.map_panel.map.obstructed(x2,y0+1)) {
-            println( "Jump point !" )
+            //println( "Jump point !" )
             nodes += this.add_node(x1, y0, Some(hor_dir,1), dist)
       }
 
@@ -199,24 +189,24 @@ class JPS(start: CellPos, objectif: CellPos) {
     var x0 = pos._1
     var y0 = pos._2
     var dist = dist_init
-    println(x0,y0,dist_init)
+    //println(x0,y0,dist_init)
     while (true) {
         var y1 = y0 + vert_dir
-        println( "Vertical movement to " + x0.toString + "," + y1.toString )
+        //println( "Vertical movement to " + x0.toString + "," + y1.toString )
         /* The cell is not on the map */
         if (!TowerDefense.map_panel.map.on_map(x0,y1)) {
-            println( x0, y1, "is not on map" )
+            //println( x0, y1, "is not on map" )
             return (new ListBuffer[CellPosed]())
         }
         /* The cell is obstructed */
         if (TowerDefense.map_panel.map.obstructed(x0,y1)){
-            println( x0, y1, "is obstructed" )
+            //println( x0, y1, "is obstructed" )
             return (new ListBuffer[CellPosed]())
         }
         /* The cell is the core objective, we return the last point of
          * the path */
         if ((new CellPos(x0,y1))== objectif ) {
-            println("Objectif reached")
+            //println("Objectif reached")
             val res = new ListBuffer[CellPosed]()
             res += this.add_node(x0, y1, Some((0,0)), dist + vert_dist)
             return res
@@ -225,7 +215,7 @@ class JPS(start: CellPos, objectif: CellPos) {
       /*We have an open space in (x0,y1) */
       dist = dist + vert_dist
       var y2 = y1 + vert_dir
-      println("New dist:"+ dist, "New y: "+y2)
+      //println("New dist:"+ dist, "New y: "+y2)
 
       var nodes = new ListBuffer[CellPosed]()
 
@@ -268,14 +258,14 @@ class JPS(start: CellPos, objectif: CellPos) {
     while (true) {
       var x1 = x0 + hor_dir
       var y1 = y0 + vert_dir
-      println( "Diagional movement to " + x1.toString + "," + y1.toString )
+      //println( "Diagional movement to " + x1.toString + "," + y1.toString )
       if (!TowerDefense.map_panel.map.on_map(x1,y1)) {
-        println( x1, y1, "is not on map" )
+        //println( x1, y1, "is not on map" )
         return (new ListBuffer[CellPosed]())
       }
       /* The cell is obstructed */
       if (TowerDefense.map_panel.map.obstructed(x1,y1)) {
-        println( x1, y1, "is obstructed" )
+        //println( x1, y1, "is obstructed" )
         return (new ListBuffer[CellPosed]())
       }
       /* The cell is the core objective, we return the last point of
@@ -350,7 +340,7 @@ class JPS(start: CellPos, objectif: CellPos) {
 
   def step(dist : Double, elem: CellPosed ): Option[CellPosed] = {
       if ((elem.cell.x, elem.cell.y) == (this.objectif.x,this.objectif.y)) {
-          println( "Found the exit !" )
+          //println( "Found the exit !" )
           return Some(elem)
       }
 
@@ -358,9 +348,9 @@ class JPS(start: CellPos, objectif: CellPos) {
       val vert_dir = elem.dir._2
       var nodes = ListBuffer[CellPosed]()
 
-      println( "direction: " + hor_dir.toString + "," + vert_dir.toString )
+      //println( "direction: " + hor_dir.toString + "," + vert_dir.toString )
       if (hor_dir != 0 && vert_dir != 0) {
-          println( "Going diagonal" )
+          //println( "Going diagonal" )
           nodes = this.diag_search(
               (elem.cell.x, elem.cell.y),
               hor_dir, vert_dir,
@@ -385,7 +375,7 @@ class JPS(start: CellPos, objectif: CellPos) {
           //})
       }
 
-      println( "Nodes : ",  nodes )
+      //println( "Nodes : ",  nodes )
       for (node <- nodes) {
           val dist = this.all_list( node )
           this.all_list -= node
@@ -399,10 +389,10 @@ class JPS(start: CellPos, objectif: CellPos) {
   def toPath(): Path = {
       var path = new Path()
       var dep = this.all_list.keySet.filter(_.cell==this.objectif)
-      println(dep, "toto")
+      //println(dep, "toto")
       path += this.objectif.toDouble
       while (dep.head.cell != this.start ) {
-          println( dep.head )
+          //println( dep.head )
           dep = this.all_list.keySet.filter(_ == dep.head.parent.get)
           path += dep.head.cell.toDouble
       }
@@ -433,8 +423,8 @@ class JPS(start: CellPos, objectif: CellPos) {
               open_count += 1
           }
       }
-      println(this.all_list)
-      println(this.toPath)
+      //println(this.all_list)
+      //println(this.toPath)
       if (!this.all_list.keySet.filter(x => x.cell==this.objectif).isEmpty) {
           return Some(this.toPath)
       }
