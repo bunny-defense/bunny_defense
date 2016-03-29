@@ -264,7 +264,9 @@ class JPS(start: CellPos, objectif: CellPos) {
         return (new ListBuffer[CellPosed]())
       }
       /* The cell is obstructed */
-      if (TowerDefense.map_panel.map.obstructed(x1,y1)) {
+      if (TowerDefense.map_panel.map.obstructed(x1,y1) || (
+          TowerDefense.map_panel.map.obstructed(x1,y0) &&
+          TowerDefense.map_panel.map.obstructed(x0,y1) ) ) {
         //println( x1, y1, "is obstructed" )
         return (new ListBuffer[CellPosed]())
       }
