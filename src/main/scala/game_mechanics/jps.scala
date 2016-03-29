@@ -358,7 +358,9 @@ class JPS(start: CellPos, objectif: CellPos) {
       val vert_dir = elem.dir._2
       var nodes = ListBuffer[CellPosed]()
 
+      println( "direction: " + hor_dir.toString + "," + vert_dir.toString )
       if (hor_dir != 0 && vert_dir != 0) {
+          println( "Going diagonal" )
           nodes = this.diag_search(
               (elem.cell.x, elem.cell.y),
               hor_dir, vert_dir,
@@ -416,7 +418,7 @@ class JPS(start: CellPos, objectif: CellPos) {
           }
 
           var pd_bis = this.step(dist.get, pd.get)
-          if (!pd.isEmpty) {
+          if (!pd_bis.isEmpty) {
               break()
           }
       }

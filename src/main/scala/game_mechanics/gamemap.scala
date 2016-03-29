@@ -48,14 +48,17 @@ class GameMap(width0: Int, height0: Int)
         if( !obstruction_map(tower.pos.x)(tower.pos.y) )
         {
             obstruction_map(tower.pos.x)(tower.pos.y) = true
-            if( valid( tower.pos ) )
+            val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend )
+            jps.run() match
             {
-                return true
-            }
-            else
-            {
-                obstruction_map(tower.pos.x)(tower.pos.y) = false
-                println( "You are blocking the way" )
+                case Some(path) => {
+                    Spawner.path = path
+                    return true
+                }
+                case None => {
+                    obstruction_map(tower.pos.x)(tower.pos.y) = false
+                    println( "You are blocking the way" )
+                }
             }
         }
         return false
