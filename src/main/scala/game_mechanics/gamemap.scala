@@ -20,6 +20,7 @@ object GameMap
     val grass_image  =
         ImageIO.read(
             new File(getClass().getResource("/ground/grass4.png").getPath()))
+    println( ground_image.getType() )
 }
 
 class GameMap(width0: Int, height0: Int)
