@@ -396,48 +396,34 @@ class JPS(start: CellPos, objectif: CellPos) {
       return None
   }
 
-  def toPath(): Path = {
+  def toPath(pd : CellPosed): Path = {
       var path = new Path()
-      var dep = this.all_list.keySet.filter(_.cell==this.objectif)
+      var dep = pd
       //println(dep, "toto")
-      path += this.objectif.toDouble
-      while (dep.head.cell != this.start ) {
-          //println( dep.head )
-          dep = this.all_list.keySet.filter(_ == dep.head.parent.get)
-          path += dep.head.cell.toDouble
+      path += pd.cell.toDouble
+      while (dep.cell != this.start ) {
+          println( dep )
+          dep = dep.parent.get
+          path += dep.cell.toDouble
       }
       return path.reverse
   }
 
   def run() : Option[Path] = {
-      breakable{
       while (true) {
           var (total, pd, dist) = this.get_open()
           if (total.isEmpty) {
-              break()
+              return None
           }
 
           var pd_bis = this.step(dist.get, pd.get)
           if (!pd_bis.isEmpty) {
-              break()
+              return Some(this.toPath(pd_bis.get))
           }
-      }
-      }
-      var open_count = 0
-      breakable {
-          while (true) {
-              val (total,pd,dist) = this.get_open()
-              if (total.isEmpty) {
-                  break
-              }
-              open_count += 1
-          }
+          println("titi")
       }
       //println(this.all_list)
       //println(this.toPath)
-      if (!this.all_list.keySet.filter(x => x.cell==this.objectif).isEmpty) {
-          return Some(this.toPath)
-      }
       return None
   }
 }
