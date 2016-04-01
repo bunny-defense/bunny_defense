@@ -51,8 +51,8 @@ class JPS(start: CellPos, objectif: CellPos) {
   val vert_dist = 1.0
   val hor_dist  = 1.0
   val diag_dist = Math.sqrt(2)
-  val all_list: ListMap[CellPosed,Double] = new ListMap()
-  val queue : Queue[(Double,CellPosed,Double)] = new Queue()
+  var all_list: ListMap[CellPosed,Double] = new ListMap()
+  var queue : Queue[(Double,CellPosed,Double)] = new Queue()
 
   this.add_node( this.start.x, this.start.y, Some((1, 0)), 0 )
   this.add_node( this.start.x, this.start.y, Some((1, 1)), 0 )
@@ -348,7 +348,7 @@ class JPS(start: CellPos, objectif: CellPos) {
 
   def step(dist : Double, elem: CellPosed ): Option[CellPosed] = {
       if ((elem.cell.x, elem.cell.y) == (this.objectif.x,this.objectif.y)) {
-          //println( "Found the exit !" )
+          println( "Found the exit !" )
           return Some(elem)
       }
 
@@ -376,13 +376,13 @@ class JPS(start: CellPos, objectif: CellPos) {
       }
       else {
           println( "Going horizontal" )
-          assert(hor_dir != 0, {
+          if (hor_dir != 0) {
               nodes = this.hor_search(
                   (elem.cell.x, elem.cell.y),
                   hor_dir,
                   dist
               )
-          })
+          }
       }
 
       //println( "Nodes : ",  nodes )

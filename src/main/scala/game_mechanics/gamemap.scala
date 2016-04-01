@@ -37,8 +37,10 @@ class GameMap(width0: Int, height0: Int)
         for( y <- 0 until height ) {
             obstruction_map(x)(y) = false
             if( y < landscape_top(width - 1 - x)
-                || height - y - 1 < landscape_bottom(x) )
+                || height - y - 1 < landscape_bottom(x) ) {
                 graphic_map(x)(y) = ground_image
+                obstruction_map(x)(y) = true
+                }
             else
                 graphic_map(x)(y) = grass_image
         }
