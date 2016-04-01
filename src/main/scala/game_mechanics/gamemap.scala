@@ -11,6 +11,7 @@ import utils.Landscape
 import game_mechanics.tower.Tower
 import game_mechanics.path.CellPos
 import runtime.Spawner
+import gui.MapPanel
 
 object GameMap
 {
@@ -32,6 +33,10 @@ class GameMap(width0: Int, height0: Int)
 
     val landscape_top    = Landscape.generate( width, height / 3 )
     val landscape_bottom = Landscape.generate( width, height / 3 )
+
+    val map_image = new BufferedImage(
+        width * MapPanel.cellsize,
+        height * MapPanel.cellsize, ground_image.getType() )
 
     for( x <- 0 until width ) {
         for( y <- 0 until height ) {
