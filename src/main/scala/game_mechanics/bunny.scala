@@ -4,6 +4,7 @@ package game_mechanics
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
+import util.Random
 
 import runtime.Controller
 import game_mechanics.path._
@@ -21,17 +22,43 @@ trait BunnyType
     var shield        = 1.0   /* Damage dampening */
     val base_speed    = 2.0
     var speed         = 2.0   /* Speed of the bunny in tiles per second */
-    /* The following takes three values : init_val, final_val and inflex_point, THAT MUST VERIFY init_val >= final_val, and returns the arctangent function decreasing to final_val from init_val with an inflexion point at inflex_point. */
-    def atan_variation (init_val : Int, final_val : Int, inflex_point : Int) : (Int => Int) = {
+    /* The following takes three values : init_val, final_val and inflex_point,
+    THAT MUST VERIFY init_val >= final_val, and returns the arctangent function
+    decreasing to final_val from init_val with an inflexion point at inflex_point. */
+    def atan_variation (
+        init_val : Int,
+        final_val : Int,
+        inflex_point : Int) : (Int => Int) = {
         def res (nwave : Int) : Int = {
             println(nwave.toString)
-                (1.25*(1.57 + atan(4*(inflex_point - nwave)/inflex_point))*((init_val - final_val)/(3.1416)) + final_val).toInt}
-            /* The factor 1.25 in the beginning does make the function go above its maximum value, but before 0, and is here to make sure the function starts at (approximately) its max value */
+            (1.25*(1.57 + atan(4*(inflex_point - nwave)/inflex_point))*
+            ((init_val - final_val)/(3.1416)) + final_val).toInt}
+            /* The factor 1.25 in the beginning does make the function go above
+            its maximum value, but before 0, and is here to make sure the
+            function starts at (approximately) its max value */
         return res
     }
     def reward : (Int => Int)  = atan_variation(5, 1, 10)
     /* Amount of gold earned when killed */
     var damage        = 1     /* Damage done to the player when core reached */
+
+	def update(bunny: Bunny, dt: Double): Unit = {
+        if ( !bunny.alive ) {
+            Controller += new GoldAnimation(
+                bunny.bunny_type.reward(Controller.wave_counter),
+                bunny.pos.clone()
+            )
+            Player.add_gold( bunny.bunny_type.reward( Controller.wave_counter ))
+            Controller -= bunny
+            Player.killcount += 1
+        }
+        bunny.move(dt)
+        if ( bunny.path.reached ) {
+            Player.remove_hp( bunny.bunny_type.damage )
+            Controller -= bunny
+        }
+    }
+
 }
 
 object NormalBunny extends BunnyType
@@ -74,10 +101,38 @@ object Hare extends BunnyType
     speed                    = 4.0
 }
 
+/* Spec Op Bunny */
+
+object SpecOpBunny extends BunnyType
+{
+    val law = new Random()
+	override def update(bunny: Bunny, dt: Double): Unit = {
+        if ( !bunny.alive ) {
+            Controller += new GoldAnimation(
+                bunny.bunny_type.reward(Controller.wave_counter),
+                bunny.pos.clone()
+            )
+            Player.add_gold( bunny.bunny_type.reward( Controller.wave_counter ))
+            Controller -= bunny
+            Player.killcount += 1
+        }
+        if (law.nextDouble < 1.0/180.0 ) {
+            bunny.path.random_choice
+            bunny.pos = bunny.path.get_position()
+        }
+        else {
+            bunny.move(dt)
+        }
+        if ( bunny.path.reached ) {
+            Player.remove_hp( bunny.bunny_type.damage )
+            Controller -= bunny
+        }
+    }
+}
+
 /* A boss! */
 object Otter extends BunnyType
-{
-    override val bunny_graphic =
+{ override val bunny_graphic =
         ImageIO.read(
             new File(getClass().getResource("/mobs/otter.png").getPath()))
     override val initial_hp  = 1000.0
@@ -102,7 +157,8 @@ object GoldenBunny extends BunnyType
 }
 
 /* Bunny superclass from which every ennemy is derived. */
-class Bunny(bunny_type: BunnyType,path0: Path) {
+class Bunny(bunny_type_init: BunnyType,path0: Path) {
+    var bunny_type      = bunny_type_init
     var hp              = bunny_type.initial_hp
     var pos : Waypoint  = path0.waypoints(0)
     var path            = new Progress(path0)
@@ -132,19 +188,7 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
     }
 
     def update(dt: Double): Unit = {
-        if( !alive )
-        {
-            Controller += new GoldAnimation( bunny_type.reward(Controller.wave_counter), pos.clone() )
-            Player.add_gold( this.reward(Controller.wave_counter) )
-            Controller -= this
-            Player.killcount += 1
-        }
-        move(dt)
-        if( path.reached )
-        {
-            Player.remove_hp( bunny_type.damage )
-            Controller -= this
-        }
+        bunny_type.update(this,dt)
     }
 
     def initial_hp(): Double = {
