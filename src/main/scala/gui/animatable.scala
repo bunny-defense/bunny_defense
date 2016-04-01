@@ -97,7 +97,6 @@ class WaveAnimation(wave_number: Int) extends Animatable
         val pos = origin * interp + target * ( 1 - interp )
         val string = "Wave " + wave_number.toString
         val strwidth = g.getFontMetrics().stringWidth( string )
-        println("New wave")
         g.drawImage( background,
             pos.x.toInt - image_origin_x,
             pos.y.toInt - image_origin_y,
