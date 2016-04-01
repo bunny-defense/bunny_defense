@@ -30,7 +30,7 @@ trait BunnyType
         final_val : Int,
         inflex_point : Int) : (Int => Int) = {
         def res (nwave : Int) : Int = {
-            println(nwave.toString)
+            //println(nwave.toString)
             (1.25*(1.57 + atan(4*(inflex_point - nwave)/inflex_point))*
             ((init_val - final_val)/(3.1416)) + final_val).toInt}
             /* The factor 1.25 in the beginning does make the function go above

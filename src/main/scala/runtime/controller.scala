@@ -55,19 +55,19 @@ object Controller extends Publisher
     /* Triggered when a map cell is clicked */
     def on_cell_clicked( x:Int, y:Int ): Unit = {
         // Placing a new tower
+        val pos = new CellPos(x,y)
         if( selected_tower != None &&
-            !TowerDefense.map_panel.map.obstructed(x,y) )
+            TowerDefense.map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.buy_cost) )
-                Controller += new Tower( selected_tower.get, new CellPos(x,y) )
+                Controller += new Tower( selected_tower.get, pos )
             else
                 println("Not enough money! Current money = " + Player.gold.toString)
         }
         // Selecting a placed tower
         else if ( selected_tower == None )
         {
-            val position = new CellPos(x,y)
-            selected_cell = towers.find( _.pos == position )
+            selected_cell = towers.find( _.pos == pos )
         }
         // Building multiple towers
         if ( !TowerDefense.keymap(Key.Shift) ) {

@@ -80,6 +80,11 @@ class GameMap(width0: Int, height0: Int)
 
     def -=(tower: Tower): Unit = {
         obstruction_map(tower.pos.x)(tower.pos.y) = false
+        val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend )
+        jps.run() match {
+            case None => ()
+            case Some(path) => Spawner.path = path
+        }
     }
 
     def on_map(x:Int, y: Int) : Boolean = {
@@ -97,10 +102,15 @@ class GameMap(width0: Int, height0: Int)
     }
 
     def valid( pos : CellPos ): Boolean = {
+        if( obstruction_map( pos.x )( pos.y ) )
+            return false
+        obstruction_map( pos.x )( pos.y ) = true
         val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend )
-        jps.run() match {
-            case None    => return false
-            case Some(_) => return true
+        val result = jps.run() match {
+            case None    => false
+            case Some(_) => true
         }
+        obstruction_map( pos.x )( pos.y ) = false
+        return result
     }
 }
