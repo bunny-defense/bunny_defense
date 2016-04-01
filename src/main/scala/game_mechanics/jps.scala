@@ -37,6 +37,12 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
             case Some(cp) => "<-" + cp.cell.x.toString + "," + cp.cell.y.toString
         }) + "-(" + dir._1.toString + "," + dir._2.toString + ")"
     }
+
+    override def equals(other: Any): Boolean = other match {
+        case that: CellPosed =>
+            return this.cell == that.cell && this.dir == that.dir
+        case _ => false
+    }
 }
 
 /* TODO Debugging >< */
