@@ -23,7 +23,9 @@ trait TowerType
             new File(
                 getClass().getResource("/projectiles/carrot1.png").getPath()))
     val size           = 1      /* Size in tiles */
+    val base_damage    = 5
     var damage         = 5      /* Damage dealt to bunnies */
+    val base_range     = 5
     var range          = 5      /* Range in tiles */
     val spread         = 0.0    /* Amount of bullet spread */
     val aoe_radius     = 0      /* Not sure what that really means ? */
@@ -31,6 +33,8 @@ trait TowerType
     val throw_cooldown = 1.0    /* Cooldown time in seconds */
     val buy_cost       = 50     /* Gold needed to buy one */
     val sell_cost      = 25     /* Gold earned when sold */
+    def allied_effect(tower : Tower) : Unit = { } /* Applies the tower's effect on allied towers */
+    def enemy_effect(bunny : Bunny) : Unit = { } /* Applies the tower's effect on enemy bunnies */
 
     var amount         = 0
 

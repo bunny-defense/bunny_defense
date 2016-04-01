@@ -115,8 +115,24 @@ object Controller extends Publisher
         /* Update projectiles */
         projectiles.foreach( _.update(dt) )
         /* Update towers */
+
+        /* Reinitialize the damage and range of all towers */
+        towers.foreach (x => x.damage = x.base_damage)
+        towers.foreach (x => x.range = x.base_range)
+        /* Apply all tower effects to towers*/
+        towers.foreach( tower =>
+            towers.foreach( x => if( (x.pos - tower.pos).norm <= tower.range ) { tower.allied_effect(x)})
+        )
         towers.foreach( _.update(dt) )
         /* Update bunnies */
+
+         /* Reinitialize the speed and shield of all bunnies */
+        bunnies.foreach (x => x.speed = x.base_speed)
+        bunnies.foreach (x => x.shield = x.base_shield)
+        /* Apply all tower effects to towers*/
+        towers.foreach( tower =>
+            bunnies.foreach( x => if( (x.pos - tower.pos).norm <= tower.range ) { tower.enemy_effect(x)})
+        )
         bunnies.foreach( _.update(dt) )
         /* Spawn in new bunnies */
         SpawnScheduler.update(dt)
@@ -182,6 +198,10 @@ object Controller extends Publisher
     /* TOWERS */
 
     def +=(tower: Tower): Unit = {
+        /* 
+        towers.foreach( x => if( (x.pos - tower.pos).norm <= tower.range ) { tower.allied_effect(x)})
+        bunnies.foreach( x => if((x.pos - tower.pos).norm <= tower.range) {tower.enemy_effect(x)})
+         */
         towers += tower
         tower.towertype.amount += 1
         TowerDefense.map_panel.map += tower

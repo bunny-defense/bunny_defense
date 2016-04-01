@@ -15,10 +15,12 @@ trait BunnyType
         ImageIO.read(
             new File(getClass().getResource("/mobs/bunny_alt1.png").getPath()))
     val initial_hp    = 10.0  /* Initial amount of HP */
-    val shield        = 1.0   /* Damage dampening */
-    val speed         = 2.0   /* Speed of the bunny in tiles per second */
+    val base_shield   = 1.0
+    var shield        = 1.0   /* Damage dampening */
+    val base_speed    = 2.0
+    var speed         = 2.0   /* Speed of the bunny in tiles per second */
     val reward        = 5    /* Amount of gold earned when killed */
-    val damage        = 1     /* Damage done to the player when core reached */
+    var damage        = 1     /* Damage done to the player when core reached */
 }
 
 object NormalBunny extends BunnyType
@@ -26,10 +28,12 @@ object NormalBunny extends BunnyType
 /* Large and tough but slow bunny */
 object HeavyBunny extends BunnyType
 {
-    override val initial_hp = 20.0
-    override val shield     = 1.5
-    override val speed      = 1.0
-    override val reward     = 8
+    override val initial_hp  = 20.0
+    override val base_shield = 1.5
+    shield                   = 1.5
+    override val base_speed  = 1.0
+    speed                    = 1.0
+    override val reward      = 8
 }
 
 /* A badass bunny, really strong, will become the "default" mob in late game */
@@ -38,10 +42,12 @@ object BadassBunny extends BunnyType
   override val bunny_graphic =
     ImageIO.read(
       new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
-  override val initial_hp = 30.0
-  override val shield     = 2.0
-  override val speed      = 1.5
-  override val reward     = 10
+  override val initial_hp  = 30.0
+  override val base_shield = 2.0
+  shield                   = 2.0
+  override val base_speed  = 1.5
+  speed                    = 1.5
+  override val reward      = 10
 }
 
 /* Fast "Bunny" */
@@ -50,9 +56,11 @@ object Hare extends BunnyType
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/hare_alt1.png").getPath()))
-    override val initial_hp = 5.0
-    override val shield     = 0.0
-    override val speed      = 4.0
+    override val initial_hp  = 5.0
+    override val base_shield = 0.0
+    shield                   = 0.0
+    override val base_speed  = 4.0
+    speed                    = 4.0
 }
 
 /* A boss! */
@@ -61,10 +69,12 @@ object Otter extends BunnyType
     override val bunny_graphic =
         ImageIO.read(
             new File(getClass().getResource("/mobs/otter.png").getPath()))
-    override val initial_hp = 1000.0
-    override val shield     = 1.5
-    override val speed      = 1.0
-    override val damage     = 5
+    override val initial_hp  = 1000.0
+    override val base_shield = 1.5
+    shield                   = 1.5
+    override val base_speed  = 1.0
+    speed                    = 1.0
+    damage     = 5
     override val reward     = 100
 }
 
@@ -75,7 +85,8 @@ object GoldenBunny extends BunnyType
         ImageIO.read(new File(
             getClass().getResource("/mobs/goldenbunny_alt1.png").getPath()))
     override val initial_hp    = 20.0
-    override val speed         = 8.0
+    override val base_speed    = 8.0
+    speed                      = 8.0
     override val reward        = 1000
 }
 
@@ -84,7 +95,10 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
     var hp              = bunny_type.initial_hp
     var pos : Waypoint  = path0.waypoints(0)
     var path            = new Progress(path0)
-    val shield          = bunny_type.shield
+    val base_shield     = bunny_type.base_shield
+    var shield          = bunny_type.shield
+    val base_speed      = bunny_type.base_speed
+    var speed           = bunny_type.speed
 
     /* Prototype design pattern */
     def copy(): Bunny = {
@@ -101,7 +115,7 @@ class Bunny(bunny_type: BunnyType,path0: Path) {
 
     /* Moves the bunny along the path */
     def move(dt: Double): Unit = {
-        path.move( dt * bunny_type.speed )
+        path.move( dt * this.speed )
         pos = path.get_position
     }
 

@@ -20,7 +20,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     val towertype      = tower_type
     val base_damage    = tower_type.base_damage
     var damage         = tower_type.damage
-    val base_range          = tower_type.base_range
+    val base_range     = tower_type.base_range
     var range          = tower_type.range
     var upgrades : UpgradeTree = BaseTowerUpgrades
     def allied_effect(tower : Tower) {

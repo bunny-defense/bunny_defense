@@ -11,11 +11,13 @@ object QuickTower extends TowerType
         ImageIO.read(
             new File(
                 getClass().getResource("/towers/quick_tower.png").getPath()))
-    range          = 5
+    override val base_range     = 5
+    range                       = 5
     override val spread         = 1.0
     override val throw_cooldown = 0.2
     override val throw_speed    = 20.0
-    damage         = 1
+    override val base_damage    = 1
+    damage                      = 1
     override val buy_cost       = 75
     override val sell_cost      = 35
 }

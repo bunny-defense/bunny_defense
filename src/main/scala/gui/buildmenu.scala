@@ -28,6 +28,9 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
     towerlist(3) = Some(HeavyTower)
     towerlist(4) = Some(ScarecrowTower)
     towerlist(5) = Some(Roberto)
+    towerlist(6) = Some(SuppBuffTower)
+    towerlist(7) = Some(SuppSlowTower)
+
 
     preferredSize = new Dimension( cols * buttonSize, rows * buttonSize )
 

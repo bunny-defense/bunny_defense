@@ -11,9 +11,11 @@ object HeavyTower extends TowerType
         ImageIO.read(
             new File(
                 getClass().getResource("/towers/tank.png").getPath()))
-    range         = 4
+    override val base_range    = 4
+    range                      = 4
     override val throw_speed   = 15.0
-    damage        = 9
+    override val base_damage   = 9
+    damage                     = 9
     override val buy_cost      = 150
     override val sell_cost     = 75
 }
