@@ -24,7 +24,7 @@ trait BunnyType
     /* The following takes three values : init_val, final_val and inflex_point, THAT MUST VERIFY init_val >= final_val, and returns the arctangent function decreasing to final_val from init_val with an inflexion point at inflex_point. */
     def atan_variation (init_val : Int, final_val : Int, inflex_point : Int) : (Int => Int) = {
         def res (nwave : Int) : Int = {
-            println(nwave.toString)
+            //println(nwave.toString)
                 (1.25*(1.57 + atan(4*(inflex_point - nwave)/inflex_point))*((init_val - final_val)/(3.1416)) + final_val).toInt}
             /* The factor 1.25 in the beginning does make the function go above its maximum value, but before 0, and is here to make sure the function starts at (approximately) its max value */
         return res

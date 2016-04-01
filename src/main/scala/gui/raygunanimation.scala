@@ -14,20 +14,21 @@ import game_mechanics.path.{Waypoint,CellPos}
 object RaygunAnimation
 {
     val rng = new Random
+    val duration       = 10.0
 }
 
 class RaygunAnimation(tower_pos: CellPos) extends Animatable
 {
     import RaygunAnimation._
     val origin         = tower_pos.toDouble
-    val duration       = 10.0
     timer = duration
     val size           = MapPanel.cellsize.toDouble
     val particle_delay = 0.25
     var particles      = new ListBuffer[Waypoint]
 
     override def draw(g: Graphics2D): Unit = {
-        val interp = 1.0 - timer / duration
+        // Screen darkening
+        val interp = (1.0 - timer / duration) * 0.7
         g.setColor( Colors.black )
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, interp.toFloat ) )
@@ -36,6 +37,7 @@ class RaygunAnimation(tower_pos: CellPos) extends Animatable
             (TowerDefense.map_panel.map.height * size).toInt )
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
+        // Particle spawning
         while( particles.length < ((duration - timer) / particle_delay).toInt &&
             particles.length < 10)
         {
@@ -44,6 +46,7 @@ class RaygunAnimation(tower_pos: CellPos) extends Animatable
             val particle = new Waypoint( amp * Math.cos(r) , amp * Math.sin(r) )
             particles += particle
         }
+        // Drawing particles
         g.setColor( Colors.transparent_white )
         for( i <- 0 until particles.length )
         {
@@ -59,6 +62,7 @@ class RaygunAnimation(tower_pos: CellPos) extends Animatable
                 (a.x * size).toInt, (a.y * size).toInt,
                 (b.x * size).toInt, (b.y * size).toInt)
         }
+        // Drawing the orb
         val orbsize = (1.0 - timer / duration) * size
         val o = (origin + new Waypoint(0.5,0.5)) * size + (new Waypoint(0.5,0.5)) * (1 - orbsize)
         g.setColor( Colors.white )
