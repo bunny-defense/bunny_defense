@@ -20,5 +20,4 @@ object ScarecrowTower extends TowerType
     override val sell_cost   = 80
     override val aoe_radius  = 10
 
-    override def fire_from
 }

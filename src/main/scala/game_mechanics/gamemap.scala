@@ -11,6 +11,7 @@ import utils.Landscape
 import game_mechanics.tower.Tower
 import game_mechanics.path.CellPos
 import runtime.Spawner
+import gui.MapPanel
 
 object GameMap
 {
@@ -20,7 +21,6 @@ object GameMap
     val grass_image  =
         ImageIO.read(
             new File(getClass().getResource("/ground/grass4.png").getPath()))
-    println( ground_image.getType() )
 }
 
 class GameMap(width0: Int, height0: Int)
@@ -33,6 +33,10 @@ class GameMap(width0: Int, height0: Int)
 
     val landscape_top    = Landscape.generate( width, height / 3 )
     val landscape_bottom = Landscape.generate( width, height / 3 )
+
+    val map_image = new BufferedImage(
+        width * MapPanel.cellsize,
+        height * MapPanel.cellsize, ground_image.getType() )
 
     for( x <- 0 until width ) {
         for( y <- 0 until height ) {
