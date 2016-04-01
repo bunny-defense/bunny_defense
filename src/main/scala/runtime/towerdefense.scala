@@ -16,6 +16,7 @@ import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
 
+
 object TowerDefense extends SimpleSwingApplication
 {
 
@@ -90,6 +91,7 @@ object TowerDefense extends SimpleSwingApplication
     override def main(args: Array[String]): Unit = {
         super.main(args)
         Controller.run()
-        quit()
+        top.close()
+        sys.exit(0)
     }
 }
