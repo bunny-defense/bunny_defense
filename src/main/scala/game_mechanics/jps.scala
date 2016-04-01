@@ -199,11 +199,11 @@ class JPS(start: CellPos, objectif: CellPos) {
     while (true) {
         var y1 = y0 + vert_dir
         //println( "Vertical movement to " + x0.toString + "," + y1.toString )
-        /* The cell is not on the map */
+        /* The cell is not on the map
         if (!TowerDefense.map_panel.map.on_map(x0,y1)) {
             //println( x0, y1, "is not on map" )
             return (new ListBuffer[CellPosed]())
-        }
+        }*/
         /* The cell is obstructed */
         if (TowerDefense.map_panel.map.obstructed(x0,y1)){
             //println( x0, y1, "is obstructed" )
@@ -228,16 +228,16 @@ class JPS(start: CellPos, objectif: CellPos) {
       /* Choose the nodes to explore */
       if (TowerDefense.map_panel.map.obstructed(x0-1,y1) &&
         !TowerDefense.map_panel.map.obstructed(x0-1,y2)) {
-        nodes += this.add_node(x0, y1, Some(vert_dir,-1), dist)
+        nodes += this.add_node(x0, y1, Some(-1,vert_dir), dist)
       }
 
       if (TowerDefense.map_panel.map.obstructed(x0+1,y1) &&
         !TowerDefense.map_panel.map.obstructed(x0+1,y2)) {
-        nodes += this.add_node(x0,y1,Some(vert_dir,1),dist)
+        nodes += this.add_node(x0, y1, Some(1,vert_dir), dist)
       }
 
       if (!nodes.isEmpty) {
-        nodes += this.add_node(x0,y1,Some(vert_dir,0),dist)
+        nodes += this.add_node(x0, y1, Some(0,vert_dir), dist)
         return nodes
       }
 
@@ -356,9 +356,9 @@ class JPS(start: CellPos, objectif: CellPos) {
       val vert_dir = elem.dir._2
       var nodes = ListBuffer[CellPosed]()
 
-      //println( "direction: " + hor_dir.toString + "," + vert_dir.toString )
+      println( "direction: " + hor_dir.toString + "," + vert_dir.toString )
       if (hor_dir != 0 && vert_dir != 0) {
-          //println( "Going diagonal" )
+          println( "Going diagonal" )
           nodes = this.diag_search(
               (elem.cell.x, elem.cell.y),
               hor_dir, vert_dir,
@@ -367,6 +367,7 @@ class JPS(start: CellPos, objectif: CellPos) {
       }
 
       else if (vert_dir != 0) {
+          println( "Going vertical" )
           nodes = this.vert_search(
               (elem.cell.x, elem.cell.y),
               vert_dir,
@@ -374,13 +375,14 @@ class JPS(start: CellPos, objectif: CellPos) {
           )
       }
       else {
-          //assert(hor_dir != 0, {
-          nodes = this.hor_search(
-              (elem.cell.x, elem.cell.y),
-              hor_dir,
-              dist
-          )
-          //})
+          println( "Going horizontal" )
+          assert(hor_dir != 0, {
+              nodes = this.hor_search(
+                  (elem.cell.x, elem.cell.y),
+                  hor_dir,
+                  dist
+              )
+          })
       }
 
       //println( "Nodes : ",  nodes )
