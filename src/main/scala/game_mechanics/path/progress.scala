@@ -1,9 +1,13 @@
 
 package game_mechanics.path
 
+import util.Random
+
 class Progress(p: Path) {
     /* Index of the next node */
     var i = 1
+    val law = new Random()
+
     /* Distance traveled along the path [current node] -> [next node] */
     var progress = 0.0
     val path = p
@@ -39,4 +43,9 @@ class Progress(p: Path) {
     def reached(): Boolean = {
         return i >= path.length()
     }
+
+    def random_choice() : Unit = {
+        i += law.nextInt(path.length - i - 6)
+    }
+
 }

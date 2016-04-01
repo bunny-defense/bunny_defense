@@ -420,7 +420,6 @@ class JPS(start: CellPos, objectif: CellPos) {
           if (!pd_bis.isEmpty) {
               return Some(this.toPath(pd_bis.get))
           }
-          //println("titi")
       }
       return None
   }
