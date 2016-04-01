@@ -99,11 +99,20 @@ class MapPanel(map0: GameMap) extends Panel {
             case Some(tower) => {
                 // PAINT NO-PLACE ZONE
                 g.setColor( Colors.transparent_red )
-                g.fillRect(
-                    0,
-                    Spawner.bunnystart.y * cellsize,
-                    (Spawner.bunnyend - Spawner.bunnystart).x * cellsize,
-                    cellsize )
+                for( x <- 0 until map.width )
+                {
+                    for( y <- 0 until map.height )
+                    {
+                        if( map.obstructed(x,y) )
+                        {
+                            g.fillRect(
+                                x * cellsize,
+                                y * cellsize,
+                                cellsize,
+                                cellsize )
+                        }
+                    }
+                }
                 g.setColor( Colors.black )
                 // PAINT TOWER AND RANGE
                 val mousepos  = MouseInfo.getPointerInfo().getLocation()

@@ -422,8 +422,6 @@ class JPS(start: CellPos, objectif: CellPos) {
           }
           println("titi")
       }
-      //println(this.all_list)
-      //println(this.toPath)
       return None
   }
 }
