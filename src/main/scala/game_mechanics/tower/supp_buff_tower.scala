@@ -26,6 +26,5 @@ object SuppBuffTower extends TowerType
         /* The argument is the tower ON WHICH the effect is cast */
         tower.damage += 100
     }
-    override def fire_from(tower: Tower)(bunny: Bunny) {}
 }
 

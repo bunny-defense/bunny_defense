@@ -44,41 +44,16 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     //  FIRING MECHANICS
     // ==============================
 
-    /* Returns whether the bunny is in the range of the tower or not */
-    def in_range(bunny: Bunny): Boolean = {
-        return ((bunny.pos - pos).norm <= this.range)
-    }
 
-    def closest_to(p: Waypoint): Option[Bunny] = {
-        /* Returns the bunny that is the closest to a given point p */
-        def distance_comp(x: Bunny,y: Bunny) =
-            (x.pos-p).norm < (y.pos-p).norm
-        val bunnies =
-            Controller.bunnies
-                .filter(_.alive)
-                .filter(in_range)
-                .sortWith(distance_comp)
-        if (bunnies.isEmpty) {return None}
-        else {return Some(bunnies.head)}
-    }
-
-    /* Returns the target of the tower */
-    def get_targets(): Option[Bunny] = {
-        return closest_to( Spawner.bunnyend.toDouble )
-    }
-
-    /* Self descriptive */
-    val fire_at : Bunny => Unit = tower_type.fire_from( this )
-
-    /* Creates a Projectile object, with the characteristics of the tower */
-    def attack(): Unit = if (tower_type.aoe_radius == 0)
+    /*
+    def attack(): Boolean = if (tower_type.aoe_radius == 0)
     {
         {
             val target = get_targets()
-            if( target == None )
-                return
-            cooldown = tower_type.throw_cooldown /* Resetting the cooldown */
-            fire_at( target.get )
+            if( target.isEmpty )
+                return false
+            fire_at( target.head )
+            return true
         }
     }
     else
@@ -86,11 +61,13 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
         {
             val bunnies : ListBuffer[Bunny] = Controller.bunnies.filter( in_range )
             if (bunnies.length != 0) {
-                cooldown = tower_type.throw_cooldown
                 bunnies.map( fire_at )
+                return true
             }
+            return false
         }
-    }
+    }*/
+    val attack : () => Boolean = tower_type.attack_from( this )
 
     // ==============================
     //  UPDATING LOGIC
@@ -98,8 +75,8 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
 
     /* Updates the tower */
     def update(dt: Double): Unit = {
-        if( cooldown <= 0 )
-            attack()
+        if( cooldown <= 0 && attack() )
+            cooldown = tower_type.throw_cooldown /* Resetting the cooldown */
         else
             cooldown -= dt
     }

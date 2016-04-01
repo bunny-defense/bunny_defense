@@ -26,6 +26,5 @@ object SuppSlowTower extends TowerType
         /* The argument is the bunny ON WHICH the effect is cast */
         bunny.speed = bunny.speed / 2
     }
-    override def fire_from(tower: Tower)(bunny: Bunny) {}
 }
 

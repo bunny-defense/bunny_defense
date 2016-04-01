@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-object QuickTower extends TowerType
+object QuickTower extends ShooterTower
 {
     override val tower_graphic  =
         ImageIO.read(

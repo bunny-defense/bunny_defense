@@ -348,7 +348,7 @@ class JPS(start: CellPos, objectif: CellPos) {
 
   def step(dist : Double, elem: CellPosed ): Option[CellPosed] = {
       if ((elem.cell.x, elem.cell.y) == (this.objectif.x,this.objectif.y)) {
-          println( "Found the exit !" )
+          //println( "Found the exit !" )
           return Some(elem)
       }
 
