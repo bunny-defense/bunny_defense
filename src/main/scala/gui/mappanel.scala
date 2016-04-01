@@ -57,13 +57,7 @@ class MapPanel(map0: GameMap) extends Panel {
     override def paintComponent(g: Graphics2D): Unit = {
         super.paintComponent(g)
         /* Drawing the map */
-        for( x <- 0 until cols ) {
-            for( y <- 0 until rows ) {
-                g.drawImage( map.graphic_map(x)(y),
-                    x * cellsize,
-                    y * cellsize, null )
-            }
-        }
+        g.drawImage( map.map_image, 0, 0, null )
         paintPath(g)
         /* Drawing the towers */
         for( tower <- Controller.towers )

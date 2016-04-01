@@ -12,7 +12,7 @@ import game_mechanics.tower.TowerType
 import game_mechanics.path.Waypoint
 import gui.DamageAnimation
 
-/* The class of a throw */
+/* The class of a projectile */
 class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType) {
     var speed    = 1.0
     var damage   = 5.0

@@ -356,9 +356,9 @@ class JPS(start: CellPos, objectif: CellPos) {
       val vert_dir = elem.dir._2
       var nodes = ListBuffer[CellPosed]()
 
-      println( "direction: " + hor_dir.toString + "," + vert_dir.toString )
+      //println( "direction: " + hor_dir.toString + "," + vert_dir.toString )
       if (hor_dir != 0 && vert_dir != 0) {
-          println( "Going diagonal" )
+          //println( "Going diagonal" )
           nodes = this.diag_search(
               (elem.cell.x, elem.cell.y),
               hor_dir, vert_dir,
@@ -367,7 +367,7 @@ class JPS(start: CellPos, objectif: CellPos) {
       }
 
       else if (vert_dir != 0) {
-          println( "Going vertical" )
+          //println( "Going vertical" )
           nodes = this.vert_search(
               (elem.cell.x, elem.cell.y),
               vert_dir,
@@ -375,7 +375,7 @@ class JPS(start: CellPos, objectif: CellPos) {
           )
       }
       else {
-          println( "Going horizontal" )
+          //println( "Going horizontal" )
           if (hor_dir != 0) {
               nodes = this.hor_search(
                   (elem.cell.x, elem.cell.y),
@@ -402,7 +402,7 @@ class JPS(start: CellPos, objectif: CellPos) {
       //println(dep, "toto")
       path += pd.cell.toDouble
       while (dep.cell != this.start ) {
-          println( dep )
+          //println( dep )
           dep = dep.parent.get
           path += dep.cell.toDouble
       }
