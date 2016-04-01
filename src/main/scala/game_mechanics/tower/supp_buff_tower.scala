@@ -1,6 +1,7 @@
 
 package game_mechanics.tower
 
+import game_mechanics.Bunny
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -24,6 +25,7 @@ object SuppBuffTower extends TowerType
     override def allied_effect(tower : Tower) {
         /* The argument is the tower ON WHICH the effect is cast */
         tower.damage += 100
-        }
+    }
+    override def fire_from(tower: Tower)(bunny: Bunny) {}
 }
 

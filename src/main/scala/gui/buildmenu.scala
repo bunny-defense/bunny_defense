@@ -22,14 +22,14 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
     import BuildMenu._
 
     val towerlist = Array.fill[Option[TowerType]](cols*rows)(None)
-    towerlist(0) = Some(Wall)
-    towerlist(1) = Some(BaseTower)
-    towerlist(2) = Some(QuickTower)
-    towerlist(3) = Some(HeavyTower)
-    towerlist(4) = Some(ScarecrowTower)
-    towerlist(5) = Some(Roberto)
-    towerlist(6) = Some(SuppBuffTower)
-    towerlist(7) = Some(SuppSlowTower)
+    towerlist(0) = Some(BaseTower)
+    towerlist(1) = Some(QuickTower)
+    towerlist(2) = Some(HeavyTower)
+    towerlist(3) = Some(ScarecrowTower)
+    towerlist(4) = Some(Roberto)
+    towerlist(5) = Some(SuppBuffTower)
+    towerlist(6) = Some(SuppSlowTower)
+    towerlist(15) = Some(Wall)
 
 
     preferredSize = new Dimension( cols * buttonSize, rows * buttonSize )
