@@ -25,6 +25,7 @@ class MapPanel(map0: GameMap) extends Panel {
     val map  = map0
     val rows = map.height
     val cols = map.width
+    var darkness = 0f
 
     preferredSize = new Dimension(
         cellsize * cols,
@@ -89,7 +90,9 @@ class MapPanel(map0: GameMap) extends Panel {
                 projectile.direction.y,
                 projectile.direction.x ) - Math.PI / 4
             val prev_transform = g.getTransform()
-            g.rotate( angle, x + cellsize / 2, y + cellsize / 2 )
+            g.rotate( angle,
+                x + cellsize / 2,
+                y + cellsize / 2 )
             g.drawImage( projectile.graphic, x.toInt, y.toInt, null )
             g.setTransform( prev_transform )
         }
@@ -127,6 +130,13 @@ class MapPanel(map0: GameMap) extends Panel {
                 g.drawOval( circlex, circley, 2 * range, 2 * range )
             }
         }
+        /* Darkness level */
+        g.setComposite(
+            AlphaComposite.getInstance( AlphaComposite.SRC_OVER, darkness ) )
+        g.setColor( Colors.black )
+        g.fillRect( 0, 0, map.width * cellsize, map.height * cellsize )
+        g.setComposite(
+            AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
         for( animation <- Controller.animations )
         {
             animation.draw(g)

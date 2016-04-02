@@ -15,6 +15,7 @@ object RaygunAnimation
 {
     val rng = new Random
     val duration       = 10.0
+    val max_darkness   = 0.7
 }
 
 class RaygunAnimation(tower_pos: CellPos) extends Animatable
@@ -28,15 +29,8 @@ class RaygunAnimation(tower_pos: CellPos) extends Animatable
 
     override def draw(g: Graphics2D): Unit = {
         // Screen darkening
-        val interp = (1.0 - timer / duration) * 0.7
-        g.setColor( Colors.black )
-        g.setComposite(
-            AlphaComposite.getInstance( AlphaComposite.SRC_OVER, interp.toFloat ) )
-        g.fillRect( 0, 0,
-            (TowerDefense.map_panel.map.width * size).toInt,
-            (TowerDefense.map_panel.map.height * size).toInt )
-        g.setComposite(
-            AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
+        val interp = (1.0 - timer / duration) * max_darkness
+        TowerDefense.map_panel.darkness = interp.toFloat
         // Particle spawning
         while( particles.length < ((duration - timer) / particle_delay).toInt &&
             particles.length < 10)

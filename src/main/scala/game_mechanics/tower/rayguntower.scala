@@ -3,21 +3,28 @@ package game_mechanics.tower
 
 import runtime.{Controller,Spawner}
 
-import gui.RaygunAnimation
+import gui.{RaygunAnimation,RaygunShootAnimation}
 
 import game_mechanics.Bunny
 import game_mechanics.path.Waypoint
 
 object RaygunTower extends TowerType
 {
-    override val throw_cooldown = RaygunAnimation.duration
+    override val throw_cooldown =
+        RaygunAnimation.duration + RaygunShootAnimation.duration
 
     override def attack_from(tower : Tower) : () => Boolean = {
         def in_range(bunny : Bunny) : Boolean = {
             return (bunny.pos - tower.pos).norm <= tower.range
         }
         def fire_at(bunny : Bunny) : Unit = {
-            Controller += new RaygunAnimation( tower.pos )
+            val charge_anim = new RaygunAnimation( tower.pos )
+            charge_anim and_then { () =>
+                Controller += new RaygunShootAnimation(
+                    tower.pos,
+                    (bunny.pos - tower.pos.toDouble).normalize() )
+            }
+            Controller += charge_anim
         }
         def closest_to( point : Waypoint ) : Option[Bunny] = {
             def distance_comp( x : Bunny, y : Bunny ) =
