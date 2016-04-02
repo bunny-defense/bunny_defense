@@ -85,7 +85,13 @@ class MapPanel(map0: GameMap) extends Panel {
         {
             val x = projectile.pos.x * cellsize
             val y = projectile.pos.y * cellsize
+            val angle = Math.atan2(
+                projectile.direction.y,
+                projectile.direction.x ) - Math.PI / 4
+            val prev_transform = g.getTransform()
+            g.rotate( angle, x + cellsize / 2, y + cellsize / 2 )
             g.drawImage( projectile.graphic, x.toInt, y.toInt, null )
+            g.setTransform( prev_transform )
         }
         /* Drawing ghost tower */
         Controller.selected_tower match {
