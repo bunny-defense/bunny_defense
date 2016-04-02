@@ -3,7 +3,8 @@ package game_mechanics.tower
 
 import collection.mutable.ListBuffer
 
-import game_mechanics.{Bunny,Projectile}
+import game_mechanics.{Projectile}
+import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
 import runtime.{Spawner,Controller}
 

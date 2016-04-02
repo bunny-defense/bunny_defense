@@ -8,6 +8,7 @@ import util.control.Exception
 import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
+import game_mechanics.bunny._
 import runtime._
 
 object Spawner

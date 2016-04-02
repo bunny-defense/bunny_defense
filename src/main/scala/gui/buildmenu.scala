@@ -53,7 +53,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
     def drawButton(x: Int, y: Int, g: Graphics2D, hovered: Boolean): Unit = {
         val towerslot = towerlist( x + y * cols )
         towerslot match {
-            case None => 
+            case None =>
                 /* BACKGROUND */
                 g.setColor( Colors.white )
                 g.fillRect(
@@ -128,6 +128,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                 buttonSize,
                 buttonSize )
             g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) )
+            
         }
     }
 

@@ -6,7 +6,8 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.Controller
-import game_mechanics.{Bunny,Projectile}
+import game_mechanics.{Projectile}
+import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
 
 /* AOE Tower (spinning scarecrow) */

@@ -12,6 +12,7 @@ import runtime._
 import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
+import game_mechanics.bunny._
 import gui._
 
 
@@ -59,8 +60,15 @@ object Controller extends Publisher
         if( selected_tower != None &&
             TowerDefense.map_panel.map.valid(pos) )
         {
-            if( Player.remove_gold(selected_tower.get.buy_cost) )
+            if( Player.remove_gold(selected_tower.get.buy_cost) ) {
                 Controller += new Tower( selected_tower.get, pos )
+         /*   for (bunny <- bunnies.filter(
+                    t => t.path.pathexists(
+                        u => u.x = pos.x
+                          && u.y = pos.y))) {
+                              bunny.path = JPS(bunny.pos).run()
+                          } */
+            }
             else
                 println("Not enough money! Current money = " + Player.gold.toString)
         }

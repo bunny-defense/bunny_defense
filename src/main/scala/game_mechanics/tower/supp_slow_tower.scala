@@ -4,7 +4,7 @@ package game_mechanics.tower
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import game_mechanics.Bunny
+import game_mechanics.bunny.Bunny
 
 object SuppSlowTower extends TowerType
 {

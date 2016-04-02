@@ -5,7 +5,7 @@ import runtime.{Controller,Spawner}
 
 import gui.RaygunAnimation
 
-import game_mechanics.Bunny
+import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
 
 object RaygunTower extends TowerType
