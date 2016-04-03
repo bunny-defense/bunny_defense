@@ -14,6 +14,9 @@ import gui.GoldAnimation
 
 object SpecOpBunny extends BunnyType
 {
+    override val bunny_graphic =
+        ImageIO.read(new File(
+            getClass().getResource("/mobs/ninja.png").getPath()))
     val law = new Random()
 	override def update(bunny: Bunny, dt: Double): Unit = {
         if ( !bunny.alive ) {
