@@ -143,7 +143,7 @@ object Controller extends Publisher
         while( true )
         {
             val start = System.currentTimeMillis
-          /* Update */
+            /* Update */
             for ( i <- 1 to acceleration ) {
               update(dt)
             }
@@ -153,10 +153,13 @@ object Controller extends Publisher
             }
 
             /* Render */
+            /*
             TowerDefense.map_panel.repaint()
             TowerDefense.build_menu.repaint()
             TowerDefense.info_panel.repaint()
             TowerDefense.tower_panel.thepanel.repaint()
+            */
+            TowerDefense.mainpanel.repaint()
 
             /* Delta time and step time computing */
             val miliseconds = framerate.toInt - (System.currentTimeMillis - start)

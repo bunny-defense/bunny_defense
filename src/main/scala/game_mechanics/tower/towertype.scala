@@ -14,6 +14,8 @@ import game_mechanics.path._
 
 trait TowerType
 {
+    val name = "Tower"
+    val desc = "Tower tower tower"
     val tower_graphic  =
         ImageIO.read(
             new File(

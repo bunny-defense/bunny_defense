@@ -8,6 +8,8 @@ import javax.imageio.ImageIO
 /* Human commando in a fishtank who uses phychic powers to continuouly hurt nearby rabbits (metal as hell) */
 object Roberto extends TowerType
 {
+    override val name = "Roberto"
+    override val desc = "A psy soldier in a glass container"
     override val tower_graphic =
         ImageIO.read(
             new File(

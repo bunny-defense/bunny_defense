@@ -41,7 +41,8 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
         case e: MouseClicked =>
             val x = e.point.x / buttonSize
             val y = e.point.y / buttonSize
-            Controller.selected_tower = towerlist(x + y * cols)
+            if( x >= 0 && x < cols && y >= 0 && y < rows )
+                Controller.selected_tower = towerlist(x + y * cols)
         case MousePressed(_,_,_,_,_) =>
             clicked = true
         case MouseReleased(_,_,_,_,_) =>
@@ -128,6 +129,43 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                 buttonSize,
                 buttonSize )
             g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) )
+        }
+    }
+
+    def draw_tooltip(g : Graphics2D)
+    {
+        val windowpos = locationOnScreen
+        val mousepos  = MouseInfo.getPointerInfo().getLocation()
+        val mousex    = mousepos.x - windowpos.x
+        val mousey    = mousepos.y - windowpos.y
+        val buttonx   = mousex / buttonSize
+        val buttony   = mousey / buttonSize
+        if( buttonx >= 0 && buttonx < cols && buttony >= 0 && buttony < rows &&
+            mousex >= 0 && mousey >= 0 )
+        {
+            val buttonid  = buttonx.toInt + buttony.toInt * cols
+            towerlist(buttonid) match
+            {
+                case None => {}
+                case Some(tower) =>
+                {
+                    val namesize = g.getFontMetrics().stringWidth( tower.name )
+                    val descsize = g.getFontMetrics().stringWidth( tower.desc )
+                    val width = Math.max( namesize, descsize ) + 4
+                    val height = 34
+                    val rect = new Rectangle(
+                        mousepos.x.toInt - width, mousepos.y.toInt,
+                        width, height )
+                    g.setColor( Colors.lightGrey )
+                    g.fill( rect )
+                    g.setColor( Colors.black )
+                    g.draw( rect )
+                    g.drawString( tower.name,
+                        mousepos.x.toInt - width + 2, mousepos.y.toInt + 15 )
+                    g.drawString( tower.desc,
+                        mousepos.x.toInt - width + 2, mousepos.y.toInt + 30 )
+                }
+            }
         }
     }
 

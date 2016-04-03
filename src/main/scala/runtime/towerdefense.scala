@@ -5,6 +5,7 @@ import swing._
 import swing.event._
 import util.Random
 import io.Source
+import java.awt.Graphics2D
 import java.awt.event._
 
 import collection.mutable.HashMap
@@ -37,8 +38,10 @@ object TowerDefense extends SimpleSwingApplication
     }
 
     /* Returns a panel containing the in-game menu (next to the map) */
-    def make_menu(): BorderPanel = {
-        val play_button = new Button {
+    def make_menu(): BorderPanel =
+    {
+        val play_button = new Button
+        {
             action = Action("") { Controller.on_play_button(this) }
             listenTo(SpawnScheduler)
             reactions += {
@@ -50,15 +53,46 @@ object TowerDefense extends SimpleSwingApplication
             preferredSize = new Dimension( 100, 100 )
             focusable = false
         }
-      val build_pane = new BoxPanel(Orientation.Vertical) {
-        contents += info_panel
-        contents += build_menu
-        contents += Swing.VGlue
-      }
-      return new BorderPanel {
-        add( build_pane, BorderPanel.Position.Center )
-        add( play_button, BorderPanel.Position.South )
-      }
+        val build_pane = new BoxPanel(Orientation.Vertical)
+        {
+            contents += info_panel
+            contents += build_menu
+            contents += Swing.VGlue
+        }
+        return new BorderPanel
+        {
+            add( build_pane, BorderPanel.Position.Center )
+            add( play_button, BorderPanel.Position.South )
+        }
+    }
+
+    val mainpanel = new BorderPanel
+    {
+        add (make_map, BorderPanel.Position.Center)
+        add (make_menu(), BorderPanel.Position.East)
+
+        listenTo(this.keys)
+        reactions +=
+        {
+            case KeyPressed(_,key,_,_) => {
+                keymap += (key -> true)
+            }
+            case KeyReleased(_,key,_,_) => {
+                keymap += (key -> false)
+            }
+        }
+
+        focusable = true
+        requestFocus
+        override def paintChildren(g: Graphics2D)
+        {
+            super.paintChildren(g)
+            val transform = g.getTransform()
+            val pos = locationOnScreen
+            g.translate( -pos.x, -pos.y )
+            build_menu.draw_tooltip(g)
+            g.setTransform( transform )
+        }
     }
 
     def top = new MainFrame
@@ -67,23 +101,7 @@ object TowerDefense extends SimpleSwingApplication
             getLines().toArray
         title = titles(Random.nextInt(titles.length))
         resizable = false
-        contents = new BorderPanel
-        {
-            add (make_map, BorderPanel.Position.Center)
-            add (make_menu(), BorderPanel.Position.East)
-            listenTo(this.keys)
-
-            reactions += {
-                case KeyPressed(_,key,_,_) => {
-                    keymap += (key -> true)
-                }
-                case KeyReleased(_,key,_,_) => {
-                    keymap += (key -> false)
-                }
-            }
-            focusable = true
-            requestFocus
-        }
+        contents = mainpanel
     }
 
 

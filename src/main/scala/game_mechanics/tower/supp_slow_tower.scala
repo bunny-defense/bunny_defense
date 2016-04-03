@@ -8,6 +8,8 @@ import game_mechanics.Bunny
 
 object SuppSlowTower extends TowerType
 {
+    override val name = "Support slowing tower"
+    override val desc = "Slows down nearby enemies"
     override val tower_graphic  =
         ImageIO.read(
             new File(

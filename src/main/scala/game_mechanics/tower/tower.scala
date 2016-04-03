@@ -85,6 +85,14 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     //  GETTERS
     // ==============================
 
+    def name(): String = {
+        return tower_type.name
+    }
+
+    def desc(): String = {
+        return tower_type.desc
+    }
+
     def throw_speed(): Double = {
         return tower_type.throw_speed
     }

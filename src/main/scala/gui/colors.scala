@@ -12,6 +12,7 @@ object Colors {
     // B&W
     val white      = new Color( 255, 255, 255 )
     val lightGrey  = new Color( 200, 200, 200 )
+    val lightGray  = lightGrey
     val black      = new Color(   0,   0,   0 )
 
     // Primitives

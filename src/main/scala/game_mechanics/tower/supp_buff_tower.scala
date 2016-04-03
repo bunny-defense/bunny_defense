@@ -8,6 +8,8 @@ import javax.imageio.ImageIO
 
 object SuppBuffTower extends TowerType
 {
+    override val name = "Support buff tower"
+    override val desc = "Increases nearby towers' damage"
     override val tower_graphic  =
         ImageIO.read(
             new File(

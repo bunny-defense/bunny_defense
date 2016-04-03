@@ -7,6 +7,8 @@ import javax.imageio.ImageIO
 
 object QuickTower extends ShooterTower
 {
+    override val name = "Quick tower"
+    override val desc = "Shoots light carrots at a very fast rate"
     override val tower_graphic  =
         ImageIO.read(
             new File(

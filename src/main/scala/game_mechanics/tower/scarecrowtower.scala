@@ -12,6 +12,8 @@ import game_mechanics.path.Waypoint
 /* AOE Tower (spinning scarecrow) */
 object ScarecrowTower extends TowerType
 {
+    override val name = "Scarecrow"
+    override val desc = "Shoots carrots at all nearby enemies"
     override val tower_graphic =
         ImageIO.read(
             new File(

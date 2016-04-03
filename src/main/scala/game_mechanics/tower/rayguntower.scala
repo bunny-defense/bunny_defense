@@ -10,6 +10,8 @@ import game_mechanics.path.Waypoint
 
 object RaygunTower extends TowerType
 {
+    override val name = "???"
+    override val desc = "[REDACTED]"
     override val throw_cooldown =
         RaygunAnimation.duration + RaygunShootAnimation.duration
 
