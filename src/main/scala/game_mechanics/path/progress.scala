@@ -10,7 +10,7 @@ class Progress(p: Path) {
 
     /* Distance traveled along the path [current node] -> [next node] */
     var progress = 0.0
-    val path = p
+    var path = p
 
     def move( distance: Double ): Unit = {
         if( reached )

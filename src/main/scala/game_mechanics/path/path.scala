@@ -16,6 +16,10 @@ class Path {
     waypoints += wp
   }
 
+  def ++=(other:Path): Unit = {
+    this.waypoints ++= other.waypoints
+  }
+
   /* Returns the waypoint of index i */
   def at(i: Int): Waypoint = {
     return waypoints.apply(i)
@@ -32,7 +36,7 @@ class Path {
     return npath
   }
 
-  def ++=(other:Path): Unit = {
-    this.waypoints ++= other.waypoints
+  def exists(p:(Waypoint) => Boolean) : Boolean = {
+      this.waypoints.exists(p)
   }
 }
