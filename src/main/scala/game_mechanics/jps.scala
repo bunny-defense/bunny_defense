@@ -37,12 +37,9 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
                 this.parent.get.dir._1,
                 this.parent.get.dir._2)
             var current = this.cell.toDouble
-            println("Parent:"+ this.parent.get.cell.toDouble.toString)
-            println(dir_path.toString)
             buffer += current
             while (current != this.parent.get.cell.toDouble) {
                 current -= dir_path
-                println(current.toString)
                 buffer += current
             }
         }

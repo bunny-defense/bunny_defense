@@ -65,8 +65,7 @@ object Controller extends Publisher
             for (bunny <- bunnies.filter( t => t.path.path.exists(
                  u => u.x == pos.x && u.y == pos.y))) {
                      bunny.path.path = new JPS(bunny.pos.toInt, Spawner.bunnyend).run().get
-                     bunny.path.i = 1
-                     bunny.path.progress = 0.0
+                     bunny.path.reset
                  }
             }
             else
