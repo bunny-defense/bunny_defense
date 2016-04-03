@@ -6,11 +6,11 @@ import util.Random
 class Progress(p: Path) {
     /* Index of the next node */
     var i = 1
-    val law = new Random()
+    var law = new Random()
 
     /* Distance traveled along the path [current node] -> [next node] */
     var progress = 0.0
-    val path = p
+    var path = p
 
     def move( distance: Double ): Unit = {
         if( reached )
@@ -46,6 +46,12 @@ class Progress(p: Path) {
 
     def random_choice() : Unit = {
         i += law.nextInt(path.length - i - 6)
+    }
+
+    def reset() : Unit = {
+        this.i = 1
+        this.progress = 0.0
+        this.law = new Random()
     }
 
 }

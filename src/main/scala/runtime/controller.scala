@@ -63,12 +63,11 @@ object Controller extends Publisher
         {
             if( Player.remove_gold(selected_tower.get.buy_cost) ) {
                 Controller += new Tower( selected_tower.get, pos )
-         /*   for (bunny <- bunnies.filter(
-                    t => t.path.pathexists(
-                        u => u.x = pos.x
-                          && u.y = pos.y))) {
-                              bunny.path = JPS(bunny.pos).run()
-                          } */
+            for (bunny <- bunnies.filter( t => t.path.path.exists(
+                 u => u.x == pos.x && u.y == pos.y))) {
+                     bunny.path.path = new JPS(bunny.pos.toInt, Spawner.bunnyend).run().get
+                     bunny.path.reset
+                 }
             }
             else
                 println("Not enough money! Current money = " + Player.gold.toString)
