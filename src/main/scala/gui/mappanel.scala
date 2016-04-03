@@ -159,6 +159,7 @@ class MapPanel(map0: GameMap) extends Panel {
         Controller.selected_cell match {
             case None => {}
             case Some(tower) => {
+                g.setColor(Colors.black)
                 g.drawOval(tower.pos.x.toInt * cellsize - tower.range * cellsize
                     + cellsize/2,
                     tower.pos.y.toInt * cellsize - tower.range * cellsize
