@@ -73,7 +73,7 @@ class DamageAnimation(amount: Double, origin: Waypoint) extends Animatable
 
 /* Creates a moving "wave #" to indicate the wave number */
 
-object WaveAnimation
+object SlidingAnimation
 {
     val background = ImageIO.read(
         new File(
@@ -82,9 +82,9 @@ object WaveAnimation
     val image_origin_y : Int = background.getHeight() / 2
 }
 
-class WaveAnimation(wave_number: Int) extends Animatable
+class SlidingAnimation(text_callback : () => String) extends Animatable
 {
-    import WaveAnimation._
+    import SlidingAnimation._
 
     val duration = 2.0
     timer = duration
@@ -93,9 +93,9 @@ class WaveAnimation(wave_number: Int) extends Animatable
     val target = origin + new Waypoint( TowerDefense.map_panel.size.width + image_origin_x.toDouble, 0 )
 
     override def draw(g: Graphics2D): Unit = {
-        val interp = Math.pow( timer * 2 / duration - 1, 3 ) / 2 + 0.5
+        val interp = Math.pow( timer * 2 / duration - 1, 5 ) / 2 + 0.5
         val pos = origin * interp + target * ( 1 - interp )
-        val string = "Wave " + wave_number.toString
+        val string = text_callback()
         val strwidth = g.getFontMetrics().stringWidth( string )
         g.drawImage( background,
             pos.x.toInt - image_origin_x,
@@ -107,6 +107,9 @@ class WaveAnimation(wave_number: Int) extends Animatable
             pos.y.toFloat )
     }
 }
+
+class WaveAnimation(wave_number : Int)
+extends SlidingAnimation( () => "Wave " + wave_number.toString )
 
 class SplashAnimation(boss : BunnyType) extends Animatable
 {

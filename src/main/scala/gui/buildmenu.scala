@@ -8,7 +8,7 @@ import java.awt.AlphaComposite
 import java.awt.Graphics2D
 import java.awt.MouseInfo
 
-import runtime.Controller
+import runtime._
 import game_mechanics._
 import game_mechanics.tower._
 
@@ -32,7 +32,6 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
     towerlist(7) = Some(SuppSlowTower)
     //towerlist(7) = Some(RaygunTower)
     towerlist(15) = Some(Wall)
-
 
     preferredSize = new Dimension( cols * buttonSize, rows * buttonSize )
 
@@ -59,6 +58,35 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
             clicked = true
         case MouseReleased(_,_,_,_,_) =>
             clicked = false
+    }
+
+    listenTo(SpawnScheduler)
+
+    reactions += {
+        case WaveEnded =>
+        {
+            val towertypes = towerlist.collect( Function.unlift( x =>
+                    x match
+                    {
+                        case None => x
+                        case Some(towertype) =>
+                        {
+                            if( towertype.unlock_wave == Controller.wave_counter )
+                                x
+                            else
+                                None
+                        }
+                    }) )
+            def chain_anims(chain : () => Unit, towertype : TowerType) : () => Unit = {
+                () =>
+                {
+                    val anim = new UnlockAnimation(towertype)
+                    anim and_then chain
+                    Controller += anim
+                }
+            }
+            towertypes.foldLeft(()=>())(chain_anims)()
+        }
     }
 
     var clicked = false
