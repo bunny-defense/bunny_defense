@@ -31,4 +31,8 @@ class Path {
     npath.waypoints.appendAll( this.waypoints.reverse )
     return npath
   }
+
+  def ++=(other:Path): Unit = {
+    this.waypoints ++= other.waypoints
+  }
 }

@@ -23,6 +23,10 @@ class Waypoint(x0: Double, y0: Double) {
         return x == other.x && y == other.y
     }
 
+    def !=(other: Waypoint): Boolean = {
+        return x != other.x || y != other.y
+    }
+
     def +(other: Waypoint): Waypoint = {
         return new Waypoint( x + other.x, y + other.y )
     }

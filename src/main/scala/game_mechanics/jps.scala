@@ -29,6 +29,27 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
         }
     }
 
+    def backtrace() : Path = {
+        /** Send back the nodes between the node and its father */
+        val buffer = new Path()
+        if ( this.parent != None ) {
+            var dir_path = new Waypoint (
+                this.parent.get.dir._1,
+                this.parent.get.dir._2)
+            var current = this.cell.toDouble
+            println("Parent:"+ this.parent.get.cell.toDouble.toString)
+            println(dir_path.toString)
+            buffer += current
+            while (current != this.parent.get.cell.toDouble) {
+                current -= dir_path
+                println(current.toString)
+                buffer += current
+            }
+        }
+        return buffer
+    }
+
+
     override def toString(): String = {
         return "(" + cell.x.toString + "," + cell.y.toString + ")" +
         (this.parent match
@@ -45,7 +66,6 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
     }
 }
 
-/* TODO Debugging >< */
 
 class JPS(start: CellPos, objectif: CellPos) {
   val vert_dist = 1.0
@@ -403,8 +423,8 @@ class JPS(start: CellPos, objectif: CellPos) {
       path += pd.cell.toDouble
       while (dep.cell != this.start ) {
           //println( dep )
+          path ++= dep.backtrace
           dep = dep.parent.get
-          path += dep.cell.toDouble
       }
       return path.reverse
   }
