@@ -15,6 +15,10 @@ object QuickTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
         ImageIO.read(
             new File(
                 getClass().getResource("/towers/quick_tower.png").getPath()))
+    override val throw_graphic  =
+        ImageIO.read(
+            new File(
+                getClass().getResource("/projectiles/leaf.png").getPath()))
     override val base_range     = 5
     range                       = 5
     override val spread         = 1.0
