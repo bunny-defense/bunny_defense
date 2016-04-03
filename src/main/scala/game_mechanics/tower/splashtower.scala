@@ -8,4 +8,6 @@ object SplashTower extends ShooterTower(ProjectileFactory.SPLASH_PROJECTILE)
     override val name         = "Turnip catapult"
     override val desc         = "Turnips cause splash damage"
     override val first_appear = 10
+    override val buy_cost     = 2500
+    override val sell_cost    = 2000
 }

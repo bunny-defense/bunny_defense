@@ -22,8 +22,8 @@ object SuppBuffTower extends TowerType
     range                       = 5
     override val base_damage    = 0
     damage                      = 0
-    override val buy_cost       = 50
-    override val sell_cost      = 35
+    override val buy_cost       = 6000
+    override val sell_cost      = 4800
     override def allied_effect(tower : Tower) {
         /* The argument is the tower ON WHICH the effect is cast */
         tower.damage += 100
