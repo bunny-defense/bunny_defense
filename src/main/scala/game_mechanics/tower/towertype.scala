@@ -3,6 +3,7 @@ package game_mechanics.tower
 
 import collection.mutable.ListBuffer
 
+import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -41,5 +42,7 @@ trait TowerType
     var amount         = 0
 
     def attack_from(tower : Tower): () => Boolean = { () => true }
+
+    def draw_effect(g: Graphics2D): Unit = {}
 }
 

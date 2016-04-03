@@ -60,6 +60,18 @@ class MapPanel(map0: GameMap) extends Panel {
         /* Drawing the map */
         g.drawImage( map.map_image, 0, 0, null )
         paintPath(g)
+        /* Drawing tower effects */
+        val translate_transform = g.getTransform()
+        for( tower <- Controller.towers )
+        {
+            val x = tower.pos.x * cellsize + cellsize / 2
+            val y = tower.pos.y * cellsize + cellsize / 2
+            g.translate( x, y )
+            tower.towertype.draw_effect(g)
+            g.setTransform( translate_transform )
+            g.setComposite(
+                AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
+        }
         /* Drawing the towers */
         for( tower <- Controller.towers )
         {
