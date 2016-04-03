@@ -8,7 +8,8 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.{Controller,Spawner}
-import game_mechanics.{Projectile,Bunny}
+import game_mechanics.{Projectile}
+import game_mechanics.bunny.Bunny
 import game_mechanics.path._
 
 

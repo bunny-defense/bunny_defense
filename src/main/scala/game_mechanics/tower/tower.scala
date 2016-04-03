@@ -5,6 +5,7 @@ import runtime.Controller
 import runtime.Spawner
 import game_mechanics._
 import game_mechanics.path._
+import game_mechanics.bunny._
 import scala.collection.mutable._
 import Math._
 

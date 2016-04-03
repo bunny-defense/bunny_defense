@@ -1,10 +1,10 @@
 
 package game_mechanics.tower
 
-import game_mechanics.Bunny
-import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
+
+
 object Wall extends TowerType {
     override val name = "Wall"
     override val desc = "Pathfinding debug tower"

@@ -1,7 +1,7 @@
 
 package game_mechanics.tower
 
-import game_mechanics.Bunny
+import game_mechanics.bunny.Bunny
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
