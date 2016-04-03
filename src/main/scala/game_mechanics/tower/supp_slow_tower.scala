@@ -27,8 +27,8 @@ object SuppSlowTower extends TowerType
     range                       = 5
     override val base_damage    = 0
     damage                      = 0
-    override val buy_cost       = 50
-    override val sell_cost      = 35
+    override val buy_cost       = 5000
+    override val sell_cost      = 4000
     override val unlock_wave    = 25
     override def attack_from(tower: Tower): () => Boolean = {
         def new_snow_anim() : Unit = {
