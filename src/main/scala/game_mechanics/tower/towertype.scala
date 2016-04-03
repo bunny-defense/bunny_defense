@@ -12,12 +12,13 @@ import runtime.{Controller,Spawner}
 import game_mechanics.{Projectile}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path._
-
+import game_mechanics._
 
 trait TowerType
 {
     val name = "Tower"
     val desc = "Tower tower tower"
+    var upgrades : Option[UpgradeTree] = Some(BaseTowerUpgrades)
     val tower_graphic  =
         ImageIO.read(
             new File(
@@ -27,9 +28,9 @@ trait TowerType
             new File(
                 getClass().getResource("/projectiles/carrot1.png").getPath()))
     val size           = 1      /* Size in tiles */
-    val base_damage    = 5
+    var base_damage    = 5
     var damage         = 5      /* Damage dealt to bunnies */
-    val base_range     = 5
+    var base_range     = 5
     var range          = 5      /* Range in tiles */
     val spread         = 0.0    /* Amount of bullet spread */
     val throw_speed    = 10.0   /* Speed of the shot projectile */

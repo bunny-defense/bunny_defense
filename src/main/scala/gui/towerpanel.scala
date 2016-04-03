@@ -47,21 +47,27 @@ class TowerPanel() extends BorderPanel {
         }
         text = "Sell Tower"
     }
-/*    val upgrade_button = new Button {
+
+    val upgrade_button = new Button {
         action = Action("") {
             Controller.selected_cell match
             {
                 case None => ()
                 case Some(tower) => {
-                    if(Player.gold >= tower.upgrades.cost) {
-                        tower.upgrades.effect(tower)
-                        Player.remove_gold(tower.upgrades.cost)
-                    }
-                    else {
-                        println("Not enough gold to buy tower upgrade !")
+                    tower.upgrades match
+                    {
+                        case None => { }
+                        case Some(upgrade) => {
+                            if(Player.gold >= upgrade.cost) {
+                                upgrade.effect(tower)
+                                Player.remove_gold(upgrade.cost)
+                            }
+                            else {
+                                println("Not enough gold to buy tower upgrade !")
+                            }
+                        }
                     }
                 }
-
             }
         }
         preferredSize = new Dimension ( 200, 100 )
@@ -75,13 +81,17 @@ class TowerPanel() extends BorderPanel {
                 {
                     case None => ()
                     case Some(tower) => {
-                        /* override def paintComponent(g : Graphics2D) : Unit = {
+                        /* def paintComponent(g : Graphics2D) : Unit = {
                             super.paintComponent(g)
+                            val xm = size.width
+                            val ym = size.height
+                            g.setColor( Colors.black )
+                            g.drawRect( 0, 0, xm-1, ym-1 )
                             g.drawString( tower.upgrades.name, xm/2-34, ym/4+5 )
                             g.drawString( tower.upgrades.cost + " gold", xm/2-34, ym/4+5 )
                             g.drawString( tower.upgrades.description, xm/2-34, ym/4+5 )
-                         } */
-                        text = Controller.selected_cell.get.upgrades.name
+                        }
+                        text = Controller.selected_cell.get.upgrades.name */
                     }
                 }
             }
@@ -90,11 +100,15 @@ class TowerPanel() extends BorderPanel {
                 Controller.selected_cell match
                 {
                     case None => ()
-                    case Some(tower) => text = Controller.selected_cell.get.upgrades.name
+                    case Some(tower) => tower.upgrades match
+                    {
+                        case None => { }
+                        case Some(upgrade) => text = upgrade.name
+                    }
                 }
             }
         }
-    }*/
+    }
 
     val fastforward_button = new Button {
         action = Action("") { Controller.on_fastforward_button() }
@@ -111,9 +125,11 @@ class TowerPanel() extends BorderPanel {
         preferredSize = new Dimension( 250, 100 )
     }
     val thepanel = new TowerInfoPanel
-    /* val upgradepanel = new TowerUpgradePanel */
+    val borderpanel = new BorderPanel {
+        layout(upgrade_button) = BorderPanel.Position.Center
+        layout(sell_button) = BorderPanel.Position.East
+        }
     add( thepanel, BorderPanel.Position.Center )
- /*   add( upgrade_button, BorderPanel.Position.Center ) /* Will need to let both panels appear */  */
-    add( sell_button, BorderPanel.Position.East )
+    add( borderpanel, BorderPanel.Position.East )
     add( fastforward_button, BorderPanel.Position.West )
 }

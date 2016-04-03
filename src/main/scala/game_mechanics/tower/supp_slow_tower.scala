@@ -23,9 +23,9 @@ object SuppSlowTower extends TowerType
         ImageIO.read(
             new File(
                 getClass().getResource("/blank.png").getPath()))
-    override val base_range     = 5
+    base_range                  = 5
     range                       = 5
-    override val base_damage    = 0
+    base_damage                 = 0
     damage                      = 0
     override val buy_cost       = 5000
     override val sell_cost      = 4000

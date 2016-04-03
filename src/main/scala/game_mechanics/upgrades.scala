@@ -10,7 +10,7 @@ trait UpgradeTree
     val cost = 100
     def effect (tower : Tower) =
     {}
-    val children = 0 /* TO DO */
+    val children : Option[UpgradeTree] = None /* TO DO */
 }
 
 object BaseTowerUpgrades extends UpgradeTree
@@ -19,7 +19,8 @@ object BaseTowerUpgrades extends UpgradeTree
     override val description = "Throw heavier carrots, dealing more damage"
     override def effect(tower : Tower)
     {
-        tower.damage = tower.damage + 5 /* Just to actually see if the upgrade works */
+        tower.base_damage = tower.base_damage + 5
+        tower.upgrades = this.children
     }
 }
 
@@ -29,7 +30,8 @@ object QuickTowerUpgrades extends UpgradeTree
     override val description = "Long-range targetting system allows the tower to throw carrots further"
     override def effect(tower : Tower)
     {
-        tower.range = tower.range + 2
+        tower.base_range = tower.base_range + 2
+        tower.upgrades = this.children
     }
 }
 
