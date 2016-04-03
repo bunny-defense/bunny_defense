@@ -30,5 +30,5 @@ object Roberto extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     override val sell_cost      = 150
     override val throw_speed    = 100.0
     override val throw_cooldown = 0.05
-    override val first_appear   = 20
+    override val unlock_wave    = 20
 }

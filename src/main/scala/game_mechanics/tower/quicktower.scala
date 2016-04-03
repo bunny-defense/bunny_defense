@@ -24,6 +24,6 @@ object QuickTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     damage                      = 1
     override val buy_cost       = 75
     override val sell_cost      = 35
-    override val first_appear   = 1
+    override val unlock_wave    = 1
 }
 

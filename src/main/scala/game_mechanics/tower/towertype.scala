@@ -36,7 +36,7 @@ trait TowerType
     val throw_cooldown = 1.0    /* Cooldown time in seconds */
     val buy_cost       = 50     /* Gold needed to buy one */
     val sell_cost      = 25     /* Gold earned when sold */
-    val first_appear   = 1      /* First round of apparition */
+    val unlock_wave    = 1      /* First round of apparition */
     def allied_effect(tower : Tower) : Unit = { } /* Applies the tower's effect on allied towers */
     def enemy_effect(bunny : Bunny) : Unit = { } /* Applies the tower's effect on enemy bunnies */
 

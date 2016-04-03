@@ -43,9 +43,18 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
             val x = e.point.x / buttonSize
             val y = e.point.y / buttonSize
             if( x >= 0 && x < cols &&
-                y >= 0 && y < rows &&
-                Controller.wave_counter >= towerlist(x+y*cols).get.first_appear)
-                Controller.selected_tower = towerlist(x + y * cols)
+                y >= 0 && y < rows )
+            {
+                val buttontower = towerlist( x + y * cols )
+                buttontower match {
+                    case None => ()
+                    case Some(tower) =>
+                    {
+                        if( Controller.wave_counter >= tower.unlock_wave )
+                            Controller.selected_tower = towerlist(x + y * cols)
+                    }
+                }
+            }
         case MousePressed(_,_,_,_,_) =>
             clicked = true
         case MouseReleased(_,_,_,_,_) =>
@@ -70,7 +79,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                 if( ratio > 1.0 )
                     ratio = 1.0
                 /* BACKGROUND */
-               if( ratio < 1.0 || Controller.wave_counter < tower.first_appear)
+               if( ratio < 1.0 )
                     g.setColor( Colors.lightred )
                 else
                     g.setColor( Colors.white )
@@ -112,6 +121,23 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                 g.drawString( string,
                     x * buttonSize + buttonSize / 2 - strwidth / 2,
                     y * buttonSize + strheight )
+                if( Controller.wave_counter < tower.unlock_wave )
+                {
+                    g.setColor( Colors.transparent_grey )
+                    g.fillRect(
+                        x * buttonSize,
+                        y * buttonSize,
+                        buttonSize,
+                        buttonSize )
+                    g.setColor( Colors.yellow )
+                    val waves_left = tower.unlock_wave - Controller.wave_counter
+                    val wave_string = waves_left.toString
+                    val wave_string_width =
+                        g.getFontMetrics().stringWidth(wave_string)
+                    g.drawString(wave_string,
+                        x * buttonSize + buttonSize / 2 - wave_string_width / 2,
+                        y * buttonSize + 25 )
+                }
         }
         /* OUTLINE */
         g.setColor( Colors.black )

@@ -35,6 +35,7 @@ object Colors {
 
     // TRANSPARENT
     val transparent_white = new Color( 255, 255, 255, 127 )
+    val transparent_grey  = new Color( 127, 127, 127, 127 )
 
     val transparent_red   = new Color( 255,   0,   0, 127 )
 

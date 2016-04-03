@@ -28,6 +28,6 @@ object SuppBuffTower extends TowerType
         /* The argument is the tower ON WHICH the effect is cast */
         tower.damage += 100
     }
-    override val first_appear   = 25
+    override val unlock_wave    = 25
 }
 
