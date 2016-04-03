@@ -28,7 +28,7 @@ object Controller extends Publisher
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
     val updatables   = new ListBuffer[Updatable]
-    var wave_counter = 0
+    var wave_counter = 1
     val framerate    = 1.0/60.0 * 1000
     var started      = false
     var dt: Double   = 0.0
@@ -83,16 +83,10 @@ object Controller extends Publisher
         }
     }
 
-    /* Triggered when a button from the build menu is clicked */
-    def on_build_button( button: BuyButton ): Unit = {
-        selected_tower = button.tower
-        selected_cell = None
-    }
 
     /* Triggered when the play button is clicked */
     def on_play_button(button : Button): Unit = {
         button.enabled = false
-        wave_counter += 1
         val spawner = new Spawner(wave_counter)
         val spawnschedule = spawner.create()
         SpawnScheduler.set_schedule(spawnschedule)

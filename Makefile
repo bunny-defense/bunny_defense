@@ -3,10 +3,13 @@ default:
 	@sbt compile
 
 
-.PHONY: run clean package feature log
+.PHONY: run ruin clean package feature log
 
 run:
 	@sbt run
+
+ruin:
+	sbt run
 
 feature:
 	@sbt -feature

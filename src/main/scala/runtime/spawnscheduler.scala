@@ -35,6 +35,7 @@ object SpawnScheduler extends Publisher
             if( spawn_queue.isEmpty && Controller.bunnies.isEmpty )
             {
                 started = false
+                Controller.wave_counter += 1
                 publish( WaveEnded )
             }
         }

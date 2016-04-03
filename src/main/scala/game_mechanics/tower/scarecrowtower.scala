@@ -19,13 +19,14 @@ object ScarecrowTower extends TowerType
         ImageIO.read(
             new File(
                 getClass().getResource("/towers/heavy_tower.png").getPath()))
-    override val base_range  = 4
-    range                    = 4
-    override val base_damage = 6
-    damage                   = 6
-    override val buy_cost    = 1500
-    override val sell_cost   = 80
-    val aoe_radius  = 10
+    override val base_range   = 4
+    range                     = 4
+    override val base_damage  = 6
+    damage                    = 6
+    override val buy_cost     = 1500
+    override val sell_cost    = 80
+    override val first_appear = 10
+
 
     override def attack_from(tower : Tower) : () => Boolean = {
         def in_range(bunny : Bunny) : Boolean = {

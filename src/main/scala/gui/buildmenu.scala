@@ -42,7 +42,9 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
         case e: MouseClicked =>
             val x = e.point.x / buttonSize
             val y = e.point.y / buttonSize
-            if( x >= 0 && x < cols && y >= 0 && y < rows )
+            if( x >= 0 && x < cols &&
+                y >= 0 && y < rows &&
+                Controller.wave_counter >= towerlist(x+y*cols).get.first_appear)
                 Controller.selected_tower = towerlist(x + y * cols)
         case MousePressed(_,_,_,_,_) =>
             clicked = true
@@ -68,7 +70,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                 if( ratio > 1.0 )
                     ratio = 1.0
                 /* BACKGROUND */
-                if( ratio < 1.0 )
+               if( ratio < 1.0 || Controller.wave_counter < tower.first_appear)
                     g.setColor( Colors.lightred )
                 else
                     g.setColor( Colors.white )

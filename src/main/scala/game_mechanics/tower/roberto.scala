@@ -24,10 +24,11 @@ object Roberto extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
                 getClass().getResource("/blank.png").getPath()))
     override val base_range     = 6
     range                       = 6
-    override val base_damage    = 5
-    damage                      = 5
-    override val buy_cost       = 3
+    override val base_damage    = 1
+    damage                      = 1
+    override val buy_cost       = 3000
     override val sell_cost      = 150
     override val throw_speed    = 100.0
     override val throw_cooldown = 0.05
+    override val first_appear   = 20
 }

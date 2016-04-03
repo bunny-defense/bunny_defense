@@ -42,7 +42,7 @@ object Landscape
         }
         return result
     }
- */
+*/
     def generate(width: Int, max_height: Int): Array[Int] = {
         val array = new Array[Int](width)
         array(0) = rng.nextInt( 2 )

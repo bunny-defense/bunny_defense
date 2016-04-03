@@ -13,8 +13,9 @@ import game_mechanics.path.Waypoint
 
 object RaygunTower extends TowerType
 {
-    override val name = "???"
-    override val desc = "[REDACTED]"
+    override val name           = "???"
+    override val desc           = "[REDACTED]"
+    override val first_appear   = 99
     override val throw_cooldown =
         RaygunAnimation.duration + RaygunShootAnimation.duration
     val charging_sound = new AudioStream(
