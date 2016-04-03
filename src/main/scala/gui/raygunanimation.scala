@@ -14,7 +14,7 @@ import game_mechanics.path.{Waypoint,CellPos}
 object RaygunAnimation
 {
     val rng = new Random
-    val duration       = 10.0
+    val duration       = 11.2
     val max_darkness   = 0.7
 }
 

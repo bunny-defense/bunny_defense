@@ -1,6 +1,9 @@
 
 package game_mechanics.tower
 
+import java.io.FileInputStream
+import sun.audio.{AudioStream,AudioPlayer}
+
 import runtime.{Controller,Spawner}
 
 import gui.{RaygunAnimation,RaygunShootAnimation}
@@ -14,7 +17,9 @@ object RaygunTower extends TowerType
     override val desc = "[REDACTED]"
     override val throw_cooldown =
         RaygunAnimation.duration + RaygunShootAnimation.duration
-
+    val charging_sound = new AudioStream(
+        new FileInputStream(
+            getClass().getResource("/sounds/raygun_charging.wav").getPath()))
     override def attack_from(tower : Tower) : () => Boolean = {
         def in_range(bunny : Bunny) : Boolean = {
             return (bunny.pos - tower.pos).norm <= tower.range
@@ -27,6 +32,7 @@ object RaygunTower extends TowerType
                     (bunny.pos - tower.pos.toDouble).normalize() )
             }
             Controller += charge_anim
+            AudioPlayer.player.start( charging_sound )
         }
         def closest_to( point : Waypoint ) : Option[Bunny] = {
             def distance_comp( x : Bunny, y : Bunny ) =

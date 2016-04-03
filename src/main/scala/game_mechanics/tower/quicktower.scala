@@ -5,7 +5,9 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-object QuickTower extends ShooterTower
+import game_mechanics.ProjectileFactory
+
+object QuickTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
 {
     override val name = "Quick tower"
     override val desc = "Shoots light carrots at a very fast rate"

@@ -5,10 +5,12 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+import game_mechanics.ProjectileFactory
+
 /* Human commando in a fishtank who uses phychic powers to continuouly hurt
 nearby rabbits (metal as hell) */
 
-object Roberto extends ShooterTower
+object Roberto extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
 {
     override val name = "Roberto"
     override val desc = "A psy soldier in a glass container"

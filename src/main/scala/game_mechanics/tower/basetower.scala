@@ -1,8 +1,10 @@
 
 package game_mechanics.tower
 
-object BaseTower extends ShooterTower
+import game_mechanics.ProjectileFactory
+
+object BaseTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
 {
-    override val name = "Base tower"
+    override val name = "Basic tower"
     override val desc = "Shoots carrots at a decent rate"
 }

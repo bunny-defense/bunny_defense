@@ -17,7 +17,6 @@ import gui.DamageAnimation
 class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType) {
     var speed    = 1.0
     var damage   = 5.0
-    var AOE      = 0.0
     var pos      = origin
     var hit      = false
     val carrot_sprite = firing_tower.throw_graphic
@@ -32,18 +31,24 @@ class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType
         pos = next_pos
     }
 
+    /* Executed when the projectile hits (the ground or an ennemy) */
+    def on_hit(hit_target : Option[Bunny]): Unit = {
+        hit_target match {
+            case None => ()
+            case Some(bunny) => bunny.remove_hp( damage )
+        }
+        Controller -= this
+    }
+
     /* One step of progress */
-    def update(dt: Double): Unit= {
+    def update(dt: Double): Unit = {
         move(dt)
         Controller.bunnies.find( x => x.pos.distance_to(pos) < hitradius ) match
         {
             case None => ()
-            case Some(bunny) => {
-                bunny.remove_hp( damage )
-                Controller -= this
-            }
+            case Some(bunny) => on_hit( Some(bunny) )
         }
-        if( hit ) { Controller -= this }
+        if( hit ) { on_hit( None ) }
     }
 
     def graphic(): BufferedImage = {

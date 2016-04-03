@@ -20,8 +20,8 @@ class TowerInfoPanel() extends Panel {
         Controller.selected_cell match {
             case None =>  {}
             case Some(tower) => {
-                g.drawString(tower.towertype.getClass.getSimpleName, xm/2-34, ym/4+5)
-                g.drawString("Radius :" + tower.range, xm/3-34, 2*ym/4 + 5)
+                g.drawString(tower.towertype.name, xm/2-34, ym/4+5)
+                g.drawString("Range :" + tower.range, xm/3-34, 2*ym/4 + 5)
                 g.drawString("Projectile speed :" + tower.throw_speed, 2*xm/3-34, 2*ym/4 + 5)
                 g.drawString("Damage :" + tower.damage, xm/3-34, 3*ym/4 + 5)
                 g.drawString("Sell price :" + tower.sell_cost, 2*xm/3-34, 3*ym/4 + 5)

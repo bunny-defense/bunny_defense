@@ -27,6 +27,7 @@ object Controller extends Publisher
     val projectiles  = new ListBuffer[Projectile]
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
+    val updatables   = new ListBuffer[Updatable]
     var wave_counter = 0
     val framerate    = 1.0/60.0 * 1000
     var started      = false
@@ -120,6 +121,8 @@ object Controller extends Publisher
     def update(dt: Double): Unit = {
         /* Update animations */
         animations.foreach( _.update(dt) )
+        /* Update misc items */
+        updatables.foreach( _.update(dt) )
         /* Update projectiles */
         projectiles.foreach( _.update(dt) )
         /* Update towers */
@@ -209,7 +212,7 @@ object Controller extends Publisher
     /* TOWERS */
 
     def +=(tower: Tower): Unit = {
-        /* 
+        /*
         towers.foreach( x => if( (x.pos - tower.pos).norm <= tower.range ) { tower.allied_effect(x)})
         bunnies.foreach( x => if((x.pos - tower.pos).norm <= tower.range) {tower.enemy_effect(x)})
          */
@@ -232,5 +235,14 @@ object Controller extends Publisher
 
     def -=(animation: Animatable): Unit = {
         animations -= animation
+    }
+
+    /* MISC ITEMS */
+    def +=(updatable: Updatable): Unit = {
+        updatables += updatable
+    }
+
+    def -=(updatable: Updatable): Unit = {
+        updatables -= updatable
     }
 }

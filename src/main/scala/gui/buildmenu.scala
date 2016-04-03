@@ -29,7 +29,8 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
     towerlist(4) = Some(Roberto)
     towerlist(5) = Some(SuppBuffTower)
     towerlist(6) = Some(SuppSlowTower)
-    towerlist(7) = Some(RaygunTower)
+    towerlist(7) = Some(SplashTower)
+    //towerlist(7) = Some(RaygunTower)
     towerlist(15) = Some(Wall)
 
 
@@ -129,7 +130,6 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                 buttonSize,
                 buttonSize )
             g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) )
-            
         }
     }
 
