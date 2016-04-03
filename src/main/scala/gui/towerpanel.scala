@@ -47,7 +47,7 @@ class TowerPanel() extends BorderPanel {
         }
         text = "Sell Tower"
     }
-    val upgrade_button = new Button {
+/*    val upgrade_button = new Button {
         action = Action("") {
             Controller.selected_cell match
             {
@@ -94,7 +94,7 @@ class TowerPanel() extends BorderPanel {
                 }
             }
         }
-    }
+    }*/
 
     val fastforward_button = new Button {
         action = Action("") { Controller.on_fastforward_button() }
@@ -113,7 +113,7 @@ class TowerPanel() extends BorderPanel {
     val thepanel = new TowerInfoPanel
     /* val upgradepanel = new TowerUpgradePanel */
     add( thepanel, BorderPanel.Position.Center )
-    add( upgrade_button, BorderPanel.Position.Center ) /* Will need to let both panels appear */
+ /*   add( upgrade_button, BorderPanel.Position.Center ) /* Will need to let both panels appear */  */
     add( sell_button, BorderPanel.Position.East )
     add( fastforward_button, BorderPanel.Position.West )
 }

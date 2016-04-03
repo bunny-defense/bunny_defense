@@ -5,8 +5,10 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-/* Human commando in a fishtank who uses phychic powers to continuouly hurt nearby rabbits (metal as hell) */
-object Roberto extends TowerType
+/* Human commando in a fishtank who uses phychic powers to continuouly hurt
+nearby rabbits (metal as hell) */
+
+object Roberto extends ShooterTower
 {
     override val name = "Roberto"
     override val desc = "A psy soldier in a glass container"
@@ -20,8 +22,8 @@ object Roberto extends TowerType
                 getClass().getResource("/blank.png").getPath()))
     override val base_range     = 6
     range                       = 6
-    override val base_damage    = 1
-    damage                      = 1
+    override val base_damage    = 5
+    damage                      = 5
     override val buy_cost       = 3
     override val sell_cost      = 150
     override val throw_speed    = 100.0
