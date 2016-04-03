@@ -1,10 +1,15 @@
 
 package game_mechanics.tower
 
-import game_mechanics.bunny.Bunny
+import java.awt.Graphics2D
+import java.awt.AlphaComposite
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
+
+import gui.{BuffAnimation,Colors,MapPanel}
+import runtime.Controller
+import game_mechanics.bunny.Bunny
 
 object SuppBuffTower extends TowerType
 {
@@ -24,10 +29,27 @@ object SuppBuffTower extends TowerType
     damage                      = 0
     override val buy_cost       = 6000
     override val sell_cost      = 4800
+    override val unlock_wave    = 25
+    override def attack_from(tower : Tower): () => Boolean = {
+        def new_buff_anim(): Unit = {
+            val anim = new BuffAnimation( tower.pos, tower.range )
+            anim and_then new_buff_anim
+            Controller += anim
+        }
+        new_buff_anim
+        () => true
+    }
     override def allied_effect(tower : Tower) {
         /* The argument is the tower ON WHICH the effect is cast */
         tower.damage += 100
     }
-    override val unlock_wave    = 25
+    override def draw_effect(g: Graphics2D): Unit = {
+        val alpha = (Math.sin( System.currentTimeMillis.toDouble / 1000 ) + 1) / 2 * 0.1
+        g.setComposite(
+            AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha.toFloat ) )
+        g.setColor( Colors.orange )
+        val maprange = range * MapPanel.cellsize
+        g.fillOval( -maprange, -maprange, maprange * 2, maprange * 2 )
+    }
 }
 
