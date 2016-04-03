@@ -26,12 +26,13 @@ let atan_variation init_val final_val inflex_point = (* int -> float *)
     function x -> (1.57 +. atan(inflex_point -. float_of_int(x)))*.((init_val -. final_val)/.(3.1416)) +. final_val;;
 
 let bunnies_alone =
-[|
-	"Bunny",1,1,atan_variation 200. 10. 20. ;
-	"HeavyBunny",3,1,atan_variation 50. 175. 10. ;
-	"Hare",1,3,atan_variation 25. 40. 10. ;
-	"BadassBunny",5,4,atan_variation 0. 200. 15.	
-|];;
+  [|
+    "Bunny",1,1,atan_variation 200. 10. 20. ;
+    "HeavyBunny",3,1,atan_variation 50. 175. 10. ;
+    "Hare",1,3,atan_variation 25. 40. 10. ;
+    "BadassBunny",5,4,atan_variation 0. 200. 15. ;
+    "SpecOpBunny",5,7,atan_variation 0. 40. 20.
+   |];;
 let bosses_alone = [|"Otter",1500,10,atan_variation 1. 10. 20.|];;
 (* bunnies and bosses : list of (bunny type, difficulty points, first possible wave of appearance, inverse rarity as a function of n_wave) *)
 let bunnies = Array.concat [bunnies_alone; bosses_alone];;

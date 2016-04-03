@@ -22,9 +22,9 @@ object Roberto extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
         ImageIO.read(
             new File(
                 getClass().getResource("/blank.png").getPath()))
-    override val base_range     = 6
+    base_range                  = 6
     range                       = 6
-    override val base_damage    = 1
+    base_damage                 = 1
     damage                      = 1
     override val buy_cost       = 3000
     override val sell_cost      = 2400

@@ -19,11 +19,11 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     /* Cooldown counter */
     var cooldown       = 0.0
     val towertype      = tower_type
-    val base_damage    = tower_type.base_damage
+    var base_damage    = tower_type.base_damage
     var damage         = tower_type.damage
-    val base_range          = tower_type.base_range
+    var base_range     = tower_type.base_range
     var range          = tower_type.range
-    var upgrades : UpgradeTree = BaseTowerUpgrades
+    var upgrades : Option[UpgradeTree] = tower_type.upgrades
     def allied_effect(tower : Tower) {
         tower_type.allied_effect(tower)
     }
@@ -36,9 +36,9 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     // ==============================
     tower_type match
     {
-        case BaseTower  => upgrades = BaseTowerUpgrades
-        case QuickTower => upgrades = QuickTowerUpgrades
-        case _          => upgrades = BaseTowerUpgrades
+        case BaseTower  => upgrades = Some(BaseTowerUpgrades)
+        case QuickTower => upgrades = Some(QuickTowerUpgrades)
+        case _          => upgrades = Some(BaseTowerUpgrades)
     }
 
     // ==============================
