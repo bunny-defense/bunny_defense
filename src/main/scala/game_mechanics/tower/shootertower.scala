@@ -11,10 +11,15 @@ import gui.MuzzleflashAnimation
 
 class ShooterTower(projectile_type : Int) extends TowerType
 {
+    /**
+     * The class that defines the methods of all shooting towers
+     * @param projectile_type : The type of projectile sent by the tower
+     */
     override def attack_from(tower : Tower): () => Boolean = {
         def in_range(bunny : Bunny) : Boolean = {
             return (bunny.pos - tower.pos).norm <= tower.range
         }
+
         def fire_at(bunny: Bunny): Unit = {
             Controller += new MuzzleflashAnimation(tower.pos.toDouble)
             val target_pos = bunny.pos + (Waypoint.random() * 2 - new Waypoint( 1, 1 )) * spread
@@ -24,9 +29,12 @@ class ShooterTower(projectile_type : Int) extends TowerType
             throw_carrot.damage = tower.damage
             Controller += throw_carrot
         }
+
         def closest_to( point : Waypoint ) : Option[Bunny] = {
+
             def distance_comp( x : Bunny, y : Bunny ) =
                 (x.pos - point).norm < (y.pos - point).norm
+
             val bunnies =
                 Controller.bunnies
                     .filter(_.alive)
@@ -37,9 +45,11 @@ class ShooterTower(projectile_type : Int) extends TowerType
             else
                 return Some(bunnies.head)
         }
+
         def get_target() : Option[Bunny] = {
             return closest_to( Spawner.bunnyend.toDouble )
         }
+
         def attack(): Boolean = {
             val target = get_target()
             if( target == None )

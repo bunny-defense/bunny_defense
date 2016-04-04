@@ -13,8 +13,12 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-/* Tower superclass from which evey special tower is derived */
 class Tower(tower_type : TowerType, pos0 : CellPos) {
+    /**
+     * Tower superclass from which evey special tower is derived
+     * @param tower_type: The type of the tower
+     * @param pos0      : The position of the tower
+     */
     val pos            = pos0
     /* Cooldown counter */
     var cooldown       = 0.0
@@ -32,9 +36,9 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
         tower_type.enemy_effect(bunny)
     }
 
-    // ==============================
-    //  UPGRADE MECHANICS
-    // ==============================
+    // ===========================
+    // ++++ UPGRADE MECHANICS ++++
+    // ===========================
     tower_type match
     {
         case BaseTower  => upgrades = Some(BaseTowerUpgrades)
@@ -42,51 +46,29 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
         case _          => upgrades = Some(BaseTowerUpgrades)
     }
 
-    // ==============================
-    //  FIRING MECHANICS
-    // ==============================
+    // ==========================
+    // ++++ FIRING MECHANICS ++++
+    // ==========================
 
-
-    /*
-    def attack(): Boolean = if (tower_type.aoe_radius == 0)
-    {
-        {
-            val target = get_targets()
-            if( target.isEmpty )
-                return false
-            fire_at( target.head )
-            return true
-        }
-    }
-    else
-    {
-        {
-            val bunnies : ListBuffer[Bunny] = Controller.bunnies.filter( in_range )
-            if (bunnies.length != 0) {
-                bunnies.map( fire_at )
-                return true
-            }
-            return false
-        }
-    }*/
     val attack : () => Boolean = tower_type.attack_from( this )
 
-    // ==============================
-    //  UPDATING LOGIC
-    // ==============================
+    // ========================
+    // ++++ UPDATING LOGIC ++++
+    // ========================
 
     /* Updates the tower */
     def update(dt: Double): Unit = {
         if( cooldown <= 0 && attack() )
-            cooldown = tower_type.throw_cooldown /* Resetting the cooldown */
+            /* Resetting the cooldown */
+            cooldown = tower_type.throw_cooldown
         else
             cooldown -= dt
     }
 
 
-    // ==============================
-    //  GETTERS
-    // ==============================
+    // =================
+    // ++++ GETTERS ++++
+    // =================
 
     def name(): String = {
         return tower_type.name
@@ -112,5 +94,3 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
         return new Tower(tower_type, newpos)
     }
 }
-
-

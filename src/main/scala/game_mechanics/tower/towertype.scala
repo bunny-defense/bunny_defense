@@ -16,6 +16,9 @@ import game_mechanics._
 
 trait TowerType
 {
+    /** A trait that defines the type of a tower. Every tower type inherits this
+     *  trait, which gives the default attributes, and specific methods
+     */
     val name = "Tower"
     val desc = "Tower tower tower"
     var upgrades : Option[UpgradeTree] = Some(BaseTowerUpgrades)
