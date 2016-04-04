@@ -8,6 +8,7 @@ import swing._
 
 import collection.mutable.{ListBuffer,Queue}
 import util.Random
+import collection.parallel._
 
 import runtime._
 import game_mechanics._
@@ -73,11 +74,14 @@ object Controller extends Publisher with Reactor
         {
             if( Player.remove_gold(selected_tower.get.buy_cost) ) {
                 Controller += new Tower( selected_tower.get, pos )
-            for (bunny <- bunnies.filter( t => t.path.path.exists(
-                 u => u.x == pos.x && u.y == pos.y))) {
-                     bunny.path.path = new JPS(bunny.pos.toInt, Spawner.bunnyend).run().get
-                     bunny.path.reset
-                 }
+                var bun_update = bunnies.filter( t => t.path.path.exists(
+                    u => u.x == pos.x && u.y == pos.y)).par
+                bun_update.tasksupport = new ForkJoinTaskSupport(
+                    new scala.concurrent.forkjoin.ForkJoinPool(8))
+                for (bunny <- bun_update) {
+                    bunny.path.path = new JPS(bunny.pos.toInt, Spawner.bunnyend).run().get
+                    bunny.path.reset
+                }
             }
             else
                 println("Not enough money! Current money = " + Player.gold.toString)
