@@ -24,7 +24,7 @@ extends Projectile(
         val targets = Controller.bunnies
             .filter( bunny => pos.distance_to( bunny.pos ) < radius )
         targets.foreach( _.remove_hp( damage ) )
-        for (dir <- 0 to 8) {
+        for (dir <- 0 to 12) {
             Controller.animations += new SpreadAnimation(
                 targetpos,
                 radius,
