@@ -17,6 +17,10 @@ import game_mechanics.path.Waypoint
 object MapPanel
 {
     val cellsize = 32
+    val blocked_cell_image =
+        ImageIO.read(
+            new File(
+                getClass().getResource("/UI/Blocked_Cell.png").getPath()))
 }
 
 /* Represents the map on the screen */
@@ -113,21 +117,22 @@ class MapPanel(map0: GameMap) extends Panel {
             case None => {}
             case Some(tower) => {
                 // PAINT NO-PLACE ZONE
-                g.setColor( Colors.transparent_red )
+                g.setComposite(
+                    AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.5f ))
                 for( x <- 0 until map.width )
                 {
                     for( y <- 0 until map.height )
                     {
                         if( map.obstructed(x,y) )
                         {
-                            g.fillRect(
+                            g.drawImage( blocked_cell_image,
                                 x * cellsize,
-                                y * cellsize,
-                                cellsize,
-                                cellsize )
+                                y * cellsize, null )
                         }
                     }
                 }
+                g.setComposite(
+                    AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ))
                 g.setColor( Colors.black )
                 // PAINT TOWER AND RANGE
                 val mousepos  = MouseInfo.getPointerInfo().getLocation()

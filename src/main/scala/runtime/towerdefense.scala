@@ -20,7 +20,6 @@ import game_mechanics.tower._
 
 object TowerDefense extends SimpleSwingApplication
 {
-
     val map_panel   = new MapPanel(new GameMap(30,15))
     val build_menu  = new BuildMenu( 4, 4 )
     val info_panel  = new InfoPanel

@@ -7,6 +7,7 @@ import swing.event._
 import swing._
 
 import collection.mutable.{ListBuffer,Queue}
+import util.Random
 
 import runtime._
 import game_mechanics._
@@ -21,7 +22,7 @@ case object NoSelectedCell extends Event
 case object FastForwOn extends Event
 case object FastForwOff extends Event
 
-object Controller extends Publisher
+object Controller extends Publisher with Reactor
 {
     val bunnies      = new ListBuffer[Bunny]
     val projectiles  = new ListBuffer[Projectile]
@@ -34,10 +35,19 @@ object Controller extends Publisher
     var dt: Double   = 0.0
     var acceleration = 2
     var is_accelerated = false
+    var raining      = false
     /* The tower type selected for construction */
-    var selected_tower          : Option[TowerType] = None
+    var selected_tower          : Option[TowerType]     = None
     /* The tower currently selected */
-    private var _selected_cell  : Option[Tower]     = None
+    private var _selected_cell  : Option[Tower]         = None
+    var rng          = new Random
+
+    listenTo(SpawnScheduler)
+
+    reactions += {
+        case WaveEnded =>
+            set_accelerated( false )
+    }
 
     /* selected_cell GETTER */
     def selected_cell_=(tower: Option[Tower]): Unit =
@@ -102,10 +112,14 @@ object Controller extends Publisher
         }
     }
 
+    def set_accelerated(value: Boolean) : Unit = {
+        is_accelerated = value
+        acceleration = if( is_accelerated ) 5 else 2
+    }
+
     /* Triggered when the fast forward button is clicked */
     def on_fastforward_button(): Unit = {
-        is_accelerated = !is_accelerated
-        acceleration = if( is_accelerated ) 5 else 2
+        set_accelerated( !is_accelerated )
     }
 
     /* ==================== MAIN LOOP ==================== */
@@ -140,6 +154,17 @@ object Controller extends Publisher
         bunnies.foreach( _.update(dt) )
         /* Spawn in new bunnies */
         SpawnScheduler.update(dt)
+        /* Random chance of rain */
+        if( rng.nextDouble < (dt / 100) && !raining )
+        {
+            raining = true
+            val anim = if(rng.nextDouble < 0.1)
+                new ThunderstormAnimation( 30 + rng.nextDouble * 120 )
+            else
+                new RainAnimation( 30 + rng.nextDouble * 120 )
+            anim and_then { () => this.raining = false }
+            this += anim
+        }
     }
 
     /* Run the game */
