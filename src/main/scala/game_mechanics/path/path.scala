@@ -3,8 +3,8 @@ package game_mechanics.path
 
 import collection.mutable.ListBuffer
 
-/* a Path is a list of waypoints */
 class Path {
+  /** A Path is a list of waypoints */
   val waypoints = new ListBuffer[Waypoint]()
 
   def Path( p:Path ) = {

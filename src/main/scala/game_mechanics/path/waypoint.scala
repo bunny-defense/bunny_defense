@@ -13,8 +13,8 @@ object Waypoint {
 
 }
 
-/* 2D Point (double) */
 class Waypoint(x0: Double, y0: Double) {
+    /** 2D Point (double) */
     import Waypoint._
     var x = x0
     var y = y0

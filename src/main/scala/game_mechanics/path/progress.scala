@@ -5,8 +5,11 @@ import util.Random
 import Math._
 
 class Progress(p: Path) {
+    /** A class that defines and manages a path */
+
     /* Index of the next node */
     var i = 1
+    /* Random law useful for the SpecOpsBunny */
     var law = new Random()
 
     /* Distance traveled along the path [current node] -> [next node] */
@@ -50,6 +53,7 @@ class Progress(p: Path) {
     }
 
     def reset() : Unit = {
+        /** Resets some attributes of the path, used when the path changes */
         this.i = 1
         this.progress = 0.0
         this.law = new Random()
@@ -61,5 +65,4 @@ class Progress(p: Path) {
         newprogress.i = i
         return newprogress
     }
-
 }

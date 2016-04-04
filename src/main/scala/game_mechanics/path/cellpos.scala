@@ -3,8 +3,8 @@ package game_mechanics.path
 
 import Math._
 
-/* 2D Point (int) */
 class CellPos(x0: Int, y0: Int) {
+  /** 2D Point (int) */
   var x = x0
   var y = y0
 
