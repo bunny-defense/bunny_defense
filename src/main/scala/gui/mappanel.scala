@@ -92,11 +92,17 @@ class MapPanel(map0: GameMap) extends Panel {
             val y = bunny.pos.y * cellsize
             g.drawImage( bunny.graphic, x.toInt, y.toInt, null )
             // Health bar
-            val health_ratio = bunny.hp / bunny.initial_hp
-            g.setColor( Colors.red )
-            g.fillRect( x.toInt, y.toInt - 3, cellsize, 3 )
-            g.setColor( Colors.green )
-            g.fillRect( x.toInt, y.toInt - 3, (health_ratio * cellsize).toInt, 3 )
+            if( bunny.hp != bunny.initial_hp )
+            {
+                val health_ratio = bunny.hp / bunny.initial_hp
+                g.setColor( Colors.black )
+                g.drawRect( x.toInt - 1, y.toInt - 4,
+                    cellsize + 2, 5 )
+                g.setColor( Colors.transparent_grey )
+                g.fillRect( x.toInt, y.toInt - 3, cellsize, 3 )
+                g.setColor( Colors.green )
+                g.fillRect( x.toInt, y.toInt - 3, (health_ratio * cellsize).toInt, 3 )
+            }
             g.setColor( Colors.black )
         }
         /* Drawing projectiles */
