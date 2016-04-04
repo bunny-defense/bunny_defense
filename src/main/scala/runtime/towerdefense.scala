@@ -52,7 +52,7 @@ object TowerDefense extends SimpleSwingApplication
             preferredSize = new Dimension( 100, 100 )
             focusable = false
         }
-        val build_pane = new BoxPanel(Orientation.Vertical)
+        val build_panel = new BoxPanel(Orientation.Vertical)
         {
             contents += info_panel
             contents += build_menu
@@ -60,7 +60,7 @@ object TowerDefense extends SimpleSwingApplication
         }
         return new BorderPanel
         {
-            add( build_pane, BorderPanel.Position.Center )
+            add( build_panel, BorderPanel.Position.Center )
             add( play_button, BorderPanel.Position.South )
         }
     }
