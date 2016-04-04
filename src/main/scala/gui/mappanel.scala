@@ -12,7 +12,8 @@ import javax.imageio.ImageIO
 
 import runtime.{Controller,Spawner}
 import game_mechanics.GameMap
-import game_mechanics.path.Waypoint
+import game_mechanics.path.{Waypoint,Path}
+import collection.mutable.ListBuffer
 
 object MapPanel
 {
@@ -30,7 +31,6 @@ class MapPanel(map0: GameMap) extends Panel {
     val rows     = map.height
     val cols     = map.width
     val width    = map.width  * MapPanel.cellsize
-    val height   = map.height * MapPanel.cellsize
     var darkness = 0f
 
     preferredSize = new Dimension(
@@ -47,18 +47,24 @@ class MapPanel(map0: GameMap) extends Panel {
     }
 
     def paintPath(g: Graphics2D): Unit = {
-        val path = Spawner.path
-        for( i <- 1 until path.length )
-        {
-            val prev = path.at(i-1)
-            val curr = path.at(i)
-            g.drawLine(
-                prev.x.toInt * cellsize + cellsize / 2,
-                prev.y.toInt * cellsize + cellsize / 2,
-                curr.x.toInt * cellsize + cellsize / 2,
-                curr.y.toInt * cellsize + cellsize / 2 )
+        val path = new ListBuffer[Path]()
+        for (bunny <- Controller.bunnies) {
+            path += bunny.path.path
+        }
+        for (j <- path ) {
+            for( i <- 1 until j.length )
+            {
+                val prev = j.at(i-1)
+                val curr = j.at(i)
+                g.drawLine(
+                    prev.x.toInt * cellsize + cellsize / 2,
+                    prev.y.toInt * cellsize + cellsize / 2,
+                    curr.x.toInt * cellsize + cellsize / 2,
+                    curr.y.toInt * cellsize + cellsize / 2 )
+            }
         }
     }
+
 
     /* Drawing on the map */
     override def paintComponent(g: Graphics2D): Unit = {
