@@ -86,7 +86,7 @@ class SlidingAnimation(text_callback : () => String) extends Animatable
 {
     import SlidingAnimation._
 
-    val duration = 2.0
+    val duration = 5.0
     timer = duration
 
     val origin = new Waypoint( -image_origin_x.toDouble, TowerDefense.map_panel.size.height / 2 )

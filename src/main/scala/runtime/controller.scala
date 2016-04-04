@@ -21,7 +21,7 @@ case object NoSelectedCell extends Event
 case object FastForwOn extends Event
 case object FastForwOff extends Event
 
-object Controller extends Publisher
+object Controller extends Publisher with Reactor
 {
     val bunnies      = new ListBuffer[Bunny]
     val projectiles  = new ListBuffer[Projectile]
@@ -38,6 +38,13 @@ object Controller extends Publisher
     var selected_tower          : Option[TowerType] = None
     /* The tower currently selected */
     private var _selected_cell  : Option[Tower]     = None
+
+    listenTo(SpawnScheduler)
+
+    reactions += {
+        case WaveEnded =>
+            set_accelerated( false )
+    }
 
     /* selected_cell GETTER */
     def selected_cell_=(tower: Option[Tower]): Unit =
@@ -102,10 +109,14 @@ object Controller extends Publisher
         }
     }
 
+    def set_accelerated(value: Boolean) : Unit = {
+        is_accelerated = value
+        acceleration = if( is_accelerated ) 5 else 2
+    }
+
     /* Triggered when the fast forward button is clicked */
     def on_fastforward_button(): Unit = {
-        is_accelerated = !is_accelerated
-        acceleration = if( is_accelerated ) 5 else 2
+        set_accelerated( !is_accelerated )
     }
 
     /* ==================== MAIN LOOP ==================== */
