@@ -1,5 +1,5 @@
 
-package gui
+package gui.animations
 
 import collection.mutable.ListBuffer
 import util.Random
@@ -8,7 +8,7 @@ import java.awt.Graphics2D
 import java.awt.AlphaComposite
 
 import runtime.TowerDefense
-
+import gui._
 import game_mechanics.path.{Waypoint,CellPos}
 
 /* This is the raygun charging animation */

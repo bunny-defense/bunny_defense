@@ -11,6 +11,7 @@ import java.awt.MouseInfo
 import runtime._
 import game_mechanics._
 import game_mechanics.tower._
+import gui.animations.UnlockAnimation
 
 object BuildMenu
 {

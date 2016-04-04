@@ -1,5 +1,5 @@
 
-package gui
+package gui.animations
 
 import java.awt.Graphics2D
 import java.awt.AlphaComposite
@@ -8,17 +8,19 @@ import collection.mutable.ListBuffer
 import util.Random
 
 import game_mechanics.path.{Waypoint,CellPos}
+import gui._
 
-/* Buff tower animation (floating plusses) */
 
-object BuffAnimation
+
+object SnowAnimation
 {
     val rng = new Random()
 }
 
-class BuffAnimation( pos : CellPos, radius : Double ) extends Animatable
+class SnowAnimation( pos : CellPos, radius : Double ) extends Animatable
 {
-    import BuffAnimation._
+    /** This is the snow animation played around slowing towers */
+    import SnowAnimation._
     val size            = MapPanel.cellsize.toDouble
     val origin          = (pos.toDouble + new Waypoint(0.5,0.5)) * size
     val duration        = 7.0
@@ -38,14 +40,14 @@ class BuffAnimation( pos : CellPos, radius : Double ) extends Animatable
     }
 
     override def draw(g: Graphics2D): Unit = {
-        g.setColor( Colors.blue )
+        g.setColor( Colors.white )
         val alpha = (timer / duration).toFloat
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
-        val movement = timer / duration * fall_distance
+        val movement = (1.0 - timer / duration) * fall_distance
         for( particle <- particles ) {
-            g.drawString( "+",
-                particle.x.toInt, particle.y.toInt + movement.toInt )
+            g.drawRect( particle.x.toInt, particle.y.toInt + movement.toInt,
+                1, 1 )
         }
     }
 }

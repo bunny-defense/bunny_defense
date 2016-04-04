@@ -1,5 +1,5 @@
 
-package gui
+package gui.animations
 
 import collection.mutable.ListBuffer
 import util.Random
@@ -7,12 +7,13 @@ import util.Random
 import java.awt.Graphics2D
 
 import game_mechanics.path.Waypoint
-
-/* This is the smoke animation the ninja bunnies (specopsbunnies) do
-    when teleporting */
+import gui._
 
 class SmokeAnimation(origin: Waypoint) extends Animatable
 {
+    /** This is the smoke animation the ninja bunnies (specopsbunnies) do
+     *  when teleporting */
+
     val duration = 2.0
     val rng      = new Random
     timer        = duration

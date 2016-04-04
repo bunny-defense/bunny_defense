@@ -9,7 +9,7 @@ import util.Random
 import game_mechanics.Player
 import runtime.Controller
 import game_mechanics.path._
-import gui.GoldAnimation
+import gui.animations.GoldAnimation
 
 import Math._
 

@@ -11,7 +11,7 @@ import runtime.Controller
 import game_mechanics.tower.TowerType
 import game_mechanics.path.Waypoint
 import game_mechanics.bunny.Bunny
-import gui.DamageAnimation
+import gui.animations.DamageAnimation
 
 /* The class of a projectile */
 class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType) {

@@ -7,7 +7,8 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-import gui.{BuffAnimation,Colors,MapPanel}
+import gui.{Colors,MapPanel}
+import gui.animations.BuffAnimation
 import runtime.Controller
 import game_mechanics.bunny.Bunny
 

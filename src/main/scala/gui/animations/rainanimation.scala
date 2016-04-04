@@ -1,5 +1,5 @@
 
-package gui
+package gui.animations
 
 import collection.mutable.ListBuffer
 import util.Random
@@ -9,6 +9,7 @@ import java.awt.AlphaComposite
 
 import runtime.TowerDefense
 import game_mechanics.path.Waypoint
+import gui._
 
 /* This is the rain animation (as the name implies) */
 

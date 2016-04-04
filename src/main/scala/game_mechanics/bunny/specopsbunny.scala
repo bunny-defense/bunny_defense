@@ -8,7 +8,7 @@ import util.Random
 import runtime.Controller
 import game_mechanics.path._
 import game_mechanics.Player
-import gui.{GoldAnimation,SmokeAnimation}
+import gui.animations.{GoldAnimation,SmokeAnimation}
 
 /* Spec Op Bunny */
 

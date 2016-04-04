@@ -8,7 +8,8 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import game_mechanics.bunny.Bunny
-import gui.{Colors,MapPanel,SnowAnimation}
+import gui.{Colors,MapPanel}
+import gui.animations.SnowAnimation
 import runtime.Controller
 
 object SuppSlowTower extends TowerType

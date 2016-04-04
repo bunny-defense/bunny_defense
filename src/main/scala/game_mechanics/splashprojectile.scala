@@ -5,7 +5,7 @@ import runtime.Controller
 import game_mechanics.path.Waypoint
 import game_mechanics.tower.TowerType
 import game_mechanics.bunny.Bunny
-import gui._
+import gui.animations._
 import Math._
 
 /* This projectile causes splash damage */

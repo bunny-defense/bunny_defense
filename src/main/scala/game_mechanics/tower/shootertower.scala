@@ -7,7 +7,7 @@ import game_mechanics.{Projectile,ProjectileFactory}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
 import runtime.{Spawner,Controller}
-import gui.MuzzleflashAnimation
+import gui.animations.MuzzleflashAnimation
 
 class ShooterTower(projectile_type : Int) extends TowerType
 {

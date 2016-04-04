@@ -1,9 +1,10 @@
 
-package gui
+package gui.animations
 
 import java.awt.Graphics2D
 
 import game_mechanics.path.Waypoint
+import gui._
 
 /* An animation that creates a muzzle flash when turrets shoot */
 class MuzzleflashAnimation(origin : Waypoint) extends Animatable
