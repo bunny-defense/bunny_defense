@@ -8,7 +8,7 @@ import util.Random
 import runtime.Controller
 import game_mechanics.path._
 import game_mechanics.Player
-import gui.GoldAnimation
+import gui.{GoldAnimation,SmokeAnimation}
 
 /* Spec Op Bunny */
 
@@ -18,6 +18,7 @@ object SpecOpBunny extends BunnyType
         ImageIO.read(new File(
             getClass().getResource("/mobs/ninja.png").getPath()))
     val law = new Random()
+
 	override def update(bunny: Bunny, dt: Double): Unit = {
         if ( !bunny.alive ) {
             Controller += new GoldAnimation(
@@ -28,9 +29,17 @@ object SpecOpBunny extends BunnyType
             Controller -= bunny
             Player.killcount += 1
         }
+        /* Bunny jump */
         if (law.nextDouble < 1.0/180.0 ) {
-            bunny.path.random_choice
-            bunny.pos = bunny.path.get_position()
+            Controller -= bunny
+            val anim = new SmokeAnimation(bunny.pos)
+            anim and_then { () =>
+                bunny.path.random_choice
+                bunny.pos = bunny.path.get_position()
+                Controller += bunny
+                Controller += new SmokeAnimation(bunny.pos)
+            }
+            Controller += anim
         }
         else {
             bunny.move(dt)
