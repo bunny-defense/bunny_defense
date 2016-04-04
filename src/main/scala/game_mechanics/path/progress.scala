@@ -55,4 +55,11 @@ class Progress(p: Path) {
         this.law = new Random()
     }
 
+    def copy() : Progress = {
+        val newprogress = new Progress( path )
+        newprogress.progress = progress
+        newprogress.i = i
+        return newprogress
+    }
+
 }

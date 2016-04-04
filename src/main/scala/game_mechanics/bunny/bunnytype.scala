@@ -43,8 +43,12 @@ trait BunnyType
     /* Amount of gold earned when killed */
     var damage        = 1     /* Damage done to the player when core reached */
 
+    def on_death(bunny: Bunny): Unit = {
+    }
+
 	def update(bunny: Bunny, dt: Double): Unit = {
         if ( !bunny.alive ) {
+            on_death(bunny)
             Controller += new GoldAnimation(
                 bunny.bunny_type.reward(Controller.wave_counter),
                 bunny.pos.clone()
