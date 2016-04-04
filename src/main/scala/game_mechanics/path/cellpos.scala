@@ -16,6 +16,10 @@ class CellPos(x0: Int, y0: Int) {
       return x != other.x || y != other.y
   }
 
+  def <(other: CellPos): Boolean = {
+      return (this.x < other.x || (this.x == other.x && this.y < other.y))
+  }
+
   def +(other: CellPos): CellPos = {
     return new CellPos( x + other.x, y + other.y )
   }
@@ -36,6 +40,7 @@ class CellPos(x0: Int, y0: Int) {
   def &(vect: CellPos) : Double = {
     return vect.x * x + vect.y * y
   }
+
 
   def norm() : Double = {
     return Math.sqrt(Math.pow(this.x,2.0)+Math.pow(this.y,2.0))

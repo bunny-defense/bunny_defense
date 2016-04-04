@@ -9,7 +9,10 @@ import runtime._
 /* Scala imports */
 import Math._
 import scala.util.control.Breaks._
-import collection.mutable.{ListBuffer,ListMap,Queue}
+import collection.mutable.{ListBuffer,ListMap,PriorityQueue}
+import scala.math.Ordering.Implicits._
+
+class Trio(total: Double, cell: CellPosed, dist: Double)
 
 
 
@@ -46,6 +49,14 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
         return buffer
     }
 
+    def <(other: CellPosed) : Boolean = {
+        if (this.cell != other.cell) {
+            return this.cell < other.cell
+        }
+        return (this.dir._1 < other.dir._1 ||
+               (this.dir._1 == other.dir._1 && this.dir._2 < other.dir._2))
+    }
+
 
     override def toString(): String = {
         return "(" + cell.x.toString + "," + cell.y.toString + ")" +
@@ -61,15 +72,22 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
             return this.cell == that.cell && this.dir == that.dir
         case _ => false
     }
-}
 
+    def score() : Int = {
+        return this.cell.x + this.cell.y + this.dir._1 + this.dir._2
+    }
+}
 
 class JPS(start: CellPos, objectif: CellPos) {
   val vert_dist = 1.0
   val hor_dist  = 1.0
   val diag_dist = Math.sqrt(2)
   var all_list: ListMap[CellPosed,Double] = new ListMap()
-  var queue : Queue[(Double,CellPosed,Double)] = new Queue()
+
+  /*Priority queues in scala are shitty */
+  var queue = 
+      new PriorityQueue[(Double,CellPosed,Double)]()(Ordering.by {case(d1,c,d2) => (-d1,((-c.cell.x,-c.cell.y),(-c.dir._1,-c.dir._2)),-d2)})
+
 
   this.add_node( this.start.x, this.start.y, Some((1, 0)), 0 )
   this.add_node( this.start.x, this.start.y, Some((1, 1)), 0 )
@@ -108,7 +126,7 @@ class JPS(start: CellPos, objectif: CellPos) {
   }
 
  def add_open(total: Double, pd: CellPosed, dist: Double): Unit = {
-      this.queue += (new Tuple3(total,pd,dist))
+      this.queue.enqueue(new Tuple3(total,pd,dist))
   }
 
  def get_open() : (Option[Double],Option[CellPosed],Option[Double]) = {
