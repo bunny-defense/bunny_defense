@@ -28,6 +28,7 @@ object SpecOpBunny extends BunnyType
             Player.add_gold( bunny.bunny_type.reward( Controller.wave_counter ))
             Controller -= bunny
             Player.killcount += 1
+            return
         }
         /* Bunny jump */
         if (law.nextDouble < 1.0/180.0 ) {
