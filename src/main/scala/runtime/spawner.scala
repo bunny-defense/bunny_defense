@@ -13,9 +13,11 @@ import runtime._
 
 object Spawner
 {
+    val law        = new Random()
     val bunnystart = new CellPos(
         -1,
-        TowerDefense.map_panel.map.height / 2)
+        law.nextInt(TowerDefense.map_panel.map.height)
+    )
     val bunnyend   = new CellPos(
         TowerDefense.map_panel.map.width,
         TowerDefense.map_panel.map.height / 2)
