@@ -11,6 +11,8 @@ import runtime.TowerDefense
 
 import game_mechanics.path.{Waypoint,CellPos}
 
+/* This is the unfinished raygun shooting animation (big laser) */
+
 object RaygunShootAnimation
 {
     val rng            = new Random

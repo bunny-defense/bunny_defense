@@ -5,6 +5,8 @@ import util.Random
 
 import runtime.Controller
 
+/* This animations adds thunder flashes to the rain animation */
+
 object ThunderstormAnimation
 {
     val rng = new Random

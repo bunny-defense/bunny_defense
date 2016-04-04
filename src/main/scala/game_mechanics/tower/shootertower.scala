@@ -7,6 +7,7 @@ import game_mechanics.{Projectile,ProjectileFactory}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
 import runtime.{Spawner,Controller}
+import gui.MuzzleflashAnimation
 
 class ShooterTower(projectile_type : Int) extends TowerType
 {
@@ -15,6 +16,7 @@ class ShooterTower(projectile_type : Int) extends TowerType
             return (bunny.pos - tower.pos).norm <= tower.range
         }
         def fire_at(bunny: Bunny): Unit = {
+            Controller += new MuzzleflashAnimation(tower.pos.toDouble)
             val target_pos = bunny.pos + (Waypoint.random() * 2 - new Waypoint( 1, 1 )) * spread
             var throw_carrot    = ProjectileFactory.create(
                 projectile_type, target_pos, tower.pos.toDouble, this)

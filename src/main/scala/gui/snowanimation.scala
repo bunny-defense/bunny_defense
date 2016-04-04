@@ -9,6 +9,8 @@ import util.Random
 
 import game_mechanics.path.{Waypoint,CellPos}
 
+/* This is the snow animation played around slowing towers */
+
 object SnowAnimation
 {
     val rng = new Random()

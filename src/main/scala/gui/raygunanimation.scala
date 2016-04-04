@@ -11,6 +11,8 @@ import runtime.TowerDefense
 
 import game_mechanics.path.{Waypoint,CellPos}
 
+/* This is the raygun charging animation */
+
 object RaygunAnimation
 {
     val rng = new Random

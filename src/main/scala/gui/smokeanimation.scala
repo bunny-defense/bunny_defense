@@ -8,6 +8,9 @@ import java.awt.Graphics2D
 
 import game_mechanics.path.Waypoint
 
+/* This is the smoke animation the ninja bunnies (specopsbunnies) do
+    when teleporting */
+
 class SmokeAnimation(origin: Waypoint) extends Animatable
 {
     val duration = 2.0

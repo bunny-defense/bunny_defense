@@ -10,6 +10,8 @@ import java.awt.AlphaComposite
 import runtime.TowerDefense
 import game_mechanics.path.Waypoint
 
+/* This is the rain animation (as the name implies) */
+
 object RainAnimation
 {
     val fade_duration      = 1.0

@@ -9,6 +9,8 @@ import util.Random
 
 import game_mechanics.path.{Waypoint,CellPos}
 
+/* Buff tower animation (floating plusses) */
+
 object BuffAnimation
 {
     val rng = new Random()

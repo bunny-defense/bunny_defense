@@ -6,6 +6,8 @@ import java.awt.AlphaComposite
 
 import runtime.TowerDefense
 
+/* This animation creates a short flash that simulates thunder */
+
 class ThunderflashAnimation extends Animatable
 {
     val duration = 0.5
