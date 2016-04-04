@@ -29,7 +29,7 @@ object Controller extends Publisher with Reactor
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
     val updatables   = new ListBuffer[Updatable]
-    var wave_counter = 1
+    var wave_counter = 10
     val framerate    = 1.0/60.0 * 1000
     var started      = false
     var dt: Double   = 0.0
