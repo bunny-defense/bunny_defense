@@ -6,6 +6,7 @@ import game_mechanics.path.Waypoint
 
 object ProjectileFactory
 {
+    /** A factory that creates projectiles */
     val BASE_PROJECTILE   = 0
     val SPLASH_PROJECTILE = 1
 
