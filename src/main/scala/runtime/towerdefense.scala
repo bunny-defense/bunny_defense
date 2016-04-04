@@ -23,7 +23,7 @@ object TowerDefense extends SimpleSwingApplication
     val map_panel   = new MapPanel(new GameMap(30,15))
     val build_menu  = new BuildMenu( 4, 4 )
     val info_panel  = new InfoPanel
-    val tower_panel = new TowerPanel
+    val tower_panel = new TowerInfoPanel
     val keymap      = new HashMap[Key.Value,Boolean] {
         override def default(key: Key.Value) = false
     }
@@ -93,6 +93,29 @@ object TowerDefense extends SimpleSwingApplication
             g.setTransform( transform )
         }
     }
+
+    /*
+    val mainpanel = new Panel
+    {
+        preferredSize = new Dimension(
+            map_panel.width + build_menu.width,
+            map_panel.height )
+        val map_panel_rect = new Rectangle( 0, 0,
+            map_panel.width, map_panel.height )
+        val build_menu_rect = new Rectangle(
+            map_panel.width, 0,
+            build_menu.width, build_menu.height )
+        override def paintComponent(g: Graphics2D) : Unit = {
+            super.paintComponent(g)
+            val transform = g.getTransform()
+            val clip      = g.getClip()
+            g.clip( map_panel_rect )
+            map_panel.paintComponent(g)
+            g.setTransform( transform )
+            g.setClip(clip)
+        }
+    }
+    */
 
     def top = new MainFrame
     {

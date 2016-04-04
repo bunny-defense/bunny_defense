@@ -26,9 +26,11 @@ object MapPanel
 /* Represents the map on the screen */
 class MapPanel(map0: GameMap) extends Panel {
     import MapPanel._
-    val map  = map0
-    val rows = map.height
-    val cols = map.width
+    val map      = map0
+    val rows     = map.height
+    val cols     = map.width
+    val width    = map.width  * MapPanel.cellsize
+    val height   = map.height * MapPanel.cellsize
     var darkness = 0f
 
     preferredSize = new Dimension(
