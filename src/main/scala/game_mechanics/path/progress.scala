@@ -2,6 +2,7 @@
 package game_mechanics.path
 
 import util.Random
+import Math._
 
 class Progress(p: Path) {
     /* Index of the next node */
@@ -45,7 +46,7 @@ class Progress(p: Path) {
     }
 
     def random_choice() : Unit = {
-        i += law.nextInt(path.length - i - 6)
+        i += Math.min(law.nextInt(path.length - i - 6),5)
     }
 
     def reset() : Unit = {
