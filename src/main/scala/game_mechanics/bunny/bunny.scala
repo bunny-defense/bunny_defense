@@ -4,6 +4,7 @@ package game_mechanics.bunny
 import java.awt.image.BufferedImage
 
 import game_mechanics.path._
+import gui.MapPanel
 
 
 /* Bunny superclass from which every ennemy is derived. */
@@ -16,6 +17,7 @@ class Bunny(bunny_type_init: BunnyType,path0: Path) {
     var shield          = bunny_type.shield
     val base_speed      = bunny_type.base_speed
     var speed           = bunny_type.speed
+    val spread          = (Waypoint.random() * 2 - new Waypoint(1,1)) / MapPanel.cellsize * 2
 
     def reward          = bunny_type.reward
     /* Prototype design pattern */
@@ -34,7 +36,7 @@ class Bunny(bunny_type_init: BunnyType,path0: Path) {
     /* Moves the bunny along the path */
     def move(dt: Double): Unit = {
         path.move( dt * this.speed )
-        pos = path.get_position
+        pos = path.get_position + spread
     }
 
     def update(dt: Double): Unit = {
