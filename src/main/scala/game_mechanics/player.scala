@@ -9,7 +9,7 @@ case object MoneyChanged extends Event
 
 object Player extends Publisher {
   var hp   = 10
-  var gold = 15000
+  var gold = 150
   var killcount = 0
 
   def reset(): Unit = {
