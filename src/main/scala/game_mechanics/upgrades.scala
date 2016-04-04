@@ -5,6 +5,7 @@ import Math._
 
 trait UpgradeTree
 {
+    /** A trait that defines the type and methods of an upgrade tree */
     val name = "Upgrade name"
     val description = "Upgrade description"
     val cost = 100
@@ -34,4 +35,3 @@ object QuickTowerUpgrades extends UpgradeTree
         tower.upgrades = this.children
     }
 }
-
