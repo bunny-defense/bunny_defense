@@ -15,6 +15,10 @@ import Math._
 
 trait BunnyType
 {
+    /** The trait that defines a bunny type.
+     *  Every bunny has a type, from which it inherits the attributes,
+     *  and the attacking specificities
+     */
     val bunny_graphic =
         ImageIO.read(
             new File(getClass().getResource("/mobs/bunny_alt1.png").getPath()))
@@ -39,13 +43,16 @@ trait BunnyType
             function starts at (approximately) its max value */
         return res
     }
-    def reward : (Int => Int)  = atan_variation(5, 1, 10)
+
     /* Amount of gold earned when killed */
+    def reward : (Int => Int)  = atan_variation(5, 1, 10)
+
     var damage        = 1     /* Damage done to the player when core reached */
 
-    def on_death(bunny: Bunny): Unit = {
-    }
+    /* Whenever there is a special effect on death */
+    def on_death(bunny: Bunny): Unit = {}
 
+    /* The update of a bunny. */
 	def update(bunny: Bunny, dt: Double): Unit = {
         if ( !bunny.alive ) {
             on_death(bunny)
@@ -63,5 +70,4 @@ trait BunnyType
             Controller -= bunny
         }
     }
-
 }
