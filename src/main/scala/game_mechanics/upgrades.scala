@@ -19,7 +19,7 @@ object BaseTowerUpgrades extends UpgradeTree
     override val description = "Throw heavier carrots, dealing more damage"
     override def effect(tower : Tower)
     {
-        tower.base_damage = tower.base_damage + 5
+        tower.base_damage +=  5
         tower.upgrades = this.children
     }
 }

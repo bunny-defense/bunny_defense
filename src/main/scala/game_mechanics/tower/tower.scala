@@ -23,6 +23,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     var damage         = tower_type.damage
     var base_range     = tower_type.base_range
     var range          = tower_type.range
+    var sell_cost      = tower_type.sell_cost
     var upgrades : Option[UpgradeTree] = tower_type.upgrades
     def allied_effect(tower : Tower) {
         tower_type.allied_effect(tower)
@@ -82,6 +83,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
             cooldown -= dt
     }
 
+
     // ==============================
     //  GETTERS
     // ==============================
@@ -100,10 +102,6 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
 
     def buy_cost() : Int = {
         return tower_type.buy_cost
-    }
-
-    def sell_cost() : Int = {
-        return tower_type.sell_cost
     }
 
     def graphic(): BufferedImage = {

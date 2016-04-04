@@ -122,6 +122,23 @@ object Controller extends Publisher with Reactor
         set_accelerated( !is_accelerated )
     }
 
+    def upgrade_tower(): Unit = {
+       Controller.selected_cell.get.upgrades match
+       {
+           case None            => {}
+           case Some(upgrade)   => {
+               if (Player.remove_gold(upgrade.cost)) {
+                   upgrade.effect(selected_cell.get)
+                   selected_cell.get.sell_cost += ((0.8 * upgrade.cost).toInt)
+               }
+               else {
+                   println("Not enough money, you noob !")
+               }
+           }
+       }
+    }
+
+
     /* ==================== MAIN LOOP ==================== */
 
     /* Update the game for dt time */

@@ -24,8 +24,8 @@ object ScarecrowTower extends TowerType
     base_damage               = 6
     damage                    = 6
     override val buy_cost     = 1500
-    override val sell_cost    = 1200
-    override val unlock_wave = 10
+    sell_cost                 = 1200
+    override val unlock_wave  = 10
 
 
     override def attack_from(tower : Tower) : () => Boolean = {

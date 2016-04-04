@@ -29,8 +29,8 @@ class TowerInfoPanel() extends Panel {
             val y = e.point.y
             if( x >= size.width - button_width &&
                 x <  size.width &&
-                y >= 0 && y < size.height &&
-                Controller.selected_cell != None )
+                y >= 0 && y < size.height / 2 &&
+                !Controller.selected_cell.isEmpty )
             {
                 val tower = Controller.selected_cell.get
                 Controller -= tower
@@ -41,6 +41,13 @@ class TowerInfoPanel() extends Panel {
                 y >= 0 && y < size.height )
             {
                 Controller.on_fastforward_button()
+            }
+            if (x >= size.width - button_width &&
+                x < size.width &&
+                y >= size.height / 2 && y < size.height &&
+                !Controller.selected_cell.isEmpty)
+            {
+                Controller.upgrade_tower()
             }
         }
         case MousePressed(_,_,_,_,_)  =>
@@ -85,7 +92,7 @@ class TowerInfoPanel() extends Panel {
 
         /* Sell button */
         val sell_button_rect = new Rectangle(
-            size.width - button_width, 0, button_width, ym )
+            size.width - button_width, 0, button_width, ym/2)
         g.setColor( Colors.white )
         g.fill( sell_button_rect )
         g.setColor( Colors.black )
@@ -96,7 +103,7 @@ class TowerInfoPanel() extends Panel {
             g.setColor( Colors.lightGrey )
         g.drawString( sell_text,
             button_width + xm + button_width / 2 - sell_text_width / 2,
-            ym / 2 )
+            ym / 4 )
         if( sell_button_rect.contains( mousex, mousey ) &&
             Controller.selected_cell != None )
         {
@@ -108,6 +115,36 @@ class TowerInfoPanel() extends Panel {
         }
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
+
+        /* Upgrade Button */
+       val upgrade_button_rect = new Rectangle(
+           size.width - button_width, ym/2, button_width, ym / 2 )
+       g.setColor( Colors.white )
+       g.fill( upgrade_button_rect )
+       g.setColor (Colors.black )
+       g.draw( upgrade_button_rect )
+       var upgrade_text = ""
+       if (!Controller.selected_cell.isEmpty &&
+           !Controller.selected_cell.get.upgrades.isEmpty) {
+           upgrade_text = Controller.selected_cell.get.upgrades.get.name
+       }
+       val upgrade_text_width = g.getFontMetrics().stringWidth( upgrade_text )
+       g.drawString(
+           upgrade_text,
+           button_width + xm + button_width / 2 - upgrade_text_width / 2,
+            3 * ym / 4 )
+       if ( upgrade_button_rect.contains( mousex, mousey ) )
+       {
+           var alpha = if( clicked ) 0.7f else 0.5f
+           g.setComposite(
+               AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
+           g.setColor( Colors.lightblue )
+           g.fill( upgrade_button_rect )
+           g.setComposite(
+               AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f )
+           )
+       }
+
 
         /* Fast forward button */
         val ff_button_rect = new Rectangle( 0, 0, button_width, ym )

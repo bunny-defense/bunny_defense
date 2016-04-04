@@ -16,5 +16,5 @@ object SplashTower extends ShooterTower(ProjectileFactory.SPLASH_PROJECTILE)
             new File(
                 getClass().getResource("/projectiles/Red-Turnip-icon.png").getPath()))
     override val buy_cost      = 2500
-    override val sell_cost     = 2000
+    sell_cost     = 2000
 }
