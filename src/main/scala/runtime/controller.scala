@@ -7,6 +7,7 @@ import swing.event._
 import swing._
 
 import collection.mutable.{ListBuffer,Queue}
+import util.Random
 
 import runtime._
 import game_mechanics._
@@ -34,10 +35,12 @@ object Controller extends Publisher with Reactor
     var dt: Double   = 0.0
     var acceleration = 2
     var is_accelerated = false
+    var raining      = false
     /* The tower type selected for construction */
-    var selected_tower          : Option[TowerType] = None
+    var selected_tower          : Option[TowerType]     = None
     /* The tower currently selected */
-    private var _selected_cell  : Option[Tower]     = None
+    private var _selected_cell  : Option[Tower]         = None
+    var rng          = new Random
 
     listenTo(SpawnScheduler)
 
@@ -151,6 +154,17 @@ object Controller extends Publisher with Reactor
         bunnies.foreach( _.update(dt) )
         /* Spawn in new bunnies */
         SpawnScheduler.update(dt)
+        /* Random chance of rain */
+        if( rng.nextDouble < (dt / 100) && !raining )
+        {
+            raining = true
+            val anim = if(rng.nextDouble < 0.1)
+                new ThunderstormAnimation( 30 + rng.nextDouble * 120 )
+            else
+                new RainAnimation( 30 + rng.nextDouble * 120 )
+            anim and_then { () => this.raining = false }
+            this += anim
+        }
     }
 
     /* Run the game */
