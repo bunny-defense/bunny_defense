@@ -76,21 +76,12 @@ class JPS(start: CellPos, objectif: CellPos) {
   this.add_node( this.start.x, this.start.y, Some((1,-1)), 0 )
 
   def estimate(x: Int, y: Int, dir: Option[(Int,Int)]) : Double = {
-      var xx = x
-      var yy = y
-      var add = 0.0
-      if ((dir.isEmpty)||(dir==(0,0))) {
-          add = 0.0
-      }
-      else {
-          add = this.diag_dist
-          xx = xx + dir.get._1
-          yy = yy + dir.get._2
-      }
-      val dx = Math.abs(xx - this.objectif.x)
-      val dy = Math.abs(yy - this.objectif.y)
-      val mini = min(dx,dy)
-      return add + this.diag_dist * mini + this.hor_dist * ((dx-mini) + (dy-mini))
+      var xx  = x + dir.get._1
+      var yy  = y + dir.get._2
+      var add = Math.sqrt(Math.pow(dir.get._1,2) + Math.pow(dir.get._2,2))
+      val dx  = Math.abs(xx - this.objectif.x)
+      val dy  = Math.abs(yy - this.objectif.y)
+      return add + Math.sqrt( Math.pow(xx,2) + Math.pow(yy,2))
   }
 
 
