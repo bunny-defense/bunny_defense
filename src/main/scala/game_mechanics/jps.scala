@@ -75,9 +75,10 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
 }
 
 class JPS(start: CellPos, objective: CellPos) {
-    /** The main class to calculating the JPS Algorithm
-     *  @param start: The starting CellPos
-     *  @param objective: The objective of the JPS Algorithm
+    /**
+     * The main class to calculating the JPS Algorithm
+     * @param start: The starting CellPos
+     * @param objective: The objective of the JPS Algorithm
      */
 
     val horvert_dist = 1.0
@@ -133,7 +134,7 @@ class JPS(start: CellPos, objective: CellPos) {
            }
            this.all_list.update(pd,dist)
            return pd
-   }
+    }
 
     def add_open(total: Double, pd: CellPosed, dist: Double): Unit = {
         this.queue.enqueue(new Tuple3(total,pd,dist))
@@ -154,16 +155,16 @@ class JPS(start: CellPos, objective: CellPos) {
         return((None,None,None))
     }
 
-
     def hor_search(
         pos: (Int,Int),
         hor_dir: Int,
         dist_init: Double): ListBuffer[CellPosed] =
         {
-            /** Manages the horizontal search of jump points
-             *  @param pos: current position
-             *  @param hor_dir : Horizontal direction (+/- 1)
-             *  @param dist : Distance traveled so far
+            /**
+             * Manages the horizontal search of jump points
+             * @param pos: current position
+             * @param hor_dir : Horizontal direction (+/- 1)
+             * @param dist : Distance traveled so far
              */
             var x0   = pos._1
             var y0   = pos._2
