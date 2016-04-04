@@ -15,4 +15,5 @@ object GoldenBunny extends BunnyType
     override val base_speed    = 8.0
     speed                      = 8.0
     override def reward        = atan_variation(500,500,1) /* Constant at 500 */
+   damage                      = 0
 }

@@ -46,7 +46,7 @@ class Progress(p: Path) {
     }
 
     def random_choice() : Unit = {
-        i += Math.min(law.nextInt(path.length - i - 6),5)
+        i += Math.max(law.nextInt(path.length - i),12) -6
     }
 
     def reset() : Unit = {

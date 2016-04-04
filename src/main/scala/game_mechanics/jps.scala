@@ -12,9 +12,6 @@ import scala.util.control.Breaks._
 import collection.mutable.{ListBuffer,ListMap,PriorityQueue}
 import scala.math.Ordering.Implicits._
 
-class Trio(total: Double, cell: CellPosed, dist: Double)
-
-
 
 class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
     /**
@@ -92,6 +89,9 @@ class JPS(start: CellPos, objectif: CellPos) {
   this.add_node( this.start.x, this.start.y, Some((1, 0)), 0 )
   this.add_node( this.start.x, this.start.y, Some((1, 1)), 0 )
   this.add_node( this.start.x, this.start.y, Some((1,-1)), 0 )
+  this.add_node( this.start.x, this.start.y, Some((0, 1)), 0 )
+  this.add_node( this.start.x, this.start.y, Some((0,-1)), 0 )
+
 
   def estimate(x: Int, y: Int, dir: Option[(Int,Int)]) : Double = {
       var xx  = x + dir.get._1

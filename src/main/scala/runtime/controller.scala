@@ -179,7 +179,7 @@ object Controller extends Publisher with Reactor
         if( rng.nextDouble < (dt / 200) && !raining )
         {
             raining = true
-            val anim = if(rng.nextDouble < 0.1)
+            val anim = if(rng.nextDouble < 0.5)
                 new ThunderstormAnimation( 30 + rng.nextDouble * 120 )
             else
                 new RainAnimation( 30 + rng.nextDouble * 120 )
