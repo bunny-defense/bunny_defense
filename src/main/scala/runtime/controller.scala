@@ -155,7 +155,7 @@ object Controller extends Publisher with Reactor
         /* Spawn in new bunnies */
         SpawnScheduler.update(dt)
         /* Random chance of rain */
-        if( rng.nextDouble < (dt / 100) && !raining )
+        if( rng.nextDouble < (dt / 200) && !raining )
         {
             raining = true
             val anim = if(rng.nextDouble < 0.1)

@@ -20,6 +20,8 @@ object BuildMenu
 class BuildMenu(cols: Int, rows: Int) extends Panel
 {
     import BuildMenu._
+    val width  = cols * buttonSize
+    val height = rows * buttonSize
 
     val towerlist = Array.fill[Option[TowerType]](cols*rows)(None)
     towerlist(0) = Some(BaseTower)
