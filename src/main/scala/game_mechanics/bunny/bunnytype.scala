@@ -28,6 +28,8 @@ trait BunnyType
     val base_speed    = 2.0
     var speed         = 2.0   /* Speed of the bunny in tiles per second */
 
+    val effect_range  = 0
+
     def allied_effect(bunny: Bunny): Unit = {
     }
     /* The following takes three values : init_val, final_val and inflex_point,

@@ -22,7 +22,6 @@ class Bunny(bunny_type_init: BunnyType,path0: Path) {
     val base_speed      = bunny_type.base_speed
     var speed           = bunny_type.speed
     val spread          = (Waypoint.random() * 2 - new Waypoint(1,1)) / MapPanel.cellsize * 2
-    val effect_range    = 0
 
     def allied_effect(bunny: Bunny): Unit = {
         bunny_type.allied_effect(bunny)
@@ -63,6 +62,10 @@ class Bunny(bunny_type_init: BunnyType,path0: Path) {
 
     def graphic(): BufferedImage = {
         return bunny_type.bunny_graphic
+    }
+
+    def effect_range(): Double = {
+        return bunny_type.effect_range
     }
 }
 
