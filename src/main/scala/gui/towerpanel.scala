@@ -56,6 +56,52 @@ class TowerInfoPanel() extends Panel {
             clicked = false
     }
 
+        /* Upgrade Button tooltip */
+
+        def draw_tooltip(g : Graphics2D)
+        {
+            val upgrade_button_rect = new Rectangle(
+                size.width - button_width, size.height/2, button_width, size.height/2 )
+            /* A copy of the upgrade button; we'll just use it to get its position */
+            val windowpos = locationOnScreen
+            val mousepos  = MouseInfo.getPointerInfo().getLocation()
+            val mousex    = mousepos.x - windowpos.x
+            val mousey    = mousepos.y - windowpos.y
+            if( upgrade_button_rect.contains( mousex, mousey ) )
+            {
+                var upgrade_name = ""
+                var upgrade_desc = ""
+                var upgrade_cost = ""
+                if (!Controller.selected_cell.isEmpty &&
+                    !Controller.selected_cell.get.upgrades.isEmpty) {
+                    upgrade_name = Controller.selected_cell.get.upgrades.get.name
+                    upgrade_desc = Controller.selected_cell.get.upgrades.get.description
+                    upgrade_cost = Controller.selected_cell.get.upgrades.get.cost.toString + " gold"
+                }
+                val name_size = g.getFontMetrics().stringWidth( upgrade_name )
+                val desc_size = g.getFontMetrics().stringWidth( upgrade_desc )
+                val cost_size = g.getFontMetrics().stringWidth( upgrade_cost )
+                val width = Math.max( Math.max( name_size, desc_size ), cost_size ) + 4
+                val height = 49
+                val rect = new Rectangle(
+                    mousepos.x.toInt - width, mousepos.y.toInt - height,
+                    width, height )
+                if (!Controller.selected_cell.isEmpty &&
+                    !Controller.selected_cell.get.upgrades.isEmpty) {
+                    g.setColor( Colors.lightGrey )
+                    g.fill( rect )
+                    g.setColor( Colors.black )
+                    g.draw( rect )
+                        g.drawString( upgrade_name,
+                        mousepos.x.toInt - width + 2, mousepos.y.toInt - height + 15 )
+                    g.drawString( upgrade_desc,
+                        mousepos.x.toInt - width + 2, mousepos.y.toInt - height + 30 )
+                    g.drawString( upgrade_cost,
+                        mousepos.x.toInt - width + 2, mousepos.y.toInt - height + 45 )
+                }
+            }
+        }
+
     override def paintComponent(g: Graphics2D): Unit = {
         super.paintComponent(g)
 
@@ -144,7 +190,6 @@ class TowerInfoPanel() extends Panel {
                AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f )
            )
        }
-
 
         /* Fast forward button */
         val ff_button_rect = new Rectangle( 0, 0, button_width, ym )

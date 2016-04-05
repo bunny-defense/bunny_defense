@@ -17,7 +17,7 @@ trait UpgradeTree
 object BaseTowerUpgrades extends UpgradeTree
 {
     override val name = "Heavy carrots"
-    override val description = "Throw heavier carrots, dealing more damage"
+    override val description = "Damage +5"
     override def effect(tower : Tower)
     {
         tower.base_damage +=  5
@@ -28,7 +28,7 @@ object BaseTowerUpgrades extends UpgradeTree
 object QuickTowerUpgrades extends UpgradeTree
 {
     override val name = "Ballistic carrots"
-    override val description = "Long-range targetting system allows the tower to throw carrots further"
+    override val description = "Range + 2"
     override def effect(tower : Tower)
     {
         tower.base_range = tower.base_range + 2
