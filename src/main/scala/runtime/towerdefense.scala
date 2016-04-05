@@ -86,10 +86,17 @@ object TowerDefense extends SimpleSwingApplication
         override def paintChildren(g: Graphics2D)
         {
             super.paintChildren(g)
-            val transform = g.getTransform()
-            val pos = locationOnScreen
+            /* Draw tooltip for build menu */
+            var transform = g.getTransform()
+            var pos = locationOnScreen
             g.translate( -pos.x, -pos.y )
             build_menu.draw_tooltip(g)
+            g.setTransform( transform )
+            /* Draw tooltip for towerpanel */
+            transform = g.getTransform()
+            pos = locationOnScreen
+            g.translate( -pos.x, -pos.y )
+            tower_panel.draw_tooltip(g)
             g.setTransform( transform )
         }
     }

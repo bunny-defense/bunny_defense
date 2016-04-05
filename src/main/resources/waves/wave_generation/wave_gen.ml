@@ -15,7 +15,7 @@ let n_wave = int_of_string(Sys.argv.(1));;
 
 (* The following functions are to be targeted for game balancing matters ; they define crucial values regarding difficulty *)
 let difficulty = 20 + int_of_float(((float_of_int n_wave)/.1.5) **4.);;
-let spawn_time = 0.05 +. 0.95/.((float_of_int n_wave)**0.85);; (* 1 sec at wave 1, decreases to 0.1 sec as game goes *)
+let spawn_time = 0.01 +. 2./.((float_of_int n_wave)**1.35);; (* 1 sec at wave 1, decreases to 0.1 sec as game goes *)
 
 let atan_variation init_val final_val inflex_point = (* int -> float *)
   (* Returns a function going from init_val to final_val with atangent variations, with an inflexion point at inflex_point *)
