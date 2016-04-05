@@ -89,8 +89,11 @@ object Controller extends Publisher with Reactor
                     (!TowerDefense.map_panel.map.valid(new CellPos(pos.x+1,pos.y-1)))).par
                 bun_update.tasksupport = new ForkJoinTaskSupport(
                     new scala.concurrent.forkjoin.ForkJoinPool(8))
+                val centering = new Waypoint( 0.5, 0.5 )
                 for (bunny <- bun_update) {
-                    bunny.path.path = new JPS(bunny.pos.toInt, Spawner.bunnyend).run().get
+                    bunny.path.path = new JPS(
+                        (bunny.pos + centering).toInt,
+                        Spawner.bunnyend).run().get
                     bunny.path.reset
                 }
             }
