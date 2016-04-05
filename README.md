@@ -1,6 +1,11 @@
 
 # Projet Programmation 2 : Tower Defense
 
+## Warning
+
+Placing towers during the wave is still experimental and can throw harmless
+exceptions.
+
 ## Building
 
 How to compile:
