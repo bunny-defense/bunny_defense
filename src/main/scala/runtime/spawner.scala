@@ -38,13 +38,14 @@ class Spawner(id: Int) {
     val law = new Random()
 
     val mappage: Map[String, BunnyType] = Map(
-        "Bunny"       -> NormalBunny,
-        "HeavyBunny"  -> HeavyBunny,
-        "Hare"        -> Hare,
-        "Otter"       -> Otter,
-        "GoldenBunny" -> GoldenBunny,
-        "BadassBunny" -> BadassBunny,
-        "SpecOpBunny" -> SpecOpBunny
+        "Bunny"          -> NormalBunny,
+        "HeavyBunny"     -> HeavyBunny,
+        "Hare"           -> Hare,
+        "Otter"          -> Otter,
+        "GoldenBunny"    -> GoldenBunny,
+        "BadassBunny"    -> BadassBunny,
+        "SpecOpBunny"    -> SpecOpBunny,
+        "FlyingSquirrel" -> FlyingSquirrel
     )
 
     def create(): Queue[(Double,BunnyType)] = {
