@@ -45,7 +45,8 @@ class Spawner(id: Int) {
         "GoldenBunny"    -> GoldenBunny,
         "BadassBunny"    -> BadassBunny,
         "SpecOpBunny"    -> SpecOpBunny,
-        "FlyingSquirrel" -> FlyingSquirrel
+        "FlyingSquirrel" -> FlyingSquirrel,
+        "ShieldBunny"    -> ShieldBunny
     )
 
     def create(): Queue[(Double,BunnyType)] = {

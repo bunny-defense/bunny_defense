@@ -27,6 +27,9 @@ trait BunnyType
     var shield        = 1.0   /* Damage dampening */
     val base_speed    = 2.0
     var speed         = 2.0   /* Speed of the bunny in tiles per second */
+
+    def allied_effect(bunny: Bunny): Unit = {
+    }
     /* The following takes three values : init_val, final_val and inflex_point,
     THAT MUST VERIFY init_val >= final_val, and returns the arctangent function
     decreasing to final_val from init_val with an inflexion point at inflex_point. */
