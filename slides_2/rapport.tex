@@ -1,0 +1,99 @@
+
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Projet programmation 2\\Phase 2}
+\author{R\'emi Oudin, Alexis Laouar, K\'evin Le Run}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Types d'ennemis}
+
+\begin{itemize}
+
+\item \includegraphics{bunny_alt1.png} \texttt{Lapin normal}
+
+L'ennemi de base, se d\'eplace \`a vitesse moyenne.
+
+\item \includegraphics{hare_alt1.png} \texttt{Li\`evre}
+
+Le li\`evre est tr\`es rapide mais poss\`ede peu de points de vie.
+
+\item \includegraphics{bunny_alt1.png} \texttt{Lapin lourd}
+
+Ce lapin, tr\`es lent, poss\`ede beaucoup de points de vie.
+
+\item \includegraphics{badassbunny.png} \texttt{Lapin badass}
+
+Ce lapin poss\`ede beaucoup de points de vie et donne naissance \`a des lapins
+normaux \`a sa mort.
+
+\item \includegraphics{ninja.png} \texttt{Lapin SpecOps/Lapin Ninja}
+
+Ce lapin est capable de se t\'el\'eporter.
+
+\item \includegraphics{otter.png} \texttt{Loutre}
+
+La loutre est le premier (et pour l'instant seul) boss du jeu. Elle a beaucoup
+de points de vie mais est tr\`es lente.
+
+\item \includegraphics{goldenbunny_alt1.png} \texttt{Lapin dor\'e}
+
+Ce lapin tr\`es rare et tr\`es rapide rapporte beaucoup d'or si \'elimin\'e.
+
+\end{itemize}
+
+\section{Types de tour}
+
+\begin{itemize}
+
+\item \includegraphics{base_tower.png} \texttt{Lance-carrotes}
+
+Cette tour tire une carotte sur l'ennemi le plus avanc\'e.
+
+\item \includegraphics{quick_tower.png} \texttt{Mitrailleuse}
+
+Cette tour tire des feuilles (tr\`es l\'eg\`eres mais peu dangereuses) \`a
+tr\`es grande vitesse et en tr\`es grande quantit\'e.
+
+\item \includegraphics{tank.png} \texttt{Tour lourde}
+
+Cette tour tire des carottes transg\'eniques tr\`es lourdes qui causent
+beaucoup de d\'egats aux ennemis.
+
+\item \includegraphics{heavy_tower.png} \texttt{\'Epouvantail}
+
+Cette tour tire simultan\'ement sur tous les ennemis \`a port\'ee.
+
+\item \includegraphics{base_tower.png} \texttt{Catapulte \`a navet}
+
+Cette tour lance des navets explosifs sur les ennemis \`a port\'ee.
+
+\item \includegraphics{roberto.png} \texttt{Roberto}
+
+Roberto est un soldat psychique enferm\'e dans une capsule en verre capable
+d'attaquer les ennemis \`a distance.
+
+\item \includegraphics{roberto.png} \texttt{Acc\'el\'erateur d'entropie}
+
+Cette tour g\`ele les alentours, ralentissant les ennemis dans la zone.
+
+\item \includegraphics{radar.png} \texttt{Ing\'enieur}
+
+Cette tour augmente les d\'egats des tours avoisinantes.
+
+\section{Plus court chemin}
+
+L'algorithme que nous avons choisi afin de d\'eterminer un chemin pours les
+ennemis est
+\href{http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-aaai11.pdf}
+{Jump Point Search} (JPS).
+
+\end{itemize}
+
+\end{document}
