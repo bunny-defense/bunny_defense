@@ -174,7 +174,8 @@ object Controller extends Publisher with Reactor
         towers.foreach (x => x.range = x.base_range)
         /* Apply all tower effects to towers*/
         towers.foreach( tower =>
-            towers.foreach( x => if( (x.pos - tower.pos).norm <= tower.range ) { tower.allied_effect(x)})
+            towers.foreach( x => if( (x.pos - tower.pos).norm <= tower.range )
+                { tower.allied_effect(x)})
         )
         towers.foreach( _.update(dt) )
         /* Update bunnies */
@@ -182,9 +183,14 @@ object Controller extends Publisher with Reactor
          /* Reinitialize the speed and shield of all bunnies */
         bunnies.foreach (x => x.speed = x.base_speed)
         bunnies.foreach (x => x.shield = x.base_shield)
-        /* Apply all tower effects to towers*/
+        /* Apply all tower effects to bunnies*/
         towers.foreach( tower =>
-            bunnies.foreach( x => if( (x.pos - tower.pos).norm <= tower.range ) { tower.enemy_effect(x)})
+            bunnies.foreach( x => if( (x.pos - tower.pos).norm <= tower.range )
+                { tower.enemy_effect(x) })
+        )
+        bunnies.foreach( bunny =>
+                bunnies.foreach( x => if( (x.pos - bunny.pos).norm <= bunny.effect_range )
+                { bunny.allied_effect(x) })
         )
         bunnies.foreach( _.update(dt) )
         /* Spawn in new bunnies */
