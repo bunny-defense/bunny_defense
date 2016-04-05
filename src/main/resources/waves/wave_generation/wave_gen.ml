@@ -15,7 +15,7 @@ let n_wave = int_of_string(Sys.argv.(1));;
 
 (* The following functions are to be targeted for game balancing matters ; they define crucial values regarding difficulty *)
 let difficulty = 20 + int_of_float(((float_of_int n_wave)/.1.5) **4.);;
-let spawn_time = 0.01 +. 2./.((float_of_int n_wave)**1.35);; (* 1 sec at wave 1, decreases to 0.1 sec as game goes *)
+let spawn_time = 0.001 +. 2./.((float_of_int n_wave)**1.35);; (* 1 sec at wave 1, decreases to 0.1 sec as game goes *)
 
 let atan_variation init_val final_val inflex_point = (* int -> float *)
   (* Returns a function going from init_val to final_val with atangent variations, with an inflexion point at inflex_point *)
@@ -27,11 +27,12 @@ let atan_variation init_val final_val inflex_point = (* int -> float *)
 
 let bunnies_alone =
   [|
-    "Bunny",1,1,atan_variation 200. 10. 20. ;
-    "HeavyBunny",3,1,atan_variation 50. 175. 10. ;
-    "Hare",1,3,atan_variation 25. 40. 10. ;
-    "BadassBunny",5,4,atan_variation 0. 200. 15. ;
-    "SpecOpBunny",5,7,atan_variation 0. 40. 20.
+    "Bunny", 1, 1, atan_variation 200. 10. 20. ;
+    "HeavyBunny", 3, 1, atan_variation 50. 175. 10. ;
+    "Hare", 1, 3, atan_variation 25. 40. 10. ;
+    "BadassBunny", 5, 4, atan_variation 0. 200. 15. ;
+    "SpecOpBunny", 5, 7, atan_variation 0. 40. 20. ;
+    "FlyingSquirrel", 4, 3, atan_variation 10. 15. 10.
    |];;
 let bosses_alone = [|"Otter",1500,10,atan_variation 1. 10. 20.|];;
 (* bunnies and bosses : list of (bunny type, difficulty points, first possible wave of appearance, inverse rarity as a function of n_wave) *)
