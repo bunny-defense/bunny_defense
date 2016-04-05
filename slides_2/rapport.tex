@@ -3,6 +3,7 @@
 
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{tikz}
 
 \title{Projet programmation 2\\Phase 2}
 \author{R\'emi Oudin, Alexis Laouar, K\'evin Le Run}
@@ -87,6 +88,8 @@ Cette tour g\`ele les alentours, ralentissant les ennemis dans la zone.
 
 Cette tour augmente les d\'egats des tours avoisinantes.
 
+\end{itemize}
+
 \section{Plus court chemin}
 
 L'algorithme que nous avons choisi afin de d\'eterminer un chemin pours les
@@ -94,6 +97,8 @@ ennemis est
 \href{http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-aaai11.pdf}
 {Jump Point Search} (JPS).
 
-\end{itemize}
+JPS est un algorithme qui optimize la recherche de chemin de A* en ajoutant
+\`a la recherche  l'information de direction, \'eliminant une grande quantit\'e
+de noeuds ouverts.
 
 \end{document}
