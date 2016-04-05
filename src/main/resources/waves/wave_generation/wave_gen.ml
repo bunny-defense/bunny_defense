@@ -1,6 +1,6 @@
 open Printf;;
-  
-       
+
+
 let frs (x,y,z,t) = x;;
 let scd (x,y,z,t) = y;;
 let trd (x,y,z,t) = z;;
@@ -8,9 +8,9 @@ let frt (x,y,z,t) = t;;
 
 
 Random.init (int_of_float(Unix.gettimeofday ()));;
-  
+
 let random_int n = Random.int n;;
-  
+
 let n_wave = int_of_string(Sys.argv.(1));;
 
 (* The following functions are to be targeted for game balancing matters ; they define crucial values regarding difficulty *)
@@ -32,7 +32,8 @@ let bunnies_alone =
     "Hare", 1, 3, atan_variation 25. 40. 10. ;
     "BadassBunny", 5, 4, atan_variation 0. 200. 15. ;
     "SpecOpBunny", 5, 7, atan_variation 0. 40. 20. ;
-    "FlyingSquirrel", 4, 3, atan_variation 10. 15. 10.
+    "FlyingSquirrel", 4, 3, atan_variation 10. 15. 10. ;
+    "ShieldBunny", 4, 3, atan_variation 10. 15. 10.
    |];;
 let bosses_alone = [|"Otter",1500,10,atan_variation 1. 10. 20.|];;
 (* bunnies and bosses : list of (bunny type, difficulty points, first possible wave of appearance, inverse rarity as a function of n_wave) *)
@@ -46,7 +47,7 @@ let min_difficulty =
     then res := (scd bunnies.(i))
   done;
   !res;;
-  
+
 let sum_rarity =
   let res = ref 0. in
   for i=0 to Array.length(bunnies)-1 do
@@ -54,7 +55,7 @@ let sum_rarity =
   done;
   !res;;
 
-  
+
 let file_name = "../wave" ^ (string_of_int n_wave) ^ ".csv";;
 let oc = open_out file_name;;
 
@@ -99,7 +100,7 @@ let rec wave n t=
 	  else if n >= min_difficulty
 	  then wave n t (* Even if a bunny can't spawn now, one can possibly spawn, so let us try again *)
 	  else ()(* Yeah nothing's gonna spawn bro *);;
-  
-  
+
+
 wave difficulty 0.;;
-    
+
