@@ -1,3 +1,3 @@
 
 default:
-	@pdflatex rapport.tex
+	pdflatex presentation.tex
