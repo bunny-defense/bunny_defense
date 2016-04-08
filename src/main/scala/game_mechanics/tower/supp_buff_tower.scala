@@ -19,7 +19,7 @@ object SuppBuffTower extends TowerType
     override val tower_graphic  =
         ImageIO.read(
             new File(
-                getClass().getResource("/towers/radar.gif").getPath()))
+                getClass().getResource("/towers/radar.png").getPath()))
     override val throw_graphic  =
         ImageIO.read(
             new File(
