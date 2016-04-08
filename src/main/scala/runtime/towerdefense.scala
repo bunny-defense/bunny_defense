@@ -13,6 +13,7 @@ import collection.mutable.HashMap
 import javax.swing.ImageIcon
 
 import gui._
+import utils._
 import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
@@ -129,6 +130,8 @@ object TowerDefense extends SimpleSwingApplication
         val titles = Source.fromFile("src/main/resources/misc/titles").
             getLines().toArray
         title = titles(Random.nextInt(titles.length))
+        Parameters.load()
+        Player.reset()
         resizable = false
         contents = mainpanel
     }
