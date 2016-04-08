@@ -74,6 +74,41 @@ class MapPanel(map0: GameMap) extends Panel {
         paintPath(g)
         /* Drawing tower effects */
         val translate_transform = g.getTransform()
+        /* Drawing ghost tower */
+        Controller.selected_tower match {
+            case None => {}
+            case Some(tower) => {
+                // PAINT NO-PLACE ZONE
+                g.setComposite(
+                    AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.5f ))
+                for( x <- 0 until map.width )
+                {
+                    for( y <- 0 until map.height )
+                    {
+                        if( map.obstructed(x,y) )
+                        {
+                            g.drawImage( blocked_cell_image,
+                                x * cellsize,
+                                y * cellsize, null )
+                        }
+                    }
+                }
+                g.setComposite(
+                    AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ))
+                g.setColor( Colors.black )
+                // PAINT TOWER AND RANGE
+                val mousepos  = MouseInfo.getPointerInfo().getLocation()
+                val windowpos = locationOnScreen
+                val snapx     = (mousepos.x - windowpos.x) / cellsize * cellsize
+                val snapy     = (mousepos.y - windowpos.y) / cellsize * cellsize
+                g.drawRect( snapx, snapy, cellsize, cellsize )
+                g.drawImage( tower.tower_graphic, snapx, snapy, null )
+                val range   = tower.range * cellsize
+                val circlex = snapx + cellsize / 2 - range
+                val circley = snapy + cellsize / 2 - range
+                g.drawOval( circlex, circley, 2 * range, 2 * range )
+            }
+        }
         for( tower <- Controller.towers )
         {
             val x = tower.pos.x * cellsize + cellsize / 2
@@ -125,41 +160,6 @@ class MapPanel(map0: GameMap) extends Panel {
                 y + cellsize / 2 )
             g.drawImage( projectile.graphic, x.toInt, y.toInt, null )
             g.setTransform( prev_transform )
-        }
-        /* Drawing ghost tower */
-        Controller.selected_tower match {
-            case None => {}
-            case Some(tower) => {
-                // PAINT NO-PLACE ZONE
-                g.setComposite(
-                    AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.5f ))
-                for( x <- 0 until map.width )
-                {
-                    for( y <- 0 until map.height )
-                    {
-                        if( map.obstructed(x,y) )
-                        {
-                            g.drawImage( blocked_cell_image,
-                                x * cellsize,
-                                y * cellsize, null )
-                        }
-                    }
-                }
-                g.setComposite(
-                    AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ))
-                g.setColor( Colors.black )
-                // PAINT TOWER AND RANGE
-                val mousepos  = MouseInfo.getPointerInfo().getLocation()
-                val windowpos = locationOnScreen
-                val snapx     = (mousepos.x - windowpos.x) / cellsize * cellsize
-                val snapy     = (mousepos.y - windowpos.y) / cellsize * cellsize
-                g.drawRect( snapx, snapy, cellsize, cellsize )
-                g.drawImage( tower.tower_graphic, snapx, snapy, null )
-                val range   = tower.range * cellsize
-                val circlex = snapx + cellsize / 2 - range
-                val circley = snapy + cellsize / 2 - range
-                g.drawOval( circlex, circley, 2 * range, 2 * range )
-            }
         }
         /* Darkness level */
         g.setComposite(
