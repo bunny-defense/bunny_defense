@@ -4,11 +4,14 @@ package gui
 import swing._
 import swing.event._
 
+
 import java.awt.AlphaComposite
 import java.awt.image.BufferedImage
 import java.awt.MouseInfo
 import java.io.File
 import javax.imageio.ImageIO
+
+import collection.parallel._
 
 import runtime.{Controller,Spawner}
 import game_mechanics.GameMap
@@ -69,6 +72,8 @@ class MapPanel(map0: GameMap) extends Panel {
     /* Drawing on the map */
     override def paintComponent(g: Graphics2D): Unit = {
         super.paintComponent(g)
+        var tsksupp = new ForkJoinTaskSupport(
+            new scala.concurrent.forkjoin.ForkJoinPool(4))
         /* Drawing the map */
         g.drawImage( map.map_image, 0, 0, null )
         paintPath(g)
@@ -109,7 +114,9 @@ class MapPanel(map0: GameMap) extends Panel {
                 g.drawOval( circlex, circley, 2 * range, 2 * range )
             }
         }
-        for( tower <- Controller.towers )
+        val tow_update = Controller.towers.par
+        tow_update.tasksupport = tsksupp
+        for( tower <- tow_update )
         {
             val x = tower.pos.x * cellsize + cellsize / 2
             val y = tower.pos.y * cellsize + cellsize / 2
@@ -120,14 +127,16 @@ class MapPanel(map0: GameMap) extends Panel {
                 AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
         }
         /* Drawing the towers */
-        for( tower <- Controller.towers )
+        for( tower <- tow_update )
         {
             val x = tower.pos.x * cellsize
             val y = tower.pos.y * cellsize
             g.drawImage( tower.graphic, x.toInt, y.toInt, null )
         }
         /* Drawing the bunnies */
-        for( bunny <- Controller.bunnies )
+        val bun_update = Controller.bunnies.par
+        bun_update.tasksupport = tsksupp
+        for( bunny <- bun_update )
         {
             val x = bunny.pos.x * cellsize
             val y = bunny.pos.y * cellsize
@@ -168,7 +177,7 @@ class MapPanel(map0: GameMap) extends Panel {
         g.fillRect( 0, 0, map.width * cellsize, map.height * cellsize )
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
-        for( animation <- Controller.animations )
+        for( animation <- Controller.animations)
         {
             animation.draw(g)
             // Resetting the alpha composite
