@@ -52,7 +52,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                     case None => ()
                     case Some(tower) =>
                     {
-                        if( Controller.wave_counter >= tower.unlock_wave )
+                        /* if( Controller.wave_counter >= tower.unlock_wave ) */
                             Controller.selected_tower = towerlist(x + y * cols)
                     }
                 }

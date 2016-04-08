@@ -19,7 +19,7 @@ object SuppSlowTower extends TowerType
     override val tower_graphic  =
         ImageIO.read(
             new File(
-                getClass().getResource("/towers/roberto.png").getPath()))
+                getClass().getResource("/towers/frozenmachine.png").getPath()))
     override val throw_graphic  =
         ImageIO.read(
             new File(

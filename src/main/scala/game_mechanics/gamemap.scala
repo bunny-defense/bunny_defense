@@ -12,31 +12,25 @@ import game_mechanics.tower.Tower
 import game_mechanics.path.CellPos
 import runtime.{Spawner,Controller}
 import gui.MapPanel
-
-object GameMap
-{
-    val ground_image =
-        ImageIO.read(
-            new File(getClass().getResource("/ground/dirt.jpg").getPath()))
-    val grass_image  =
-        ImageIO.read(
-            new File(getClass().getResource("/ground/grass4.png").getPath()))
-}
+import util.Random
 
 class GameMap(width0: Int, height0: Int)
 {
-    import GameMap._
+    val law = new Random()
     val width           = width0
     val height          = height0
     val graphic_map     = Array.ofDim[BufferedImage](width,height)
     val obstruction_map = Array.ofDim[Boolean](width,height)
+    val base_ground_image =
+        ImageIO.read(
+            new File(getClass().getResource("/ground/rock1.png").getPath()))
 
     val landscape_top    = Landscape.generate( width, height / 3 )
     val landscape_bottom = Landscape.generate( width, height / 3 )
 
     val map_image = new BufferedImage(
         width * MapPanel.cellsize,
-        height * MapPanel.cellsize, ground_image.getType() )
+        height * MapPanel.cellsize, base_ground_image.getType() )
 
     for( x <- 0 until width ) {
         for( y <- 0 until height ) {
@@ -44,6 +38,10 @@ class GameMap(width0: Int, height0: Int)
             if( y < landscape_top(width - 1 - x)
                 || height - y - 1 < landscape_bottom(x) )
             {
+                val ground_id = law.nextInt(4)+1
+                val ground_image =
+                    ImageIO.read(
+                        new File(getClass().getResource("/ground/rock" + ground_id.toString + ".png").getPath()))
                 map_image.getGraphics().drawImage( ground_image,
                     x * MapPanel.cellsize, y * MapPanel.cellsize, null )
                 graphic_map(x)(y) = ground_image
@@ -51,6 +49,10 @@ class GameMap(width0: Int, height0: Int)
             }
             else
             {
+                val grass_id = law.nextInt(8)+1
+                val grass_image  =
+                    ImageIO.read(
+                        new File(getClass().getResource("/ground/grass" + grass_id.toString + ".png").getPath()))
                 map_image.getGraphics().drawImage( grass_image,
                     x * MapPanel.cellsize, y * MapPanel.cellsize, null )
                 graphic_map(x)(y) = grass_image

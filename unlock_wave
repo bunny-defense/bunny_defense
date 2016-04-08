@@ -1,0 +1,2 @@
+To activate wave unlocking again :
+gui/buildmenu.scala, line 55, UNCOMMENT the line

@@ -21,7 +21,7 @@ trait BunnyType
      */
     val bunny_graphic =
         ImageIO.read(
-            new File(getClass().getResource("/mobs/bunny_alt1.png").getPath()))
+            new File(getClass().getResource("/mobs/bunny_chevaliey.png").getPath()))
     val initial_hp    = 10.0  /* Initial amount of HP */
     val base_shield   = 1.0
     var shield        = 1.0   /* Damage dampening */

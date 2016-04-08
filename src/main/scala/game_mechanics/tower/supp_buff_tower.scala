@@ -42,7 +42,7 @@ object SuppBuffTower extends TowerType
     }
     override def allied_effect(tower : Tower) {
         /* The argument is the tower ON WHICH the effect is cast */
-        tower.damage += 100
+        tower.damage *= 2
     }
     override def draw_effect(g: Graphics2D): Unit = {
         val alpha = (Math.sin( System.currentTimeMillis.toDouble / 1000 ) + 1) / 2 * 0.1

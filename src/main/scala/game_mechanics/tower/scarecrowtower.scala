@@ -18,7 +18,7 @@ object ScarecrowTower extends TowerType
     override val tower_graphic =
         ImageIO.read(
             new File(
-                getClass().getResource("/towers/heavy_tower.png").getPath()))
+                getClass().getResource("/towers/scarecrow.png").getPath()))
     base_range                = 4
     range                     = 4
     base_damage               = 6
