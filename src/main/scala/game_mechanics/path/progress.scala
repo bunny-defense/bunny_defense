@@ -45,11 +45,13 @@ class Progress(p: Path) {
         }
 
     def reached(): Boolean = {
-        return i >= path.length()
+        return path.length == 1
     }
 
     def random_choice() : Unit = {
-        path.waypoints = path.takeRight(path.length - Math.max(law.nextInt(path.length - i),12) -6)
+        if (!reached) {
+            path.takeRight(path.length - Math.max(law.nextInt(path.length - i),12) -6)
+        }
     }
 
     def reset() : Unit = {

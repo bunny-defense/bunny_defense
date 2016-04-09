@@ -68,4 +68,8 @@ class Path {
       this.waypoints.toString
   }
 
+  def isEmpty(): Boolean = {
+      return waypoints.isEmpty
+  }
+
 }
