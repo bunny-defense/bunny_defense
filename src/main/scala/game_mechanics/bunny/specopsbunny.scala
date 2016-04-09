@@ -20,6 +20,10 @@ object SpecOpBunny extends BunnyType
     val law = new Random()
 
 	override def update(bunny: Bunny, dt: Double): Unit = {
+        if ( bunny.path.reached ) {
+            Player.remove_hp( bunny.bunny_type.damage )
+            Controller -= bunny
+        }
         if ( !bunny.alive ) {
             Controller += new GoldAnimation(
                 bunny.bunny_type.reward(Controller.wave_counter),
@@ -37,6 +41,7 @@ object SpecOpBunny extends BunnyType
             anim and_then { () =>
                 bunny.path.random_choice
                 bunny.pos = bunny.path.get_position()
+                println(bunny.path.toString)
                 Controller += bunny
                 Controller += new SmokeAnimation(bunny.pos)
             }
@@ -44,10 +49,6 @@ object SpecOpBunny extends BunnyType
         }
         else {
             bunny.move(dt)
-        }
-        if ( bunny.path.reached ) {
-            Player.remove_hp( bunny.bunny_type.damage )
-            Controller -= bunny
         }
     }
 }

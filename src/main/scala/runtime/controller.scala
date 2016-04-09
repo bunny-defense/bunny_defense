@@ -30,7 +30,7 @@ object Controller extends Publisher with Reactor
      * The main controller.
      * It manages the main loop, the graphics, everything
      */
-    val bunnies      = new ListBuffer[Bunny]
+    val bunnies      = new ListBuffer[Bunny]()
     val projectiles  = new ListBuffer[Projectile]
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
@@ -82,11 +82,7 @@ object Controller extends Publisher with Reactor
                 /* Updates the paths of living bunnies, so they won't conflict
                  * with the new tower. Uses multi-threading to be more efficient */
                 var bun_update = bunnies.filter( t => t.path.path.exists(
-                    u => u.x == pos.x && u.y == pos.y) ||
-                    (!TowerDefense.map_panel.map.valid(new CellPos(pos.x-1,pos.y+1))) ||
-                    (!TowerDefense.map_panel.map.valid(new CellPos(pos.x+1,pos.y+1))) ||
-                    (!TowerDefense.map_panel.map.valid(new CellPos(pos.x-1,pos.y-1))) ||
-                    (!TowerDefense.map_panel.map.valid(new CellPos(pos.x+1,pos.y-1)))).par
+                    u => u.x == pos.x && u.y == pos.y)).par
                 bun_update.tasksupport = new ForkJoinTaskSupport(
                     new scala.concurrent.forkjoin.ForkJoinPool(8))
                 val centering = new Waypoint( 0.5, 0.5 )
