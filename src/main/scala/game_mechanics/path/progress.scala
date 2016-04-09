@@ -19,15 +19,15 @@ class Progress(p: Path) {
     def move( distance: Double ): Unit = {
         if( reached )
             return
-        val current = path.at(i-1)
-        val next    = path.at(i)
+        val current = path.head
+        val next    = path.apply(1)
         val dist    = current distance_to next
         val lastprog = progress
         /* If we have reached the next node we reset progress along the line and go to the next one */
         if( (dist - progress) < distance ) {
             val rest = distance - (dist - progress)
             progress = 0.0
-            i += 1
+            path.pop
             move( rest )
         }
         else { /* else we just move along the line */
@@ -38,8 +38,8 @@ class Progress(p: Path) {
     def get_position(): Waypoint = {
         if( reached )
             return path.last
-        val current = path.at(i-1)
-        val next    = path.at(i)
+        val current = path.head
+        val next    = path.apply(1)
         val ratio   = progress / ( current distance_to next )
         return current * ( 1 - ratio ) + next * ratio
         }
@@ -49,12 +49,11 @@ class Progress(p: Path) {
     }
 
     def random_choice() : Unit = {
-        i += Math.max(law.nextInt(path.length - i),12) -6
+        path.waypoints = path.takeRight(path.length - Math.max(law.nextInt(path.length - i),12) -6)
     }
 
     def reset() : Unit = {
         /** Resets some attributes of the path, used when the path changes */
-        this.i = 1
         this.progress = 0.0
         this.law = new Random()
     }
@@ -62,7 +61,10 @@ class Progress(p: Path) {
     def copy() : Progress = {
         val newprogress = new Progress( path )
         newprogress.progress = progress
-        newprogress.i = i
         return newprogress
+    }
+
+    override def toString(): String = {
+        return path.toString
     }
 }

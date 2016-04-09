@@ -121,7 +121,7 @@ class MapPanel(map0: GameMap) extends Panel {
                 AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
         }
         /* Drawing the towers */
-        for( tower <- tow_update )
+        for( tower <- Controller.towers )
         {
             val x = tower.pos.x * cellsize
             val y = tower.pos.y * cellsize

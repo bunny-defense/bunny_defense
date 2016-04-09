@@ -1,23 +1,23 @@
 
 package game_mechanics.path
 
-import collection.mutable.ListBuffer
+import collection.mutable.Stack
 
 class Path {
   /** A Path is a list of waypoints */
-  val waypoints = new ListBuffer[Waypoint]()
+  var waypoints = new Stack[Waypoint]()
 
   def Path( p:Path ) = {
     for( wp <- p.waypoints ) {
-      waypoints += wp
+      waypoints.push(wp)
     }
   }
   def +=(wp: Waypoint): Unit = {
-    waypoints += wp
+    waypoints.push(wp)
   }
 
   def ++=(other:Path): Unit = {
-    this.waypoints ++= other.waypoints
+    this.waypoints.pushAll(other.waypoints)
   }
 
   /* Returns the waypoint of index i */
@@ -30,13 +30,42 @@ class Path {
   def last(): Waypoint = {
     return waypoints.last
   }
+
+  def pop(): Waypoint = {
+    return waypoints.pop
+  }
+
+  def head(): Waypoint = {
+    return waypoints.head
+  }
+
+  def apply(i: Int): Waypoint = {
+    return waypoints.apply(i)
+  }
+
+  def push(wp: Waypoint): Unit = {
+    waypoints.push(wp)
+  }
+
+  def pushAll(p: Path): Unit = {
+      waypoints.pushAll(p.waypoints)
+  }
+
+  def takeRight(i: Int): Stack[Waypoint] =
+    return this.waypoints.takeRight(i)
+
   def reverse(): Path = {
     val npath = new Path()
-    npath.waypoints.appendAll( this.waypoints.reverse )
+    npath.waypoints.pushAll( this.waypoints)
     return npath
   }
 
   def exists(p:(Waypoint) => Boolean) : Boolean = {
       this.waypoints.exists(p)
   }
+
+  override def toString() : String = {
+      this.waypoints.toString
+  }
+
 }

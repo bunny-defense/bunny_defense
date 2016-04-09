@@ -8,7 +8,7 @@ import runtime._
 /* Scala imports */
 import Math._
 import scala.util.control.Breaks._
-import collection.mutable.{ListBuffer,ListMap,PriorityQueue}
+import collection.mutable.{ListBuffer,ListMap,PriorityQueue, Stack}
 /* Needed for PriorityQueue */
 import scala.math.Ordering.Implicits._
 
@@ -38,10 +38,10 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int)) {
                 this.parent.get.dir._1,
                 this.parent.get.dir._2)
             var current = this.cell.toDouble
-            buffer += current
+            buffer.push(current)
             while (current != this.parent.get.cell.toDouble) {
                 current -= dir_path
-                buffer += current
+                buffer.push(current)
             }
         }
         return buffer
@@ -421,10 +421,10 @@ class JPS(start: CellPos, objective: CellPos) {
         var dep = pd
         path += pd.cell.toDouble
         while (dep.cell != this.start ) {
-            path ++= dep.backtrace
+            path ++= dep.backtrace.reverse
             dep = dep.parent.get
         }
-        return path.reverse
+        return path
     }
 
     def run() : Option[Path] = {
