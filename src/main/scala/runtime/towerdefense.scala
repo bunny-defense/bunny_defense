@@ -7,6 +7,7 @@ import util.Random
 import io.Source
 import java.awt.Graphics2D
 import java.awt.event._
+import java.awt.image.BufferedImage
 
 import collection.mutable.HashMap
 
@@ -84,21 +85,29 @@ object TowerDefense extends SimpleSwingApplication
 
         focusable = true
         requestFocus
+        val image = new BufferedImage(
+            map_panel.preferredSize.width
+            + build_menu.preferredSize.width,
+            map_panel.preferredSize.height
+            + tower_panel.preferredSize.height,
+            5 )
+        val gi = image.createGraphics()
         override def paintChildren(g: Graphics2D)
         {
-            super.paintChildren(g)
+            super.paintChildren(gi)
             /* Draw tooltip for build menu */
-            var transform = g.getTransform()
+            var transform = gi.getTransform()
             var pos = locationOnScreen
-            g.translate( -pos.x, -pos.y )
-            build_menu.draw_tooltip(g)
-            g.setTransform( transform )
+            gi.translate( -pos.x, -pos.y )
+            build_menu.draw_tooltip(gi)
+            gi.setTransform( transform )
             /* Draw tooltip for towerpanel */
-            transform = g.getTransform()
+            transform = gi.getTransform()
             pos = locationOnScreen
-            g.translate( -pos.x, -pos.y )
-            tower_panel.draw_tooltip(g)
-            g.setTransform( transform )
+            gi.translate( -pos.x, -pos.y )
+            tower_panel.draw_tooltip(gi)
+            gi.setTransform( transform )
+            g.drawImage( image, 0, 0, null )
         }
     }
 
