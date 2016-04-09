@@ -1,6 +1,6 @@
 
 val swing = "org.scala-lang" % "scala-swing" % "2.10+"
-
+val scalafx="org.scalafx" %% "scalafx" % "8.0.60-R9"
 fork in run := true
 
 lazy val root = (project in file(".")).
@@ -8,5 +8,6 @@ lazy val root = (project in file(".")).
     name := "Tower Defense",
     mainClass in Compile := Some("runtime.TowerDefense"),
     libraryDependencies += swing,
+    libraryDependencies += scalafx,
     scalacOptions += "-deprecation"
   )
