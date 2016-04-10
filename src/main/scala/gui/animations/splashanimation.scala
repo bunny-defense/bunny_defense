@@ -7,13 +7,12 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-import game_mechanics.bunny.BunnyType
 import game_mechanics.path.Waypoint
 import runtime.{TowerDefense,Controller}
 import gui._
 import utils.Continuable
 
-class SplashAnimation(boss : BunnyType) extends Animatable
+class SplashAnimation extends Animatable
 {
     val height = 100
     val duration = 3.0

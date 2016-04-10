@@ -69,4 +69,8 @@ class Progress(p: Path) {
     override def toString(): String = {
         return path.toString
     }
+
+    def last(): Waypoint = {
+        return path.last
+    }
 }

@@ -30,7 +30,7 @@ object Controller extends Publisher with Reactor
      * The main controller.
      * It manages the main loop, the graphics, everything
      */
-    val bunnies      = new ListBuffer[Bunny]()
+    val bunnies      = new ListBuffer[Bunny]
     val projectiles  = new ListBuffer[Projectile]
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
@@ -47,6 +47,7 @@ object Controller extends Publisher with Reactor
     /* The tower currently selected */
     private var _selected_cell  : Option[Tower]         = None
     var rng          = new Random
+
 
     listenTo(SpawnScheduler)
 
@@ -89,8 +90,9 @@ object Controller extends Publisher with Reactor
                 for (bunny <- bun_update) {
                     bunny.path.path = new JPS(
                         (bunny.pos + centering).toInt,
-                        Spawner.bunnyend).run().get
+                        bunny.bunnyend).run().get
                     bunny.path.reset
+                    bunny.bunnyend = bunny.path.last.toInt
                 }
             }
             else
@@ -118,7 +120,7 @@ object Controller extends Publisher with Reactor
         anim and_then SpawnScheduler.start
         if( spawner.has_boss )
         {
-            val splash_anim = new SplashAnimation(Otter)
+            val splash_anim = new SplashAnimation()
             splash_anim and_then { () => this += anim }
             this += splash_anim
         } else {

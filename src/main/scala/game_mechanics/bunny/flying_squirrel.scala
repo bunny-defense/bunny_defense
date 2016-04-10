@@ -6,7 +6,7 @@ import javax.imageio.ImageIO
 
 
 /* Fast "Bunny" */
-object FlyingSquirrel extends BunnyType
+class FlyingSquirrel extends Bunny
 {
     override val bunny_graphic =
         ImageIO.read(new File(

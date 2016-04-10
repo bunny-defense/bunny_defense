@@ -12,43 +12,43 @@ import gui.animations.{GoldAnimation,SmokeAnimation}
 
 /* Spec Op Bunny */
 
-object SpecOpBunny extends BunnyType
+class SpecOpBunny extends Bunny
 {
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/ninja.png").getPath()))
-    val law = new Random()
+    override val law = new Random()
 
-	override def update(bunny: Bunny, dt: Double): Unit = {
-        if ( bunny.path.reached ) {
-            Player.remove_hp( bunny.bunny_type.damage )
-            Controller -= bunny
+	override def update(dt: Double): Unit = {
+        if ( this.path.reached ) {
+            Player.remove_hp( this.damage )
+            Controller -= this
         }
-        if ( !bunny.alive ) {
+        if ( !this.alive ) {
             Controller += new GoldAnimation(
-                bunny.bunny_type.reward(Controller.wave_counter),
-                bunny.pos.clone()
+                this.reward(Controller.wave_counter),
+                this.pos.clone()
             )
-            Player.add_gold( bunny.bunny_type.reward( Controller.wave_counter ))
-            Controller -= bunny
+            Player.add_gold( this.reward( Controller.wave_counter ))
+            Controller -= this
             Player.killcount += 1
             return
         }
         /* Bunny jump */
         if (law.nextDouble < 1.0/180.0 ) {
-            Controller -= bunny
-            val anim = new SmokeAnimation(bunny.pos)
+            Controller -= this
+            val anim = new SmokeAnimation(this.pos)
             anim and_then { () =>
-                bunny.path.random_choice
-                bunny.pos = bunny.path.get_position()
-                println(bunny.path.toString)
-                Controller += bunny
-                Controller += new SmokeAnimation(bunny.pos)
+                this.path.random_choice
+                this.pos = this.path.get_position()
+                println(this.path.toString)
+                Controller += this 
+                Controller += new SmokeAnimation(this.pos)
             }
             Controller += anim
         }
         else {
-            bunny.move(dt)
+            this.move(dt)
         }
     }
 }

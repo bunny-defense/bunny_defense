@@ -10,7 +10,7 @@ import javax.imageio.ImageIO
 import utils.Landscape
 import game_mechanics.tower.Tower
 import game_mechanics.path.CellPos
-import runtime.{Spawner,Controller}
+import runtime.{Spawner,Controller,TowerDefense}
 import gui.MapPanel
 import util.Random
 
@@ -64,11 +64,10 @@ class GameMap(width0: Int, height0: Int)
         if( !obstruction_map(tower.pos.x)(tower.pos.y) )
         {
             obstruction_map(tower.pos.x)(tower.pos.y) = true
-            val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend )
+            val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend)
             jps.run() match
             {
                 case Some(path) => {
-                    Spawner.path = path
                     return true
                 }
                 case None => {
@@ -82,11 +81,6 @@ class GameMap(width0: Int, height0: Int)
 
     def -=(tower: Tower): Unit = {
         obstruction_map(tower.pos.x)(tower.pos.y) = false
-        val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend )
-        jps.run() match {
-            case None => ()
-            case Some(path) => Spawner.path = path
-        }
     }
 
     def on_map(x:Int, y: Int) : Boolean = {

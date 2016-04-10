@@ -1,38 +1,77 @@
 
 package game_mechanics.bunny
 
+import java.io.File
+import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
+import Math._
 
 import game_mechanics.path._
+import game_mechanics.{Player, JPS}
 import gui.MapPanel
+import gui.animations.GoldAnimation
+import runtime.{Controller,TowerDefense}
+import util.Random
 
 
-class Bunny(bunny_type_init: BunnyType,path0: Path) {
+trait Bunny {
     /**
      * Bunny superclass from which every ennemy is derived.
-     * @param bunny_type: The type of the bunny
-     * @param path0: The initial path of the bunny
      */
-    var bunny_type      = bunny_type_init
-    var hp              = bunny_type.initial_hp
-    var pos : Waypoint  = path0.waypoints(0)
-    var path            = new Progress(path0)
-    val base_shield     = bunny_type.base_shield
-    var shield          = bunny_type.shield
-    val base_speed      = bunny_type.base_speed
-    var speed           = bunny_type.speed
+    var hp              = 10.0
+    val initial_hp      = 10.0
+    val law             = new Random()
+    var path            = new Progress(
+        new JPS(new CellPos(-1, law.nextInt(TowerDefense.map_panel.map.height)),
+                new CellPos(TowerDefense.map_panel.map.width,
+                            law.nextInt(TowerDefense.map_panel.map.height/2)+
+                            TowerDefense.map_panel.map.height/4
+                            )
+                        ).run()
+                    match {
+                        case None    => throw new Exception()
+                        case Some(p) => p
+                    }
+                    )
+    var bunnyend        = path.last.toInt
+    var pos : Waypoint  = path.path.head
+    val base_shield     = 1.0
+    var shield          = 1.0
+    val base_speed      = 2.0
+    var speed           = 2.0
     val spread          = (Waypoint.random() * 2 - new Waypoint(1,1)) / MapPanel.cellsize * 2
+    val bunny_graphic =
+        ImageIO.read(
+            new File(getClass().getResource("/mobs/bunny_chevaliey.png").getPath()))
+    val effect_range    = 9
 
-    def allied_effect(bunny: Bunny): Unit = {
-        bunny_type.allied_effect(bunny)
+    def allied_effect(bunny: Bunny): Unit = {}
+    val damage          = 1
+
+
+    def atan_variation (
+        init_val : Int,
+        final_val : Int,
+        inflex_point : Int) : (Int => Int) = {
+    /** Computes the reward value according to the wave counter
+     * @param init_val     : initial val of the atan variation
+     * @param final_val    : final val of the atan variation
+     * @param inflex_point : inflexion point of the atan
+     * The following takes three values : init_val, final_val and inflex_point,
+     */
+        def res (nwave : Int) : Int = {
+            (1.25*(1.57 + atan(4*(inflex_point - nwave)/inflex_point))*
+            ((init_val - final_val)/(3.1416)) + final_val).toInt
+        }
+            /* The factor 1.25 in the beginning does make the function go above
+            its maximum value, but before 0, and is here to make sure the
+            function starts at (approximately) its max value */
+        return res
     }
 
-    def reward          = bunny_type.reward
+    def reward: (Int => Int) = atan_variation( 5, 1, 10)
 
-    /* Prototype design pattern */
-    def copy(): Bunny = {
-        return new Bunny( bunny_type, path.path )
-    }
+    def on_death(): Unit = {}
 
     def remove_hp(dmg: Double): Unit = {
         this.hp -= dmg * (1.0 - this.shield/10.0)
@@ -48,25 +87,32 @@ class Bunny(bunny_type_init: BunnyType,path0: Path) {
         pos = path.get_position + spread
     }
 
-    def update(dt: Double): Unit = {
-        /** Updates the bunny thanks to the update method from BunnyType */
-        bunny_type.update(this,dt)
+	def update(dt: Double): Unit = {
+        if ( !this.alive ) {
+            this.on_death()
+            Controller += new GoldAnimation(
+                this.reward(Controller.wave_counter),
+                this.pos.clone()
+            )
+            Player.add_gold( this.reward( Controller.wave_counter ))
+            Controller -= this 
+            Player.killcount += 1
+        }
+        this.move(dt)
+        if ( this.path.reached ) {
+            Player.remove_hp( this.damage )
+            Controller -= this
+        }
     }
 
     // =================
     // ++++ GETTERS ++++
     // =================
-    def initial_hp(): Double = {
-        return bunny_type.initial_hp
-    }
 
     def graphic(): BufferedImage = {
-        return bunny_type.bunny_graphic
+        return this.bunny_graphic
     }
 
-    def effect_range(): Double = {
-        return bunny_type.effect_range
-    }
 }
 
 

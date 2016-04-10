@@ -18,7 +18,7 @@ case object WaveEnded   extends Event
 object SpawnScheduler extends Publisher
 {
     var started     = false
-    var spawn_queue = new Queue[(Double,BunnyType)]
+    var spawn_queue = new Queue[(Double,Int)]
     var spent_time  = 0.0
     val law         = new Random()
 
@@ -33,15 +33,7 @@ object SpawnScheduler extends Publisher
         {
             spent_time += dt
             while( !spawn_queue.isEmpty && spawn_queue.head._1 < spent_time)
-                Controller += new Bunny(
-                    spawn_queue.dequeue._2,
-                    new JPS(new CellPos(-1, law.nextInt(TowerDefense.map_panel.map.height)),
-                        Spawner.bunnyend).run()
-                    match {
-                        case None    => throw new Exception()
-                        case Some(p) => p
-                    }
-                    )
+                Controller += BunnyFactory.create(spawn_queue.dequeue._2)
             if( spawn_queue.isEmpty && Controller.bunnies.isEmpty )
             {
                 started = false
@@ -51,7 +43,7 @@ object SpawnScheduler extends Publisher
         }
     }
 
-    def set_schedule(schedule: Queue[(Double,BunnyType)]): Unit = {
+    def set_schedule(schedule: Queue[(Double,Int)]): Unit = {
         spawn_queue = schedule.clone()
     }
 

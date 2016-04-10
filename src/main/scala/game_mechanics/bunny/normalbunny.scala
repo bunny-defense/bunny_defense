@@ -1,4 +1,6 @@
 
 package game_mechanics.bunny
 
-object NormalBunny extends BunnyType
+class NormalBunny extends Bunny
+{
+}
