@@ -57,7 +57,7 @@ class TowerInfoPanel() extends Panel {
     }
 
         /* Upgrade Button tooltip */
-
+    /*
         def draw_tooltip(g : Graphics2D)
         {
             val upgrade_button_rect = new Rectangle(
@@ -100,7 +100,7 @@ class TowerInfoPanel() extends Panel {
                         mousepos.x.toInt - width + 2, mousepos.y.toInt - height + 45 )
                 }
             }
-        }
+        }*/
 
     override def paintComponent(g: Graphics2D): Unit = {
         super.paintComponent(g)
@@ -162,34 +162,64 @@ class TowerInfoPanel() extends Panel {
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
 
-        /* Upgrade Button */
-       val upgrade_button_rect = new Rectangle(
-           size.width - button_width, ym/2, button_width, ym / 2 )
+        /* Upgrade Button 1 */
+       val upgrade_button_rect_1 = new Rectangle(
+           size.width - button_width, ym / 2, button_width/2, ym / 2 )
        g.setColor( Colors.white )
-       g.fill( upgrade_button_rect )
+       g.fill( upgrade_button_rect_1 )
        g.setColor (Colors.black )
-       g.draw( upgrade_button_rect )
+       g.draw( upgrade_button_rect_1 )
        var upgrade_text = ""
        if (!Controller.selected_cell.isEmpty &&
-           !Controller.selected_cell.get.upgrades.isEmpty) {
-           upgrade_text = Controller.selected_cell.get.upgrades.get.name
+           !Controller.selected_cell.get.upgrades.isEmpty()) {
+           upgrade_text = Controller.selected_cell.get.upgrades.nth_upgrade(0).name
        }
-       val upgrade_text_width = g.getFontMetrics().stringWidth( upgrade_text )
+       var upgrade_text_width = g.getFontMetrics().stringWidth( upgrade_text )
        g.drawString(
            upgrade_text,
-           button_width + xm + button_width / 2 - upgrade_text_width / 2,
+           (button_width + xm + button_width / 2 - upgrade_text_width / 2)/2,
             3 * ym / 4 )
-       if ( upgrade_button_rect.contains( mousex, mousey ) )
+       if ( upgrade_button_rect_1.contains( mousex, mousey ) )
        {
            var alpha = if( clicked ) 0.7f else 0.5f
            g.setComposite(
                AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
            g.setColor( Colors.lightblue )
-           g.fill( upgrade_button_rect )
+           g.fill( upgrade_button_rect_1 )
            g.setComposite(
                AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f )
            )
        }
+
+        /* Upgrade Button 2 */
+       val upgrade_button_rect_2 = new Rectangle(
+           size.width - button_width/2, ym / 2, button_width/2, ym / 2 )
+       g.setColor( Colors.white )
+       g.fill( upgrade_button_rect_2 )
+       g.setColor (Colors.black )
+       g.draw( upgrade_button_rect_2 )
+       upgrade_text = ""
+       if (!Controller.selected_cell.isEmpty &&
+           !Controller.selected_cell.get.upgrades.isEmpty()) {
+           upgrade_text = Controller.selected_cell.get.upgrades.nth_upgrade(1).name
+       }
+       upgrade_text_width = g.getFontMetrics().stringWidth( upgrade_text )
+       g.drawString(
+           upgrade_text,
+           (button_width + xm + button_width / 2 - upgrade_text_width / 2)/2,
+            3 * ym / 4 )
+       if ( upgrade_button_rect_2.contains( mousex, mousey ) )
+       {
+           var alpha = if( clicked ) 0.7f else 0.5f
+           g.setComposite(
+               AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
+           g.setColor( Colors.lightblue )
+           g.fill( upgrade_button_rect_2 )
+           g.setComposite(
+               AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f )
+           )
+       }
+
 
         /* Fast forward button */
         val ff_button_rect = new Rectangle( 0, 0, button_width, ym )

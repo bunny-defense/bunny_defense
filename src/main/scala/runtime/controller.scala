@@ -138,7 +138,7 @@ object Controller extends Publisher with Reactor
         set_accelerated( !is_accelerated )
     }
 
-    def upgrade_tower(): Unit = {
+    def upgrade_tower(): Unit = { /*
        Controller.selected_cell.get.upgrades match
        {
            case None            => {}
@@ -151,7 +151,7 @@ object Controller extends Publisher with Reactor
                    println("Not enough money, you noob !")
                }
            }
-       }
+       } */
     }
 
 

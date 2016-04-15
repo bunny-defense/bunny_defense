@@ -12,6 +12,7 @@ import runtime.{Controller,Spawner}
 import game_mechanics.{Projectile}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path._
+import game_mechanics.upgrades._
 import game_mechanics._
 
 trait TowerType
@@ -21,7 +22,7 @@ trait TowerType
      */
     val name = "Tower"
     val desc = "Tower tower tower"
-    var upgrades : Option[UpgradeTree] = Some(BaseTowerUpgrades)
+    var upgrades  = new Upgrades ( List(BaseTowerUpgrades) )
     val tower_graphic  =
         ImageIO.read(
             new File(

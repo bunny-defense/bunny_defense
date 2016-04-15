@@ -4,6 +4,7 @@ package game_mechanics.tower
 import runtime.Controller
 import runtime.Spawner
 import game_mechanics._
+import game_mechanics.upgrades._
 import game_mechanics.path._
 import game_mechanics.bunny._
 import scala.collection.mutable._
@@ -28,22 +29,12 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     var base_range     = tower_type.base_range
     var range          = tower_type.range
     var sell_cost      = tower_type.sell_cost
-    var upgrades : Option[UpgradeTree] = tower_type.upgrades
+    var upgrades : Upgrades = tower_type.upgrades
     def allied_effect(tower : Tower) {
         tower_type.allied_effect(tower)
     }
     def enemy_effect(bunny : Bunny) {
         tower_type.enemy_effect(bunny)
-    }
-
-    // ===========================
-    // ++++ UPGRADE MECHANICS ++++
-    // ===========================
-    tower_type match
-    {
-        case BaseTower  => upgrades = Some(BaseTowerUpgrades)
-        case QuickTower => upgrades = Some(QuickTowerUpgrades)
-        case _          => upgrades = Some(BaseTowerUpgrades)
     }
 
     // ==========================

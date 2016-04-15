@@ -96,6 +96,7 @@ object TowerDefense extends SimpleSwingApplication
         {
             super.paintChildren(gi)
             /* Draw tooltip for build menu */
+            /*
             var transform = gi.getTransform()
             var pos = locationOnScreen
             gi.translate( -pos.x, -pos.y )
@@ -108,6 +109,7 @@ object TowerDefense extends SimpleSwingApplication
             tower_panel.draw_tooltip(gi)
             gi.setTransform( transform )
             g.drawImage( image, 0, 0, null )
+             */
         }
     }
 
