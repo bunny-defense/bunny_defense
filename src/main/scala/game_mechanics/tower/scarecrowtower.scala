@@ -23,7 +23,7 @@ object ScarecrowTower extends TowerType
     range                     = 4
     base_damage               = 6
     damage                    = 6
-    override val buy_cost     = 1500
+    override val price        = 1500
     sell_cost                 = 1200
     override val unlock_wave  = 10
 

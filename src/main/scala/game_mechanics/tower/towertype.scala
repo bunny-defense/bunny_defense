@@ -14,7 +14,7 @@ import game_mechanics.bunny.Bunny
 import game_mechanics.path._
 import game_mechanics._
 
-trait TowerType
+trait TowerType extends Purchasable
 {
     /** A trait that defines the type of a tower. Every tower type inherits this
      *  trait, which gives the default attributes, and specific methods
@@ -38,7 +38,7 @@ trait TowerType
     val spread         = 0.0    /* Amount of bullet spread */
     val throw_speed    = 10.0   /* Speed of the shot projectile */
     val throw_cooldown = 1.0    /* Cooldown time in seconds */
-    val buy_cost       = 50     /* Gold needed to buy one */
+    val price          = 50     /* Gold needed to buy one */
     var sell_cost      = 25     /* Gold earned when sold */
     val unlock_wave    = 1      /* First round of apparition */
     def allied_effect(tower : Tower) : Unit = { } /* Applies the tower's effect on allied towers */

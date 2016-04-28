@@ -28,7 +28,7 @@ object SuppSlowTower extends TowerType
     range                       = 5
     base_damage                 = 0
     damage                      = 0
-    override val buy_cost       = 5000
+    override val price          = 5000
     sell_cost                   = 4000
     override val unlock_wave    = 25
     override def attack_from(tower: Tower): () => Boolean = {

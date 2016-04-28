@@ -18,6 +18,7 @@ class SpecOpBunny extends Bunny
         ImageIO.read(new File(
             getClass().getResource("/mobs/ninja.png").getPath()))
     override val law = new Random()
+    override val price = 200
 
 	override def update(dt: Double): Unit = {
         if ( this.path.reached ) {

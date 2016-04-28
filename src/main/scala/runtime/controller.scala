@@ -15,6 +15,7 @@ import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
 import game_mechanics.bunny._
+import game_mechanics.utilitaries._
 import gui._
 import gui.animations._
 
@@ -35,6 +36,7 @@ object Controller extends Publisher with Reactor
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
     val updatables   = new ListBuffer[Updatable]
+    val utilitaries  = new ListBuffer[Utilitaries]
     var wave_counter = 1
     val framerate    = 1.0/60.0 * 1000
     var started      = false
@@ -78,7 +80,7 @@ object Controller extends Publisher with Reactor
         if( selected_tower != None &&
             TowerDefense.map_panel.map.valid(pos) )
         {
-            if( Player.remove_gold(selected_tower.get.buy_cost) ) {
+            if( Player.remove_gold(selected_tower.get.price) ) {
                 Controller += new Tower( selected_tower.get, pos )
                 /* Updates the paths of living bunnies, so they won't conflict
                  * with the new tower. Uses multi-threading to be more efficient */
@@ -177,6 +179,8 @@ object Controller extends Publisher with Reactor
         animations.foreach( _.update(dt) )
         /* Update misc items */
         updatables.foreach( _.update(dt) )
+        /* Updates utilitaries */
+        utilitaries.foreach(_.update())
         /* Update projectiles */
         projectiles.foreach( _.update(dt) )
         /* Update towers */
@@ -315,5 +319,14 @@ object Controller extends Publisher with Reactor
 
     def -=(updatable: Updatable): Unit = {
         updatables -= updatable
+    }
+
+    /* UTILITARIES ITEMS */
+    def +=(utilitary: Utilitaries): Unit = {
+        utilitaries += utilitary
+    }
+
+    def -=(utilitary: Utilitaries): Unit = {
+        utilitaries -= utilitary
     }
 }

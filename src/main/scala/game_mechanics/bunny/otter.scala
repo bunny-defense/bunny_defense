@@ -16,5 +16,6 @@ class Otter extends Bunny
     override val base_speed    = 1.0
     speed                      = 1.0
     override val damage        = 5
+    override val price         = 500
     override def reward        = atan_variation(100,15,25)
 }

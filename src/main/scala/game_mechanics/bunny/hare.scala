@@ -16,4 +16,5 @@ class Hare extends Bunny
     shield                   = 0.0
     override val base_speed  = 4.0
     speed                    = 4.0
+    override val price       = 100
 }

@@ -17,6 +17,7 @@ class BadassBunny extends Bunny
   shield                   = 2.0
   override val base_speed  = 1.5
   speed                    = 1.5
+  override val price       = 50
   override def reward      = atan_variation(15,3,15)
   override def on_death(): Unit = {
       for( i <- 0 until 4 )

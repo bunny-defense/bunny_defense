@@ -20,7 +20,7 @@ object HeavyTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     override val throw_speed   = 15.0
     base_damage                = 9
     damage                     = 9
-    override val buy_cost      = 150
+    override val price         = 150
     sell_cost                  = 75
     override val unlock_wave   = 3
 }

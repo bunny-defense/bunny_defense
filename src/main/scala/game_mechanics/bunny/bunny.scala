@@ -7,14 +7,14 @@ import java.awt.image.BufferedImage
 import Math._
 
 import game_mechanics.path._
-import game_mechanics.{Player, JPS}
+import game_mechanics.{Player, JPS, Purchasable}
 import gui.MapPanel
 import gui.animations.GoldAnimation
 import runtime.{Controller,TowerDefense}
 import util.Random
 
 
-trait Bunny {
+trait Bunny extends Purchasable {
     /**
      * Bunny superclass from which every ennemy is derived.
      */
@@ -47,6 +47,7 @@ trait Bunny {
 
     def allied_effect(bunny: Bunny): Unit = {}
     val damage          = 1
+    val price           = 10
 
 
     def atan_variation (

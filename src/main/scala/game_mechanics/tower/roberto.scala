@@ -26,7 +26,7 @@ object Roberto extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     range                       = 6
     base_damage                 = 1
     damage                      = 1
-    override val buy_cost       = 3000
+    override val price       = 3000
     sell_cost                   = 2400
     override val throw_speed    = 100.0
     override val throw_cooldown = 0.05

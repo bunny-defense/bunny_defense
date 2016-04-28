@@ -16,4 +16,5 @@ class FlyingSquirrel extends Bunny
     shield                   = 0.0
     override val base_speed  = 5.0
     speed                    = 5.0
+    override val price       = 150
 }

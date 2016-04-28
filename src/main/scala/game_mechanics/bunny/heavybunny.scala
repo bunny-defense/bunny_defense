@@ -10,5 +10,6 @@ class HeavyBunny extends Bunny
     shield                   = 1.5
     override val base_speed  = 1.0
     speed                    = 1.0
+    override val price       = 15
     override def reward      = atan_variation(10,2,10)
 }

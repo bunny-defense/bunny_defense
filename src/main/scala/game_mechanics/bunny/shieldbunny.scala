@@ -11,7 +11,8 @@ class ShieldBunny extends Bunny
         ImageIO.read(
             new File(getClass().getResource("/mobs/shield_bunny.png").getPath()))
     override val effect_range = 2
-    val shield_increase = 1.5
+    val shield_increase       = 1.5
+    override val  price       = 50
     override def allied_effect(bunny: Bunny): Unit = {
         bunny.shield *= 1.5
     }

@@ -42,4 +42,3 @@ object Player extends Publisher {
       return false
   }
 }
-

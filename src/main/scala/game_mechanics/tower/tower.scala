@@ -82,8 +82,8 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
         return tower_type.throw_speed
     }
 
-    def buy_cost() : Int = {
-        return tower_type.buy_cost
+    def price() : Int = {
+        return tower_type.price
     }
 
     def graphic(): BufferedImage = {

@@ -106,7 +106,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                     buttonSize,
                     buttonSize )
             case Some(tower) =>
-                var ratio = Player.gold.toDouble / tower.buy_cost.toDouble
+                var ratio = Player.gold.toDouble / tower.price.toDouble
                 if( ratio > 1.0 )
                     ratio = 1.0
                 /* BACKGROUND */
@@ -138,7 +138,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                     y * buttonSize + sep_height,
                     (buttonSize * ratio).toInt,
                     buttonSize - sep_height )
-                val string = tower.buy_cost.toString
+                val string = tower.price.toString
                 val strwidth = g.getFontMetrics().stringWidth( string )
                 val strheight = (buttonSize + sep_height) / 2
                 /* SEPARATOR */

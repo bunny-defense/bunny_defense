@@ -13,7 +13,7 @@ object Wall extends TowerType {
             new File(
                 getClass().getResource("/towers/wall.png").getPath()))
 
-    override val buy_cost  = 5
+    override val price = 5
     sell_cost = 0
 
 }
