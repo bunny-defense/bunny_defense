@@ -73,8 +73,8 @@ class MapPanel(map0: GameMap) extends Panel {
         super.paintComponent(g)
         /* Drawing the map */
         g.drawImage( map.map_image,
-            viewpos.x.toInt,
-            viewpos.y.toInt,
+            -viewpos.x.toInt,
+            -viewpos.y.toInt,
             null )
         paintPath(g)
         /* Drawing tower effects */

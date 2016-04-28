@@ -157,22 +157,46 @@ object Controller extends Publisher with Reactor
 
     /* ==================== MAIN LOOP ==================== */
 
-    /* Update the game for dt time */
-    def update(dt: Double): Unit = {
+    def scroll(dt: Double): Unit = {
         val scroll_speed = 128
         /* Handling input */
         if( TowerDefense.keymap(Key.J) )
-            TowerDefense.map_panel.viewpos +=
-                new Waypoint(0,-dt * scroll_speed)
+        {
+            val scroll_distance = Math.min(
+                TowerDefense.map_panel.rows * MapPanel.cellsize -
+                    TowerDefense.map_panel.size.height,
+                TowerDefense.map_panel.viewpos.y + dt * scroll_speed )
+            TowerDefense.map_panel.viewpos =
+                new Waypoint(0, scroll_distance)
+        }
         if( TowerDefense.keymap(Key.K) )
-            TowerDefense.map_panel.viewpos +=
-                new Waypoint(0,dt * scroll_speed)
+        {
+            val scroll_distance = Math.max( 0,
+                TowerDefense.map_panel.viewpos.y - dt * scroll_speed )
+            TowerDefense.map_panel.viewpos =
+                new Waypoint(0, scroll_distance)
+        }
         if( TowerDefense.keymap(Key.H) )
-            TowerDefense.map_panel.viewpos +=
-                new Waypoint(-dt * scroll_speed,0)
+        {
+            val scroll_distance = Math.max( 0,
+                TowerDefense.map_panel.viewpos.x - dt * scroll_speed )
+            TowerDefense.map_panel.viewpos =
+                new Waypoint(scroll_distance, 0)
+        }
         if( TowerDefense.keymap(Key.L) )
-            TowerDefense.map_panel.viewpos +=
-                new Waypoint(dt * scroll_speed,0)
+        {
+            val scroll_distance = Math.min(
+                TowerDefense.map_panel.cols * MapPanel.cellsize -
+                    TowerDefense.map_panel.size.width,
+                TowerDefense.map_panel.viewpos.x + dt * scroll_speed )
+            TowerDefense.map_panel.viewpos =
+                new Waypoint(scroll_distance, 0)
+        }
+    }
+
+    /* Update the game for dt time */
+    def update(dt: Double): Unit = {
+        scroll(dt)
         /* Update animations */
         animations.foreach( _.update(dt) )
         /* Update misc items */
