@@ -32,6 +32,7 @@ class MapPanel(map0: GameMap) extends Panel {
     val rows     = map.height
     val cols     = map.width
     val width    = map.width  * MapPanel.cellsize
+    var viewpos : Waypoint = new Waypoint(0,0)
     var darkness = 0f
 
     preferredSize = new Dimension(
@@ -71,7 +72,10 @@ class MapPanel(map0: GameMap) extends Panel {
     override def paintComponent(g: Graphics2D): Unit = {
         super.paintComponent(g)
         /* Drawing the map */
-        g.drawImage( map.map_image, 0, 0, null )
+        g.drawImage( map.map_image,
+            viewpos.x.toInt,
+            viewpos.y.toInt,
+            null )
         paintPath(g)
         /* Drawing tower effects */
         val translate_transform = g.getTransform()

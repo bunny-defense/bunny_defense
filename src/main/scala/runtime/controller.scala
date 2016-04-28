@@ -159,6 +159,20 @@ object Controller extends Publisher with Reactor
 
     /* Update the game for dt time */
     def update(dt: Double): Unit = {
+        val scroll_speed = 128
+        /* Handling input */
+        if( TowerDefense.keymap(Key.J) )
+            TowerDefense.map_panel.viewpos +=
+                new Waypoint(0,-dt * scroll_speed)
+        if( TowerDefense.keymap(Key.K) )
+            TowerDefense.map_panel.viewpos +=
+                new Waypoint(0,dt * scroll_speed)
+        if( TowerDefense.keymap(Key.H) )
+            TowerDefense.map_panel.viewpos +=
+                new Waypoint(-dt * scroll_speed,0)
+        if( TowerDefense.keymap(Key.L) )
+            TowerDefense.map_panel.viewpos +=
+                new Waypoint(dt * scroll_speed,0)
         /* Update animations */
         animations.foreach( _.update(dt) )
         /* Update misc items */
