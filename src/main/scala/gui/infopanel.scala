@@ -5,7 +5,7 @@ import swing._
 import Math._
 
 import game_mechanics.Player
-import runtime.{Controller,SpawnScheduler}
+import runtime.{TowerDefense,SpawnScheduler}
 
 /* An info panel that shows the current gold, HP and wave number */
 
@@ -16,7 +16,7 @@ class InfoPanel() extends Panel
     super.paintComponent(g)
     val xm = size.width
     val ym = size.height
-    g.drawString("Wave : " + (Controller.wave_counter.toString),
+    g.drawString("Wave : " + (TowerDefense.gamestate.wave_counter.toString),
       (xm/2-85),ym/6+5)
     g.drawString("Remaining Bunnies :"+ (SpawnScheduler.spawn_queue.length),
       (xm-2/85),2*ym/6+5)

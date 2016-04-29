@@ -11,7 +11,7 @@ import java.awt.MouseInfo
 import java.io.File
 import javax.imageio.ImageIO
 
-import runtime.{Controller,Spawner}
+import runtime.{TowerDefense,Spawner}
 import game_mechanics.GameMap
 import game_mechanics.path.{Waypoint,Path}
 import collection.mutable.ListBuffer
@@ -43,14 +43,14 @@ class MapPanel(map0: GameMap) extends Panel {
 
     reactions += {
         case e: MouseClicked =>
-            Controller.on_cell_clicked(
+            TowerDefense.gamestate.on_cell_clicked(
                 e.point.x / cellsize,
                 e.point.y / cellsize )
     }
 
     def paintPath(g: Graphics2D): Unit = {
         val path = new ListBuffer[Path]()
-        for (bunny <- Controller.bunnies) {
+        for (bunny <- TowerDefense.gamestate.bunnies) {
             path += bunny.path.path
         }
         for (j <- path ) {
@@ -80,7 +80,7 @@ class MapPanel(map0: GameMap) extends Panel {
         /* Drawing tower effects */
         val translate_transform = g.getTransform()
         /* Drawing ghost tower */
-        Controller.selected_tower match {
+        TowerDefense.gamestate.selected_tower match {
             case None => {}
             case Some(tower) => {
                 // PAINT NO-PLACE ZONE
@@ -114,7 +114,7 @@ class MapPanel(map0: GameMap) extends Panel {
                 g.drawOval( circlex, circley, 2 * range, 2 * range )
             }
         }
-        for( tower <- Controller.towers )
+        for( tower <- TowerDefense.gamestate.towers )
         {
             val x = tower.pos.x * cellsize + cellsize / 2
             val y = tower.pos.y * cellsize + cellsize / 2
@@ -125,14 +125,14 @@ class MapPanel(map0: GameMap) extends Panel {
                 AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
         }
         /* Drawing the towers */
-        for( tower <- Controller.towers )
+        for( tower <- TowerDefense.gamestate.towers )
         {
             val x = tower.pos.x * cellsize
             val y = tower.pos.y * cellsize
             g.drawImage( tower.graphic, x.toInt, y.toInt, null )
         }
         /* Drawing the bunnies */
-        for( bunny <- Controller.bunnies )
+        for( bunny <- TowerDefense.gamestate.bunnies )
         {
             val x = bunny.pos.x * cellsize
             val y = bunny.pos.y * cellsize
@@ -152,7 +152,7 @@ class MapPanel(map0: GameMap) extends Panel {
             g.setColor( Colors.black )
         }
         /* Drawing projectiles */
-        for( projectile <- Controller.projectiles )
+        for( projectile <- TowerDefense.gamestate.projectiles )
         {
             val x = projectile.pos.x * cellsize
             val y = projectile.pos.y * cellsize
@@ -173,14 +173,14 @@ class MapPanel(map0: GameMap) extends Panel {
         g.fillRect( 0, 0, map.width * cellsize, map.height * cellsize )
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
-        for( animation <- Controller.animations)
+        for( animation <- TowerDefense.gamestate.animations)
         {
             animation.draw(g)
             // Resetting the alpha composite
             g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) )
         }
         /* Drawing selected tower */
-        Controller.selected_cell match {
+        TowerDefense.gamestate.selected_cell match {
             case None => {}
             case Some(tower) => {
                 g.setColor(Colors.black)

@@ -18,13 +18,12 @@ import game_mechanics.bunny._
 import gui._
 import gui.animations._
 
-
 case object SelectedCell extends Event
 case object NoSelectedCell extends Event
 case object FastForwOn extends Event
 case object FastForwOff extends Event
 
-object Controller extends Publisher with Reactor
+class GameState extends State with Publisher
 {
     /**
      * The main controller.
@@ -47,7 +46,6 @@ object Controller extends Publisher with Reactor
     /* The tower currently selected */
     private var _selected_cell  : Option[Tower]         = None
     var rng          = new Random
-
 
     listenTo(SpawnScheduler)
 
@@ -79,7 +77,7 @@ object Controller extends Publisher with Reactor
             TowerDefense.map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.buy_cost) ) {
-                Controller += new Tower( selected_tower.get, pos )
+                this += new Tower( selected_tower.get, pos )
                 /* Updates the paths of living bunnies, so they won't conflict
                  * with the new tower. Uses multi-threading to be more efficient */
                 var bun_update = bunnies.filter( t => t.path.path.exists(
@@ -139,7 +137,7 @@ object Controller extends Publisher with Reactor
     }
 
     def upgrade_tower(): Unit = {
-       Controller.selected_cell.get.upgrades match
+       this.selected_cell.get.upgrades match
        {
            case None            => {}
            case Some(upgrade)   => {
@@ -153,9 +151,6 @@ object Controller extends Publisher with Reactor
            }
        }
     }
-
-
-    /* ==================== MAIN LOOP ==================== */
 
     def scroll(dt: Double): Unit = {
         val scroll_speed = 128
@@ -194,8 +189,10 @@ object Controller extends Publisher with Reactor
         }
     }
 
+    /* ==================== MAIN LOOP ==================== */
+
     /* Update the game for dt time */
-    def update(dt: Double): Unit = {
+    def step(dt: Double): Unit = {
         scroll(dt)
         /* Update animations */
         animations.foreach( _.update(dt) )
@@ -242,44 +239,23 @@ object Controller extends Publisher with Reactor
             anim and_then { () => this.raining = false }
             this += anim
         }
+        if ( TowerDefense.keymap(Key.Escape)) {
+            selected_tower = None
+            selected_cell  = None
+        }
+        /* If player loses all health */
+        if (Player.hp <= 0) {
+            Dialog.showMessage( TowerDefense.map_panel, "Game Over" )
+            TowerDefense.quit()
+        }
     }
 
-    /* Run the game */
-    def run(): Unit = {
-        while( true )
-        {
-            val start = System.currentTimeMillis
-            /* Update */
-            for ( i <- 1 to acceleration ) {
-              update(dt)
-            }
-            if ( TowerDefense.keymap(Key.Escape)) {
-                selected_tower = None
-                selected_cell  = None
-            }
+    override def update(dt: Double) : Unit = {
+        for( i <- 1 to acceleration )
+            step(dt)
+    }
 
-            /* Render */
-            /*
-            TowerDefense.map_panel.repaint()
-            TowerDefense.build_menu.repaint()
-            TowerDefense.info_panel.repaint()
-            TowerDefense.tower_panel.thepanel.repaint()
-            */
-            TowerDefense.mainpanel.repaint()
-
-            /* Delta time and step time computing */
-            val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
-            if( miliseconds < 0 )
-                println( "Can't keep up !" )
-            Thread.sleep(Math.abs(miliseconds)) // So that the cpu doesn't max out for nothing
-            dt = (System.currentTimeMillis - start).toDouble / 1000
-
-            /* If player loses all health */
-            if (Player.hp <= 0) {
-                Dialog.showMessage( TowerDefense.map_panel, "Game Over" )
-                return
-            }
-        }
+    override def render(g: Graphics2D) : Unit = {
     }
 
     /* ==================== COLLECTION-LIKE BEHAVIOR ==================== */

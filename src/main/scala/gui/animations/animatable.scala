@@ -3,7 +3,7 @@ package gui.animations
 
 import java.awt.Graphics2D
 
-import runtime.{TowerDefense,Controller}
+import runtime.TowerDefense
 import gui._
 import utils.Continuable
 
@@ -14,7 +14,7 @@ abstract class Animatable extends Continuable
     var timer  = 1.0
 
     def on_timer_ran_out(): Unit = {
-        Controller -= this
+        TowerDefense.gamestate -= this
         continue()
     }
 

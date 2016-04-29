@@ -4,7 +4,7 @@ package game_mechanics.bunny
 import java.io.File
 import javax.imageio.ImageIO
 
-import runtime.Controller
+import runtime.TowerDefense
 
 /* A badass bunny, really strong, will become the "default" mob in late game */
 class BadassBunny extends Bunny
@@ -23,7 +23,7 @@ class BadassBunny extends Bunny
       {
           val newbunny = BunnyFactory.create(BunnyFactory.NORMAL_BUNNY)
           newbunny.path = this.path.copy()
-          Controller += newbunny
+          TowerDefense.gamestate += newbunny
       }
   }
 }

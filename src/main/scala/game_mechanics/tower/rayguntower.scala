@@ -4,7 +4,7 @@ package game_mechanics.tower
 import java.io.FileInputStream
 import sun.audio.{AudioStream,AudioPlayer}
 
-import runtime.{Controller,Spawner}
+import runtime.{TowerDefense,Spawner}
 
 import gui.animations.{RaygunAnimation,RaygunShootAnimation}
 
@@ -28,18 +28,18 @@ object RaygunTower extends TowerType
         def fire_at(bunny : Bunny) : Unit = {
             val charge_anim = new RaygunAnimation( tower.pos )
             charge_anim and_then { () =>
-                Controller += new RaygunShootAnimation(
+                TowerDefense.gamestate += new RaygunShootAnimation(
                     tower.pos,
                     (bunny.pos - tower.pos.toDouble).normalize() )
             }
-            Controller += charge_anim
+            TowerDefense.gamestate += charge_anim
             AudioPlayer.player.start( charging_sound )
         }
         def closest_to( point : Waypoint ) : Option[Bunny] = {
             def distance_comp( x : Bunny, y : Bunny ) =
                 (x.pos - point).norm < (y.pos - point).norm
             val bunnies =
-                Controller.bunnies
+                TowerDefense.gamestate.bunnies
                     .filter(_.alive)
                     .filter(in_range)
                     .sortWith(distance_comp)

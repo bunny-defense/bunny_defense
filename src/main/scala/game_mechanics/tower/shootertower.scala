@@ -6,7 +6,7 @@ import collection.mutable.ListBuffer
 import game_mechanics.{Projectile,ProjectileFactory}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
-import runtime.{Spawner,Controller}
+import runtime.{Spawner,TowerDefense}
 import gui.animations.MuzzleflashAnimation
 
 class ShooterTower(projectile_type : Int) extends TowerType
@@ -21,13 +21,13 @@ class ShooterTower(projectile_type : Int) extends TowerType
         }
 
         def fire_at(bunny: Bunny): Unit = {
-            Controller += new MuzzleflashAnimation(tower.pos.toDouble)
+            TowerDefense.gamestate += new MuzzleflashAnimation(tower.pos.toDouble)
             val target_pos = bunny.pos + (Waypoint.random() * 2 - new Waypoint( 1, 1 )) * spread
             var throw_carrot    = ProjectileFactory.create(
                 projectile_type, target_pos, tower.pos.toDouble, this)
             throw_carrot.speed  = throw_speed
             throw_carrot.damage = tower.damage
-            Controller += throw_carrot
+            TowerDefense.gamestate += throw_carrot
         }
 
         def closest_to( point : Waypoint ) : Option[Bunny] = {
@@ -36,7 +36,7 @@ class ShooterTower(projectile_type : Int) extends TowerType
                 (x.pos - point).norm < (y.pos - point).norm
 
             val bunnies =
-                Controller.bunnies
+                TowerDefense.gamestate.bunnies
                     .filter(_.alive)
                     .filter(in_range)
                     .sortWith(distance_comp)

@@ -8,7 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import game_mechanics.path.Waypoint
-import runtime.{TowerDefense,Controller}
+import runtime.TowerDefense
 import gui._
 import utils.Continuable
 

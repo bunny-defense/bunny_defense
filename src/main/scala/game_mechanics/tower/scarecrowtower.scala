@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-import runtime.Controller
+import runtime.TowerDefense
 import game_mechanics.{Projectile}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
@@ -38,10 +38,10 @@ object ScarecrowTower extends TowerType
             val projectile = new Projectile( target_pos, tower.pos.toDouble, this)
             projectile.speed = throw_speed
             projectile.damage = tower.damage
-            Controller += projectile
+            TowerDefense.gamestate += projectile
         }
         def attack(): Boolean = {
-            val bunnies = Controller.bunnies.filter( in_range )
+            val bunnies = TowerDefense.gamestate.bunnies.filter( in_range )
             if( !bunnies.isEmpty )
             {
                 bunnies.map( fire_at )

@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-import runtime.Controller
+import runtime.TowerDefense
 import game_mechanics.tower.TowerType
 import game_mechanics.path.Waypoint
 import game_mechanics.bunny.Bunny
@@ -37,13 +37,13 @@ class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType
             case None => ()
             case Some(bunny) => bunny.remove_hp( damage )
         }
-        Controller -= this
+        TowerDefense.gamestate -= this
     }
 
     /* One step of progress */
     def update(dt: Double): Unit = {
         move(dt)
-        Controller.bunnies.find( x => x.pos.distance_to(pos) < hitradius ) match
+        TowerDefense.gamestate.bunnies.find( x => x.pos.distance_to(pos) < hitradius ) match
         {
             case None => ()
             case Some(bunny) => on_hit( Some(bunny) )

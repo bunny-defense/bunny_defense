@@ -10,7 +10,7 @@ import game_mechanics.path._
 import game_mechanics.{Player, JPS}
 import gui.MapPanel
 import gui.animations.GoldAnimation
-import runtime.{Controller,TowerDefense}
+import runtime.TowerDefense
 import util.Random
 
 
@@ -90,18 +90,18 @@ trait Bunny {
 	def update(dt: Double): Unit = {
         if ( !this.alive ) {
             this.on_death()
-            Controller += new GoldAnimation(
-                this.reward(Controller.wave_counter),
+            TowerDefense.gamestate += new GoldAnimation(
+                this.reward(TowerDefense.gamestate.wave_counter),
                 this.pos.clone()
             )
-            Player.add_gold( this.reward( Controller.wave_counter ))
-            Controller -= this 
+            Player.add_gold( this.reward( TowerDefense.gamestate.wave_counter ))
+            TowerDefense.gamestate -= this
             Player.killcount += 1
         }
         this.move(dt)
         if ( this.path.reached ) {
             Player.remove_hp( this.damage )
-            Controller -= this
+            TowerDefense.gamestate -= this
         }
     }
 

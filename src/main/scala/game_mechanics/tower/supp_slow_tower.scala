@@ -7,10 +7,10 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+import runtime.TowerDefense
 import game_mechanics.bunny.Bunny
 import gui.{Colors,MapPanel}
 import gui.animations.SnowAnimation
-import runtime.Controller
 
 object SuppSlowTower extends TowerType
 {
@@ -35,7 +35,7 @@ object SuppSlowTower extends TowerType
         def new_snow_anim() : Unit = {
             val snow_anim = new SnowAnimation( tower.pos, tower.range )
             snow_anim and_then new_snow_anim
-            Controller += snow_anim
+            TowerDefense.gamestate += snow_anim
         }
         new_snow_anim()
         () => true

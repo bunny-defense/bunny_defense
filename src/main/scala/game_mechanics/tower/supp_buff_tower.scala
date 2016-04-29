@@ -7,9 +7,9 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+import runtime.TowerDefense
 import gui.{Colors,MapPanel}
 import gui.animations.BuffAnimation
-import runtime.Controller
 import game_mechanics.bunny.Bunny
 
 object SuppBuffTower extends TowerType
@@ -35,7 +35,7 @@ object SuppBuffTower extends TowerType
         def new_buff_anim(): Unit = {
             val anim = new BuffAnimation( tower.pos, tower.range )
             anim and_then new_buff_anim
-            Controller += anim
+            TowerDefense.gamestate += anim
         }
         new_buff_anim
         () => true

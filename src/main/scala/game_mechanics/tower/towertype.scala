@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-import runtime.{Controller,Spawner}
+import runtime.{TowerDefense,Spawner}
 import game_mechanics.{Projectile}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path._

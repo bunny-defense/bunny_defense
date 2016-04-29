@@ -6,7 +6,7 @@ import java.awt.Graphics2D
 
 import game_mechanics.path.Waypoint
 import gui._
-import runtime.{TowerDefense,Controller}
+import runtime.TowerDefense
 import utils.Continuable
 
 class DamageAnimation(amount: Double, origin: Waypoint) extends Animatable

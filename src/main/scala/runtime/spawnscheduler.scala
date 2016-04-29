@@ -33,11 +33,11 @@ object SpawnScheduler extends Publisher
         {
             spent_time += dt
             while( !spawn_queue.isEmpty && spawn_queue.head._1 < spent_time)
-                Controller += BunnyFactory.create(spawn_queue.dequeue._2)
-            if( spawn_queue.isEmpty && Controller.bunnies.isEmpty )
+                TowerDefense.gamestate += BunnyFactory.create(spawn_queue.dequeue._2)
+            if( spawn_queue.isEmpty && TowerDefense.gamestate.bunnies.isEmpty )
             {
                 started = false
-                Controller.wave_counter += 1
+                TowerDefense.gamestate.wave_counter += 1
                 publish( WaveEnded )
             }
         }

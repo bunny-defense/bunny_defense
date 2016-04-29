@@ -22,6 +22,7 @@ import game_mechanics.tower._
 
 object TowerDefense extends SimpleSwingApplication
 {
+    val gamestate   = new GameState()
     val map_panel   = new MapPanel(new GameMap(30,15))
     val build_menu  = new BuildMenu( 4, 4 )
     val info_panel  = new InfoPanel
@@ -29,7 +30,8 @@ object TowerDefense extends SimpleSwingApplication
     val keymap      = new HashMap[Key.Value,Boolean] {
         override def default(key: Key.Value) = false
     }
-
+    val gui_size = new Dimension( 800, 600 )
+    val framerate    = 1.0/60.0 * 1000
 
     def make_map() : BoxPanel = {
         return new BoxPanel(Orientation.Vertical) {
@@ -43,7 +45,7 @@ object TowerDefense extends SimpleSwingApplication
     {
         val play_button = new Button
         {
-            action = Action("") { Controller.on_play_button(this) }
+            action = Action("") { gamestate.on_play_button(this) }
             listenTo(SpawnScheduler)
             reactions += {
                 case WaveEnded =>
@@ -142,14 +144,15 @@ object TowerDefense extends SimpleSwingApplication
         Parameters.load()
         Player.reset()
         resizable = false
-        contents = mainpanel
+        contents = StateManager.render_surface
     }
 
 
     /* ========== MAIN ========== */
     override def main(args: Array[String]): Unit = {
         super.main(args)
-        Controller.run()
+        StateManager.set_state( new MenuState() )
+        StateManager.run()
         top.close()
         sys.exit(0)
     }

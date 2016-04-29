@@ -10,7 +10,7 @@ import javax.imageio.ImageIO
 import utils.Landscape
 import game_mechanics.tower.Tower
 import game_mechanics.path.CellPos
-import runtime.{Spawner,Controller,TowerDefense}
+import runtime.{Spawner,TowerDefense}
 import gui.MapPanel
 import util.Random
 
@@ -98,7 +98,7 @@ class GameMap(width0: Int, height0: Int)
     }
 
     def valid( pos : CellPos ): Boolean = {
-        if( Controller.bunnies.count( _.pos.toInt == pos ) > 0 )
+        if( TowerDefense.gamestate.bunnies.count( _.pos.toInt == pos ) > 0 )
             return false
         if( obstruction_map( pos.x )( pos.y ) )
             return false

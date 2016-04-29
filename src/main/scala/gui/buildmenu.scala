@@ -52,8 +52,8 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                     case None => ()
                     case Some(tower) =>
                     {
-                        if( Controller.wave_counter >= tower.unlock_wave )
-                            Controller.selected_tower = towerlist(x + y * cols)
+                        if( TowerDefense.gamestate.wave_counter >= tower.unlock_wave )
+                            TowerDefense.gamestate.selected_tower = towerlist(x + y * cols)
                     }
                 }
             }
@@ -74,7 +74,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                         case None => x
                         case Some(towertype) =>
                         {
-                            if( towertype.unlock_wave == Controller.wave_counter )
+                            if( towertype.unlock_wave == TowerDefense.gamestate.wave_counter )
                                 x
                             else
                                 None
@@ -85,7 +85,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                 {
                     val anim = new UnlockAnimation(towertype)
                     anim and_then chain
-                    Controller += anim
+                    TowerDefense.gamestate += anim
                 }
             }
             towertypes.foldLeft(()=>())(chain_anims)()
@@ -152,7 +152,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                 g.drawString( string,
                     x * buttonSize + buttonSize / 2 - strwidth / 2,
                     y * buttonSize + strheight )
-                if( Controller.wave_counter < tower.unlock_wave )
+                if( TowerDefense.gamestate.wave_counter < tower.unlock_wave )
                 {
                     g.setColor( Colors.transparent_grey )
                     g.fillRect(
@@ -161,7 +161,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
                         buttonSize,
                         buttonSize )
                     g.setColor( Colors.yellow )
-                    val waves_left = tower.unlock_wave - Controller.wave_counter
+                    val waves_left = tower.unlock_wave - TowerDefense.gamestate.wave_counter
                     val wave_string = waves_left.toString
                     val wave_string_width =
                         g.getFontMetrics().stringWidth(wave_string)
