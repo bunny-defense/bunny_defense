@@ -12,13 +12,14 @@ import gui.animations.{GoldAnimation,SmokeAnimation}
 
 /* Spec Op Bunny */
 
-class SpecOpBunny extends Bunny
+class SpecOpBunny(player_id: Int) extends Bunny
 {
+    override val player        = player_id
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/ninja.png").getPath()))
-    override val law = new Random()
-    override val price = 200
+    override val law           = new Random()
+    override val price         = 200
 
 	override def update(dt: Double): Unit = {
         if ( this.path.reached ) {

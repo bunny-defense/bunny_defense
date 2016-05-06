@@ -5,8 +5,9 @@ import java.io.File
 import javax.imageio.ImageIO
 
 /* A boss! */
-class Otter extends Bunny
+class Otter(player_id: Int) extends Bunny
 {
+    override val player        = player_id
     override val bunny_graphic =
         ImageIO.read(
             new File(getClass().getResource("/mobs/otter.png").getPath()))

@@ -17,7 +17,8 @@ class ShooterTower(projectile_type : Int) extends TowerType
      */
     override def attack_from(tower : Tower): () => Boolean = {
         def in_range(bunny : Bunny) : Boolean = {
-            return (bunny.pos - tower.pos).norm <= tower.range
+            return ((bunny.pos - tower.pos).norm <= tower.range &&
+                     tower.player != bunny.player)
         }
 
         def fire_at(bunny: Bunny): Unit = {

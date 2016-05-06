@@ -3,8 +3,9 @@ package game_mechanics.bunny
 
 
 /* Large and tough but slow bunny */
-class HeavyBunny extends Bunny
+class HeavyBunny(player_id: Int) extends Bunny
 {
+    override val player      = player_id
     override val initial_hp  = 20.0
     override val base_shield = 1.5
     shield                   = 1.5

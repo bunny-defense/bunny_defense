@@ -9,6 +9,7 @@ import utils.Parameters
 case object MoneyChanged extends Event
 
 object Player extends Publisher {
+  var id   = 0
   var hp   = Parameters.player_initial_life
   var gold = Parameters.player_initial_gold
   var killcount = 0

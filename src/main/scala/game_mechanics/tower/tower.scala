@@ -13,12 +13,13 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class Tower(tower_type : TowerType, pos0 : CellPos) {
+class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     /**
      * Tower superclass from which evey special tower is derived
      * @param tower_type: The type of the tower
      * @param pos0      : The position of the tower
      */
+    val player         = player_id
     val pos            = pos0
     /* Cooldown counter */
     var cooldown       = 0.0
@@ -91,6 +92,6 @@ class Tower(tower_type : TowerType, pos0 : CellPos) {
     }
 
     def clone_at(newpos: CellPos): Tower = {
-        return new Tower(tower_type, newpos)
+        return new Tower(tower_type, newpos, player)
     }
 }

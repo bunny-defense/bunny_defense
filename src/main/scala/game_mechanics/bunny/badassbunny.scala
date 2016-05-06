@@ -7,8 +7,9 @@ import javax.imageio.ImageIO
 import runtime.Controller
 
 /* A badass bunny, really strong, will become the "default" mob in late game */
-class BadassBunny extends Bunny
+class BadassBunny(player_id: Int) extends Bunny
 {
+  override val player      = player_id
   override val bunny_graphic =
     ImageIO.read(
       new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
@@ -22,7 +23,7 @@ class BadassBunny extends Bunny
   override def on_death(): Unit = {
       for( i <- 0 until 4 )
       {
-          val newbunny = BunnyFactory.create(BunnyFactory.NORMAL_BUNNY)
+          val newbunny = BunnyFactory.create(BunnyFactory.NORMAL_BUNNY, player)
           newbunny.path = this.path.copy()
           Controller += newbunny
       }

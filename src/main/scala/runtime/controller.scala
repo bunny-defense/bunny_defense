@@ -81,7 +81,7 @@ object Controller extends Publisher with Reactor
             TowerDefense.map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.price) ) {
-                Controller += new Tower( selected_tower.get, pos )
+                Controller += new Tower( selected_tower.get, pos, Player.id)
                 /* Updates the paths of living bunnies, so they won't conflict
                  * with the new tower. Uses multi-threading to be more efficient */
                 var bun_update = bunnies.filter( t => t.path.path.exists(
@@ -229,7 +229,10 @@ object Controller extends Publisher with Reactor
                 { tower.enemy_effect(x) })
         )
         bunnies.foreach( bunny =>
-                bunnies.foreach( x => if( (x.pos - bunny.pos).norm <= bunny.effect_range )
+                bunnies.foreach( x => if(
+                    (x.pos - bunny.pos).norm <= bunny.effect_range &&
+                     x.player == bunny.player
+                 )
                 { bunny.allied_effect(x) })
         )
         bunnies.foreach( _.update(dt) )

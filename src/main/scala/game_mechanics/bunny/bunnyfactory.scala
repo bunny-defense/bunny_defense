@@ -12,26 +12,26 @@ object BunnyFactory
     val FLYING_SQUIRREL = 7
     val SHIELD_BUNNY    = 8
 
-    def create(bunny_type : Int): Bunny = {
+    def create(bunny_type : Int, player_id: Int): Bunny = {
         bunny_type match {
             case NORMAL_BUNNY    =>
-                new NormalBunny()
+                new NormalBunny(player_id)
             case HEAVY_BUNNY     =>
-                new HeavyBunny()
+                new HeavyBunny(player_id)
             case HARE_           =>
-                new Hare()
+                new Hare(player_id)
             case OTTER_          =>
-                new Otter()
+                new Otter(player_id)
             case GOLDEN_BUNNY    =>
-                new GoldenBunny()
+                new GoldenBunny(player_id)
             case BADASS_BUNNY    =>
-                new BadassBunny()
+                new BadassBunny(player_id)
             case SPECOP_BUNNY    =>
-                new SpecOpBunny()
+                new SpecOpBunny(player_id)
             case FLYING_SQUIRREL =>
-                new FlyingSquirrel()
+                new FlyingSquirrel(player_id)
             case SHIELD_BUNNY    =>
-                new ShieldBunny()
+                new ShieldBunny(player_id)
         }
     }
 }

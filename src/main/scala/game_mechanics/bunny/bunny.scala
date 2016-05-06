@@ -18,6 +18,7 @@ trait Bunny extends Purchasable {
     /**
      * Bunny superclass from which every ennemy is derived.
      */
+    val player          = 0
     var hp              = 10.0
     val initial_hp      = 10.0
     val law             = new Random()

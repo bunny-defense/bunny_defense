@@ -4,10 +4,10 @@ package game_mechanics.bunny
 import java.io.File
 import javax.imageio.ImageIO
 
-
 /* Fast "Bunny" */
-class FlyingSquirrel extends Bunny
+class FlyingSquirrel(player_id: Int) extends Bunny
 {
+    override val player      = player_id
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/Flying_Squirrel.png").getPath()))

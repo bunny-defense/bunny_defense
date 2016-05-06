@@ -6,8 +6,9 @@ import javax.imageio.ImageIO
 
 
 /* Rare golden bunny worth a lot of money */
-class GoldenBunny extends Bunny
+class GoldenBunny(player_id: Int) extends Bunny
 {
+    override val player        = player_id
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/goldenbunny_alt1.png").getPath()))
