@@ -6,18 +6,46 @@ import java.io._
 import scala.io._
 
 
-class Server extends Thread {
-    override def run() : Unit = {
-        val server = new ServerSocket(8007)
-        while (true) {
-            val s =  server.accept()
-            val in = new BufferedSource(s.getInputStream()).getLines()
-            val out = new PrintStream(s.getOutputStream())
-
-            out.println(in.next())
-            out.flush()
-            s.close()
+object Server {
+    def main(args : Array[String]) : Unit = {
+        try {
+            val listener = new ServerSocket(9999)
+            while (true) { new ServerThread(listener.accept()).start() }
+            listener.close()
+        }
+        catch {
+            case e: IOException =>
+                System.err.println("Could not listen on port: 9999.")
+                System.exit(-1)
         }
     }
 }
+
+class ServerThread(socket:Socket) extends Thread("ServerThread") {
+
+    override def run(): Unit = {
+        try {
+            val out = new DataOutputStream(socket.getOutputStream())
+            val in  = new ObjectInputStream(
+                new DataInputStream(socket.getInputStream()))
+
+            while (true) {
+                out.writeChars("t")
+                Thread.sleep(100)
+            }
+
+            out.close()
+            in.close()
+            socket.close()
+        }
+        catch {
+            case e: SocketException =>
+                ()
+            case e: IOException =>
+                e.printStackTrace();
+        }
+    }
+}
+
+
 // vim: set ts=4 sw=4 et:

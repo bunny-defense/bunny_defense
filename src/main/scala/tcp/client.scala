@@ -5,17 +5,31 @@ import java.io._
 
 import scala.io._
 
-class Client extends Thread {
+object Client {
     def main(args : Array[String]) : Unit = {
-        val s = new Socket(InetAddress.getByName("localhost"),9999)
-        lazy val in = new BufferedSource(s.getInputStream()).getLines()
-        val out = new PrintStream(s.getOutputStream())
+        try {
+            val s = new Socket(InetAddress.getByName("localhost"),9999)
+            val in = new DataInputStream(s.getInputStream())
+            val out = new ObjectOutputStream(
+                new DataOutputStream(s.getOutputStream()))
 
-        out.println("Hello World")
-        out.flush()
-        println("Received: " + in.next())
 
-        s.close()
+            out.writeObject("Hello Server")
+            out.flush()
+
+            while (true) {
+                val x = in.readChar()
+                println("Received: " + x)
+            }
+
+            out.close()
+            in.close()
+            s.close()
+        }
+        catch {
+            case e: IOException =>
+                e.printStackTrace()
+        }
     }
 }
 
