@@ -18,6 +18,7 @@ import game_mechanics.bunny._
 import game_mechanics.utilitaries._
 import gui._
 import gui.animations._
+import strategy._
 
 
 case object SelectedCell extends Event
@@ -25,12 +26,14 @@ case object NoSelectedCell extends Event
 case object FastForwOn extends Event
 case object FastForwOff extends Event
 
-object Controller extends Publisher with Reactor
+
+class gamestate(given_strategy : Strategy) extends Publisher with Reactor
 {
     /**
-     * The main controller.
+     * The main gamestate.
      * It manages the main loop, the graphics, everything
      */
+    val strategy     = given_strategy
     val bunnies      = new ListBuffer[Bunny]
     val projectiles  = new ListBuffer[Projectile]
     val towers       = new ListBuffer[Tower]
@@ -84,7 +87,7 @@ object Controller extends Publisher with Reactor
             TowerDefense.map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.price) ) {
-                Controller += new Tower( selected_tower.get, pos, Player.id)
+                TowerDefense.gamestate += new Tower( selected_tower.get, pos, Player.id)
                 /* Updates the paths of living bunnies, so they won't conflict
                  * with the new tower. Uses multi-threading to be more efficient */
                 var bun_update = bunnies.filter( t => t.path.path.exists(
@@ -144,7 +147,7 @@ object Controller extends Publisher with Reactor
     }
 
     def upgrade_tower(): Unit = {
-       Controller.selected_cell.get.upgrades match
+       TowerDefense.gamestate.selected_cell.get.upgrades match
        {
            case None            => {}
            case Some(upgrade)   => {
@@ -275,7 +278,7 @@ object Controller extends Publisher with Reactor
             TowerDefense.info_panel.repaint()
             TowerDefense.tower_panel.thepanel.repaint()
             */
-            TowerDefense.mainpanel.repaint()
+            strategy.DisplayStrategy.repaint
 
             /* Delta time and step time computing */
             val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
@@ -286,8 +289,7 @@ object Controller extends Publisher with Reactor
 
             /* If player loses all health */
             if (Player.hp <= 0) {
-                Dialog.showMessage( TowerDefense.map_panel, "Game Over" )
-                return
+                strategy.DisplayStrategy.gameover
             }
         }
     }

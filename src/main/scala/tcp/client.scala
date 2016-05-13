@@ -7,32 +7,38 @@ import scala.io._
 
 import runtime.Controller
 
-object Client {
-    def main(args : Array[String]) : Unit = {
-        try {
-            val s = new Socket(InetAddress.getByName(Controller.domain),9999)
-            val in = new DataInputStream(s.getInputStream())
-            val out = new ObjectOutputStream(
-                new DataOutputStream(s.getOutputStream()))
+class Client(socket : Socket ) {
 
+    try {
+        val in = new ObjectInputStream(s.getInputStream())
+        val out = new ObjectOutputStream(
+            new DataOutputStream(s.getOutputStream()))
 
-            out.writeObject("Hello Server")
-            out.flush()
+        out.writeObject("New Client")
+        out.flush()
 
-            while (true) {
-                val x = in.readChar()
-                println("Received: " + x)
-            }
-
-            out.close()
-            in.close()
-            s.close()
-        }
-        catch {
-            case e: IOException =>
-                e.printStackTrace()
-        }
     }
+    catch {
+        case e: IOException =>
+            e.printStackTrace()
+    }
+
+    def send(arg : Any) : Unit = {
+        out.writeObject(arg)
+        out.flush()
+    }
+
+    def receive() : Any = {
+        return in.readObject()
+    }
+
+
+    def close() = {
+        out.close()
+        in.close()
+        s.close()
+    }
+
 }
 
 // vim: set ts=4 sw=4 et:
