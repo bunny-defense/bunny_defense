@@ -150,6 +150,7 @@ object TowerDefense extends SimpleSwingApplication
     override def main(args: Array[String]): Unit = {
         super.main(args)
         Controller.run()
+        gamestate.strategy.TowerDefenseStrategy.next
         top.close()
         sys.exit(0)
     }

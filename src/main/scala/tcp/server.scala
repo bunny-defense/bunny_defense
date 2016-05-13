@@ -21,7 +21,7 @@ object Server {
     }
 }
 
-class ServerThread(socket:Socket) extends Thread("ServerThread") {
+class ServerThread(socket : Socket) extends Thread("ServerThread") {
 
     override def run(): Unit = {
         try {
