@@ -5,10 +5,12 @@ import java.io._
 
 import scala.io._
 
+import runtime.Controller
+
 object Client {
     def main(args : Array[String]) : Unit = {
         try {
-            val s = new Socket(InetAddress.getByName("localhost"),9999)
+            val s = new Socket(InetAddress.getByName(Controller.domain),9999)
             val in = new DataInputStream(s.getInputStream())
             val out = new ObjectOutputStream(
                 new DataOutputStream(s.getOutputStream()))

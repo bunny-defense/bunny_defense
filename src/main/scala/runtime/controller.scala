@@ -44,6 +44,9 @@ object Controller extends Publisher with Reactor
     var acceleration = 2
     var is_accelerated = false
     var raining      = false
+    var domain       = "localhost"
+    var server       = false
+    var client       = true
     /* The tower type selected for construction */
     var selected_tower          : Option[TowerType]     = None
     /* The tower currently selected */
