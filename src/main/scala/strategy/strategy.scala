@@ -1,6 +1,12 @@
 package strategy
 
 import runtime.TowerDefense
+import game_mechanics._
+import tcp._
+import gui._
+import swing._
+
+import java.net.Socket
 
 /* Only the father class of the strategies. */
 class Strategy {}
@@ -12,13 +18,15 @@ class ServerStrategy extends Strategy {
     class DisplayStrategy {
         /* The Server displays anything */
        val repaint = {}
-       val gameover = { return }
     }
 
     class ConnStrategy {
-        val open_conn = {
-            new Server()
-        }
+        def open_conn() = {}
+    }
+
+
+    val displaystrategy = new DisplayStrategy()
+    val connstrategy    = new ConnStrategy()
 }
 
 class ClientStrategy extends Strategy {
@@ -27,16 +35,16 @@ class ClientStrategy extends Strategy {
      */
     class DisplayStrategy {
        val repaint =  {TowerDefense.mainpanel.repaint()}
-       val gameover = {
-           Dialog.showMessage( TowerDefense.map_panel, "Game Over")
-           return
-       }
     }
 
     class ConnStrategy {
-        val open_conn = {
-            new Client()
+        def open_conn(domain :String) : Client = {
+            return new Client(domain)
         }
+    }
+
+    val displaystrategy = new DisplayStrategy()
+    val connstrategy    = new ConnStrategy()
 }
 
 // vim: set ts=4 sw=4 et:
