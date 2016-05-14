@@ -11,25 +11,25 @@ import java.awt.MouseInfo
 import runtime._
 import game_mechanics._
 import game_mechanics.tower._
+import game_mechanics.path.CellPos
 
 /* An info Panel that shows information on the selected tower */
 
-class TowerInfoPanel() extends Panel {
-    background = Colors.lightGrey
-    preferredSize = new Dimension( 200, 100 )
+class TowerInfoPanel() extends TDComponent {
+    //background = Colors.lightGrey
+    size = new CellPos( 200, 100 )
     val button_width = 200
     var clicked = false
 
-    listenTo(mouse.clicks)
-
+    /*
     reactions += {
         case e : MouseClicked =>
         {
             val x = e.point.x
             val y = e.point.y
-            if( x >= size.width - button_width &&
-                x <  size.width &&
-                y >= 0 && y < size.height / 2 &&
+            if( x >= size.x - button_width &&
+                x <  size.x &&
+                y >= 0 && y < size.y / 2 &&
                 !TowerDefense.gamestate.selected_cell.isEmpty )
             {
                 val tower = TowerDefense.gamestate.selected_cell.get
@@ -38,13 +38,13 @@ class TowerInfoPanel() extends Panel {
                 TowerDefense.gamestate.selected_cell = None
             }
             if( x >= 0 && x < button_width &&
-                y >= 0 && y < size.height )
+                y >= 0 && y < size.y )
             {
                 TowerDefense.gamestate.on_fastforward_button()
             }
-            if (x >= size.width - button_width &&
-                x < size.width &&
-                y >= size.height / 2 && y < size.height &&
+            if (x >= size.x - button_width &&
+                x < size.x &&
+                y >= size.y / 2 && y < size.height &&
                 !TowerDefense.gamestate.selected_cell.isEmpty)
             {
                 TowerDefense.gamestate.upgrade_tower()
@@ -55,13 +55,14 @@ class TowerInfoPanel() extends Panel {
         case MouseReleased(_,_,_,_,_) =>
             clicked = false
     }
+    */
 
         /* Upgrade Button tooltip */
 
         def draw_tooltip(g : Graphics2D)
         {
             val upgrade_button_rect = new Rectangle(
-                size.width - button_width, size.height/2, button_width, size.height/2 )
+                size.x - button_width, size.y/2, button_width, size.y/2 )
             /* A copy of the upgrade button; we'll just use it to get its position */
             val windowpos = locationOnScreen
             val mousepos  = MouseInfo.getPointerInfo().getLocation()
@@ -102,11 +103,11 @@ class TowerInfoPanel() extends Panel {
             }
         }
 
-    override def paintComponent(g: Graphics2D): Unit = {
-        super.paintComponent(g)
+    override def draw(g: Graphics2D): Unit = {
+        super.draw(g)
 
-        val xm = size.width - 2 * button_width
-        val ym = size.height
+        val xm = size.x - 2 * button_width
+        val ym = size.y
         val windowpos = locationOnScreen
         val mousepos  = MouseInfo.getPointerInfo().getLocation()
         val mousex    = mousepos.x - windowpos.x
@@ -138,7 +139,7 @@ class TowerInfoPanel() extends Panel {
 
         /* Sell button */
         val sell_button_rect = new Rectangle(
-            size.width - button_width, 0, button_width, ym/2)
+            size.x - button_width, 0, button_width, ym/2)
         g.setColor( Colors.white )
         g.fill( sell_button_rect )
         g.setColor( Colors.black )
@@ -164,7 +165,7 @@ class TowerInfoPanel() extends Panel {
 
         /* Upgrade Button */
        val upgrade_button_rect = new Rectangle(
-           size.width - button_width, ym/2, button_width, ym / 2 )
+           size.x - button_width, ym/2, button_width, ym / 2 )
        g.setColor( Colors.white )
        g.fill( upgrade_button_rect )
        g.setColor (Colors.black )

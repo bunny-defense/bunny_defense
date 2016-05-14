@@ -19,69 +19,8 @@ class MainMenu( render_surface : Panel )
     {
     }
 
-    class Menu
-    {
-        val buttonset = new ListBuffer[TDButton]()
-        def +=( button : TDButton ) : Unit = {
-            button.enabled = false
-            buttonset += button
-        }
-        def test( str : String ) : Unit = {
-            println( str )
-        }
-    }
-
     val background_color = Colors.black
-    val play             = new Menu()
-    val main             = new Menu()
-    val multiplayer      = new Menu()
-    private var _current_menu    = main
-
-    def current_menu = _current_menu
-    def current_menu_=( menu : Menu ) : Unit = {
-        _current_menu.buttonset.foreach( _.enabled = false )
-        _current_menu = menu
-        menu.buttonset.foreach( _.enabled = true )
-    }
-
-    main += new WideButton( 50 , "Play" )
-    {
-        override def on_click() : Unit = {
-            current_menu = play
-        }
-    }
-    main += new WideButton( 120, "Quit" )
-    {
-        override def on_click() : Unit = {
-            TowerDefense.quit()
-        }
-    }
-
-    play += new WideButton( 50 , "Local" )
-    play += new WideButton( 120, "Multiplayer" )
-    {
-        override def on_click() : Unit = {
-            current_menu = multiplayer
-        }
-    }
-    play += new WideButton( 190, "Back" )
-    {
-        override def on_click() : Unit = {
-            current_menu = main
-        }
-    }
-
-    multiplayer += new WideButton( 50, "Join" )
-    multiplayer += new WideButton( 120, "Host & Play" )
-    multiplayer += new WideButton( 190, "Host" )
-    multiplayer += new WideButton( 260, "Back" )
-    {
-        override def on_click() : Unit = {
-            current_menu = play
-        }
-    }
-
-    current_menu = main
+    private val buttonset = new ListBuffer[TDButton]()
 
     def render(g: Graphics2D) : Unit = {
         val surface = new Rectangle(
@@ -90,9 +29,17 @@ class MainMenu( render_surface : Panel )
             TowerDefense.gui_size.height )
         g.setColor( background_color )
         g.fill( surface )
-        for( button <- _current_menu.buttonset )
+        for( button <- buttonset )
         {
             button.draw(g)
         }
+    }
+
+    def on_click(posx: Int, posy: Int) : Unit = {
+        buttonset.foreach( _.on_click(posx, posy) )
+    }
+
+    def +=( button : TDButton ) : Unit = {
+        buttonset += button
     }
 }

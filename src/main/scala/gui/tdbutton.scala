@@ -13,17 +13,15 @@ import swing.event._
 
 abstract class TDButton( render_surface : Panel,
     x : Int, y : Int, width : Int, height : Int )
-extends Reactor
+extends TDComponent
 {
-    listenTo( render_surface.mouse.clicks )
-    reactions += {
-        case event : MouseClicked =>
-        {
-            if( enabled && is_hovered() )
-                on_click()
-        }
+    override def on_click(posx: Int, posy: Int) : Unit = {
+        if( is_hovered() )
+            action()
     }
-    var enabled = true
+    /* This function is called when the button is clicked */
+    def action() : Unit = {}
+
     protected val surface = new Rectangle( x, y, width, height )
     private def is_hovered() : Boolean = {
         val screenpos = render_surface.locationOnScreen
@@ -35,7 +33,7 @@ extends Reactor
     }
     /* This function says how to draw the button */
     def draw_contents(g: Graphics2D) : Unit
-    def draw(g: Graphics2D) : Unit = {
+    override def draw(g: Graphics2D) : Unit = {
         draw_contents(g)
         if( is_hovered() )
         {
@@ -43,8 +41,6 @@ extends Reactor
             g.fill( surface )
         }
     }
-    /* This function is called when the button is clicked */
-    def on_click() : Unit
 }
 
 /* This button has a square background and a text on it */
@@ -65,5 +61,4 @@ extends TDButton( render_surface, x, y, width, height )
             x + width / 2 - stringwidth / 2,
             y + height / 2 )
     }
-    override def on_click() : Unit = {}
 }

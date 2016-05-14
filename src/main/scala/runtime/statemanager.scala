@@ -2,20 +2,18 @@
 package runtime
 
 import swing._
+import swing.event._
 
-abstract class State
-{
-    def update(dt: Double) : Unit
-    def render(g: Graphics2D) : Unit
-}
 
+/** This is an empty state where nothing happens **/
 class VoidState extends State
 {
     override def update(dt: Double) : Unit = {}
     override def render(g: Graphics2D) : Unit = {}
 }
 
-object StateManager
+/** Manages the states **/
+object StateManager extends Reactor
 {
     var current_state : State = new VoidState()
     val render_surface = new Panel() {
@@ -23,6 +21,13 @@ object StateManager
         override def paintComponent(g: Graphics2D) : Unit = {
             super.paintComponent(g)
             StateManager.current_state.render(g)
+        }
+    }
+    listenTo( render_surface.mouse.clicks )
+    reactions += {
+        case MouseClicked(_,pos,_,_,_) =>
+        {
+            current_state.on_click(pos.x, pos.y)
         }
     }
     def set_state(new_state: State) : Unit = {

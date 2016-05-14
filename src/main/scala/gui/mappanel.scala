@@ -4,7 +4,6 @@ package gui
 import swing._
 import swing.event._
 
-
 import java.awt.AlphaComposite
 import java.awt.image.BufferedImage
 import java.awt.MouseInfo
@@ -26,7 +25,7 @@ object MapPanel
 }
 
 /* Represents the map on the screen */
-class MapPanel(map0: GameMap) extends Panel {
+class MapPanel(map0: GameMap) extends TDComponent {
     import MapPanel._
     val map      = map0
     val rows     = map.height
@@ -35,17 +34,10 @@ class MapPanel(map0: GameMap) extends Panel {
     var viewpos : Waypoint = new Waypoint(0,0)
     var darkness = 0f
 
-    preferredSize = new Dimension(
-        cellsize * cols,
-        cellsize * rows )
-
-    listenTo(mouse.clicks)
-
-    reactions += {
-        case e: MouseClicked =>
-            TowerDefense.gamestate.on_cell_clicked(
-                e.point.x / cellsize,
-                e.point.y / cellsize )
+    override def on_click(posx: Int, posy: Int) : Unit = {
+        TowerDefense.gamestate.on_cell_clicked(
+            posx / cellsize,
+            posy / cellsize )
     }
 
     def paintPath(g: Graphics2D): Unit = {
@@ -69,8 +61,7 @@ class MapPanel(map0: GameMap) extends Panel {
 
 
     /* Drawing on the map */
-    override def paintComponent(g: Graphics2D): Unit = {
-        super.paintComponent(g)
+    override def draw(g: Graphics2D): Unit = {
         /* Drawing the map */
         g.drawImage( map.map_image,
             -viewpos.x.toInt,

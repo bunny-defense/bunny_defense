@@ -159,7 +159,7 @@ class GameState extends State with Publisher
         {
             val scroll_distance = Math.min(
                 TowerDefense.map_panel.rows * MapPanel.cellsize -
-                    TowerDefense.map_panel.size.height,
+                    TowerDefense.map_panel.size.y,
                 TowerDefense.map_panel.viewpos.y + dt * scroll_speed )
             TowerDefense.map_panel.viewpos =
                 new Waypoint(0, scroll_distance)
@@ -182,7 +182,7 @@ class GameState extends State with Publisher
         {
             val scroll_distance = Math.min(
                 TowerDefense.map_panel.cols * MapPanel.cellsize -
-                    TowerDefense.map_panel.size.width,
+                    TowerDefense.map_panel.size.x,
                 TowerDefense.map_panel.viewpos.x + dt * scroll_speed )
             TowerDefense.map_panel.viewpos =
                 new Waypoint(scroll_distance, 0)
@@ -245,7 +245,7 @@ class GameState extends State with Publisher
         }
         /* If player loses all health */
         if (Player.hp <= 0) {
-            Dialog.showMessage( TowerDefense.map_panel, "Game Over" )
+            //Dialog.showMessage( TowerDefense.map_panel, "Game Over" )
             TowerDefense.quit()
         }
     }

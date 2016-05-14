@@ -33,19 +33,24 @@ object TowerDefense extends SimpleSwingApplication
     val gui_size = new Dimension( 800, 600 )
     val framerate    = 1.0/60.0 * 1000
 
-    def make_map() : BoxPanel = {
-        return new BoxPanel(Orientation.Vertical) {
-            contents += map_panel
-            contents += tower_panel
+    def make_map : TDComponent = {
+        return new TDComponent
+        {
+            children += map_panel
+            children += tower_panel
         }
     }
 
     /* Returns a panel containing the in-game menu (next to the map) */
-    def make_menu(): BorderPanel =
+    def make_menu() : TDComponent =
     {
-        val play_button = new Button
+        val play_button = new TextButton
+        (StateManager.render_surface, 0, 0, 100, 100, "Play")
         {
-            action = Action("") { gamestate.on_play_button(this) }
+            override def action() : Unit = {
+                gamestate.on_play_button(this)
+            }
+            /*
             listenTo(SpawnScheduler)
             reactions += {
                 case WaveEnded =>
@@ -55,61 +60,30 @@ object TowerDefense extends SimpleSwingApplication
             background = Colors.green
             preferredSize = new Dimension( 100, 100 )
             focusable = false
+            */
+            size = new CellPos( 100, 100 )
         }
-        val build_panel = new BoxPanel(Orientation.Vertical)
+        val build_panel = new TDComponent
         {
-            contents += info_panel
-            contents += build_menu
-            contents += Swing.VGlue
+            children += info_panel
+            children += build_menu
+            children += Swing.VGlue
         }
-        return new BorderPanel
+        return new TDComponent
         {
-            add( build_panel, BorderPanel.Position.Center )
-            add( play_button, BorderPanel.Position.South )
+            children += build_panel
+            children += play_button
         }
     }
 
-    val mainpanel = new BorderPanel
+    listenTo(this.keys)
+    reactions +=
     {
-        add (make_map, BorderPanel.Position.Center)
-        add (make_menu(), BorderPanel.Position.East)
-
-        listenTo(this.keys)
-        reactions +=
-        {
-            case KeyPressed(_,key,_,_) => {
-                keymap += (key -> true)
-            }
-            case KeyReleased(_,key,_,_) => {
-                keymap += (key -> false)
-            }
+        case KeyPressed(_,key,_,_) => {
+            keymap += (key -> true)
         }
-
-        focusable = true
-        requestFocus
-        val image = new BufferedImage(
-            map_panel.preferredSize.width
-            + build_menu.preferredSize.width,
-            map_panel.preferredSize.height
-            + tower_panel.preferredSize.height,
-            5 )
-        val gi = image.createGraphics()
-        override def paintChildren(g: Graphics2D)
-        {
-            super.paintChildren(gi)
-            /* Draw tooltip for build menu */
-            var transform = gi.getTransform()
-            var pos = locationOnScreen
-            gi.translate( -pos.x, -pos.y )
-            build_menu.draw_tooltip(gi)
-            gi.setTransform( transform )
-            /* Draw tooltip for towerpanel */
-            transform = gi.getTransform()
-            pos = locationOnScreen
-            gi.translate( -pos.x, -pos.y )
-            tower_panel.draw_tooltip(gi)
-            gi.setTransform( transform )
-            g.drawImage( image, 0, 0, null )
+        case KeyReleased(_,key,_,_) => {
+            keymap += (key -> false)
         }
     }
 
@@ -151,7 +125,7 @@ object TowerDefense extends SimpleSwingApplication
     /* ========== MAIN ========== */
     override def main(args: Array[String]): Unit = {
         super.main(args)
-        StateManager.set_state( new MenuState() )
+        StateManager.set_state( new MainMenuState() )
         StateManager.run()
         top.close()
         sys.exit(0)
