@@ -27,22 +27,9 @@ object TowerDefense extends SimpleSwingApplication
         override def default(key: Key.Value) = false
     }
     val gui_size = new Dimension(
-        800,
-        600)
+        gamestate.map_panel.size.x + gamestate.build_menu.size.x,
+        gamestate.map_panel.size.y )
     val framerate    = 1.0/60.0 * 1000
-
-    /*
-    listenTo(this.keys)
-    reactions +=
-    {
-        case KeyPressed(_,key,_,_) => {
-            keymap += (key -> true)
-        }
-        case KeyReleased(_,key,_,_) => {
-            keymap += (key -> false)
-        }
-    }
-    */
 
     /*
     val mainpanel = new Panel
@@ -77,6 +64,7 @@ object TowerDefense extends SimpleSwingApplication
         contents = StateManager.render_surface
         size = gui_size
         resizable = false
+
     }
 
 

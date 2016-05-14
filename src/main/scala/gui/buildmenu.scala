@@ -24,6 +24,7 @@ class BuildMenu(cols: Int, rows: Int) extends TDComponent
     import BuildMenu._
     val width  = cols * buttonSize
     val height = rows * buttonSize
+    size = new CellPos( width, height )
 
     val towerlist = Array.fill[Option[TowerType]](cols*rows)(None)
     towerlist(0) = Some(BaseTower)
@@ -235,6 +236,7 @@ class BuildMenu(cols: Int, rows: Int) extends TDComponent
     }
 
     override def draw(g: Graphics2D): Unit = {
+        super.draw(g)
         var x = 0
         var y = 0
         for( x <- 0 until cols )

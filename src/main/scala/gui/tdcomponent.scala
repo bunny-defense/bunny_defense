@@ -21,7 +21,15 @@ class TDComponent
 
     def update(dt: Double) : Unit = {}
     def draw(g: Graphics2D) : Unit = {
-        children.foreach( _.draw(g) )
+        children.foreach(
+            {
+                (child: TDComponent) =>
+                val transform = g.getTransform()
+                g.translate( child.pos.x, child.pos.y )
+                child.draw(g)
+                g.setTransform( transform )
+            }
+        )
     }
     def on_click(posx: Int, posy: Int) : Unit = {}
     def locationOnScreen : CellPos = {
@@ -30,9 +38,4 @@ class TDComponent
             loc.x + pos.x,
             loc.y + pos.y )
     }
-    /*
-    def +=(component: TDComponent) : Unit = {
-        children += component
-    }
-    */
 }

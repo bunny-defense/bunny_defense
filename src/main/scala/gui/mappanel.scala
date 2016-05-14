@@ -12,7 +12,7 @@ import javax.imageio.ImageIO
 
 import runtime.{TowerDefense,Spawner}
 import game_mechanics.GameMap
-import game_mechanics.path.{Waypoint,Path}
+import game_mechanics.path.{Waypoint,Path,CellPos}
 import collection.mutable.ListBuffer
 
 object MapPanel
@@ -33,6 +33,7 @@ class MapPanel(map0: GameMap) extends TDComponent {
     val width    = map.width  * MapPanel.cellsize
     var viewpos : Waypoint = new Waypoint(0,0)
     var darkness = 0f
+    size = new CellPos( cols * cellsize, rows * cellsize )
 
     override def on_click(posx: Int, posy: Int) : Unit = {
         TowerDefense.gamestate.on_cell_clicked(

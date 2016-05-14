@@ -17,7 +17,19 @@ object StateManager extends Reactor
 {
     var current_state : State = new VoidState()
     val render_surface = new Panel() {
+        listenTo(this.keys)
+        reactions +=
+        {
+            case KeyPressed(_,key,_,_) => {
+                TowerDefense.keymap += (key -> true)
+            }
+            case KeyReleased(_,key,_,_) => {
+                TowerDefense.keymap += (key -> false)
+            }
+        }
+
         preferredSize = TowerDefense.gui_size
+
         override def paintComponent(g: Graphics2D) : Unit = {
             super.paintComponent(g)
             StateManager.current_state.render(g)

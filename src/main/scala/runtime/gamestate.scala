@@ -50,6 +50,9 @@ class GameState extends State with Publisher
     /* GUI */
     val map_panel   = new MapPanel(new GameMap(30,15))
     val build_menu  = new BuildMenu( 4, 4 )
+    {
+        pos = new CellPos( map_panel.size.x, 0 )
+    }
     val info_panel  = new InfoPanel
     val tower_panel = new TowerInfoPanel
 
