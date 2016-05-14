@@ -278,7 +278,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
             TowerDefense.info_panel.repaint()
             TowerDefense.tower_panel.thepanel.repaint()
             */
-            strategy.DisplayStrategy.repaint
+            strategy.displaystrategy.repaint
 
             /* Delta time and step time computing */
             val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
@@ -289,7 +289,8 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
 
             /* If player loses all health */
             if (Player.hp <= 0) {
-                strategy.DisplayStrategy.gameover
+                Dialog.showMessage( TowerDefense.map_panel, "Game Over")
+                return
             }
         }
     }
