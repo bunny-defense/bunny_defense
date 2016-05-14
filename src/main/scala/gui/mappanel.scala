@@ -35,10 +35,16 @@ class MapPanel(map0: GameMap) extends TDComponent {
     var darkness = 0f
     size = new CellPos( cols * cellsize, rows * cellsize )
 
-    override def on_click(posx: Int, posy: Int) : Unit = {
-        TowerDefense.gamestate.on_cell_clicked(
-            posx / cellsize,
-            posy / cellsize )
+    override def on_event(event: Event) : Unit = {
+        super.on_event(event)
+        event match {
+            case MouseClicked (_,p,_,_,_) => {
+                TowerDefense.gamestate.on_cell_clicked(
+                    p.x / cellsize,
+                    p.y / cellsize )
+            }
+            case _ => {}
+        }
     }
 
     def paintPath(g: Graphics2D): Unit = {

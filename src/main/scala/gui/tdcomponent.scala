@@ -2,6 +2,7 @@
 package gui
 
 import swing._
+import swing.event._
 import collection.mutable.ListBuffer
 
 import java.awt.Graphics2D
@@ -31,11 +32,13 @@ class TDComponent
             }
         )
     }
-    def on_click(posx: Int, posy: Int) : Unit = {}
     def locationOnScreen : CellPos = {
         val loc = StateManager.render_surface.locationOnScreen
         return new CellPos(
             loc.x + pos.x,
             loc.y + pos.y )
+    }
+    def on_event( event: Event ) : Unit = {
+        children.foreach( _.on_event(event) )
     }
 }

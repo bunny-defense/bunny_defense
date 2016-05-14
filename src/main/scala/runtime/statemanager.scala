@@ -10,6 +10,7 @@ class VoidState extends State
 {
     override def update(dt: Double) : Unit = {}
     override def render(g: Graphics2D) : Unit = {}
+    override def on_event(event: Event) : Unit = {}
 }
 
 /** Manages the states **/
@@ -37,12 +38,12 @@ object StateManager extends Reactor
     }
     listenTo( render_surface.mouse.clicks )
     reactions += {
-        case MouseClicked(_,pos,_,_,_) =>
-        {
-            current_state.on_click(pos.x, pos.y)
+        case e : Event => {
+            println( e.getClass.getName )
+            current_state.on_event(e)
         }
     }
-    /* Changes the current state and discards the old one */
+   /* Changes the current state and discards the old one */
     def set_state(new_state: State) : Unit = {
         current_state = new_state
     }

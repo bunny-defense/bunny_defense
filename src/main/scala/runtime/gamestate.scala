@@ -51,19 +51,28 @@ class GameState extends State with Publisher
     val map_panel   = new MapPanel(new GameMap(30,15))
     val build_menu  = new BuildMenu( 4, 4 )
     {
-        pos = new CellPos( map_panel.size.x, 0 )
+        pos = new CellPos( map_panel.size.x, InfoPanel.default_size.y )
     }
     val info_panel  = new InfoPanel
+    {
+        size = new CellPos( build_menu.size.x, size.y )
+        pos  = new CellPos( map_panel.size.x, 0 )
+    }
     val tower_panel = new TowerInfoPanel
+    {
+        size = new CellPos( map_panel.size.x, size.y )
+        pos  = new CellPos( 0, map_panel.size.y )
+    }
 
     /* Returns a panel containing the in-game gui */
     def make_gui() : TDComponent =
     {
         val play_button = new TextButton(
             StateManager.render_surface,
-            0, 0, 100, 100,
             "Play")
         {
+            pos  = new CellPos( map_panel.size.x, map_panel.size.y )
+            size = new CellPos( build_menu.size.x, tower_panel.size.y )
             override def action() : Unit = {
                 on_play_button(this)
             }
@@ -303,6 +312,8 @@ class GameState extends State with Publisher
     override def render(g: Graphics2D) : Unit = {
         gui.draw(g)
     }
+
+    override def on_event(event: Event) : Unit = {}
 
     /* ==================== COLLECTION-LIKE BEHAVIOR ==================== */
 

@@ -2,22 +2,22 @@
 package runtime
 
 import swing._
+import swing.event._
 
 import gui.MainMenu
 
 /** Represents a menu state, for a specific menu **/
 abstract class MenuState extends State
 {
-    listenTo( StateManager.render_surface.mouse.clicks )
     val gui = new MainMenu( StateManager.render_surface )
 
     override def update(dt: Double) : Unit = {
     }
     override def render(g: Graphics2D) : Unit = {
-        gui.render(g)
+        gui.draw(g)
     }
-    override def on_click(posx: Int, posy: Int) : Unit = {
-        gui.on_click(posx, posy)
+    override def on_event(event: Event) : Unit = {
+        gui.on_event(event)
     }
 }
 

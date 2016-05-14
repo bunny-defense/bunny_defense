@@ -14,5 +14,5 @@ abstract class State extends Reactor
 {
     def update(dt: Double) : Unit
     def render(g: Graphics2D) : Unit
-    def on_click(posx: Int, posy: Int) : Unit = {}
+    def on_event(event: Event) : Unit
 }

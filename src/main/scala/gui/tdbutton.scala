@@ -5,32 +5,34 @@ import java.awt.Graphics2D
 import java.awt.MouseInfo
 
 import swing.Panel
-import swing.Rectangle
-import swing.Reactor
 import swing.event._
 
 /* Abstract class representing the buttons in the gui */
 
-abstract class TDButton( render_surface : Panel,
-    x : Int, y : Int, width : Int, height : Int )
+abstract class TDButton( render_surface : Panel )
 extends TDComponent
 {
     var enabled = true
-    override def on_click(posx: Int, posy: Int) : Unit = {
-        if( enabled && is_hovered() )
-            action()
+    override def on_event(event: Event) : Unit = {
+        super.on_event(event)
+        event match {
+            case e : MouseReleased => {
+                if( enabled && is_hovered() )
+                    action()
+            }
+            case _ => {}
+        }
     }
     /* This function is called when the button is clicked */
     def action() : Unit = {}
 
-    protected val surface = new Rectangle( x, y, width, height )
     private def is_hovered() : Boolean = {
         val screenpos = render_surface.locationOnScreen
         val mousepos  = MouseInfo.getPointerInfo().getLocation()
-        val mousex = mousepos.x - screenpos.x - x
-        val mousey = mousepos.y - screenpos.y - y
+        val mousex = mousepos.x - screenpos.x - pos.x
+        val mousey = mousepos.y - screenpos.y - pos.y
         return mousex >= 0 && mousey >= 0 &&
-               mousex <= width && mousey <= height
+               mousex <= size.x && mousey <= size.y
     }
     /* This function says how to draw the button */
     def draw_contents(g: Graphics2D) : Unit
@@ -39,27 +41,25 @@ extends TDComponent
         if( is_hovered() )
         {
             g.setColor( Colors.transparent_cyan )
-            g.fill( surface )
+            g.fillRect( 0, 0, size.x, size.y )
         }
     }
 }
 
 /* This button has a square background and a text on it */
 
-class TextButton( render_surface : Panel,
-    x : Int, y : Int, width : Int, height : Int,
-    text : String )
-extends TDButton( render_surface, x, y, width, height )
+class TextButton( render_surface : Panel, text : String )
+extends TDButton( render_surface )
 {
     var color = Colors.red
     var text_color = Colors.white
     override def draw_contents(g: Graphics2D) : Unit = {
         g.setColor( color )
-        g.fill( surface )
+        g.fillRect( 0, 0, size.x, size.y )
         g.setColor( text_color )
         val stringwidth = g.getFontMetrics().stringWidth( text )
         g.drawString( text,
-            x + width / 2 - stringwidth / 2,
-            y + height / 2 )
+            size.x / 2 - stringwidth / 2,
+            size.y / 2 )
     }
 }

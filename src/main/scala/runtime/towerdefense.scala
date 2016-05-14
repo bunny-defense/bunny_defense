@@ -28,7 +28,7 @@ object TowerDefense extends SimpleSwingApplication
     }
     val gui_size = new Dimension(
         gamestate.map_panel.size.x + gamestate.build_menu.size.x,
-        gamestate.map_panel.size.y )
+        gamestate.map_panel.size.y + gamestate.tower_panel.size.y )
     val framerate    = 1.0/60.0 * 1000
 
     /*
