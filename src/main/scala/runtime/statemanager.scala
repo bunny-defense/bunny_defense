@@ -30,9 +30,12 @@ object StateManager extends Reactor
             current_state.on_click(pos.x, pos.y)
         }
     }
+    /* Changes the current state and discards the old one */
     def set_state(new_state: State) : Unit = {
         current_state = new_state
     }
+    /* Main game loop, runs the loop with the
+        render and update functions provided by the state object */
     def run() : Unit = {
         var dt : Double = 0
         while( true )

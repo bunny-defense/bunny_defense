@@ -10,6 +10,7 @@ import java.awt.MouseInfo
 
 import runtime._
 import game_mechanics._
+import game_mechanics.path._
 import game_mechanics.tower._
 import gui.animations.UnlockAnimation
 
@@ -18,7 +19,7 @@ object BuildMenu
     val buttonSize = 64
 }
 
-class BuildMenu(cols: Int, rows: Int) extends Panel
+class BuildMenu(cols: Int, rows: Int) extends TDComponent
 {
     import BuildMenu._
     val width  = cols * buttonSize
@@ -36,8 +37,9 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
     //towerlist(7) = Some(RaygunTower)
     towerlist(15) = Some(Wall)
 
-    preferredSize = new Dimension( cols * buttonSize, rows * buttonSize )
+    size = new CellPos( width, height )
 
+    /*
     listenTo(mouse.clicks)
 
     reactions += {
@@ -62,7 +64,9 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
         case MouseReleased(_,_,_,_,_) =>
             clicked = false
     }
+    */
 
+    /*
     listenTo(SpawnScheduler)
 
     reactions += {
@@ -91,6 +95,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
             towertypes.foldLeft(()=>())(chain_anims)()
         }
     }
+    */
 
     var clicked = false
 
@@ -229,7 +234,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
         }
     }
 
-    override def paintComponent(g: Graphics2D): Unit = {
+    override def draw(g: Graphics2D): Unit = {
         var x = 0
         var y = 0
         for( x <- 0 until cols )

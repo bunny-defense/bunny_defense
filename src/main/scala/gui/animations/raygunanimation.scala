@@ -32,7 +32,7 @@ class RaygunAnimation(tower_pos: CellPos) extends Animatable
     override def draw(g: Graphics2D): Unit = {
         // Screen darkening
         val interp = (1.0 - timer / duration) * max_darkness
-        TowerDefense.map_panel.darkness = interp.toFloat
+        TowerDefense.gamestate.map_panel.darkness = interp.toFloat
         // Particle spawning
         while( particles.length < ((duration - timer) / particle_delay).toInt &&
             particles.length < 10)

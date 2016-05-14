@@ -15,8 +15,9 @@ abstract class TDButton( render_surface : Panel,
     x : Int, y : Int, width : Int, height : Int )
 extends TDComponent
 {
+    var enabled = true
     override def on_click(posx: Int, posy: Int) : Unit = {
-        if( is_hovered() )
+        if( enabled && is_hovered() )
             action()
     }
     /* This function is called when the button is clicked */

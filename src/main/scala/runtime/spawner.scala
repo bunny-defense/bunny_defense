@@ -11,9 +11,9 @@ import game_mechanics.path._
 object Spawner
 {
     val law        = new Random()
-    val bunnystart = new CellPos( -1, TowerDefense.map_panel.map.height/2)
-    val bunnyend   = new CellPos( TowerDefense.map_panel.map.width,
-                                  TowerDefense.map_panel.map.height/2)
+    val bunnystart = new CellPos( -1, TowerDefense.gamestate.map_panel.map.height/2)
+    val bunnyend   = new CellPos( TowerDefense.gamestate.map_panel.map.width,
+                                  TowerDefense.gamestate.map_panel.map.height/2)
 }
 
 class Spawner(id: Int) {

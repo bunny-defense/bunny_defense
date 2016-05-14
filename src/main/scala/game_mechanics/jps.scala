@@ -173,7 +173,7 @@ class JPS(start: CellPos, objective: CellPos) {
             while (true) {
                 var x1 = x0 + hor_dir
                 /* The cell is obstructed */
-               if (TowerDefense.map_panel.map.obstructed(x1,y0)) {
+               if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y0)) {
                    //println( x1, y0, "is obstructed" )
                    return (new ListBuffer[CellPosed]())
                }
@@ -192,14 +192,14 @@ class JPS(start: CellPos, objective: CellPos) {
               var nodes = new ListBuffer[CellPosed]()
 
               /* Choose the nodes to explore */
-             if (TowerDefense.map_panel.map.obstructed(x1,y0-1) &&
-                 !TowerDefense.map_panel.map.obstructed(x2,y0-1)) {
+             if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y0-1) &&
+                 !TowerDefense.gamestate.map_panel.map.obstructed(x2,y0-1)) {
                      //println( "Jump point !" )
                      nodes += this.add_node(x1, y0, Some(hor_dir,-1), dist)
                  }
 
-                 if (TowerDefense.map_panel.map.obstructed(x1,y0+1) &&
-                     !TowerDefense.map_panel.map.obstructed(x2,y0+1)) {
+                 if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y0+1) &&
+                     !TowerDefense.gamestate.map_panel.map.obstructed(x2,y0+1)) {
                          //println( "Jump point !" )
                          nodes += this.add_node(x1, y0, Some(hor_dir,1), dist)
                      }
@@ -233,7 +233,7 @@ class JPS(start: CellPos, objective: CellPos) {
                 var y1 = y0 + vert_dir
                 //println( "Vertical movement to " + x0.toString + "," + y1.toString )
                 /* The cell is obstructed */
-                if (TowerDefense.map_panel.map.obstructed(x0,y1)){
+                if (TowerDefense.gamestate.map_panel.map.obstructed(x0,y1)){
                     return (new ListBuffer[CellPosed]())
                 }
                 /* The cell is the core objective, we return the last point of
@@ -252,13 +252,13 @@ class JPS(start: CellPos, objective: CellPos) {
                 var nodes = new ListBuffer[CellPosed]()
 
                /* Choose the nodes to explore */
-               if (TowerDefense.map_panel.map.obstructed(x0-1,y1) &&
-                   !TowerDefense.map_panel.map.obstructed(x0-1,y2)) {
+               if (TowerDefense.gamestate.map_panel.map.obstructed(x0-1,y1) &&
+                   !TowerDefense.gamestate.map_panel.map.obstructed(x0-1,y2)) {
                        nodes += this.add_node(x0, y1, Some(-1,vert_dir), dist)
                    }
 
-               if (TowerDefense.map_panel.map.obstructed(x0+1,y1) &&
-                   !TowerDefense.map_panel.map.obstructed(x0+1,y2)) {
+               if (TowerDefense.gamestate.map_panel.map.obstructed(x0+1,y1) &&
+                   !TowerDefense.gamestate.map_panel.map.obstructed(x0+1,y2)) {
                        nodes += this.add_node(x0, y1, Some(1,vert_dir), dist)
                    }
 
@@ -292,9 +292,9 @@ class JPS(start: CellPos, objective: CellPos) {
                 var x1 = x0 + hor_dir
                 var y1 = y0 + vert_dir
                 /* The cell is obstructed */
-                if (TowerDefense.map_panel.map.obstructed(x1,y1) || (
-                    TowerDefense.map_panel.map.obstructed(x1,y0) &&
-                    TowerDefense.map_panel.map.obstructed(x0,y1) ) ) {
+                if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y1) || (
+                    TowerDefense.gamestate.map_panel.map.obstructed(x1,y0) &&
+                    TowerDefense.gamestate.map_panel.map.obstructed(x0,y1) ) ) {
                         return (new ListBuffer[CellPosed]())
                     }
                     /* The cell is the core objective, we return the last point of
@@ -311,13 +311,13 @@ class JPS(start: CellPos, objective: CellPos) {
                    var y2 = y1 + vert_dir
                    var nodes: ListBuffer[CellPosed] = new ListBuffer()
 
-                   if (TowerDefense.map_panel.map.obstructed(x0,y1) &&
-                       !TowerDefense.map_panel.map.obstructed(x0,y2)) {
+                   if (TowerDefense.gamestate.map_panel.map.obstructed(x0,y1) &&
+                       !TowerDefense.gamestate.map_panel.map.obstructed(x0,y2)) {
                            nodes += add_node(x1, y1, Some(-hor_dir, vert_dir), dist)
                        }
 
-                   if (TowerDefense.map_panel.map.obstructed(x1,y0) &&
-                       !TowerDefense.map_panel.map.obstructed(x2,y0)) {
+                   if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y0) &&
+                       !TowerDefense.gamestate.map_panel.map.obstructed(x2,y0)) {
                            nodes += add_node(x1, y1, Some(hor_dir, -vert_dir), dist)
                        }
 

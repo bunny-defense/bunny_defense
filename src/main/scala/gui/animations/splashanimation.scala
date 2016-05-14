@@ -18,8 +18,12 @@ class SplashAnimation extends Animatable
     val duration = 3.0
     timer = duration
 
-    val origin = new Waypoint( 0, TowerDefense.map_panel.size.height / 2 )
-    val target = origin + new Waypoint( TowerDefense.map_panel.size.width, 0 )
+    val origin = new Waypoint(
+        0,
+        TowerDefense.gamestate.map_panel.size.y / 2 )
+    val target = origin + new Waypoint(
+        TowerDefense.gamestate.map_panel.size.x,
+        0 )
 
     override def draw(g: Graphics2D): Unit = {
         val string = "Boss incoming"
@@ -34,8 +38,8 @@ class SplashAnimation extends Animatable
         g.setColor( Colors.darkred )
         g.fillRect(
             0,
-            TowerDefense.map_panel.size.height / 2 - height / 2,
-            TowerDefense.map_panel.size.width,
+            TowerDefense.gamestate.map_panel.size.y / 2 - height / 2,
+            TowerDefense.gamestate.map_panel.size.x,
             height)
         g.setColor( Colors.yellow )
         g.drawString( string,

@@ -47,6 +47,48 @@ class GameState extends State with Publisher
     private var _selected_cell  : Option[Tower]         = None
     var rng          = new Random
 
+    /* GUI */
+    val map_panel   = new MapPanel(new GameMap(30,15))
+    val build_menu  = new BuildMenu( 4, 4 )
+    val info_panel  = new InfoPanel
+    val tower_panel = new TowerInfoPanel
+
+    /* Returns a panel containing the in-game gui */
+    def make_gui() : TDComponent =
+    {
+        val play_button = new TextButton(
+            StateManager.render_surface,
+            0, 0, 100, 100,
+            "Play")
+        {
+            override def action() : Unit = {
+                on_play_button(this)
+            }
+            /*
+            listenTo(SpawnScheduler)
+            reactions += {
+                case WaveEnded =>
+                    enabled = true
+            }
+            text       = "Play"
+            background = Colors.green
+            preferredSize = new Dimension( 100, 100 )
+            focusable = false
+            */
+            size = new CellPos( 100, 100 )
+        }
+        return new TDComponent
+        {
+            children += map_panel
+            children += tower_panel
+            children += info_panel
+            children += build_menu
+            children += play_button
+        }
+    }
+
+    val gui = make_gui()
+
     listenTo(SpawnScheduler)
 
     reactions += {
@@ -74,7 +116,7 @@ class GameState extends State with Publisher
         // Placing a new tower
         val pos = new CellPos(x,y)
         if( selected_tower != None &&
-            TowerDefense.map_panel.map.valid(pos) )
+            map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.buy_cost) ) {
                 this += new Tower( selected_tower.get, pos )
@@ -109,7 +151,7 @@ class GameState extends State with Publisher
 
 
     /* Triggered when the play button is clicked */
-    def on_play_button(button : Button): Unit = {
+    def on_play_button(button : TDButton): Unit = {
         button.enabled = false
         val spawner = new Spawner(wave_counter)
         val spawnschedule = spawner.create()
@@ -158,33 +200,33 @@ class GameState extends State with Publisher
         if( TowerDefense.keymap(Key.J) )
         {
             val scroll_distance = Math.min(
-                TowerDefense.map_panel.rows * MapPanel.cellsize -
-                    TowerDefense.map_panel.size.y,
-                TowerDefense.map_panel.viewpos.y + dt * scroll_speed )
-            TowerDefense.map_panel.viewpos =
+                map_panel.rows * MapPanel.cellsize -
+                    map_panel.size.y,
+                map_panel.viewpos.y + dt * scroll_speed )
+            map_panel.viewpos =
                 new Waypoint(0, scroll_distance)
         }
         if( TowerDefense.keymap(Key.K) )
         {
             val scroll_distance = Math.max( 0,
-                TowerDefense.map_panel.viewpos.y - dt * scroll_speed )
-            TowerDefense.map_panel.viewpos =
+                map_panel.viewpos.y - dt * scroll_speed )
+            map_panel.viewpos =
                 new Waypoint(0, scroll_distance)
         }
         if( TowerDefense.keymap(Key.H) )
         {
             val scroll_distance = Math.max( 0,
-                TowerDefense.map_panel.viewpos.x - dt * scroll_speed )
-            TowerDefense.map_panel.viewpos =
+                map_panel.viewpos.x - dt * scroll_speed )
+            map_panel.viewpos =
                 new Waypoint(scroll_distance, 0)
         }
         if( TowerDefense.keymap(Key.L) )
         {
             val scroll_distance = Math.min(
-                TowerDefense.map_panel.cols * MapPanel.cellsize -
-                    TowerDefense.map_panel.size.x,
-                TowerDefense.map_panel.viewpos.x + dt * scroll_speed )
-            TowerDefense.map_panel.viewpos =
+                map_panel.cols * MapPanel.cellsize -
+                    map_panel.size.x,
+                map_panel.viewpos.x + dt * scroll_speed )
+            map_panel.viewpos =
                 new Waypoint(scroll_distance, 0)
         }
     }
@@ -245,7 +287,7 @@ class GameState extends State with Publisher
         }
         /* If player loses all health */
         if (Player.hp <= 0) {
-            //Dialog.showMessage( TowerDefense.map_panel, "Game Over" )
+            //Dialog.showMessage( map_panel, "Game Over" )
             TowerDefense.quit()
         }
     }
@@ -256,6 +298,7 @@ class GameState extends State with Publisher
     }
 
     override def render(g: Graphics2D) : Unit = {
+        gui.draw(g)
     }
 
     /* ==================== COLLECTION-LIKE BEHAVIOR ==================== */
@@ -289,13 +332,13 @@ class GameState extends State with Publisher
          */
         towers += tower
         tower.towertype.amount += 1
-        TowerDefense.map_panel.map += tower
+        map_panel.map += tower
     }
 
     def -=(tower: Tower): Unit = {
         towers -= tower
         tower.towertype.amount -= 1
-        TowerDefense.map_panel.map -= tower
+        map_panel.map -= tower
     }
 
     /* ANIMATIONS */

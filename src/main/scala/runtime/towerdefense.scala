@@ -23,59 +23,15 @@ import game_mechanics.tower._
 object TowerDefense extends SimpleSwingApplication
 {
     val gamestate   = new GameState()
-    val map_panel   = new MapPanel(new GameMap(30,15))
-    val build_menu  = new BuildMenu( 4, 4 )
-    val info_panel  = new InfoPanel
-    val tower_panel = new TowerInfoPanel
     val keymap      = new HashMap[Key.Value,Boolean] {
         override def default(key: Key.Value) = false
     }
-    val gui_size = new Dimension( 800, 600 )
+    val gui_size = new Dimension(
+        800,
+        600)
     val framerate    = 1.0/60.0 * 1000
 
-    def make_map : TDComponent = {
-        return new TDComponent
-        {
-            children += map_panel
-            children += tower_panel
-        }
-    }
-
-    /* Returns a panel containing the in-game menu (next to the map) */
-    def make_menu() : TDComponent =
-    {
-        val play_button = new TextButton
-        (StateManager.render_surface, 0, 0, 100, 100, "Play")
-        {
-            override def action() : Unit = {
-                gamestate.on_play_button(this)
-            }
-            /*
-            listenTo(SpawnScheduler)
-            reactions += {
-                case WaveEnded =>
-                    enabled = true
-            }
-            text       = "Play"
-            background = Colors.green
-            preferredSize = new Dimension( 100, 100 )
-            focusable = false
-            */
-            size = new CellPos( 100, 100 )
-        }
-        val build_panel = new TDComponent
-        {
-            children += info_panel
-            children += build_menu
-            children += Swing.VGlue
-        }
-        return new TDComponent
-        {
-            children += build_panel
-            children += play_button
-        }
-    }
-
+    /*
     listenTo(this.keys)
     reactions +=
     {
@@ -86,6 +42,7 @@ object TowerDefense extends SimpleSwingApplication
             keymap += (key -> false)
         }
     }
+    */
 
     /*
     val mainpanel = new Panel
@@ -117,8 +74,9 @@ object TowerDefense extends SimpleSwingApplication
         title = titles(Random.nextInt(titles.length))
         Parameters.load()
         Player.reset()
-        resizable = false
         contents = StateManager.render_surface
+        size = gui_size
+        resizable = false
     }
 
 

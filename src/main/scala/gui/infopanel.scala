@@ -9,13 +9,13 @@ import runtime.{TowerDefense,SpawnScheduler}
 
 /* An info panel that shows the current gold, HP and wave number */
 
-class InfoPanel() extends Panel
+class InfoPanel() extends TDComponent
 {
-  background = Colors.lightGrey
-  override def paintComponent(g: Graphics2D): Unit = {
-    super.paintComponent(g)
-    val xm = size.width
-    val ym = size.height
+  //background = Colors.lightGrey
+  override def draw(g: Graphics2D): Unit = {
+    super.draw(g)
+    val xm = size.x
+    val ym = size.y
     g.drawString("Wave : " + (TowerDefense.gamestate.wave_counter.toString),
       (xm/2-85),ym/6+5)
     g.drawString("Remaining Bunnies :"+ (SpawnScheduler.spawn_queue.length),

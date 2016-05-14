@@ -30,8 +30,12 @@ class SlidingAnimation(text_callback : () => String) extends Animatable
     val duration = 5.0
     timer = duration
 
-    val origin = new Waypoint( -image_origin_x.toDouble, TowerDefense.map_panel.size.height / 2 )
-    val target = origin + new Waypoint( TowerDefense.map_panel.size.width + image_origin_x.toDouble, 0 )
+    val origin = new Waypoint(
+        -image_origin_x.toDouble,
+        TowerDefense.gamestate.map_panel.size.y / 2 )
+    val target = origin + new Waypoint(
+        TowerDefense.gamestate.map_panel.size.x + image_origin_x.toDouble,
+        0 )
 
     override def draw(g: Graphics2D): Unit = {
         val interp = Math.pow( timer * 2 / duration - 1, 5 ) / 2 + 0.5

@@ -25,13 +25,13 @@ class MainMenuState extends MenuState
 {
     gui += new gui.WideButton( 50, "Play" )
     {
-        override def on_click() : Unit = {
+        override def action() : Unit = {
             StateManager.set_state( new PlayMenuState() )
         }
     }
     gui += new gui.WideButton( 120, "Quit" )
     {
-        override def on_click() : Unit = {
+        override def action() : Unit = {
             TowerDefense.quit()
         }
     }
@@ -41,18 +41,18 @@ class PlayMenuState extends MenuState
 {
     gui += new gui.WideButton( 50, "Singleplayer" )
     {
-        override def on_click() : Unit = {
+        override def action() : Unit = {
             StateManager.set_state( TowerDefense.gamestate )
         }
     }
     gui += new gui.WideButton( 120, "Multiplayer" )
     {
-        override def on_click() : Unit = {
+        override def action() : Unit = {
             StateManager.set_state( new MultiplayerMenuState() )
         }
     }
     gui += new gui.WideButton( 190, "Back" ) {
-        override def on_click() : Unit = {
+        override def action() : Unit = {
             StateManager.set_state( new MainMenuState() )
         }
     }
@@ -65,7 +65,7 @@ class MultiplayerMenuState extends MenuState
     gui += new gui.WideButton( 190, "Host" )
     gui += new gui.WideButton( 260, "Back" )
     {
-        override def on_click() : Unit = {
+        override def action() : Unit = {
             StateManager.set_state( new PlayMenuState() )
         }
     }
