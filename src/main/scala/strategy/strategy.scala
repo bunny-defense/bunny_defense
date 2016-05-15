@@ -43,7 +43,7 @@ class ServerStrategy extends Strategy {
     class DisplayStrategy {
         /* The Server displays anything */
        val repaint = {}
-       val next    = { StateManager.set_state(MenuState)}
+       val next    = { StateManager.set_state(Lobby)}
        val rain = {}
        val scroll(dt: Double) : Unit = {}
     }
@@ -74,7 +74,7 @@ class ClientStrategy extends Strategy {
        val repaint = { TowerDefense.mainpanel.repaint()}
        val next    = {
            Dialog.showMessage( TowerDefense.map_panel, "Game Over")
-           StateManager.set_state(MenuState)
+           StateManager.set_state(Lobby)
        }
        val rain = {
            if rng.nextDouble < (dt / 200) && !raining )
