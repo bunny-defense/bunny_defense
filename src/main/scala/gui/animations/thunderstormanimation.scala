@@ -3,7 +3,7 @@ package gui.animations
 
 import util.Random
 
-import runtime.Controller
+import runtime.TowerDefense
 
 /* This animations adds thunder flashes to the rain animation */
 
@@ -18,6 +18,6 @@ class ThunderstormAnimation(duration: Double) extends RainAnimation(duration)
     override def update(dt: Double): Unit = {
         super.update(dt)
         if( rng.nextDouble < (dt / 10) )
-            Controller += new ThunderflashAnimation
+            TowerDefense.gamestate += new ThunderflashAnimation
     }
 }

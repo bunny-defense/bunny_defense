@@ -11,49 +11,53 @@ import java.awt.MouseInfo
 import runtime._
 import game_mechanics._
 import game_mechanics.tower._
+import game_mechanics.path.CellPos
 
 /* An info Panel that shows information on the selected tower */
 
-class TowerInfoPanel() extends Panel {
-    background = Colors.lightGrey
-    preferredSize = new Dimension( 200, 100 )
+class TowerInfoPanel(parent: Option[TDComponent])
+extends TDComponent(parent)
+{
+    //background = Colors.lightGrey
+    size = new CellPos( 200, 100 )
     val button_width = 200
     var clicked = false
 
-    listenTo(mouse.clicks)
-
-    reactions += {
-        case e : MouseClicked =>
-        {
-            val x = e.point.x
-            val y = e.point.y
-            if( x >= size.width - button_width &&
-                x <  size.width &&
-                y >= 0 && y < size.height / 2 &&
-                !Controller.selected_cell.isEmpty )
+    override def on_event(event: Event) : Unit = {
+        event match {
+            case e : MouseClicked =>
             {
-                val tower = Controller.selected_cell.get
-                Controller -= tower
-                Player.add_gold(tower.sell_cost)
-                Controller.selected_cell = None
+                val x = e.point.x
+                val y = e.point.y
+                if( x >= size.x - button_width &&
+                    x <  size.x &&
+                    y >= 0 && y < size.y / 2 &&
+                    !TowerDefense.gamestate.selected_cell.isEmpty )
+                {
+                    val tower = TowerDefense.gamestate.selected_cell.get
+                    TowerDefense.gamestate -= tower
+                    Player.add_gold(tower.sell_cost)
+                    TowerDefense.gamestate.selected_cell = None
+                }
+                if( x >= 0 && x < button_width &&
+                    y >= 0 && y < size.y )
+                {
+                    TowerDefense.gamestate.on_fastforward_button()
+                }
+                if (x >= size.x - button_width &&
+                    x < size.x &&
+                    y >= size.y / 2 && y < size.y &&
+                    !TowerDefense.gamestate.selected_cell.isEmpty)
+                {
+                    TowerDefense.gamestate.upgrade_tower()
+                }
             }
-            if( x >= 0 && x < button_width &&
-                y >= 0 && y < size.height )
-            {
-                Controller.on_fastforward_button()
-            }
-            if (x >= size.width - button_width &&
-                x < size.width &&
-                y >= size.height / 2 && y < size.height &&
-                !Controller.selected_cell.isEmpty)
-            {
-                Controller.upgrade_tower()
-            }
+            case MousePressed(_,_,_,_,_)  =>
+                clicked = true
+            case MouseReleased(_,_,_,_,_) =>
+                clicked = false
+            case _ => {}
         }
-        case MousePressed(_,_,_,_,_)  =>
-            clicked = true
-        case MouseReleased(_,_,_,_,_) =>
-            clicked = false
     }
 
         /* Upgrade Button tooltip */
@@ -61,7 +65,7 @@ class TowerInfoPanel() extends Panel {
         def draw_tooltip(g : Graphics2D)
         {
             val upgrade_button_rect = new Rectangle(
-                size.width - button_width, size.height/2, button_width, size.height/2 )
+                size.x - button_width, size.y/2, button_width, size.y/2 )
             /* A copy of the upgrade button; we'll just use it to get its position */
             val windowpos = locationOnScreen
             val mousepos  = MouseInfo.getPointerInfo().getLocation()
@@ -72,11 +76,11 @@ class TowerInfoPanel() extends Panel {
                 var upgrade_name = ""
                 var upgrade_desc = ""
                 var upgrade_cost = ""
-                if (!Controller.selected_cell.isEmpty &&
-                    !Controller.selected_cell.get.upgrades.isEmpty) {
-                    upgrade_name = Controller.selected_cell.get.upgrades.get.name
-                    upgrade_desc = Controller.selected_cell.get.upgrades.get.description
-                    upgrade_cost = Controller.selected_cell.get.upgrades.get.cost.toString + " gold"
+                if (!TowerDefense.gamestate.selected_cell.isEmpty &&
+                    !TowerDefense.gamestate.selected_cell.get.upgrades.isEmpty) {
+                    upgrade_name = TowerDefense.gamestate.selected_cell.get.upgrades.get.name
+                    upgrade_desc = TowerDefense.gamestate.selected_cell.get.upgrades.get.description
+                    upgrade_cost = TowerDefense.gamestate.selected_cell.get.upgrades.get.cost.toString + " gold"
                 }
                 val name_size = g.getFontMetrics().stringWidth( upgrade_name )
                 val desc_size = g.getFontMetrics().stringWidth( upgrade_desc )
@@ -86,8 +90,8 @@ class TowerInfoPanel() extends Panel {
                 val rect = new Rectangle(
                     mousepos.x.toInt - width, mousepos.y.toInt - height,
                     width, height )
-                if (!Controller.selected_cell.isEmpty &&
-                    !Controller.selected_cell.get.upgrades.isEmpty) {
+                if (!TowerDefense.gamestate.selected_cell.isEmpty &&
+                    !TowerDefense.gamestate.selected_cell.get.upgrades.isEmpty) {
                     g.setColor( Colors.lightGrey )
                     g.fill( rect )
                     g.setColor( Colors.black )
@@ -102,11 +106,11 @@ class TowerInfoPanel() extends Panel {
             }
         }
 
-    override def paintComponent(g: Graphics2D): Unit = {
-        super.paintComponent(g)
+    override def draw(g: Graphics2D): Unit = {
+        super.draw(g)
 
-        val xm = size.width - 2 * button_width
-        val ym = size.height
+        val xm = size.x - 2 * button_width
+        val ym = size.y
         val windowpos = locationOnScreen
         val mousepos  = MouseInfo.getPointerInfo().getLocation()
         val mousex    = mousepos.x - windowpos.x
@@ -115,7 +119,7 @@ class TowerInfoPanel() extends Panel {
         /* Info panel */
         g.setColor( Colors.black )
         g.drawRect( button_width, 0, button_width + xm-1, ym-1 )
-        Controller.selected_cell match {
+        TowerDefense.gamestate.selected_cell match {
             case None =>  {}
             case Some(tower) => {
                 g.drawString(tower.towertype.name,
@@ -138,20 +142,20 @@ class TowerInfoPanel() extends Panel {
 
         /* Sell button */
         val sell_button_rect = new Rectangle(
-            size.width - button_width, 0, button_width, ym/2)
+            size.x - button_width, 0, button_width, ym/2)
         g.setColor( Colors.white )
         g.fill( sell_button_rect )
         g.setColor( Colors.black )
         g.draw( sell_button_rect )
         val sell_text = "Sell tower"
         val sell_text_width = g.getFontMetrics().stringWidth( sell_text )
-        if( Controller.selected_cell == None )
+        if( TowerDefense.gamestate.selected_cell == None )
             g.setColor( Colors.lightGrey )
         g.drawString( sell_text,
             button_width + xm + button_width / 2 - sell_text_width / 2,
             ym / 4 )
         if( sell_button_rect.contains( mousex, mousey ) &&
-            Controller.selected_cell != None )
+            TowerDefense.gamestate.selected_cell != None )
         {
             val alpha = if( clicked ) 0.7f else 0.5f
             g.setComposite(
@@ -164,15 +168,15 @@ class TowerInfoPanel() extends Panel {
 
         /* Upgrade Button */
        val upgrade_button_rect = new Rectangle(
-           size.width - button_width, ym/2, button_width, ym / 2 )
+           size.x - button_width, ym/2, button_width, ym / 2 )
        g.setColor( Colors.white )
        g.fill( upgrade_button_rect )
        g.setColor (Colors.black )
        g.draw( upgrade_button_rect )
        var upgrade_text = ""
-       if (!Controller.selected_cell.isEmpty &&
-           !Controller.selected_cell.get.upgrades.isEmpty) {
-           upgrade_text = Controller.selected_cell.get.upgrades.get.name
+       if (!TowerDefense.gamestate.selected_cell.isEmpty &&
+           !TowerDefense.gamestate.selected_cell.get.upgrades.isEmpty) {
+           upgrade_text = TowerDefense.gamestate.selected_cell.get.upgrades.get.name
        }
        val upgrade_text_width = g.getFontMetrics().stringWidth( upgrade_text )
        g.drawString(
@@ -198,7 +202,7 @@ class TowerInfoPanel() extends Panel {
         g.setColor( Colors.black )
         g.draw( ff_button_rect )
         val ff_text = "Fast forward: " +
-            (if( Controller.is_accelerated ) "ON" else "OFF")
+            (if( TowerDefense.gamestate.is_accelerated ) "ON" else "OFF")
         val ff_text_width = g.getFontMetrics().stringWidth( ff_text )
         g.drawString( ff_text,
             button_width / 2 - ff_text_width / 2,

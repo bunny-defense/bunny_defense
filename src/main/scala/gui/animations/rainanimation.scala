@@ -32,9 +32,9 @@ class RainAnimation(duration : Double) extends Animatable
     def new_particle(): Unit = {
         val new_particle = new Waypoint(
             rng.nextDouble *
-            (TowerDefense.map_panel.map.width + TowerDefense.map_panel.map.height)
+            (TowerDefense.gamestate.map_panel.map.width + TowerDefense.gamestate.map_panel.map.height)
                 * MapPanel.cellsize,
-            rng.nextDouble * -TowerDefense.map_panel.map.width * MapPanel.cellsize )
+            rng.nextDouble * -TowerDefense.gamestate.map_panel.map.width * MapPanel.cellsize )
         new_particle.x -= new_particle.y
         particles += new_particle
     }
@@ -49,11 +49,11 @@ class RainAnimation(duration : Double) extends Animatable
             duration / 2 - Math.abs(timer - duration / 2),
             1.0 ).toFloat
         val darkness = alpha * max_darkness
-        TowerDefense.map_panel.darkness = darkness
+        TowerDefense.gamestate.map_panel.darkness = darkness
         g.setColor( rain_color )
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
-        val loop = 2 * TowerDefense.map_panel.map.height * MapPanel.cellsize
+        val loop = 2 * TowerDefense.gamestate.map_panel.map.height * MapPanel.cellsize
         for( particle <- particles )
         {
             val pos = (particle.y + (duration - timer) * speed) % loop - particle.y

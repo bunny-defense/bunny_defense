@@ -25,10 +25,10 @@ trait Bunny extends Purchasable {
     val initial_hp      = 10.0
     val law             = new Random()
     var path            = new Progress(
-        new JPS(new CellPos(-1, law.nextInt(TowerDefense.map_panel.map.height)),
-                new CellPos(TowerDefense.map_panel.map.width,
-                            law.nextInt(TowerDefense.map_panel.map.height/2)+
-                            TowerDefense.map_panel.map.height/4
+        new JPS(new CellPos(-1, law.nextInt(TowerDefense.gamestate.map_panel.map.height)),
+                new CellPos(TowerDefense.gamestate.map_panel.map.width,
+                            law.nextInt(TowerDefense.gamestate.map_panel.map.height/2)+
+                            TowerDefense.gamestate.map_panel.map.height/4
                             )
                         ).run()
                     match {

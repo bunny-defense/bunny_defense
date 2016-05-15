@@ -20,7 +20,7 @@ class ThunderflashAnimation extends Animatable
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
         g.fillRect( 0, 0,
-            TowerDefense.map_panel.map.width  * MapPanel.cellsize,
-            TowerDefense.map_panel.map.height * MapPanel.cellsize )
+            TowerDefense.gamestate.map_panel.map.width  * MapPanel.cellsize,
+            TowerDefense.gamestate.map_panel.map.height * MapPanel.cellsize )
     }
 }

@@ -22,94 +22,14 @@ import game_mechanics.tower._
 
 object TowerDefense extends SimpleSwingApplication
 {
-    val map_panel   = new MapPanel(new GameMap(30,15))
-    val build_menu  = new BuildMenu( 4, 4 )
-    val info_panel  = new InfoPanel
-    val tower_panel = new TowerInfoPanel
+    val gamestate   = new GameState()
     val keymap      = new HashMap[Key.Value,Boolean] {
         override def default(key: Key.Value) = false
     }
-
-
-    def make_map() : BoxPanel = {
-        return new BoxPanel(Orientation.Vertical) {
-            contents += map_panel
-            contents += tower_panel
-        }
-    }
-
-    /* Returns a panel containing the in-game menu (next to the map) */
-    def make_menu(): BorderPanel =
-    {
-        val play_button = new Button
-        {
-            action = Action("") { Controller.on_play_button(this) }
-            listenTo(SpawnScheduler)
-            reactions += {
-                case WaveEnded =>
-                    enabled = true
-            }
-            text       = "Play"
-            background = Colors.green
-            preferredSize = new Dimension( 100, 100 )
-            focusable = false
-        }
-        val build_panel = new BoxPanel(Orientation.Vertical)
-        {
-            contents += info_panel
-            contents += build_menu
-            contents += Swing.VGlue
-        }
-        return new BorderPanel
-        {
-            add( build_panel, BorderPanel.Position.Center )
-            add( play_button, BorderPanel.Position.South )
-        }
-    }
-
-    val mainpanel = new BorderPanel
-    {
-        add (make_map, BorderPanel.Position.Center)
-        add (make_menu(), BorderPanel.Position.East)
-
-        listenTo(this.keys)
-        reactions +=
-        {
-            case KeyPressed(_,key,_,_) => {
-                keymap += (key -> true)
-            }
-            case KeyReleased(_,key,_,_) => {
-                keymap += (key -> false)
-            }
-        }
-
-        focusable = true
-        requestFocus
-        val image = new BufferedImage(
-            map_panel.preferredSize.width
-            + build_menu.preferredSize.width,
-            map_panel.preferredSize.height
-            + tower_panel.preferredSize.height,
-            5 )
-        val gi = image.createGraphics()
-        override def paintChildren(g: Graphics2D)
-        {
-            super.paintChildren(gi)
-            /* Draw tooltip for build menu */
-            var transform = gi.getTransform()
-            var pos = locationOnScreen
-            gi.translate( -pos.x, -pos.y )
-            build_menu.draw_tooltip(gi)
-            gi.setTransform( transform )
-            /* Draw tooltip for towerpanel */
-            transform = gi.getTransform()
-            pos = locationOnScreen
-            gi.translate( -pos.x, -pos.y )
-            tower_panel.draw_tooltip(gi)
-            gi.setTransform( transform )
-            g.drawImage( image, 0, 0, null )
-        }
-    }
+    val gui_size = new Dimension(
+        gamestate.map_panel.size.x + gamestate.build_menu.size.x,
+        gamestate.map_panel.size.y + gamestate.tower_panel.size.y )
+    val framerate    = 1.0/60.0 * 1000
 
     /*
     val mainpanel = new Panel
@@ -141,16 +61,18 @@ object TowerDefense extends SimpleSwingApplication
         title = titles(Random.nextInt(titles.length))
         Parameters.load()
         Player.reset()
+        contents = StateManager.render_surface
+        size = gui_size
         resizable = false
-        contents = mainpanel
+
     }
 
 
     /* ========== MAIN ========== */
     override def main(args: Array[String]): Unit = {
         super.main(args)
-        Controller.run()
-        gamestate.strategy.TowerDefenseStrategy.next
+        StateManager.set_state( new MainMenuState() )
+        StateManager.run()
         top.close()
         sys.exit(0)
     }

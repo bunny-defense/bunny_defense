@@ -25,7 +25,7 @@ class RaygunShootAnimation(tower_pos: CellPos, direction : Waypoint) extends Ani
     val origin         = tower_pos.toDouble
     timer = duration
     val size           = MapPanel.cellsize.toDouble
-    val laser_length   = (TowerDefense.map_panel.map.width * size).toInt
+    val laser_length   = (TowerDefense.gamestate.map_panel.map.width * size).toInt
 
     override def draw(g: Graphics2D): Unit = {
         val prev_transform = g.getTransform()
@@ -45,7 +45,7 @@ class RaygunShootAnimation(tower_pos: CellPos, direction : Waypoint) extends Ani
             tower_pos.y * MapPanel.cellsize,
             laser_length,
             MapPanel.cellsize )
-        TowerDefense.map_panel.darkness = (alpha * RaygunAnimation.max_darkness).toFloat
+        TowerDefense.gamestate.map_panel.darkness = (alpha * RaygunAnimation.max_darkness).toFloat
         g.setTransform( prev_transform )
     }
 }
