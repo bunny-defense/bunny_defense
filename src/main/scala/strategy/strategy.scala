@@ -8,8 +8,33 @@ import swing._
 
 import java.net.Socket
 
-/* Only the father class of the strategies. */
-class Strategy {}
+/* Only the father class of the strategies. However, it needs to own the same
+ * classes and attributes than its childrens, in order to have be valid statically
+ */
+class Strategy {
+
+    class DisplayStrategy {
+       val repaint = {}
+       val next    = {}
+       val rain = {}
+       val scroll(dt: Double) : Unit = {}
+    }
+    class UpdateStrategy {
+       val animation = {}
+       val updatable = {}
+       val utilitaries = {}
+       val projectiles = {}
+       val on_death(bunny : Bunny) = {}
+    }
+    class connstrategy {
+        def open_conn() = {}
+    }
+
+
+    val displaystrategy = new DisplayStrategy()
+    val updatestrategy  = new UpdateStrategy()
+    val connstrategy    = new ConnStrategy()
+}
 
 class ServerStrategy extends Strategy {
     /** The Server strategy class. It owns classes as attributes, in order to
@@ -28,10 +53,10 @@ class ServerStrategy extends Strategy {
        val updatable = {}
        val utilitaries = {}
        val projectiles = {}
-       val on_deat(bunny : Bunny) = {}
+       val on_death(bunny : Bunny) = {}
     }
 
-    class ConnStrategy {
+    class connstrategy {
         def open_conn() = {}
     }
 
