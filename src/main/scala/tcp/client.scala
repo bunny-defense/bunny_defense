@@ -11,6 +11,7 @@ import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
 import game_mechanics.utilitaries._
+import game_mechanics.path._
 import gui._
 import gui.animations._
 
@@ -41,6 +42,20 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                 case l:ListBuffer[Projectile] => TowerDefense.gamestate.projectiles = l
                 case l:ListBuffer[Updatable]  => TowerDefense.gamestate.updatables = l
                 case l:ListBuffer[Utilitaries] => TowerDefense.gamestate.utilitaries = l
+                case ("jumped", x: Int, y: Int, p: Waypoint) => {
+                    val obunny = TowerDefense.gamestate.bunny.find( (_.player_id = y )&&(_.id = x))
+                    if !obunny.isEmpty {
+                        val bunny = obunny.get
+                        TowerDefense.gamestate -= bunny
+                        val anim = new SmokeAnimation(bunny.pos)
+                        anim and_then { () =>
+                            bunny.pos = p
+                            TowerDefense.gamestate += bunny
+                            TowerDefense.gamestate. new SmokeAnimation(bunny.pos)
+                        }
+                        TowerDefense.gamestate += anim
+                    }
+                }
                 case (l: String, (x:Int, y:Int), id: Int) => if (("(T|t)ower".r findAllIn l) != None) {
                     TowerDefense.gamestate.tower += new Tower(Class.forName(l), new CellPos(x,y),id)
                 }

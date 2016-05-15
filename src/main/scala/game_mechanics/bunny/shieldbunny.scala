@@ -5,8 +5,9 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class ShieldBunny(player_id: Int) extends Bunny
+class ShieldBunny(player_id: Int, bunny_id: Int) extends Bunny
 {
+    override val id           = bunny_id
     override val player       = player_id
     override val bunny_graphic =
         ImageIO.read(

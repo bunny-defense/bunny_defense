@@ -2,6 +2,7 @@ package game_mechanics.bunny
 
 object BunnyFactory
 {
+    var bunny_id        = 0
     val NORMAL_BUNNY    = 0
     val HEAVY_BUNNY     = 1
     val HARE_           = 2
@@ -13,25 +14,26 @@ object BunnyFactory
     val SHIELD_BUNNY    = 8
 
     def create(bunny_type : Int, player_id: Int): Bunny = {
+        bunny_id += 1
         bunny_type match {
             case NORMAL_BUNNY    =>
-                new NormalBunny(player_id)
+                new NormalBunny(player_id, bunny_id)
             case HEAVY_BUNNY     =>
-                new HeavyBunny(player_id)
+                new HeavyBunny(player_id, bunny_id)
             case HARE_           =>
-                new Hare(player_id)
+                new Hare(player_id, bunny_id)
             case OTTER_          =>
-                new Otter(player_id)
+                new Otter(player_id, bunny_id)
             case GOLDEN_BUNNY    =>
-                new GoldenBunny(player_id)
+                new GoldenBunny(player_id, bunny_id)
             case BADASS_BUNNY    =>
-                new BadassBunny(player_id)
+                new BadassBunny(player_id, bunny_id)
             case SPECOP_BUNNY    =>
-                new SpecOpBunny(player_id)
+                new SpecOpBunny(player_id, bunny_id)
             case FLYING_SQUIRREL =>
-                new FlyingSquirrel(player_id)
+                new FlyingSquirrel(player_id, bunny_id)
             case SHIELD_BUNNY    =>
-                new ShieldBunny(player_id)
+                new ShieldBunny(player_id, bunny_id)
         }
     }
 }

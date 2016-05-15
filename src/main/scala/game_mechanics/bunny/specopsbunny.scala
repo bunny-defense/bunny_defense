@@ -5,15 +5,16 @@ import java.io.File
 import javax.imageio.ImageIO
 import util.Random
 
-import runtime.Controller
+import runtime.TowerDefense
 import game_mechanics.path._
 import game_mechanics.Player
 import gui.animations.{GoldAnimation,SmokeAnimation}
 
 /* Spec Op Bunny */
 
-class SpecOpBunny(player_id: Int) extends Bunny
+class SpecOpBunny(player_id: Int, bunny_id: Int) extends Bunny
 {
+    override val id            = bunny_id
     override val player        = player_id
     override val bunny_graphic =
         ImageIO.read(new File(
@@ -24,33 +25,13 @@ class SpecOpBunny(player_id: Int) extends Bunny
 	override def update(dt: Double): Unit = {
         if ( this.path.reached ) {
             Player.remove_hp( this.damage )
-            Controller -= this
+            TowerDefense.gamestate -= this
         }
         if ( !this.alive ) {
-            Controller += new GoldAnimation(
-                this.reward(Controller.wave_counter),
-                this.pos.clone()
-            )
-            Player.add_gold( this.reward( Controller.wave_counter ))
-            Controller -= this
-            Player.killcount += 1
+            TowerDefense.strategy.updatestrategy.on_deat(this)
             return
         }
         /* Bunny jump */
-        if (law.nextDouble < 1.0/180.0 ) {
-            Controller -= this
-            val anim = new SmokeAnimation(this.pos)
-            anim and_then { () =>
-                this.path.random_choice
-                this.pos = this.path.get_position()
-                println(this.path.toString)
-                Controller += this 
-                Controller += new SmokeAnimation(this.pos)
-            }
-            Controller += anim
-        }
-        else {
-            this.move(dt)
-        }
+       TowerDefense.strategy.updatestrategy.spec_jump(this)
     }
 }

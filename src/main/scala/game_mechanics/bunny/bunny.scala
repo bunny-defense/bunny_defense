@@ -10,7 +10,7 @@ import game_mechanics.path._
 import game_mechanics.{Player, JPS, Purchasable}
 import gui.MapPanel
 import gui.animations.GoldAnimation
-import runtime.{Controller,TowerDefense}
+import runtime.TowerDefense
 import util.Random
 import strategy._
 
@@ -20,6 +20,7 @@ trait Bunny extends Purchasable {
      * Bunny superclass from which every ennemy is derived.
      */
     val player          = 0
+    val id : Int
     var hp              = 10.0
     val initial_hp      = 10.0
     val law             = new Random()

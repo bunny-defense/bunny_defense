@@ -67,7 +67,18 @@ class ServerStrategy extends Strategy {
                ServerThread.sync()
            }
        }
-    }
+       def spec_jump(bunny: Bunny) = {
+           if law.nextDouble < 1.0/180.0) {
+               TowerDefense.gamestate -= bunny
+               bunny.pos = bunny.path.random_choice
+               bunny.pos = bunny.pos.get_position()
+               ServerThread.add(("jumped", bunny.id, bunny.player_id, bunny.pos))
+               TowerDefense.gamestate += bunny
+           }
+           else {
+               bunny.move(dt)
+           }
+       }
 
     class ConnStrategy {
         def open_conn() = {}
@@ -124,6 +135,7 @@ class ClientStrategy extends Strategy {
            TowerDefense.gamestate -= bunny
            Player.killcount += 1
        }
+       def spec_jump(bunny: Bunny) = {}
     }
 
     class ConnStrategy {
