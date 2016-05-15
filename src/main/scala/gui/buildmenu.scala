@@ -19,7 +19,8 @@ object BuildMenu
     val buttonSize = 64
 }
 
-class BuildMenu(cols: Int, rows: Int) extends TDComponent
+class BuildMenu (parent: Option[TDComponent], cols: Int, rows: Int)
+extends TDComponent(parent) with Reactor
 {
     import BuildMenu._
     val width  = cols * buttonSize
@@ -38,36 +39,6 @@ class BuildMenu(cols: Int, rows: Int) extends TDComponent
     //towerlist(7) = Some(RaygunTower)
     towerlist(15) = Some(Wall)
 
-    size = new CellPos( width, height )
-
-    /*
-    listenTo(mouse.clicks)
-
-    reactions += {
-        case e: MouseClicked =>
-            val x = e.point.x / buttonSize
-            val y = e.point.y / buttonSize
-            if( x >= 0 && x < cols &&
-                y >= 0 && y < rows )
-            {
-                val buttontower = towerlist( x + y * cols )
-                buttontower match {
-                    case None => ()
-                    case Some(tower) =>
-                    {
-                        if( TowerDefense.gamestate.wave_counter >= tower.unlock_wave )
-                            TowerDefense.gamestate.selected_tower = towerlist(x + y * cols)
-                    }
-                }
-            }
-        case MousePressed(_,_,_,_,_) =>
-            clicked = true
-        case MouseReleased(_,_,_,_,_) =>
-            clicked = false
-    }
-    */
-
-    /*
     listenTo(SpawnScheduler)
 
     reactions += {
@@ -96,105 +67,89 @@ class BuildMenu(cols: Int, rows: Int) extends TDComponent
             towertypes.foldLeft(()=>())(chain_anims)()
         }
     }
-    */
 
-    var clicked = false
-
-    def drawButton(x: Int, y: Int, g: Graphics2D, hovered: Boolean): Unit = {
-        val towerslot = towerlist( x + y * cols )
-        towerslot match {
-            case None =>
-                /* BACKGROUND */
-                g.setColor( Colors.white )
-                g.fillRect(
-                    x * buttonSize,
-                    y * buttonSize,
-                    buttonSize,
-                    buttonSize )
-            case Some(tower) =>
-                var ratio = Player.gold.toDouble / tower.buy_cost.toDouble
-                if( ratio > 1.0 )
-                    ratio = 1.0
-                /* BACKGROUND */
-               if( ratio < 1.0 )
-                    g.setColor( Colors.lightred )
-                else
+    class BuyButton(towertype: Option[TowerType])
+    extends TDButton(Some(this))
+    {
+        size = new CellPos( buttonSize, buttonSize )
+        val tower_type = towertype
+        override def draw_contents(g: Graphics2D): Unit = {
+            towertype match {
+                case None =>
+                    /* BACKGROUND */
                     g.setColor( Colors.white )
-                g.fillRect(
-                    x * buttonSize,
-                    y * buttonSize,
-                    buttonSize,
-                    buttonSize )
-                /* IMAGE */
-                val graphic = tower.tower_graphic
-                g.drawImage( graphic,
-                    x * buttonSize + buttonSize / 2 - graphic.getWidth() / 2,
-                    y * buttonSize, null )
-                /* COST DISPLAY */
-                val sep_height = buttonSize * 3 / 5
-                g.setColor( Colors.red )
-                g.fillRect(
-                    x * buttonSize,
-                    y * buttonSize + sep_height,
-                    buttonSize,
-                    buttonSize - sep_height )
-                g.setColor( Colors.green )
-                g.fillRect(
-                    x * buttonSize,
-                    y * buttonSize + sep_height,
-                    (buttonSize * ratio).toInt,
-                    buttonSize - sep_height )
-                val string = tower.buy_cost.toString
-                val strwidth = g.getFontMetrics().stringWidth( string )
-                val strheight = (buttonSize + sep_height) / 2
-                /* SEPARATOR */
-                g.setColor( Colors.black )
-                g.drawLine(
-                    x * buttonSize,
-                    y * buttonSize + sep_height,
-                    (x+1) * buttonSize,
-                    y * buttonSize + sep_height )
-                /* PRICE */
-                g.drawString( string,
-                    x * buttonSize + buttonSize / 2 - strwidth / 2,
-                    y * buttonSize + strheight )
-                if( TowerDefense.gamestate.wave_counter < tower.unlock_wave )
-                {
-                    g.setColor( Colors.transparent_grey )
-                    g.fillRect(
-                        x * buttonSize,
-                        y * buttonSize,
-                        buttonSize,
-                        buttonSize )
-                    g.setColor( Colors.yellow )
-                    val waves_left = tower.unlock_wave - TowerDefense.gamestate.wave_counter
-                    val wave_string = waves_left.toString
-                    val wave_string_width =
-                        g.getFontMetrics().stringWidth(wave_string)
-                    g.drawString(wave_string,
-                        x * buttonSize + buttonSize / 2 - wave_string_width / 2,
-                        y * buttonSize + 25 )
-                }
+                    g.fillRect( 0, 0, buttonSize, buttonSize )
+                case Some(tower) =>
+                    var ratio = Player.gold.toDouble / tower.buy_cost.toDouble
+                    if( ratio > 1.0 )
+                        ratio = 1.0
+                    /* BACKGROUND */
+                   if( ratio < 1.0 )
+                        g.setColor( Colors.lightred )
+                    else
+                        g.setColor( Colors.white )
+                    g.fillRect( 0, 0, buttonSize, buttonSize )
+                    /* IMAGE */
+                    val graphic = tower.tower_graphic
+                    g.drawImage( graphic,
+                        buttonSize / 2 - graphic.getWidth() / 2,
+                        0, null )
+                    /* COST DISPLAY */
+                    val sep_height = buttonSize * 3 / 5
+                    g.setColor( Colors.red )
+                    g.fillRect( 0, sep_height,
+                        buttonSize, buttonSize - sep_height )
+                    g.setColor( Colors.green )
+                    g.fillRect( 0, sep_height,
+                        (buttonSize * ratio).toInt, buttonSize - sep_height )
+                    val string = tower.buy_cost.toString
+                    val strwidth = g.getFontMetrics().stringWidth( string )
+                    val strheight = (buttonSize + sep_height) / 2
+                    /* SEPARATOR */
+                    g.setColor( Colors.black )
+                    g.drawLine( 0, sep_height, buttonSize, sep_height )
+                    /* PRICE */
+                    g.drawString( string,
+                        buttonSize / 2 - strwidth / 2, strheight )
+                    if( TowerDefense.gamestate.wave_counter < tower.unlock_wave )
+                    {
+                        g.setColor( Colors.transparent_grey )
+                        g.fillRect( 0, 0, buttonSize, buttonSize )
+                        g.setColor( Colors.yellow )
+                        val waves_left = tower.unlock_wave - TowerDefense.gamestate.wave_counter
+                        val wave_string = waves_left.toString
+                        val wave_string_width =
+                            g.getFontMetrics().stringWidth(wave_string)
+                        g.drawString(wave_string,
+                            buttonSize / 2 - wave_string_width / 2, 25 )
+                    }
+            }
+            /* OUTLINE */
+            g.setColor( Colors.black )
+            g.drawRect( 0, 0, buttonSize-1, buttonSize-1 )
         }
-        /* OUTLINE */
-        g.setColor( Colors.black )
-        g.drawRect(
-            x * buttonSize,
-            y * buttonSize,
-            buttonSize-1,
-            buttonSize-1 )
-        /* HOVER EFFECT */
-        if( hovered )
+    }
+
+    for( x <- 0 until cols )
+    {
+        for( y <- 0 until rows )
         {
-            val alpha = if( clicked ) { 0.7f } else { 0.5f }
-            g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
-            g.setColor( Colors.lightblue )
-            g.fillRect(
-                x * buttonSize,
-                y * buttonSize,
-                buttonSize,
-                buttonSize )
-            g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) )
+            children += new BuyButton(towerlist(x + y * cols))
+            {
+                pos  = new CellPos( x * buttonSize, y * buttonSize )
+                size = new CellPos( buttonSize, buttonSize )
+                override def action() : Unit = {
+                    println("Buildbutton !")
+                    tower_type match {
+                        case None => ()
+                        case Some(tower) =>
+                        {
+                            if( TowerDefense.gamestate.wave_counter >= tower.unlock_wave )
+                                TowerDefense.gamestate.selected_tower = tower_type
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -234,24 +189,4 @@ class BuildMenu(cols: Int, rows: Int) extends TDComponent
             }
         }
     }
-
-    override def draw(g: Graphics2D): Unit = {
-        super.draw(g)
-        var x = 0
-        var y = 0
-        for( x <- 0 until cols )
-        {
-            for( y <- 0 until rows )
-            {
-                val windowpos = locationOnScreen
-                val mousepos  = MouseInfo.getPointerInfo().getLocation()
-                val mousex    = mousepos.x - windowpos.x
-                val mousey    = mousepos.y - windowpos.y
-                val hovered   = (x == mousex / buttonSize) && (y == mousey/buttonSize) &&
-                (mousex >= 0) && (mousey >= 0)
-                drawButton(x,y,g,hovered)
-            }
-        }
-    }
-
 }

@@ -14,7 +14,8 @@ object InfoPanel
     val default_size = new CellPos( 200, 100 )
 }
 
-class InfoPanel extends TDComponent
+class InfoPanel(parent: Option[TDComponent])
+extends TDComponent(parent)
 {
     import InfoPanel._
     size = default_size

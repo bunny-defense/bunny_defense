@@ -25,7 +25,9 @@ object MapPanel
 }
 
 /* Represents the map on the screen */
-class MapPanel(map0: GameMap) extends TDComponent {
+class MapPanel(parent: Option[TDComponent], map0: GameMap)
+extends TDComponent(parent)
+{
     import MapPanel._
     val map      = map0
     val rows     = map.height

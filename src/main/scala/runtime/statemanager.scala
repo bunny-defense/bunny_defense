@@ -36,6 +36,7 @@ object StateManager extends Reactor
             StateManager.current_state.render(g)
         }
     }
+
     listenTo( render_surface.mouse.clicks )
     reactions += {
         case e : Event => {
@@ -43,6 +44,7 @@ object StateManager extends Reactor
             current_state.on_event(e)
         }
     }
+
    /* Changes the current state and discards the old one */
     def set_state(new_state: State) : Unit = {
         current_state = new_state

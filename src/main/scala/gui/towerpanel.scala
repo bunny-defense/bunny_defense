@@ -15,47 +15,50 @@ import game_mechanics.path.CellPos
 
 /* An info Panel that shows information on the selected tower */
 
-class TowerInfoPanel() extends TDComponent {
+class TowerInfoPanel(parent: Option[TDComponent])
+extends TDComponent(parent)
+{
     //background = Colors.lightGrey
     size = new CellPos( 200, 100 )
     val button_width = 200
     var clicked = false
 
-    /*
-    reactions += {
-        case e : MouseClicked =>
-        {
-            val x = e.point.x
-            val y = e.point.y
-            if( x >= size.x - button_width &&
-                x <  size.x &&
-                y >= 0 && y < size.y / 2 &&
-                !TowerDefense.gamestate.selected_cell.isEmpty )
+    override def on_event(event: Event) : Unit = {
+        event match {
+            case e : MouseClicked =>
             {
-                val tower = TowerDefense.gamestate.selected_cell.get
-                TowerDefense.gamestate -= tower
-                Player.add_gold(tower.sell_cost)
-                TowerDefense.gamestate.selected_cell = None
+                val x = e.point.x
+                val y = e.point.y
+                if( x >= size.x - button_width &&
+                    x <  size.x &&
+                    y >= 0 && y < size.y / 2 &&
+                    !TowerDefense.gamestate.selected_cell.isEmpty )
+                {
+                    val tower = TowerDefense.gamestate.selected_cell.get
+                    TowerDefense.gamestate -= tower
+                    Player.add_gold(tower.sell_cost)
+                    TowerDefense.gamestate.selected_cell = None
+                }
+                if( x >= 0 && x < button_width &&
+                    y >= 0 && y < size.y )
+                {
+                    TowerDefense.gamestate.on_fastforward_button()
+                }
+                if (x >= size.x - button_width &&
+                    x < size.x &&
+                    y >= size.y / 2 && y < size.y &&
+                    !TowerDefense.gamestate.selected_cell.isEmpty)
+                {
+                    TowerDefense.gamestate.upgrade_tower()
+                }
             }
-            if( x >= 0 && x < button_width &&
-                y >= 0 && y < size.y )
-            {
-                TowerDefense.gamestate.on_fastforward_button()
-            }
-            if (x >= size.x - button_width &&
-                x < size.x &&
-                y >= size.y / 2 && y < size.height &&
-                !TowerDefense.gamestate.selected_cell.isEmpty)
-            {
-                TowerDefense.gamestate.upgrade_tower()
-            }
+            case MousePressed(_,_,_,_,_)  =>
+                clicked = true
+            case MouseReleased(_,_,_,_,_) =>
+                clicked = false
+            case _ => {}
         }
-        case MousePressed(_,_,_,_,_)  =>
-            clicked = true
-        case MouseReleased(_,_,_,_,_) =>
-            clicked = false
     }
-    */
 
         /* Upgrade Button tooltip */
 

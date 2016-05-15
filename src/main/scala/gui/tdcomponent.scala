@@ -10,8 +10,14 @@ import java.awt.Graphics2D
 import runtime.StateManager
 import game_mechanics.path.CellPos
 
-class TDComponent
+class TDComponent(parent: Option[TDComponent])
 {
+    parent match {
+        case Some(component) =>
+            component.children += this
+        case None => {}
+    }
+    private val self = this
     var pos = new CellPos( 0, 0 )
     def set_pos( posx: Int, posy: Int ) : Unit = {
         pos = new CellPos( posx, posy )
@@ -33,10 +39,17 @@ class TDComponent
         )
     }
     def locationOnScreen : CellPos = {
-        val loc = StateManager.render_surface.locationOnScreen
-        return new CellPos(
-            loc.x + pos.x,
-            loc.y + pos.y )
+        parent match {
+            case Some(component) =>
+            {
+                return component.locationOnScreen + pos
+            }
+            case None =>
+            {
+                val loc = StateManager.render_surface.locationOnScreen
+                return new CellPos( loc.x + pos.x, loc.y + pos.y )
+            }
+        }
     }
     def on_event( event: Event ) : Unit = {
         children.foreach( _.on_event(event) )

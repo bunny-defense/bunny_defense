@@ -9,7 +9,7 @@ import gui.MainMenu
 /** Represents a menu state, for a specific menu **/
 abstract class MenuState extends State
 {
-    val gui = new MainMenu( StateManager.render_surface )
+    val gui = new MainMenu(None)
 
     override def update(dt: Double) : Unit = {
     }
