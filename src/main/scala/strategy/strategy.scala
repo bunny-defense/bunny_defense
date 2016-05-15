@@ -145,17 +145,18 @@ class ClientStrategy extends Strategy {
            TowerDefense.gamestate -= bunny
            ClientThread.add(("removed", bunny.id, bunny.player_id))
            ClientThread.add(("lost", bunny.damage, Player.id))
-    }
-
-    class ConnStrategy {
-        def open_conn(domain :String) : ClientThread = {
-            return new ClientThread(domain)
         }
-    }
 
-    val displaystrategy = new DisplayStrategy()
-    val connstrategy    = new ConnStrategy()
-    val updatestrategy  = new UpdateStrategy()
+        class ConnStrategy {
+            def open_conn(domain :String) : ClientThread = {
+                return new ClientThread(domain)
+            }
+        }
+
+        val displaystrategy = new DisplayStrategy()
+        val connstrategy    = new ConnStrategy()
+        val updatestrategy  = new UpdateStrategy()
+    }
 }
 
 // vim: set ts=4 sw=4 et:
