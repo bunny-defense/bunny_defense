@@ -4,8 +4,13 @@ import java.net._
 import java.io._
 import scala.io._
 
-import scala.collection.mutable.Queue
-
+import scala.collection.mutable.{ListBuffer,Queue}
+import runtime._
+import game_mechanics._
+import game_mechanics.bunny._
+import game_mechanics.tower._
+import game_mechanics.utilitaries._
+import game_mechanics.updatable._
 
 object Server {
     def main(args : Array[String]) : Unit = {
@@ -44,22 +49,31 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
 
         def add(arg: Any): Unit = {
             queue.enqueue(arg)
+        }
 
 
         def receive() : Any = {
-            case in.readObject() match {
+            in.readObject() match {
+                case _ => None
             }
-
         }
 
         def run(): Unit = {
             while (true) {
-                if !queue.isEmpty {
-                    send(queue.dequeue)
+                if (!queue.isEmpty) {
+                    send(queue.dequeue())
                 }
             }
         }
 
+        def sync(): Unit = {
+            out.flush()
+            out.writeObject(TowerDefense.gamestate.towers)
+            out.writeObject(TowerDefense.gamestate.bunnies)
+            out.writeObject(TowerDefense.gamestate.projectiles)
+            out.writeObject(TowerDefense.gamestate.updatables)
+            out.writeObject(TowerDefense.gamestate.utilitaries)
+        }
     }
     catch {
         case e: SocketException =>
@@ -68,6 +82,4 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
             e.printStackTrace();
     }
 }
-
-
 // vim: set ts=4 sw=4 et:

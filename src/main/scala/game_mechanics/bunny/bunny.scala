@@ -12,6 +12,7 @@ import gui.MapPanel
 import gui.animations.GoldAnimation
 import runtime.{Controller,TowerDefense}
 import util.Random
+import strategy._
 
 
 trait Bunny extends Purchasable {
@@ -91,7 +92,7 @@ trait Bunny extends Purchasable {
 
 	def update(dt: Double): Unit = {
         if ( !this.alive ) {
-            strategy.updatestrategy.on_death(this)
+            TowerDefense.gamestate.strategy.updatestrategy.on_death(this)
         }
         this.move(dt)
         if ( this.path.reached ) {

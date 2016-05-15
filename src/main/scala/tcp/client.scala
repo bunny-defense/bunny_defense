@@ -5,9 +5,19 @@ import java.io._
 
 import scala.io._
 
-import runtime.TowerDefense.gamestate
 
-class Client(domain : String) extends Thread("Client Thread"){
+import runtime._
+import game_mechanics._
+import game_mechanics.bunny._
+import game_mechanics.tower._
+import game_mechanics.utilitaries._
+import game_mechanics.updatable._
+import gui._
+import gui.animations._
+
+import scala.collection.mutable.{ListBuffer,Queue}
+
+class ClientThread(domain : String) extends Thread("Client Thread"){
 
     try {
         val socket = new Socket(InetAddress.getByName(domain),9999)
@@ -26,9 +36,17 @@ class Client(domain : String) extends Thread("Client Thread"){
         }
 
         def receive() : Any = {
-            return in.readObject()
+            in.readObject() match {
+                case l:ListBuffer[Bunny] => TowerDefense.gamestate.bunnies = l
+                case l:ListBuffer[Tower] => TowerDefense.gamestate.towers  = l
+                case l:ListBuffer[Projectile] => TowerDefense.gamestate.projectiles = l
+                case l:ListBuffer[Updatable]  => TowerDefense.gamestate.updatables = l
+                case l:ListBuffer[Utilitaries] => TowerDefense.gamestate.utilitaries = l
+                case (l: String, (x:Int, y:Int), id: Int) => if (("(T|t)ower".r findAllIn l) != None) {
+                    TowerDefense.gamestate.tower += new Tower(Class.forName(l), new CellPos(x,y),id)
+                }
+            }
         }
-
 
         def close() = {
             out.close()

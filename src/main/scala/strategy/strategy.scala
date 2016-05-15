@@ -4,6 +4,7 @@ import runtime.TowerDefense
 import game_mechanics._
 import tcp._
 import gui._
+import gui.animations._
 import swing._
 
 import java.net.Socket
@@ -14,19 +15,20 @@ import java.net.Socket
 class Strategy {
 
     class DisplayStrategy {
-       val repaint = {}
+       val paint = {}
        val next    = {}
        val rain = {}
-       val scroll(dt: Double) : Unit = {}
+       def scroll(dt: Double) : Unit = {}
     }
     class UpdateStrategy {
        val animation = {}
        val updatable = {}
        val utilitaries = {}
        val projectiles = {}
-       val on_death(bunny : Bunny) = {}
+       def on_death(bunny : Bunny) = {}
+       def update_timer(dt:Double) : Unit = {}
     }
-    class connstrategy {
+    class ConnStrategy {
         def open_conn() = {}
     }
 
@@ -42,10 +44,10 @@ class ServerStrategy extends Strategy {
      */
     class DisplayStrategy {
         /* The Server displays anything */
-       val repaint = {}
+       val paint = {}
        val next    = { StateManager.set_state(Lobby)}
        val rain = {}
-       val scroll(dt: Double) : Unit = {}
+       def scroll(dt: Double) : Unit = {}
     }
 
     class UpdateStrategy {
@@ -53,10 +55,17 @@ class ServerStrategy extends Strategy {
        val updatable = {}
        val utilitaries = {}
        val projectiles = {}
-       val on_death(bunny : Bunny) = {}
+       def on_death(bunny : Bunny) = {}
+       def update_timer(dt:Double) : Unit = {
+           TowerDefense.gamestate.timer -= dt
+           if (TowerDefense.gamestate.timer <= 0) {
+               TowerDefense.gamestate.timer = TowerDefense.gamestate.timer_init
+               ServerThread.sync()
+           }
+       }
     }
 
-    class connstrategy {
+    class ConnStrategy {
         def open_conn() = {}
     }
 
@@ -71,16 +80,16 @@ class ClientStrategy extends Strategy {
      *  call the strategy in a straight forward way.
      */
     class DisplayStrategy {
-       val repaint = { TowerDefense.mainpanel.repaint()}
+       val paint = { TowerDefense.mainpanel.repaint()}
        val next    = {
            Dialog.showMessage( TowerDefense.map_panel, "Game Over")
            StateManager.set_state(Lobby)
        }
        val rain = {
-           if rng.nextDouble < (dt / 200) && !raining )
+           if (rng.nextDouble < (dt / 200) && !raining )
            {
                raining = true
-               time    = 30 + rng.nextDouble, * 120
+               val time    = 30 + rng.nextDouble * 120
                val (anim, to_send)  = if (rnf.nextDouble < 0.5)
                     (new ThunderstormAnimation(time),
                     (true , time ))
@@ -92,7 +101,7 @@ class ClientStrategy extends Strategy {
                ServerThread.add(to_send)
            }
        }
-       val scroll(dt:Double) : Unit = { TowerDefense.gamestate.scroll(dt)}
+       def scroll(dt:Double) : Unit = { TowerDefense.gamestate.scroll(dt)}
     }
 
     class UpdateStrategy {
@@ -100,7 +109,7 @@ class ClientStrategy extends Strategy {
        val updatable   = {}
        val utilitaries = {}
        val projectiles = {}
-       val on_death(bunny : Bunny) = {
+       def on_death(bunny : Bunny) = {
            bunny.on_death()
            TowerDefense.gamestate += new GoldAnimation(
                bunny.reward(TowerDefense.gamestate.wave_counter),
@@ -113,8 +122,8 @@ class ClientStrategy extends Strategy {
     }
 
     class ConnStrategy {
-        def open_conn(domain :String) : Client = {
-            return new Client(domain)
+        def open_conn(domain :String) : ClientThread = {
+            return new ClientThread(domain)
         }
     }
 

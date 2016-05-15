@@ -19,6 +19,7 @@ import game_mechanics.utilitaries._
 import gui._
 import gui.animations._
 import strategy._
+import tcp._
 
 
 case object SelectedCell extends Event
@@ -43,6 +44,8 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
     var wave_counter = 1
     val framerate    = 1.0/60.0 * 1000
     var started      = false
+    var timer        = 5.0
+    var timer_init   = 5.0
     var dt: Double   = 0.0
     var acceleration = 2
     var is_accelerated = false
@@ -85,7 +88,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
             TowerDefense.map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.price) ) {
-                ClientThread.add((selected_tower.name, (x,y), Player.id))
+                ClientThread.add((selected_tower.tower_type.getClass.getSimpleName, (x,y), Player.id))
                 /* Updates the paths of living bunnies, so they won't conflict
                  * with the new tower. Uses multi-threading to be more efficient */
                 var bun_update = bunnies.filter( t => t.path.path.exists(
@@ -208,7 +211,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
 
     /* Update the game for dt time */
     def update(dt: Double): Unit = {
-        stratgy.displaystrategy.scroll(dt)
+        this.strategy.displaystrategy.scroll(dt)
         /* Update animations */
         animations.foreach( _.update(dt) )
         /* Update misc items */
@@ -249,7 +252,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
         /* Spawn in new bunnies */
         SpawnScheduler.update(dt)
         /* Random chance of rain */
-       strategy.displaystrategy.rain
+       this.strategy.displaystrategy.rain
     }
 
     /* Run the game */
@@ -257,6 +260,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
         while( true )
         {
             val start = System.currentTimeMillis
+            this.strategy.updatestrategy.update_timer(dt)
             /* Update */
             for ( i <- 1 to acceleration ) {
               update(dt)
@@ -267,7 +271,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
             }
 
             /* Render */
-            strategy.displaystrategy.repaint
+            this.strategy.displaystrategy.paint
 
             /* Delta time and step time computing */
             val miliseconds = framerate.toInt - (System.currentTimeMillis - start)
@@ -278,7 +282,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
 
             /* If player loses all health */
             if (Player.hp <= 0) {
-                strategy.displaystrategy.next
+                this.strategy.displaystrategy.next
             }
         }
     }
