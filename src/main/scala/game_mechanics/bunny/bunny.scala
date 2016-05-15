@@ -91,19 +91,12 @@ trait Bunny extends Purchasable {
 
 	def update(dt: Double): Unit = {
         if ( !this.alive ) {
-            this.on_death()
-            Controller += new GoldAnimation(
-                this.reward(Controller.wave_counter),
-                this.pos.clone()
-            )
-            Player.add_gold( this.reward( Controller.wave_counter ))
-            Controller -= this 
-            Player.killcount += 1
+            strategy.updatestrategy.on_death(this)
         }
         this.move(dt)
         if ( this.path.reached ) {
             Player.remove_hp( this.damage )
-            Controller -= this
+            TowerDefense.gamestate -= this
         }
     }
 
