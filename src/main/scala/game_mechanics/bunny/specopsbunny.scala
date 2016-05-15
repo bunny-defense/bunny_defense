@@ -24,11 +24,10 @@ class SpecOpBunny(player_id: Int, bunny_id: Int) extends Bunny
 
 	override def update(dt: Double): Unit = {
         if ( this.path.reached ) {
-            Player.remove_hp( this.damage )
-            TowerDefense.gamestate -= this
+            TowerDefense.gamestate.strategy.updatestrategy.lost_hp(this)
         }
         if ( !this.alive ) {
-            TowerDefense.strategy.updatestrategy.on_deat(this)
+            TowerDefense.strategy.updatestrategy.on_death(this)
             return
         }
         /* Bunny jump */

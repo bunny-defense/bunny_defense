@@ -44,14 +44,14 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                 case l:ListBuffer[Utilitaries] => TowerDefense.gamestate.utilitaries = l
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
                     val obunny = TowerDefense.gamestate.bunny.find( (_.player_id = y )&&(_.id = x))
-                    if !obunny.isEmpty {
+                    if (!obunny.isEmpty) {
                         val bunny = obunny.get
                         TowerDefense.gamestate -= bunny
                         val anim = new SmokeAnimation(bunny.pos)
                         anim and_then { () =>
                             bunny.pos = p
                             TowerDefense.gamestate += bunny
-                            TowerDefense.gamestate. new SmokeAnimation(bunny.pos)
+                            TowerDefense.gamestate += new SmokeAnimation(bunny.pos)
                         }
                         TowerDefense.gamestate += anim
                     }

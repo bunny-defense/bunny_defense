@@ -97,8 +97,7 @@ trait Bunny extends Purchasable {
         }
         this.move(dt)
         if ( this.path.reached ) {
-            Player.remove_hp( this.damage )
-            TowerDefense.gamestate -= this
+            TowerDefense.gamestate.strategy.updatestrategy.lost_hp(this)
         }
     }
 

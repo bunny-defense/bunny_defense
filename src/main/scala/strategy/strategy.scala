@@ -31,6 +31,8 @@ class Strategy {
        val projectiles = {}
        def on_death(bunny : Bunny) = {}
        def update_timer(dt:Double) : Unit = {}
+       def spec_jump(bunny : Bunny) : Unit = {}
+       def lost_hp(bunny : Bunny) = {}
     }
     class ConnStrategy {
         def open_conn() = {}
@@ -68,7 +70,7 @@ class ServerStrategy extends Strategy {
            }
        }
        def spec_jump(bunny: Bunny) = {
-           if law.nextDouble < 1.0/180.0) {
+           if (law.nextDouble < 1.0/180.0) {
                TowerDefense.gamestate -= bunny
                bunny.pos = bunny.path.random_choice
                bunny.pos = bunny.pos.get_position()
@@ -79,6 +81,8 @@ class ServerStrategy extends Strategy {
                bunny.move(dt)
            }
        }
+       def lost_hp(bunny : Bunny) = {}
+    }
 
     class ConnStrategy {
         def open_conn() = {}
@@ -106,7 +110,7 @@ class ClientStrategy extends Strategy {
            {
                TowerDefense.gamestate.raining = true
                val time    = 30 + rng.nextDouble * 120
-               val (anim, to_send)  = if (rnf.nextDouble < 0.5)
+               val (anim, to_send)  = if (rng.nextDouble < 0.5)
                     (new ThunderstormAnimation(time),
                     (true , time ))
                 else
@@ -136,6 +140,11 @@ class ClientStrategy extends Strategy {
            Player.killcount += 1
        }
        def spec_jump(bunny: Bunny) = {}
+       def lost_hp(bunny : Bunny) = {
+           Player.remove_hp(bunny.damage)
+           TowerDefense.gamestate -= bunny
+           ClientThread.add(("removed", bunny.id, bunny.player_id))
+           ClientThread.add(("lost", bunny.damage, Player.id))
     }
 
     class ConnStrategy {

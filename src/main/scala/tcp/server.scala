@@ -53,7 +53,8 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
 
         def receive() : Any = {
             in.readObject() match {
-                case _ => None
+                case ("removed", d: Int, p: Int) =>
+                { }
             }
         }
 
