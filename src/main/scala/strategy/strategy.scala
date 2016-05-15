@@ -1,6 +1,10 @@
 package strategy
 
+import java.net.Socket
+import util.Random
+
 import runtime.TowerDefense
+import runtime.StateManager
 import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
@@ -9,9 +13,6 @@ import tcp._
 import gui._
 import gui.animations._
 import swing._
-
-import java.net.Socket
-import util.Random
 
 /* Only the father class of the strategies. However, it needs to own the same
  * classes and attributes than its childrens, in order to have be valid statically
@@ -45,43 +46,51 @@ class Strategy {
 }
 
 class ServerStrategy extends Strategy {
+    val rng = new Random()
     /** The Server strategy class. It owns classes as attributes, in order to
      *  call the strategy in a straight forward way.
      */
     class DisplayStrategy {
         /* The Server displays anything */
        val paint = {}
-       val next    = { TowerDefense.statemanager.set_state(Lobby)}
+       val next  = { StateManager.set_state(Lobby) }
        def rain(dt: Double) = {}
        def scroll(dt: Double) : Unit = {}
     }
 
+    object UpdateStrategy
+    {
+        val sync_delay : Double = 5.0
+        var sync_timer : Double = 0.0
+    }
     class UpdateStrategy {
-       val animation = {}
-       val updatable = {}
-       val utilitaries = {}
-       val projectiles = {}
-       def on_death(bunny : Bunny) = {}
-       def update_timer(dt:Double) : Unit = {
-           TowerDefense.gamestate.timer -= dt
-           if (TowerDefense.gamestate.timer <= 0) {
-               TowerDefense.gamestate.timer = TowerDefense.gamestate.timer_init
-               ServerThread.sync()
-           }
-       }
-       def spec_jump(bunny: Bunny, dt: Double) = {
-           if (law.nextDouble < 1.0/180.0) {
-               TowerDefense.gamestate -= bunny
-               bunny.path.random_choice
-               bunny.pos = bunny.get_position()
-               ServerThread.add(("jumped", bunny.id, bunny.player_id, bunny.pos))
-               TowerDefense.gamestate += bunny
-           }
-           else {
-               bunny.move(dt)
-           }
-       }
-       def lost_hp(bunny : Bunny) = {}
+        import UpdateStrategy._
+        val animation = {}
+        val updatable = {}
+        val utilitaries = {}
+        val projectiles = {}
+        def on_death(bunny : Bunny) = {}
+        def update_timer(dt:Double) : Unit = {
+            sync_timer -= dt
+            if (sync_timer <= 0)
+            {
+                sync_timer = sync_delay
+                ServerThread.sync()
+            }
+        }
+        def spec_jump(bunny: Bunny, dt: Double) = {
+            if (rng.nextDouble < 1.0/180.0) {
+                TowerDefense.gamestate -= bunny
+                bunny.path.random_choice
+                bunny.pos = bunny.get_position()
+                ServerThread.add(("jumped", bunny.id, bunny.player_id, bunny.pos))
+                TowerDefense.gamestate += bunny
+            }
+            else {
+                bunny.move(dt)
+            }
+        }
+        def lost_hp(bunny : Bunny) = {}
     }
 
     class ConnStrategy {
@@ -100,10 +109,10 @@ class ClientStrategy extends Strategy {
      */
     class DisplayStrategy {
        val rng =  new Random
-       val paint = { TowerDefense.mainpanel.repaint()}
+       val paint = { StateManager.render_surface.repaint() }
        val next    = {
-           Dialog.showMessage( TowerDefense.map_panel, "Game Over")
-           TowerDefense.statemanager.set_state(Lobby)
+           Dialog.showMessage( StateManager.render_surface, "Game Over")
+           StateManager.set_state(Lobby)
        }
        def rain(dt: Double) = {
            if (rng.nextDouble < (dt / 200) && !TowerDefense.gamestate.raining )

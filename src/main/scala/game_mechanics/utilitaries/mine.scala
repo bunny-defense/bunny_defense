@@ -13,8 +13,8 @@ import game_mechanics.Purchasable
 import gui.animations.SpreadAnimation
 
 
-/* The class of a projectile */
-class Utilitaries(origin_pos: Waypoint) extends Purchasable {
+/* The class of a utilitary purchasable item */
+class Utilitary(origin_pos: Waypoint) extends Purchasable {
     var speed         = 1.0
     var damage        = 5.0
     var pos           = origin_pos
