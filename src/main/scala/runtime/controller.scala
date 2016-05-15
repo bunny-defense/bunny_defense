@@ -252,7 +252,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
         /* Spawn in new bunnies */
         SpawnScheduler.update(dt)
         /* Random chance of rain */
-       this.strategy.displaystrategy.rain
+       this.strategy.displaystrategy.rain(dt)
     }
 
     /* Run the game */

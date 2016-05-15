@@ -11,7 +11,6 @@ import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
 import game_mechanics.utilitaries._
-import game_mechanics.updatable._
 import gui._
 import gui.animations._
 

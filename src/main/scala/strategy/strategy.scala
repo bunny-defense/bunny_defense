@@ -2,12 +2,16 @@ package strategy
 
 import runtime.TowerDefense
 import game_mechanics._
+import game_mechanics.bunny._
+import game_mechanics.tower._
+import game_mechanics.utilitary._
 import tcp._
 import gui._
 import gui.animations._
 import swing._
 
 import java.net.Socket
+import util.Random
 
 /* Only the father class of the strategies. However, it needs to own the same
  * classes and attributes than its childrens, in order to have be valid statically
@@ -17,7 +21,7 @@ class Strategy {
     class DisplayStrategy {
        val paint = {}
        val next    = {}
-       val rain = {}
+       def rain(dt: Double) = {}
        def scroll(dt: Double) : Unit = {}
     }
     class UpdateStrategy {
@@ -46,7 +50,7 @@ class ServerStrategy extends Strategy {
         /* The Server displays anything */
        val paint = {}
        val next    = { StateManager.set_state(Lobby)}
-       val rain = {}
+       def rain(dt: Double) = {}
        def scroll(dt: Double) : Unit = {}
     }
 
@@ -80,15 +84,16 @@ class ClientStrategy extends Strategy {
      *  call the strategy in a straight forward way.
      */
     class DisplayStrategy {
+       val rng =  new Random
        val paint = { TowerDefense.mainpanel.repaint()}
        val next    = {
            Dialog.showMessage( TowerDefense.map_panel, "Game Over")
            StateManager.set_state(Lobby)
        }
-       val rain = {
-           if (rng.nextDouble < (dt / 200) && !raining )
+       def rain(dt: Double) = {
+           if (rng.nextDouble < (dt / 200) && !TowerDefense.gamestate.raining )
            {
-               raining = true
+               TowerDefense.gamestate.raining = true
                val time    = 30 + rng.nextDouble * 120
                val (anim, to_send)  = if (rnf.nextDouble < 0.5)
                     (new ThunderstormAnimation(time),
