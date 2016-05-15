@@ -48,8 +48,6 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
     var is_accelerated = false
     var raining      = false
     var domain       = "localhost"
-    var server       = false
-    var client       = true
     /* The tower type selected for construction */
     var selected_tower          : Option[TowerType]     = None
     /* The tower currently selected */
@@ -87,7 +85,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
             TowerDefense.map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.price) ) {
-                TowerDefense.gamestate += new Tower( selected_tower.get, pos, Player.id)
+                ClientThread.add((selected_tower.name, (x,y), Player.id))
                 /* Updates the paths of living bunnies, so they won't conflict
                  * with the new tower. Uses multi-threading to be more efficient */
                 var bun_update = bunnies.filter( t => t.path.path.exists(
@@ -152,7 +150,13 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
            case None            => {}
            case Some(upgrade)   => {
                if (Player.remove_gold(upgrade.cost)) {
-                   upgrade.effect(selected_cell.get)
+                   ClientThread.add(
+                       ("Upgraded",
+                        (selected_cell.get.x, selected_cel.get.y),
+                        upgrade,
+                        player.id
+                       )
+                    )
                    selected_cell.get.sell_cost += ((0.8 * upgrade.cost).toInt)
                }
                else {
@@ -204,7 +208,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
 
     /* Update the game for dt time */
     def update(dt: Double): Unit = {
-        scroll(dt)
+        stratgy.displaystrategy.scroll(dt)
         /* Update animations */
         animations.foreach( _.update(dt) )
         /* Update misc items */
@@ -245,16 +249,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
         /* Spawn in new bunnies */
         SpawnScheduler.update(dt)
         /* Random chance of rain */
-        if( rng.nextDouble < (dt / 200) && !raining )
-        {
-            raining = true
-            val anim = if(rng.nextDouble < 0.5)
-                new ThunderstormAnimation( 30 + rng.nextDouble * 120 )
-            else
-                new RainAnimation( 30 + rng.nextDouble * 120 )
-            anim and_then { () => this.raining = false }
-            this += anim
-        }
+       strategy.displaystrategy.rain
     }
 
     /* Run the game */
@@ -272,12 +267,6 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
             }
 
             /* Render */
-            /*
-            TowerDefense.map_panel.repaint()
-            TowerDefense.build_menu.repaint()
-            TowerDefense.info_panel.repaint()
-            TowerDefense.tower_panel.thepanel.repaint()
-            */
             strategy.displaystrategy.repaint
 
             /* Delta time and step time computing */
@@ -289,8 +278,7 @@ class gamestate(given_strategy : Strategy) extends Publisher with Reactor
 
             /* If player loses all health */
             if (Player.hp <= 0) {
-                Dialog.showMessage( TowerDefense.map_panel, "Game Over")
-                return
+                strategy.displaystrategy.next
             }
         }
     }

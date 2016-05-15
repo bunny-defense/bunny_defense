@@ -4,6 +4,8 @@ import java.net._
 import java.io._
 import scala.io._
 
+import scala.collection.mutable.Queue
+
 
 object Server {
     def main(args : Array[String]) : Unit = {
@@ -27,6 +29,7 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
             new DataOutputStream(socket.getOutputStream()))
         val in  = new ObjectInputStream(
             new DataInputStream(socket.getInputStream()))
+        val queue = new Queue[Any]()
 
         def close() : Unit = {
             out.close()
@@ -39,8 +42,22 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
             out.flush()
         }
 
+        def add(arg: Any): Unit = {
+            queue.enqueue(arg)
+
+
         def receive() : Any = {
-            return in.readObject()
+            case in.readObject() match {
+            }
+
+        }
+
+        def run(): Unit = {
+            while (true) {
+                if !queue.isEmpty {
+                    send(queue.dequeue)
+                }
+            }
         }
 
     }
