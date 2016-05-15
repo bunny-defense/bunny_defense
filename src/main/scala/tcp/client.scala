@@ -37,7 +37,7 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
 
         def receive() : Any = {
             in.readObject() match {
-                case l:ListBuffer[Bunny] => TowerDefense.gamestate.bunnies = l
+                case l:ListBuffer[Bunny] => { TowerDefense.gamestate.bunnies = l }
                 case l:ListBuffer[Tower] => TowerDefense.gamestate.towers  = l
                 case l:ListBuffer[Projectile] => TowerDefense.gamestate.projectiles = l
                 case l:ListBuffer[Updatable]  => TowerDefense.gamestate.updatables = l

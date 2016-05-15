@@ -27,10 +27,10 @@ class SpecOpBunny(player_id: Int, bunny_id: Int) extends Bunny
             TowerDefense.gamestate.strategy.updatestrategy.lost_hp(this)
         }
         if ( !this.alive ) {
-            TowerDefense.strategy.updatestrategy.on_death(this)
+            TowerDefense.gamestate.strategy.updatestrategy.on_death(this)
             return
         }
         /* Bunny jump */
-       TowerDefense.strategy.updatestrategy.spec_jump(this)
+       TowerDefense.gamestate.strategy.updatestrategy.spec_jump(this,dt)
     }
 }

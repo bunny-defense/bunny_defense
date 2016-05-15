@@ -4,7 +4,7 @@ import runtime.TowerDefense
 import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
-import game_mechanics.utilitary._
+import game_mechanics.utilitaries._
 import tcp._
 import gui._
 import gui.animations._
@@ -31,7 +31,7 @@ class Strategy {
        val projectiles = {}
        def on_death(bunny : Bunny) = {}
        def update_timer(dt:Double) : Unit = {}
-       def spec_jump(bunny : Bunny) : Unit = {}
+       def spec_jump(bunny : Bunny, dt: Double) : Unit = {}
        def lost_hp(bunny : Bunny) = {}
     }
     class ConnStrategy {
@@ -51,7 +51,7 @@ class ServerStrategy extends Strategy {
     class DisplayStrategy {
         /* The Server displays anything */
        val paint = {}
-       val next    = { StateManager.set_state(Lobby)}
+       val next    = { TowerDefense.statemanager.set_state(Lobby)}
        def rain(dt: Double) = {}
        def scroll(dt: Double) : Unit = {}
     }
@@ -69,11 +69,11 @@ class ServerStrategy extends Strategy {
                ServerThread.sync()
            }
        }
-       def spec_jump(bunny: Bunny) = {
+       def spec_jump(bunny: Bunny, dt: Double) = {
            if (law.nextDouble < 1.0/180.0) {
                TowerDefense.gamestate -= bunny
-               bunny.pos = bunny.path.random_choice
-               bunny.pos = bunny.pos.get_position()
+               bunny.path.random_choice
+               bunny.pos = bunny.get_position()
                ServerThread.add(("jumped", bunny.id, bunny.player_id, bunny.pos))
                TowerDefense.gamestate += bunny
            }
@@ -103,7 +103,7 @@ class ClientStrategy extends Strategy {
        val paint = { TowerDefense.mainpanel.repaint()}
        val next    = {
            Dialog.showMessage( TowerDefense.map_panel, "Game Over")
-           StateManager.set_state(Lobby)
+           TowerDefense.statemanager.set_state(Lobby)
        }
        def rain(dt: Double) = {
            if (rng.nextDouble < (dt / 200) && !TowerDefense.gamestate.raining )
@@ -116,8 +116,8 @@ class ClientStrategy extends Strategy {
                 else
                     (new RainAnimation(time),
                     (false, time ))
-               anim and_then { () => this.raining = false }
-               this += anim
+               anim and_then { () => TowerDefense.gamestate.raining = false }
+               TowerDefense.gamestate += anim
                ServerThread.add(to_send)
            }
        }
@@ -139,13 +139,14 @@ class ClientStrategy extends Strategy {
            TowerDefense.gamestate -= bunny
            Player.killcount += 1
        }
-       def spec_jump(bunny: Bunny) = {}
+       def spec_jump(bunny: Bunny, dt: Double) = {}
        def lost_hp(bunny : Bunny) = {
            Player.remove_hp(bunny.damage)
            TowerDefense.gamestate -= bunny
            ClientThread.add(("removed", bunny.id, bunny.player_id))
            ClientThread.add(("lost", bunny.damage, Player.id))
         }
+    }
 
         class ConnStrategy {
             def open_conn(domain :String) : ClientThread = {
@@ -156,7 +157,6 @@ class ClientStrategy extends Strategy {
         val displaystrategy = new DisplayStrategy()
         val connstrategy    = new ConnStrategy()
         val updatestrategy  = new UpdateStrategy()
-    }
 }
 
 // vim: set ts=4 sw=4 et:

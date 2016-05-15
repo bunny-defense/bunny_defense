@@ -80,7 +80,7 @@ extends TDComponent(parent) with Reactor
                     g.setColor( Colors.white )
                     g.fillRect( 0, 0, buttonSize, buttonSize )
                 case Some(tower) =>
-                    var ratio = Player.gold.toDouble / tower.buy_cost.toDouble
+                    var ratio = Player.gold.toDouble / tower.price.toDouble
                     if( ratio > 1.0 )
                         ratio = 1.0
                     /* BACKGROUND */
@@ -102,7 +102,7 @@ extends TDComponent(parent) with Reactor
                     g.setColor( Colors.green )
                     g.fillRect( 0, sep_height,
                         (buttonSize * ratio).toInt, buttonSize - sep_height )
-                    val string = tower.buy_cost.toString
+                    val string = tower.price.toString
                     val strwidth = g.getFontMetrics().stringWidth( string )
                     val strheight = (buttonSize + sep_height) / 2
                     /* SEPARATOR */

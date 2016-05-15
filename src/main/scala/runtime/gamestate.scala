@@ -17,18 +17,20 @@ import game_mechanics.tower._
 import game_mechanics.bunny._
 import gui._
 import gui.animations._
+import strategy._
 
 case object SelectedCell extends Event
 case object NoSelectedCell extends Event
 case object FastForwOn extends Event
 case object FastForwOff extends Event
 
-class GameState extends State with Publisher
+class GameState(strategy_init : Strategy) extends State with Publisher
 {
     /**
      * The main controller.
      * It manages the main loop, the graphics, everything
      */
+    val strategy     = strategy_init
     val bunnies      = new ListBuffer[Bunny]
     val projectiles  = new ListBuffer[Projectile]
     val towers       = new ListBuffer[Tower]
@@ -117,8 +119,8 @@ class GameState extends State with Publisher
         if( selected_tower != None &&
             map_panel.map.valid(pos) )
         {
-            if( Player.remove_gold(selected_tower.get.buy_cost) ) {
-                this += new Tower( selected_tower.get, pos )
+            if( Player.remove_gold(selected_tower.get.price) ) {
+                this += new Tower( selected_tower.get, pos, Player.id )
                 /* Updates the paths of living bunnies, so they won't conflict
                  * with the new tower. Uses multi-threading to be more efficient */
                 var bun_update = bunnies.filter( t => t.path.path.exists(
