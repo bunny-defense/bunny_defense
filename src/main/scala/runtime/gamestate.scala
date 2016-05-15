@@ -49,10 +49,17 @@ class GameState extends State with Publisher
 
     /* GUI */
     val root = new TDComponent(None)
+    {
+        override def toString : String = "root"
+    }
     val map_panel   = new MapPanel(Some(root), new GameMap(30,15))
+    {
+        override def toString : String = "map_panel"
+    }
     val build_menu  = new BuildMenu(Some(root), 4, 4 )
     {
         pos = new CellPos( map_panel.size.x, InfoPanel.default_size.y )
+        override def toString : String = "build_menu"
     }
     val info_panel  = new InfoPanel(Some(root))
     {

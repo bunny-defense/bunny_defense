@@ -128,18 +128,20 @@ extends TDComponent(parent) with Reactor
             g.setColor( Colors.black )
             g.drawRect( 0, 0, buttonSize-1, buttonSize-1 )
         }
+        override def toString : String = {
+            "build_button " + pos.toString + " " + towertype.toString
+        }
     }
 
     for( x <- 0 until cols )
     {
         for( y <- 0 until rows )
         {
-            children += new BuyButton(towerlist(x + y * cols))
+            new BuyButton(towerlist(x + y * cols))
             {
                 pos  = new CellPos( x * buttonSize, y * buttonSize )
                 size = new CellPos( buttonSize, buttonSize )
                 override def action() : Unit = {
-                    println("Buildbutton !")
                     tower_type match {
                         case None => ()
                         case Some(tower) =>

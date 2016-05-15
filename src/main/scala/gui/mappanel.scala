@@ -41,9 +41,14 @@ extends TDComponent(parent)
         super.on_event(event)
         event match {
             case MouseClicked (_,p,_,_,_) => {
-                TowerDefense.gamestate.on_cell_clicked(
-                    p.x / cellsize,
-                    p.y / cellsize )
+                val loc = locationOnScreen
+                val mousex = p.x - loc.x
+                val mousey = p.y - loc.y
+                if( mousex >= 0 && mousey >= 0 &&
+                    mousex < size.x && mousey < size.y )
+                    TowerDefense.gamestate.on_cell_clicked(
+                        mousex / cellsize,
+                        mousey / cellsize )
             }
             case _ => {}
         }
