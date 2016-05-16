@@ -148,9 +148,10 @@ class ClientStrategy extends Strategy {
                bunny.reward(TowerDefense.gamestate.wave_counter),
                bunny.pos.clone()
            )
-           Player.add_gold( bunny.reward(TowerDefense.gamestate.wave_counter))
+           TowerDefense.gamestate.player.add_gold(
+               bunny.reward(TowerDefense.gamestate.wave_counter))
            TowerDefense.gamestate -= bunny
-           Player.killcount += 1
+           TowerDefense.gamestate.player.killcount += 1
        }
        def spec_jump(bunny: Bunny, dt: Double) = {}
        def lost_hp(bunny : Bunny) = {
