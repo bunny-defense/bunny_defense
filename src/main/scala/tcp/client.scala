@@ -41,11 +41,11 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
 
         def receive() : Any = {
             in.readObject() match {
-                case l:ListBuffer[Bunny] => { TowerDefense.gamestate.bunnies = l }
-                case l:ListBuffer[Tower] => TowerDefense.gamestate.towers  = l
-                case l:ListBuffer[Projectile] => TowerDefense.gamestate.projectiles = l
-                case l:ListBuffer[Updatable]  => TowerDefense.gamestate.updatables = l
-                case l:ListBuffer[Utilitary] => TowerDefense.gamestate.utilitaries = l
+                case (l:ListBuffer[Bunny]) => { TowerDefense.gamestate.bunnies = l }
+                case (l:ListBuffer[Tower]) => {TowerDefense.gamestate.towers  = l}
+                case (l:ListBuffer[Projectile]) => {TowerDefense.gamestate.projectiles = l}
+                case (l:ListBuffer[Updatable])  => {TowerDefense.gamestate.updatables = l}
+                case (l:ListBuffer[Utilitary])=> {TowerDefense.gamestate.utilitaries = l}
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
                     val obunny = TowerDefense.gamestate.bunnies.find(t => ((t.player == y )&&(t.id == x)))
                     if (!obunny.isEmpty) {
@@ -60,8 +60,8 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                         TowerDefense.gamestate += anim
                     }
                 }
-                case (l: String, (x:Int, y:Int), id: Int) => if (("(T|t)ower".r findAllIn l) != None) {
-                    TowerDefense.gamestate += new Tower(Class.forName(l), new CellPos(x,y),id)
+                case (l: TowerType, (x:Int, y:Int), id: Int) => {
+                    TowerDefense.gamestate += new Tower(l, new CellPos(x,y),id)
                 }
                 case ("removed", d: Int, p: Int) => {
                     val toRemove = TowerDefense.gamestate.bunnies.find(

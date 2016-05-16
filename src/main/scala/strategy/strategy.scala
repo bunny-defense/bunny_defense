@@ -5,6 +5,7 @@ import util.Random
 
 import runtime.TowerDefense
 import runtime.StateManager
+import runtime._
 import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
@@ -55,7 +56,7 @@ class ServerStrategy extends Strategy {
     class DisplayStrategy {
         /* The Server displays anything */
        val paint = {}
-       val next  = { StateManager.set_state(Lobby) }
+       val next  = { StateManager.set_state(new NumberOfPlayerState()) }
        def rain(dt: Double) = {}
        def scroll(dt: Double) : Unit = {}
     }
@@ -115,7 +116,7 @@ class ClientStrategy extends Strategy {
        val paint = { StateManager.render_surface.repaint() }
        val next    = {
            Dialog.showMessage( StateManager.render_surface, "Game Over")
-           StateManager.set_state(Lobby)
+           StateManager.set_state(new NumberOfPlayerState())
        }
        def rain(dt: Double) = {
            if (rng.nextDouble < (dt / 200) && !TowerDefense.gamestate.raining )
@@ -158,7 +159,7 @@ class ClientStrategy extends Strategy {
            ClientThread.add(("lost", bunny.damage, Player.id))
         }
        def placing(tower : TowerType, pos: CellPos,  id : Int) {
-           ClientThread.add(("placing", "tower", pos, id))
+           ClientThread.add(("placing", tower, pos, id))
        }
     }
 
