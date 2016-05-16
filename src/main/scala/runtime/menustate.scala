@@ -5,6 +5,7 @@ import swing._
 import swing.event._
 
 import gui.MainMenu
+import tcp._
 
 /** Represents a menu state, for a specific menu **/
 abstract class MenuState extends State

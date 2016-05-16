@@ -19,6 +19,7 @@ import game_mechanics.utilitaries._
 import gui._
 import gui.animations._
 import strategy._
+import tcp._
 
 case object SelectedCell extends Event
 case object NoSelectedCell extends Event
@@ -123,7 +124,7 @@ class GameState(strategy_init : Strategy) extends State with Publisher
             map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.price) ) {
-                strategy.updatestrategy.placing(selected_tower.get, Player.id)
+                strategy.updatestrategy.placing(selected_tower.get, pos, Player.id)
             }
             else
                 println("Not enough money! Current money = " + Player.gold.toString)
