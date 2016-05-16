@@ -4,7 +4,7 @@ import java.net.{InetAddress, Socket }
 import java.io._
 
 import scala.io._
-
+import collection.parallel._
 
 import runtime._
 import game_mechanics._
@@ -47,7 +47,7 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                 case l:ListBuffer[Updatable]  => TowerDefense.gamestate.updatables = l
                 case l:ListBuffer[Utilitary] => TowerDefense.gamestate.utilitaries = l
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
-                    val obunny = TowerDefense.gamestate.bunny.find( (_.player_id = y )&&(_.id = x))
+                    val obunny = TowerDefense.gamestate.bunny.find(((_.player_id == y )&&(_.id == x)))
                     if (!obunny.isEmpty) {
                         val bunny = obunny.get
                         TowerDefense.gamestate -= bunny
@@ -61,17 +61,17 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                     }
                 }
                 case (l: String, (x:Int, y:Int), id: Int) => if (("(T|t)ower".r findAllIn l) != None) {
-                    TowerDefense.gamestate.tower += new Tower(Class.forName(l), new CellPos(x,y),id)
+                    TowerDefense.gamestate += new Tower(Class.forName(l), new CellPos(x,y),id)
                 }
                 case ("removed", d: Int, p: Int) => {
                     val toRemove = TowerDefense.gamestate.bunnies.find(
-                        _.id == d && _.player_id = p)
+                        ((_.id == d) && (_.player_id = p)))
                     if (!toRemove.isEmpty) {
                         TowerDefense.gamestate.bunnies -= toRemove.get
                     }
                 }
                 case ("lost", d: Int, pid: Int) => {
-                    TowerDefense.gamestate.players[pid].remove_hp(d)
+                    TowerDefense.gamestate.players(pid).remove_hp(d)
                 }
                 case ("placing", t : TowerType, pos : CellPos, id : Int) => {
                     TowerDefense.gamestate += new Tower(t, pos, id)

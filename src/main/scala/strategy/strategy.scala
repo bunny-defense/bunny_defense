@@ -35,6 +35,7 @@ class Strategy {
        def update_timer(dt:Double) : Unit = {}
        def spec_jump(bunny : Bunny, dt: Double) : Unit = {}
        def lost_hp(bunny : Bunny) = {}
+       def placing(tower : TowerType, pos : CellPos, id : Int) {}
     }
     class ConnStrategy {
         def open_conn() = {}

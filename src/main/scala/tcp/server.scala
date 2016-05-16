@@ -3,6 +3,7 @@ package tcp
 import java.net._
 import java.io._
 import scala.io._
+import collection.parallel._
 
 import scala.collection.mutable.{ListBuffer,Queue}
 import runtime._
@@ -56,14 +57,13 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
             in.readObject() match {
                 case ("removed", d: Int, p: Int) => {
                     val toRemove = TowerDefense.gamestate.bunnies.find(
-                        _.id == d && _.player_id = p)
+                        ((_.id == d) && (_.player_id == p)))
                     if (!toRemove.isEmpty) {
                         TowerDefense.gamestate.bunnies -= toRemove.get
                     }
                     add(("removed", d, p))
                 }
                 case ("lost", d: Int, pid: Int) => {
-                    TowerDefense.gamestate.players(pid).remove_hp(d)
                     add(("lost", d, pid))
                 }
                 case ("placing", t : TowerType, pos : CellPos, id : Int) => {

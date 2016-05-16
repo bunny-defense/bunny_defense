@@ -15,6 +15,7 @@ import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
 import game_mechanics.bunny._
+import game_mechanics.utilitaries._
 import gui._
 import gui.animations._
 import strategy._
@@ -36,7 +37,8 @@ class GameState(strategy_init : Strategy) extends State with Publisher
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
     val updatables   = new ListBuffer[Updatable]
-    val players      = new ListBuffer[Player]
+    val utilitaries  = new ListBuffer[Utilitary]
+    val players      = new ListBuffer[Int]
     var wave_counter = 1
     val framerate    = 1.0/60.0 * 1000
     var started      = false
@@ -350,5 +352,13 @@ class GameState(strategy_init : Strategy) extends State with Publisher
 
     def -=(updatable: Updatable): Unit = {
         updatables -= updatable
+    }
+
+    def +=(utilitary: Utilitary): Unit = {
+        utilitaries += utilitary
+    }
+
+    def -=(utilitary: Utilitary): Unit = {
+        utilitaries -= utilitary
     }
 }

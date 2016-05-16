@@ -3,7 +3,6 @@ package runtime
 
 import swing._
 import swing.event._
-import scala.collection.mutable.List
 
 import gui.MainMenu
 
@@ -91,7 +90,7 @@ class NumberOfPlayerState extends MenuState
     new gui.WideButton( 90, "2 Player")
     {
         override def action() : Unit = {
-            clienthreads = List(
+            val clienthreads = List(
                 new ClientThread("localhost"),
                 new ClientThread("localhost")
             )
@@ -100,7 +99,7 @@ class NumberOfPlayerState extends MenuState
     new gui.WideButton( 90, "3 player")
     {
         override def action() : Unit = {
-            clienthreads = List(
+            val clienthreads = List(
                 new ClientThread("localhost"),
                 new ClientThread("localhost"),
                 new ClientThread("localhost")
