@@ -41,7 +41,7 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                 case l:ListBuffer[Tower] => TowerDefense.gamestate.towers  = l
                 case l:ListBuffer[Projectile] => TowerDefense.gamestate.projectiles = l
                 case l:ListBuffer[Updatable]  => TowerDefense.gamestate.updatables = l
-                case l:ListBuffer[Utilitaries] => TowerDefense.gamestate.utilitaries = l
+                case l:ListBuffer[Utilitary] => TowerDefense.gamestate.utilitaries = l
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
                     val obunny = TowerDefense.gamestate.bunny.find( (_.player_id = y )&&(_.id = x))
                     if (!obunny.isEmpty) {

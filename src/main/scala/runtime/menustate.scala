@@ -3,6 +3,7 @@ package runtime
 
 import swing._
 import swing.event._
+import scala.collection.mutable.List
 
 import gui.MainMenu
 
@@ -63,11 +64,45 @@ class MultiplayerMenuState extends MenuState
 {
     new gui.WideButton( 50, "Join" )
     new gui.WideButton( 120, "Host & Play" )
+    {
+        override def action() : Unit ) {
+            val serverthread = new ServerThread()
+            serverthread.start()
+            StateManager.set_state( new NumberOfPlayerState() )
+        }
+
     new gui.WideButton( 190, "Host" )
+    {
+        override def action() : Unit = {
+            val serverthread = new ServerThread()
+        }
     new gui.WideButton( 260, "Back" )
     {
         override def action() : Unit = {
             StateManager.set_state( new PlayMenuState() )
+        }
+    }
+}
+
+class NumberOfPlayerState extends MenuState
+{
+    new gui.WideButton( 90, "2 Player")
+    {
+        override def action() : Unit ) {
+            clienthreads = List(
+                new ClientThread("localhost"),
+                new ClientThread("localhos")
+            )
+        }
+    }
+    new gui.WideButton( 90, "3 player")
+    {
+        override def action() : Unit ) {
+            clienthreads = List(
+                new ClientThread("localhost"),
+                new ClientThread("localhos"),
+                new ClientThread("localhos")
+            )
         }
     }
 }

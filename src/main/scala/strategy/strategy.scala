@@ -150,7 +150,6 @@ class ClientStrategy extends Strategy {
        }
        def spec_jump(bunny: Bunny, dt: Double) = {}
        def lost_hp(bunny : Bunny) = {
-           Player.remove_hp(bunny.damage)
            TowerDefense.gamestate -= bunny
            ClientThread.add(("removed", bunny.id, bunny.player_id))
            ClientThread.add(("lost", bunny.damage, Player.id))

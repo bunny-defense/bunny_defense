@@ -53,8 +53,10 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
 
         def receive() : Any = {
             in.readObject() match {
-                case ("removed", d: Int, p: Int) =>
-                { }
+                case ("removed", d: Int, p: Int) => {
+                Towerdefense.gamestate.players[p].remove_hp(d)
+                add(("removed", d, p))
+                }
             }
         }
 
