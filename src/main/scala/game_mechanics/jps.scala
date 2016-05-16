@@ -219,8 +219,8 @@ class JPS(start: CellPos, objective: CellPos) {
     def vert_search(
         pos: (Int,Int),
         vert_dir: Int,
-        dist_init: Double
-        gamestate: GameState): ListBuffer[CellPosed] =
+        dist_init: Double,
+        gamestate : GameState): ListBuffer[CellPosed] =
         {
             /** Manages the horizontal search of jump points
              *  @param pos: current position
@@ -278,7 +278,7 @@ class JPS(start: CellPos, objective: CellPos) {
         pos: (Int,Int),
         hor_dir: Int,
         vert_dir: Int,
-        dist_init: Double
+        dist_init: Double,
         gamestate: GameState): ListBuffer[CellPosed] =
         {
             /** Manages the diagonal path search

@@ -52,7 +52,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     // ++++ FIRING MECHANICS ++++
     // ==========================
 
-    val attack : (gamestate: GameState) => Boolean = tower_type.attack_from( this, gamestate )
+    val attack : (GameState) => Boolean = tower_type.attack_from( this, gamestate )
 
     // ========================
     // ++++ UPDATING LOGIC ++++
