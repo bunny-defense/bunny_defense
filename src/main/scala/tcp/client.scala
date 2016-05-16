@@ -41,7 +41,7 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
 
         def receive() : Any = {
             in.readObject() match {
-                case l: ListBuffer[Bunny] => {
+                case ("sync_bunnies", l: ListBuffer[Bunny]) => {
                     for (bunny <- l) {
                         val bunch = TowerDefense.gamestate.bunnies.find(
                             x => x.id == bunny.id && x.player == bunny.player)
@@ -60,7 +60,7 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                         TowerDefense.gamestate -= bunny
                     }
                 }
-                case l: ListBuffer[Tower] => {
+                case ("sync_towers", l: ListBuffer[Tower]) => {
                     for (tower <- l) {
                         val bunch = TowerDefense.gamestate.towers.find(
                             x => x.player == tower.player && x.id == tower.id)
@@ -79,8 +79,7 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                         TowerDefense.gamestate -= tower
                     }
                 }
-                case l: ListBuffer[Projectile] => {}
-                case l: ListBuffer[Utilitary]=> {
+                case ("sync_utilitaries", l: ListBuffer[Utilitary]) => {
                     for (utilitary <- l) {
                         val bunch = TowerDefense.gamestate.utilitaries.find(
                             x => x.player == utilitary.player && x.id == utilitary.id)
