@@ -1,5 +1,7 @@
 package game_mechanics.bunny
 
+import game_mechanics.path._
+
 object BunnyFactory
 {
     var bunny_id        = 0
@@ -13,27 +15,27 @@ object BunnyFactory
     val FLYING_SQUIRREL = 7
     val SHIELD_BUNNY    = 8
 
-    def create(bunny_type : Int, player_id: Int): Bunny = {
+    def create(bunny_type : Int, player_id: Int, pos: CellPos, arrival: CellPos): Bunny = {
         bunny_id += 1
         bunny_type match {
             case NORMAL_BUNNY    =>
-                new NormalBunny(player_id, bunny_id)
+                new NormalBunny(player_id, bunny_id, pos, arrival)
             case HEAVY_BUNNY     =>
-                new HeavyBunny(player_id, bunny_id)
+                new HeavyBunny(player_id, bunny_id, pos, arrival)
             case HARE_           =>
-                new Hare(player_id, bunny_id)
+                new Hare(player_id, bunny_id, pos, arrival)
             case OTTER_          =>
-                new Otter(player_id, bunny_id)
+                new Otter(player_id, bunny_id, pos, arrival)
             case GOLDEN_BUNNY    =>
-                new GoldenBunny(player_id, bunny_id)
+                new GoldenBunny(player_id, bunny_id, pos, arrival)
             case BADASS_BUNNY    =>
-                new BadassBunny(player_id, bunny_id)
+                new BadassBunny(player_id, bunny_id, pos, arrival)
             case SPECOP_BUNNY    =>
-                new SpecOpBunny(player_id, bunny_id)
+                new SpecOpBunny(player_id, bunny_id, pos, arrival)
             case FLYING_SQUIRREL =>
-                new FlyingSquirrel(player_id, bunny_id)
+                new FlyingSquirrel(player_id, bunny_id, pos, arrival)
             case SHIELD_BUNNY    =>
-                new ShieldBunny(player_id, bunny_id)
+                new ShieldBunny(player_id, bunny_id, pos, arrival)
         }
     }
 }

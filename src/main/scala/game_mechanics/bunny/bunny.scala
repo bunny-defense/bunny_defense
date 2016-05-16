@@ -24,18 +24,7 @@ trait Bunny extends Purchasable {
     var hp              = 10.0
     val initial_hp      = 10.0
     val law             = new Random()
-    var path            = new Progress(
-        new JPS(new CellPos(-1, law.nextInt(TowerDefense.gamestate.map_panel.map.height)),
-                new CellPos(TowerDefense.gamestate.map_panel.map.width,
-                            law.nextInt(TowerDefense.gamestate.map_panel.map.height/2)+
-                            TowerDefense.gamestate.map_panel.map.height/4
-                            )
-                        ).run()
-                    match {
-                        case None    => throw new Exception()
-                        case Some(p) => p
-                    }
-                    )
+    var path :  Progress
     var bunnyend        = path.last.toInt
     var pos : Waypoint  = path.path.head
     val base_shield     = 1.0
