@@ -12,7 +12,7 @@ import gui.animations.{GoldAnimation,SmokeAnimation}
 
 /* Spec Op Bunny */
 
-class SpecOpBunny(player_id: Int, bunny_id: Int) extends Bunny
+case class SpecOpBunny(player_id: Int, bunny_id: Int) extends Bunny
 {
     override val id            = bunny_id
     override val player        = player_id

@@ -5,7 +5,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 /* Fast "Bunny" */
-class FlyingSquirrel(player_id: Int, bunny_id: Int) extends Bunny
+case class FlyingSquirrel(player_id: Int, bunny_id: Int) extends Bunny
 {
     override val id          = bunny_id
     override val player      = player_id

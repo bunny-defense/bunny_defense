@@ -3,7 +3,7 @@ package game_mechanics.bunny
 
 
 /* Large and tough but slow bunny */
-class HeavyBunny(player_id: Int, bunny_id: Int) extends Bunny
+case class HeavyBunny(player_id: Int, bunny_id: Int) extends Bunny
 {
     override val id          = bunny_id
     override val player      = player_id
