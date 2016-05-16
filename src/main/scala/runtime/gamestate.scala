@@ -70,7 +70,7 @@ abstract class GameState extends State with Publisher
     /* Update the game for dt time */
     def step(dt: Double): Unit = {
         /* Update projectiles */
-        projectiles.foreach( _.update(dt) )
+        projectiles.foreach( _.update(dt, this) )
 
         /* Update towers */
         /* Reinitialize the damage and range of all towers */
@@ -81,7 +81,7 @@ abstract class GameState extends State with Publisher
             towers.foreach( x => if( (x.pos - tower.pos).norm <= tower.range )
                 { tower.allied_effect(x)})
         )
-        towers.foreach( _.update(dt) )
+        towers.foreach( _.update(dt, this) )
         /* Update bunnies */
 
          /* Reinitialize the speed and shield of all bunnies */
@@ -96,7 +96,7 @@ abstract class GameState extends State with Publisher
                 bunnies.foreach( x => if( (x.pos - bunny.pos).norm <= bunny.effect_range )
                 { bunny.allied_effect(x) })
         )
-        bunnies.foreach( _.update(dt) )
+        bunnies.foreach( _.update(dt, this ) )
         /* MOVE THIS TO ServerGameState */
         /* Random chance of rain */
         /*

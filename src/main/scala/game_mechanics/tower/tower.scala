@@ -2,6 +2,7 @@
 package game_mechanics.tower
 
 import runtime.{TowerDefense,Spawner}
+import runtime.GameState._
 import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.bunny._
@@ -51,15 +52,15 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     // ++++ FIRING MECHANICS ++++
     // ==========================
 
-    val attack : () => Boolean = tower_type.attack_from( this )
+    val attack : (gamestate: GameState) => Boolean = tower_type.attack_from( this, gamestate )
 
     // ========================
     // ++++ UPDATING LOGIC ++++
     // ========================
 
     /* Updates the tower */
-    def update(dt: Double): Unit = {
-        if( cooldown <= 0 && attack() )
+    def update(dt: Double, gamestate: GameState): Unit = {
+        if( cooldown <= 0 && attack(gamestate) )
             /* Resetting the cooldown */
             cooldown = tower_type.throw_cooldown
         else
