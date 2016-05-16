@@ -5,6 +5,8 @@ import swing._
 import swing.event._
 
 import gui.MainMenu
+import gui.TDTextField
+import game_mechanics.path.CellPos
 import tcp._
 
 /** Represents a menu state, for a specific menu **/
@@ -122,5 +124,11 @@ class Lobby extends MenuState
         override def action() : Unit = {
             StateManager.set_state( new PlayMenuState() )
         }
+    }
+    new TDTextField(Some(gui))
+    {
+        pos         = new CellPos( 50, 50 )
+        size        = new CellPos( 400, 50 )
+        placeholder = "Host name"
     }
 }
