@@ -18,7 +18,11 @@ import utils._
 import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
+<<<<<<< HEAD
+import strategy.ClientStrategy
+=======
 import strategy._
+>>>>>>> 4cf28f5a529927f3ecd816685d2136326d7ea189
 
 
 object TowerDefense extends SimpleSwingApplication
