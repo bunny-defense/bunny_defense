@@ -18,11 +18,12 @@ import utils._
 import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
+import strategy.ClientStrategy
 
 
 object TowerDefense extends SimpleSwingApplication
 {
-    val gamestate   = new GameState()
+    val gamestate   = new GameState(new ClientStrategy)
     val keymap      = new HashMap[Key.Value,Boolean] {
         override def default(key: Key.Value) = false
     }
