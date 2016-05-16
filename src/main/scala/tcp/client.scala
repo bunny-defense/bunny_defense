@@ -116,7 +116,7 @@ extends Thread("Client Thread")
                     }
                 }
                 case (l: TowerType, (x:Int, y:Int), id: Int) => {
-                    gamestate += new Tower(l, new CellPos(x,y),id)
+                    gamestate += new Tower(l, new CellPos(x,y),id, gamestate)
                 }
                 case ("removed", d: Int, p: Int) => {
                     val toRemove = gamestate.bunnies.find(
@@ -129,7 +129,7 @@ extends Thread("Client Thread")
                     gamestate.players(pid).remove_hp(d)
                 }
                 case ("placing", t : TowerType, pos : CellPos, id : Int) => {
-                    gamestate += new Tower(t, pos, id)
+                    gamestate += new Tower(t, pos, id, gamepanel)
                     var bun_update = gamestate.bunnies.filter( t => t.path.path.exists(
                         u => u.x == pos.x && u.y == pos.y)).par
                     bun_update.tasksupport = new ForkJoinTaskSupport(

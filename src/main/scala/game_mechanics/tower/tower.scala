@@ -13,7 +13,9 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
+import runtime.GameState._
+
+class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int, gamestate: GameState) {
     /**
      * Tower superclass from which evey special tower is derived
      * @param tower_type: The type of the tower
@@ -52,7 +54,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     // ++++ FIRING MECHANICS ++++
     // ==========================
 
-    val attack : (GameState) => Boolean = tower_type.attack_from( this, gamestate )
+    val attack : () => Boolean = tower_type.attack_from( this, gamestate )
 
     // ========================
     // ++++ UPDATING LOGIC ++++
@@ -93,6 +95,6 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     }
 
     def clone_at(newpos: CellPos): Tower = {
-        return new Tower(tower_type, newpos, player)
+        return new Tower(tower_type, newpos, player, gamestate)
     }
 }
