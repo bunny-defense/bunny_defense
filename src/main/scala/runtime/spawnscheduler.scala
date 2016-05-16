@@ -33,7 +33,8 @@ object SpawnScheduler extends Publisher
         {
             spent_time += dt
             while( !spawn_queue.isEmpty && spawn_queue.head._1 < spent_time)
-                TowerDefense.gamestate += BunnyFactory.create(spawn_queue.dequeue._2, Player.id)
+                TowerDefense.gamestate += BunnyFactory.create(spawn_queue.dequeue._2,
+                    TowerDefense.gamestate.player.id)
             if( spawn_queue.isEmpty && TowerDefense.gamestate.bunnies.isEmpty )
             {
                 started = false

@@ -39,6 +39,7 @@ class GameState(strategy_init : Strategy) extends State with Publisher
     val animations   = new ListBuffer[Animatable]
     val utilitaries  = new ListBuffer[Utilitary]
     val players      = new ListBuffer[Int]
+    val player       = new Player()
     var wave_counter = 1
     val framerate    = 1.0/60.0 * 1000
     var started      = false
@@ -122,11 +123,11 @@ class GameState(strategy_init : Strategy) extends State with Publisher
         if( selected_tower != None &&
             map_panel.map.valid(pos) )
         {
-            if( Player.remove_gold(selected_tower.get.price) ) {
-                strategy.updatestrategy.placing(selected_tower.get, pos, Player.id)
+            if( player.remove_gold(selected_tower.get.price) ) {
+                strategy.updatestrategy.placing(selected_tower.get, pos, player.id)
             }
             else
-                println("Not enough money! Current money = " + Player.gold.toString)
+                println("Not enough money! Current money = " + player.gold.toString)
         }
         // Selecting a placed tower
         else if ( selected_tower == None )
@@ -173,7 +174,7 @@ class GameState(strategy_init : Strategy) extends State with Publisher
        {
            case None            => {}
            case Some(upgrade)   => {
-               if (Player.remove_gold(upgrade.cost)) {
+               if (player.remove_gold(upgrade.cost)) {
                    upgrade.effect(selected_cell.get)
                    selected_cell.get.sell_cost += ((0.8 * upgrade.cost).toInt)
                }
@@ -274,7 +275,7 @@ class GameState(strategy_init : Strategy) extends State with Publisher
             selected_cell  = None
         }
         /* If player loses all health */
-        if (Player.hp <= 0) {
+        if (player.hp <= 0) {
             //Dialog.showMessage( map_panel, "Game Over" )
             TowerDefense.quit()
         }

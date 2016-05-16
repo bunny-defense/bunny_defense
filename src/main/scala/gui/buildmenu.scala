@@ -80,7 +80,7 @@ extends TDComponent(parent) with Reactor
                     g.setColor( Colors.white )
                     g.fillRect( 0, 0, buttonSize, buttonSize )
                 case Some(tower) =>
-                    var ratio = Player.gold.toDouble / tower.price.toDouble
+                    var ratio = TowerDefense.gamestate.player.gold.toDouble / tower.price.toDouble
                     if( ratio > 1.0 )
                         ratio = 1.0
                     /* BACKGROUND */

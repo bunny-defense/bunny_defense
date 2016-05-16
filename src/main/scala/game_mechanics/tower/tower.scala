@@ -18,6 +18,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
      * @param tower_type: The type of the tower
      * @param pos0      : The position of the tower
      */
+    val id : Int
     val player         = player_id
     val pos            = pos0
     /* Cooldown counter */

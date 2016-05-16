@@ -61,7 +61,7 @@ object TowerDefense extends SimpleSwingApplication
             getLines().toArray
         title = titles(Random.nextInt(titles.length))
         Parameters.load()
-        Player.reset()
+        gamestate.player.reset()
         contents = StateManager.render_surface
         size = gui_size
         resizable = false
