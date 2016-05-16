@@ -4,7 +4,7 @@ import java.net.{InetAddress, Socket }
 import java.io._
 
 import scala.io._
-
+import collection.parallel._
 
 import runtime._
 import game_mechanics._
@@ -25,10 +25,14 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
             new DataInputStream(socket.getInputStream()))
         val out = new ObjectOutputStream(
             new DataOutputStream(socket.getOutputStream()))
+        val queue  = new Queue[Any]()
 
         out.writeObject("New Client")
         out.flush()
 
+        def add(arg : Any): Unit = {
+            queue.enqueue(arg)
+        }
 
         def send(arg : Any) : Unit = {
             out.writeObject(arg)
@@ -37,13 +41,13 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
 
         def receive() : Any = {
             in.readObject() match {
-                case l:ListBuffer[Bunny] => { TowerDefense.gamestate.bunnies = l }
-                case l:ListBuffer[Tower] => TowerDefense.gamestate.towers  = l
-                case l:ListBuffer[Projectile] => TowerDefense.gamestate.projectiles = l
-                case l:ListBuffer[Updatable]  => TowerDefense.gamestate.updatables = l
-                case l:ListBuffer[Utilitaries] => TowerDefense.gamestate.utilitaries = l
+                case (l:ListBuffer[Bunny]) => { TowerDefense.gamestate.bunnies = l }
+                case (l:ListBuffer[Tower]) => {TowerDefense.gamestate.towers  = l}
+                case (l:ListBuffer[Projectile]) => {TowerDefense.gamestate.projectiles = l}
+                case (l:ListBuffer[Updatable])  => {TowerDefense.gamestate.updatables = l}
+                case (l:ListBuffer[Utilitary])=> {TowerDefense.gamestate.utilitaries = l}
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
-                    val obunny = TowerDefense.gamestate.bunny.find( (_.player_id = y )&&(_.id = x))
+                    val obunny = TowerDefense.gamestate.bunnies.find(t => ((t.player == y )&&(t.id == x)))
                     if (!obunny.isEmpty) {
                         val bunny = obunny.get
                         TowerDefense.gamestate -= bunny
@@ -56,8 +60,33 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                         TowerDefense.gamestate += anim
                     }
                 }
-                case (l: String, (x:Int, y:Int), id: Int) => if (("(T|t)ower".r findAllIn l) != None) {
-                    TowerDefense.gamestate.tower += new Tower(Class.forName(l), new CellPos(x,y),id)
+                case (l: TowerType, (x:Int, y:Int), id: Int) => {
+                    TowerDefense.gamestate += new Tower(l, new CellPos(x,y),id)
+                }
+                case ("removed", d: Int, p: Int) => {
+                    val toRemove = TowerDefense.gamestate.bunnies.find(
+                        x => (x.id == d) && (x.player == p))
+                    if (!toRemove.isEmpty) {
+                        TowerDefense.gamestate.bunnies -= toRemove.get
+                    }
+                }
+                case ("lost", d: Int, pid: Int) => {
+                    TowerDefense.gamestate.players(pid).remove_hp(d)
+                }
+                case ("placing", t : TowerType, pos : CellPos, id : Int) => {
+                    TowerDefense.gamestate += new Tower(t, pos, id)
+                    var bun_update = TowerDefense.gamestate.bunnies.filter( t => t.path.path.exists(
+                        u => u.x == pos.x && u.y == pos.y)).par
+                    bun_update.tasksupport = new ForkJoinTaskSupport(
+                        new scala.concurrent.forkjoin.ForkJoinPool(8))
+                    val centering = new Waypoint( 0.5, 0.5 )
+                    for (bunny <- bun_update) {
+                        bunny.path.path = new JPS(
+                            (bunny.pos + centering).toInt,
+                            bunny.bunnyend).run().get
+                        bunny.path.reset
+                        bunny.bunnyend = bunny.path.last.toInt
+                    }
                 }
             }
         }
@@ -66,6 +95,14 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
             out.close()
             in.close()
             socket.close()
+        }
+
+        def run(): Unit = {
+            while(true) {
+                if (!queue.isEmpty) {
+                    send(queue.dequeue())
+                }
+            }
         }
     }
     catch {

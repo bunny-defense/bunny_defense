@@ -5,10 +5,12 @@ import util.Random
 
 import runtime.TowerDefense
 import runtime.StateManager
+import runtime._
 import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
 import game_mechanics.utilitaries._
+import game_mechanics.path._
 import tcp._
 import gui._
 import gui.animations._
@@ -34,6 +36,7 @@ class Strategy {
        def update_timer(dt:Double) : Unit = {}
        def spec_jump(bunny : Bunny, dt: Double) : Unit = {}
        def lost_hp(bunny : Bunny) = {}
+       def placing(tower : TowerType, pos : CellPos, id : Int) {}
     }
     class ConnStrategy {
         def open_conn() = {}
@@ -53,7 +56,7 @@ class ServerStrategy extends Strategy {
     class DisplayStrategy {
         /* The Server displays anything */
        val paint = {}
-       val next  = { StateManager.set_state(Lobby) }
+       val next  = { StateManager.set_state(new NumberOfPlayerState()) }
        def rain(dt: Double) = {}
        def scroll(dt: Double) : Unit = {}
     }
@@ -82,7 +85,7 @@ class ServerStrategy extends Strategy {
             if (rng.nextDouble < 1.0/180.0) {
                 TowerDefense.gamestate -= bunny
                 bunny.path.random_choice
-                bunny.pos = bunny.get_position()
+                bunny.pos = bunny.path.get_position()
                 ServerThread.add(("jumped", bunny.id, bunny.player_id, bunny.pos))
                 TowerDefense.gamestate += bunny
             }
@@ -91,6 +94,7 @@ class ServerStrategy extends Strategy {
             }
         }
         def lost_hp(bunny : Bunny) = {}
+        def placing(tower : TowerType, pos : CellPos, id : Int) {}
     }
 
     class ConnStrategy {
@@ -112,7 +116,7 @@ class ClientStrategy extends Strategy {
        val paint = { StateManager.render_surface.repaint() }
        val next    = {
            Dialog.showMessage( StateManager.render_surface, "Game Over")
-           StateManager.set_state(Lobby)
+           StateManager.set_state(new NumberOfPlayerState())
        }
        def rain(dt: Double) = {
            if (rng.nextDouble < (dt / 200) && !TowerDefense.gamestate.raining )
@@ -150,11 +154,13 @@ class ClientStrategy extends Strategy {
        }
        def spec_jump(bunny: Bunny, dt: Double) = {}
        def lost_hp(bunny : Bunny) = {
-           Player.remove_hp(bunny.damage)
            TowerDefense.gamestate -= bunny
            ClientThread.add(("removed", bunny.id, bunny.player_id))
            ClientThread.add(("lost", bunny.damage, Player.id))
         }
+       def placing(tower : TowerType, pos: CellPos,  id : Int) {
+           ClientThread.add(("placing", tower, pos, id))
+       }
     }
 
         class ConnStrategy {
