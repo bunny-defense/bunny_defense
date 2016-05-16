@@ -38,7 +38,7 @@ class GameState(strategy_init : Strategy) extends State with Publisher
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
     val utilitaries  = new ListBuffer[Utilitary]
-    val players      = new ListBuffer[Player]
+    val players      = new ListBuffer[Int]
     val player       = new Player()
     var wave_counter = 1
     val framerate    = 1.0/60.0 * 1000

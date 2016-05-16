@@ -95,7 +95,28 @@ class MultiplayerMenuState extends MenuState
 
 class ServerConnectionMenu extends MenuState
 {
-    // Here choose the domain and redirect to the lobby then //
+    val hostname_field = new TDTextField(Some(gui))
+    {
+        pos         = new CellPos( 50, 50 )
+        size        = new CellPos( 400, 50 )
+        placeholder = "Host name"
+    }
+    new TDButton(Some(gui), "Connect")
+    {
+        override def action() : Unit = {
+            if (!(hostname_field.text == "")) {
+                val clientthread = new ClientThread(hostname_field.text)
+                clientthread.start()
+                StateManager.set_state( new Lobby() )
+            }
+        }
+    }
+    new gui.WideButton( 50, "Back" )
+    {
+        override def action() : Unit = {
+            StateManager.set_state( new MultiplayerMenuState() )
+        }
+    }
 }
 
 class Lobby extends MenuState
@@ -105,11 +126,5 @@ class Lobby extends MenuState
         override def action() : Unit = {
             StateManager.set_state( new PlayMenuState() )
         }
-    }
-    new TDTextField(Some(gui))
-    {
-        pos         = new CellPos( 50, 50 )
-        size        = new CellPos( 400, 50 )
-        placeholder = "Host name"
     }
 }

@@ -93,10 +93,9 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
 
         def sync(): Unit = {
             out.flush()
-            out.writeObject(TowerDefense.gamestate.towers)
-            out.writeObject(TowerDefense.gamestate.bunnies)
-            out.writeObject(TowerDefense.gamestate.projectiles)
-            out.writeObject(TowerDefense.gamestate.utilitaries)
+            out.writeObject(("sync_towers", TowerDefense.gamestate.towers))
+            out.writeObject(("sync_bunnies", TowerDefense.gamestate.bunnies))
+            out.writeObject(("sync_utilitaries", TowerDefense.gamestate.utilitaries))
         }
     }
     catch {
