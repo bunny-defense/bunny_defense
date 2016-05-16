@@ -43,7 +43,7 @@ class PlayMenuState extends MenuState
     new gui.WideButton( 50, "Singleplayer" )
     {
         override def action() : Unit = {
-            StateManager.set_state( TowerDefense.gamestate(ClientStrategy))
+            StateManager.set_state( TowerDefense.gamestate)
         }
     }
     new gui.WideButton( 120, "Multiplayer" )
@@ -66,8 +66,7 @@ class MultiplayerMenuState extends MenuState
     new gui.WideButton( 120, "Host & Play" )
     {
         override def action() : Unit = {
-            val serverthread = new ServerThread()
-            serverthread.start()
+            val serverthread = new Server()
             StateManager.set_state( new NumberOfPlayerState() )
         }
     }
@@ -75,7 +74,7 @@ class MultiplayerMenuState extends MenuState
     new gui.WideButton( 190, "Host" )
     {
         override def action() : Unit = {
-            val serverthread = new ServerThread()
+            val serverthread = new Server()
         }
     }
     new gui.WideButton( 260, "Back" )

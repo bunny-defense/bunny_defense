@@ -13,18 +13,16 @@ import game_mechanics.tower._
 import game_mechanics.utilitaries._
 import game_mechanics.path._
 
-object Server {
-    def main(args : Array[String]) : Unit = {
-        try {
-            val listener = new ServerSocket(9999)
-            while (true) { new ServerThread(listener.accept()).start() }
-            listener.close()
-        }
-        catch {
-            case e: IOException =>
-                System.err.println("Could not listen on port: 9999.")
-                System.exit(1)
-        }
+class Server {
+    try {
+        val listener = new ServerSocket(9999)
+        while (true) { new ServerThread(listener.accept()).start() }
+        listener.close()
+    }
+    catch {
+        case e: IOException =>
+            System.err.println("Could not listen on port: 9999.")
+            System.exit(1)
     }
 }
 
@@ -57,7 +55,7 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
             in.readObject() match {
                 case ("removed", d: Int, p: Int) => {
                     val toRemove = TowerDefense.gamestate.bunnies.find(
-                        ((_.id == d) && (_.player_id == p)))
+                        x => ((x.id == d) && (x.player == p)))
                     if (!toRemove.isEmpty) {
                         TowerDefense.gamestate.bunnies -= toRemove.get
                     }

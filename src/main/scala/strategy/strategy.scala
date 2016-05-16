@@ -84,7 +84,7 @@ class ServerStrategy extends Strategy {
             if (rng.nextDouble < 1.0/180.0) {
                 TowerDefense.gamestate -= bunny
                 bunny.path.random_choice
-                bunny.pos = bunny.get_position()
+                bunny.pos = bunny.path.get_position()
                 ServerThread.add(("jumped", bunny.id, bunny.player_id, bunny.pos))
                 TowerDefense.gamestate += bunny
             }
