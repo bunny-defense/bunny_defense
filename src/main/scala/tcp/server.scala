@@ -96,7 +96,6 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
             out.writeObject(TowerDefense.gamestate.towers)
             out.writeObject(TowerDefense.gamestate.bunnies)
             out.writeObject(TowerDefense.gamestate.projectiles)
-            out.writeObject(TowerDefense.gamestate.updatables)
             out.writeObject(TowerDefense.gamestate.utilitaries)
         }
     }

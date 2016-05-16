@@ -36,7 +36,7 @@ extends TDComponent(parent)
                 {
                     val tower = TowerDefense.gamestate.selected_cell.get
                     TowerDefense.gamestate -= tower
-                    Player.add_gold(tower.sell_cost)
+                    TowerDefense.gamestate.player.add_gold(tower.sell_cost)
                     TowerDefense.gamestate.selected_cell = None
                 }
                 if( x >= 0 && x < button_width &&

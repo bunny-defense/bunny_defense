@@ -82,7 +82,7 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                 case l: ListBuffer[Projectile] => {}
                 case l: ListBuffer[Utilitary]=> {
                     for (utilitary <- l) {
-                        val bunch = TowerDefense.gamestate.utilitary.find(
+                        val bunch = TowerDefense.gamestate.utilitaries.find(
                             x => x.player == utilitary.player && x.id == utilitary.id)
                         if (bunch == None)
                         {
