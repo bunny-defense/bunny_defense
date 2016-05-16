@@ -6,6 +6,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.TowerDefense
+import runtime.GameState._
 import game_mechanics.{Projectile}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
@@ -28,7 +29,9 @@ object ScarecrowTower extends TowerType
     override val unlock_wave  = 10
 
 
-    override def attack_from(tower : Tower) : () => Boolean = {
+    override def attack_from(
+        tower : Tower,
+        gamestate: GameState) : () => Boolean = {
         def in_range(bunny : Bunny) : Boolean = {
             return (bunny.pos - tower.pos).norm <= tower.range
         }
@@ -38,10 +41,10 @@ object ScarecrowTower extends TowerType
             val projectile = new Projectile( target_pos, tower.pos.toDouble, this)
             projectile.speed = throw_speed
             projectile.damage = tower.damage
-            TowerDefense.gamestate += projectile
+            gamestate += projectile
         }
         def attack(): Boolean = {
-            val bunnies = TowerDefense.gamestate.bunnies.filter( in_range )
+            val bunnies = gamestate.bunnies.filter( in_range )
             if( !bunnies.isEmpty )
             {
                 bunnies.map( fire_at )

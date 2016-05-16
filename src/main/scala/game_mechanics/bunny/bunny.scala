@@ -11,6 +11,7 @@ import game_mechanics.{Player, JPS, Purchasable}
 import gui.MapPanel
 import gui.animations.GoldAnimation
 import runtime.TowerDefense
+import runtime.GameState._
 import util.Random
 import strategy._
 
@@ -80,13 +81,23 @@ trait Bunny extends Purchasable {
         pos = path.get_position + spread
     }
 
-	def update(dt: Double): Unit = {
+	def update(dt: Double, gamestate: GameState): Unit = {
         if ( !this.alive ) {
-            TowerDefense.gamestate.strategy.updatestrategy.on_death(this)
+            this.on_death()
+            gamestate += new GoldAnimation(
+                bunny.reward(gamestate.wave_counter),
+                bunny.pos.clone()
+            )
+            gamestate.player.add_gold(
+                bunny.reward(gamestate.wave_counter))
+            gamestate -= bunny
+            gamestate.player.killcount += 1
         }
         this.move(dt)
         if ( this.path.reached ) {
-            TowerDefense.gamestate.strategy.updatestrategy.lost_hp(this)
+            gamestate -= bunny
+            ClientThread.add(("removed", bunny.id, bunny.player_id))
+            ClientThread.add(("lost", bunny.damage, player.id))
         }
     }
 

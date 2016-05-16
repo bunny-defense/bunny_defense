@@ -46,7 +46,7 @@ trait TowerType extends Purchasable
 
     var amount         = 0
 
-    def attack_from(tower : Tower): () => Boolean = { () => true }
+    def attack_from(tower : Tower, gamestate: GameState): () => Boolean = { () => true }
 
     def draw_effect(g: Graphics2D): Unit = {}
 }

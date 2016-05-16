@@ -1,6 +1,7 @@
 package game_mechanics.bunny
 
 import game_mechanics.path._
+import runtime.GameState._
 
 object BunnyFactory
 {
@@ -19,23 +20,23 @@ object BunnyFactory
         bunny_id += 1
         bunny_type match {
             case NORMAL_BUNNY    =>
-                new NormalBunny(player_id, bunny_id, pos, arrival)
+                new NormalBunny(player_id, bunny_id, pos, arrival, gamestate)
             case HEAVY_BUNNY     =>
-                new HeavyBunny(player_id, bunny_id, pos, arrival)
+                new HeavyBunny(player_id, bunny_id, pos, arrival, gamestate)
             case HARE_           =>
-                new Hare(player_id, bunny_id, pos, arrival)
+                new Hare(player_id, bunny_id, pos, arrival, gamestate)
             case OTTER_          =>
-                new Otter(player_id, bunny_id, pos, arrival)
+                new Otter(player_id, bunny_id, pos, arrival, gamestate)
             case GOLDEN_BUNNY    =>
-                new GoldenBunny(player_id, bunny_id, pos, arrival)
+                new GoldenBunny(player_id, bunny_id, pos, arrival, gamestate)
             case BADASS_BUNNY    =>
-                new BadassBunny(player_id, bunny_id, pos, arrival)
+                new BadassBunny(player_id, bunny_id, pos, arrival, gamestate)
             case SPECOP_BUNNY    =>
-                new SpecOpBunny(player_id, bunny_id, pos, arrival)
+                new SpecOpBunny(player_id, bunny_id, pos, arrival, gamestate)
             case FLYING_SQUIRREL =>
-                new FlyingSquirrel(player_id, bunny_id, pos, arrival)
+                new FlyingSquirrel(player_id, bunny_id, pos, arrival, gamestate)
             case SHIELD_BUNNY    =>
-                new ShieldBunny(player_id, bunny_id, pos, arrival)
+                new ShieldBunny(player_id, bunny_id, pos, arrival, gamestate)
         }
     }
 }

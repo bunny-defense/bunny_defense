@@ -158,7 +158,8 @@ class JPS(start: CellPos, objective: CellPos) {
     def hor_search(
         pos: (Int,Int),
         hor_dir: Int,
-        dist_init: Double): ListBuffer[CellPosed] =
+        dist_init: Double,
+        gamestate: GameState): ListBuffer[CellPosed] =
         {
             /**
              * Manages the horizontal search of jump points
@@ -173,7 +174,7 @@ class JPS(start: CellPos, objective: CellPos) {
             while (true) {
                 var x1 = x0 + hor_dir
                 /* The cell is obstructed */
-               if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y0)) {
+               if (gamestate.map_panel.map.obstructed(x1,y0)) {
                    //println( x1, y0, "is obstructed" )
                    return (new ListBuffer[CellPosed]())
                }
@@ -192,14 +193,14 @@ class JPS(start: CellPos, objective: CellPos) {
               var nodes = new ListBuffer[CellPosed]()
 
               /* Choose the nodes to explore */
-             if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y0-1) &&
-                 !TowerDefense.gamestate.map_panel.map.obstructed(x2,y0-1)) {
+             if (gamestate.map_panel.map.obstructed(x1,y0-1) &&
+                 !gamestate.map_panel.map.obstructed(x2,y0-1)) {
                      //println( "Jump point !" )
                      nodes += this.add_node(x1, y0, Some(hor_dir,-1), dist)
                  }
 
-                 if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y0+1) &&
-                     !TowerDefense.gamestate.map_panel.map.obstructed(x2,y0+1)) {
+                 if (gamestate.map_panel.map.obstructed(x1,y0+1) &&
+                     !gamestate.map_panel.map.obstructed(x2,y0+1)) {
                          //println( "Jump point !" )
                          nodes += this.add_node(x1, y0, Some(hor_dir,1), dist)
                      }
@@ -218,7 +219,8 @@ class JPS(start: CellPos, objective: CellPos) {
     def vert_search(
         pos: (Int,Int),
         vert_dir: Int,
-        dist_init: Double): ListBuffer[CellPosed] =
+        dist_init: Double
+        gamestate: GameState): ListBuffer[CellPosed] =
         {
             /** Manages the horizontal search of jump points
              *  @param pos: current position
@@ -233,7 +235,7 @@ class JPS(start: CellPos, objective: CellPos) {
                 var y1 = y0 + vert_dir
                 //println( "Vertical movement to " + x0.toString + "," + y1.toString )
                 /* The cell is obstructed */
-                if (TowerDefense.gamestate.map_panel.map.obstructed(x0,y1)){
+                if (gamestate.map_panel.map.obstructed(x0,y1)){
                     return (new ListBuffer[CellPosed]())
                 }
                 /* The cell is the core objective, we return the last point of
@@ -252,13 +254,13 @@ class JPS(start: CellPos, objective: CellPos) {
                 var nodes = new ListBuffer[CellPosed]()
 
                /* Choose the nodes to explore */
-               if (TowerDefense.gamestate.map_panel.map.obstructed(x0-1,y1) &&
-                   !TowerDefense.gamestate.map_panel.map.obstructed(x0-1,y2)) {
+               if (gamestate.map_panel.map.obstructed(x0-1,y1) &&
+                   !gamestate.map_panel.map.obstructed(x0-1,y2)) {
                        nodes += this.add_node(x0, y1, Some(-1,vert_dir), dist)
                    }
 
-               if (TowerDefense.gamestate.map_panel.map.obstructed(x0+1,y1) &&
-                   !TowerDefense.gamestate.map_panel.map.obstructed(x0+1,y2)) {
+               if (gamestate.map_panel.map.obstructed(x0+1,y1) &&
+                   !gamestate.map_panel.map.obstructed(x0+1,y2)) {
                        nodes += this.add_node(x0, y1, Some(1,vert_dir), dist)
                    }
 
@@ -276,7 +278,8 @@ class JPS(start: CellPos, objective: CellPos) {
         pos: (Int,Int),
         hor_dir: Int,
         vert_dir: Int,
-        dist_init: Double): ListBuffer[CellPosed] =
+        dist_init: Double
+        gamestate: GameState): ListBuffer[CellPosed] =
         {
             /** Manages the diagonal path search
              *  @param pos: Start position
@@ -292,9 +295,9 @@ class JPS(start: CellPos, objective: CellPos) {
                 var x1 = x0 + hor_dir
                 var y1 = y0 + vert_dir
                 /* The cell is obstructed */
-                if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y1) || (
-                    TowerDefense.gamestate.map_panel.map.obstructed(x1,y0) &&
-                    TowerDefense.gamestate.map_panel.map.obstructed(x0,y1) ) ) {
+                if (gamestate.map_panel.map.obstructed(x1,y1) || (
+                    gamestate.map_panel.map.obstructed(x1,y0) &&
+                    gamestate.map_panel.map.obstructed(x0,y1) ) ) {
                         return (new ListBuffer[CellPosed]())
                     }
                     /* The cell is the core objective, we return the last point of
@@ -311,13 +314,13 @@ class JPS(start: CellPos, objective: CellPos) {
                    var y2 = y1 + vert_dir
                    var nodes: ListBuffer[CellPosed] = new ListBuffer()
 
-                   if (TowerDefense.gamestate.map_panel.map.obstructed(x0,y1) &&
-                       !TowerDefense.gamestate.map_panel.map.obstructed(x0,y2)) {
+                   if (gamestate.map_panel.map.obstructed(x0,y1) &&
+                       !gamestate.map_panel.map.obstructed(x0,y2)) {
                            nodes += add_node(x1, y1, Some(-hor_dir, vert_dir), dist)
                        }
 
-                   if (TowerDefense.gamestate.map_panel.map.obstructed(x1,y0) &&
-                       !TowerDefense.gamestate.map_panel.map.obstructed(x2,y0)) {
+                   if (gamestate.map_panel.map.obstructed(x1,y0) &&
+                       !gamestate.map_panel.map.obstructed(x2,y0)) {
                            nodes += add_node(x1, y1, Some(hor_dir, -vert_dir), dist)
                        }
 
@@ -325,7 +328,7 @@ class JPS(start: CellPos, objective: CellPos) {
                    var vert_done = false
 
                    if (nodes.isEmpty) {
-                       val sub_nodes = this.hor_search((x1,y1), hor_dir, dist)
+                       val sub_nodes = this.hor_search((x1,y1), hor_dir, dist, gamestate)
                        hor_done = true
 
                        if (!sub_nodes.isEmpty) {
@@ -339,7 +342,7 @@ class JPS(start: CellPos, objective: CellPos) {
                    }
 
                    if (nodes.isEmpty) {
-                       val sub_nodes = this.vert_search((x1,y1), vert_dir, dist)
+                       val sub_nodes = this.vert_search((x1,y1), vert_dir, dist, gamestate)
                        var vert_done = true
 
                        if (!sub_nodes.isEmpty) {
@@ -367,7 +370,7 @@ class JPS(start: CellPos, objective: CellPos) {
             return (new ListBuffer[CellPosed]())
         }
 
-    def step(dist : Double, elem: CellPosed ): Option[CellPosed] = {
+    def step(dist : Double, elem: CellPosed, gamestate: GameState): Option[CellPosed] = {
         /** Performs a step of the algorithm, id est it finds the next
          *  jump point. It don't return none iff the jump point is the objective
          */
@@ -383,7 +386,8 @@ class JPS(start: CellPos, objective: CellPos) {
             nodes = this.diag_search(
                 (elem.cell.x, elem.cell.y),
                 hor_dir, vert_dir,
-                dist
+                dist,
+                gamestate
             )
         }
 
@@ -391,7 +395,8 @@ class JPS(start: CellPos, objective: CellPos) {
             nodes = this.vert_search(
                 (elem.cell.x, elem.cell.y),
                 vert_dir,
-                dist
+                dist,
+                gamestate
             )
         }
         else {
@@ -399,7 +404,8 @@ class JPS(start: CellPos, objective: CellPos) {
                 nodes = this.hor_search(
                     (elem.cell.x, elem.cell.y),
                     hor_dir,
-                    dist
+                    dist,
+                    gamestate
                 )
             }
         }
@@ -427,7 +433,7 @@ class JPS(start: CellPos, objective: CellPos) {
         return path
     }
 
-    def run() : Option[Path] = {
+    def run(gamestate: GameState) : Option[Path] = {
         /** Runs the algorithm. It returns Some(path) if the path exists,
          *  None if not
          */
@@ -437,7 +443,7 @@ class JPS(start: CellPos, objective: CellPos) {
                 return None
             }
 
-            var pd_bis = this.step(dist.get, pd.get)
+            var pd_bis = this.step(dist.get, pd.get, gamestate)
             if (!pd_bis.isEmpty) {
                 return Some(this.toPath(pd_bis.get))
             }

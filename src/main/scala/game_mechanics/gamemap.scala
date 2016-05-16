@@ -11,6 +11,7 @@ import utils.Landscape
 import game_mechanics.tower.Tower
 import game_mechanics.path.CellPos
 import runtime.{Spawner,TowerDefense}
+import runtime.GameState._
 import gui.MapPanel
 import util.Random
 
@@ -97,9 +98,9 @@ class GameMap(width0: Int, height0: Int)
         obstruction_map(x)(y)
     }
 
-    def valid( pos : CellPos ): Boolean = {
+    def valid( pos : CellPos, bunnies : ListBuffer[Bunny]): Boolean = {
         // Cannot place tower on top of bunnies
-        if( TowerDefense.gamestate.bunnies.count( _.pos.toInt == pos ) > 0 )
+        if( bunnies.count( _.pos.toInt == pos ) > 0 )
             return false
         // Out of bounds
         if( pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height )

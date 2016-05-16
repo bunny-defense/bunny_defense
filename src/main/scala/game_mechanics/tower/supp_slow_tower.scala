@@ -8,6 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.TowerDefense
+import runtime.GameState._
 import game_mechanics.bunny.Bunny
 import gui.{Colors,MapPanel}
 import gui.animations.SnowAnimation
@@ -31,7 +32,7 @@ object SuppSlowTower extends TowerType
     override val price          = 5000
     sell_cost                   = 4000
     override val unlock_wave    = 25
-    override def attack_from(tower: Tower): () => Boolean = {
+    override def attack_from(tower: Tower, gamestate: GameState): () => Boolean = {
         def new_snow_anim() : Unit = {
             val snow_anim = new SnowAnimation( tower.pos, tower.range )
             snow_anim and_then new_snow_anim

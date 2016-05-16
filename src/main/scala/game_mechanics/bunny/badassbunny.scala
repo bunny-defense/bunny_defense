@@ -8,9 +8,15 @@ import game_mechanics.path._
 import game_mechanics.JPS
 
 import runtime.TowerDefense
+import runtime.GameState._
 
 /* A badass bunny, really strong, will become the "default" mob in late game */
-case class BadassBunny(player_id: Int, bunny_id: Int, pos: CellPos, arrival : CellPos) extends Bunny
+case class BadassBunny(
+    player_id: Int,
+    bunny_id: Int,
+    pos: CellPos,
+    arrival : CellPos,
+    gamestate: GameState) extends Bunny
 {
   override val id          = bunny_id
   override val player      = player_id
@@ -18,7 +24,7 @@ case class BadassBunny(player_id: Int, bunny_id: Int, pos: CellPos, arrival : Ce
     ImageIO.read(
       new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
   override val path = new Progress(
-        new JPS(pos, arrival).run()
+        new JPS(pos, arrival).run(gamestate)
                     match {
                         case None    => throw new Exception()
                         case Some(p) => p
@@ -40,7 +46,7 @@ case class BadassBunny(player_id: Int, bunny_id: Int, pos: CellPos, arrival : Ce
               this.path.get_position().toInt,
               this.path.path.last.toInt
           )
-          TowerDefense.gamestate += newbunny
+          gamestate += newbunny
       }
   }
 }

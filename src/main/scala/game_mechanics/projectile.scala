@@ -8,6 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.TowerDefense
+import runtime.GameState._
 import game_mechanics.tower.TowerType
 import game_mechanics.path.Waypoint
 import game_mechanics.bunny.Bunny
@@ -32,18 +33,18 @@ class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType
     }
 
     /* Executed when the projectile hits (the ground or an ennemy) */
-    def on_hit(hit_target : Option[Bunny]): Unit = {
+    def on_hit(hit_target : Option[Bunny], gamestate : GameState): Unit = {
         hit_target match {
             case None => ()
             case Some(bunny) => bunny.remove_hp( damage )
         }
-        TowerDefense.gamestate -= this
+        gamestate -= this
     }
 
     /* One step of progress */
-    def update(dt: Double): Unit = {
+    def update(dt: Double, gamestate : GameState): Unit = {
         move(dt)
-        TowerDefense.gamestate.bunnies.find( x => x.pos.distance_to(pos) < hitradius ) match
+        gamestate.bunnies.find( x => x.pos.distance_to(pos) < hitradius ) match
         {
             case None => ()
             case Some(bunny) => on_hit( Some(bunny) )
