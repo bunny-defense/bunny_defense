@@ -33,6 +33,7 @@ class BuildMenu(cols: Int, rows: Int) extends Panel
     towerlist(5) = Some(Roberto)
     towerlist(6) = Some(SuppBuffTower)
     towerlist(7) = Some(SuppSlowTower)
+    towerlist(8) = Some(BaseSpawnerTower)
     //towerlist(7) = Some(RaygunTower)
     towerlist(15) = Some(Wall)
 

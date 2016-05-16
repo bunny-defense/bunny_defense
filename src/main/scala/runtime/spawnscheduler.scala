@@ -33,7 +33,7 @@ object SpawnScheduler extends Publisher
         {
             spent_time += dt
             while( !spawn_queue.isEmpty && spawn_queue.head._1 < spent_time)
-                Controller += BunnyFactory.create(spawn_queue.dequeue._2,Player.id)
+                Controller += BunnyFactory.create(spawn_queue.dequeue._2,0)
             if( spawn_queue.isEmpty && Controller.bunnies.isEmpty )
             {
                 started = false
