@@ -67,14 +67,15 @@ class MultiplayerMenuState extends MenuState
     new gui.WideButton( 50, "Join" )
     {
         override def action() : Unit = {
-            StateManager.set_state( new Lobby() )
+            StateManager.set_state( new ServerConnectionMenu() )
         }
     }
     new gui.WideButton( 120, "Host & Play" )
     {
         override def action() : Unit = {
             val serverthread = new Server()
-            //StateManager.set_state( new NumberOfPlayerState() )
+            val clientthread = new ClientThread("localhost")
+            StateManager.set_state( new ServerConnectionMenu() )
         }
     }
 
@@ -92,30 +93,10 @@ class MultiplayerMenuState extends MenuState
     }
 }
 
-/*
-class NumberOfPlayerState extends MenuState
+class ServerConnectionMenu extends MenuState
 {
-    new gui.WideButton( 50, "2 Player")
-    {
-        override def action() : Unit = {
-            val clienthreads = List(
-                new ClientThread("localhost"),
-                new ClientThread("localhost")
-            )
-        }
-    }
-    new gui.WideButton( 120, "3 player")
-    {
-        override def action() : Unit = {
-            val clienthreads = List(
-                new ClientThread("localhost"),
-                new ClientThread("localhost"),
-                new ClientThread("localhost")
-            )
-        }
-    }
+    // Here choose the domain and redirect to the lobby then //
 }
-*/
 
 class Lobby extends MenuState
 {
