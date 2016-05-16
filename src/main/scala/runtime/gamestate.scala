@@ -36,6 +36,7 @@ class GameState(strategy_init : Strategy) extends State with Publisher
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
     val updatables   = new ListBuffer[Updatable]
+    val players      = new ListBuffer[Player]
     var wave_counter = 1
     val framerate    = 1.0/60.0 * 1000
     var started      = false
@@ -120,21 +121,7 @@ class GameState(strategy_init : Strategy) extends State with Publisher
             map_panel.map.valid(pos) )
         {
             if( Player.remove_gold(selected_tower.get.price) ) {
-                this += new Tower( selected_tower.get, pos, Player.id )
-                /* Updates the paths of living bunnies, so they won't conflict
-                 * with the new tower. Uses multi-threading to be more efficient */
-                var bun_update = bunnies.filter( t => t.path.path.exists(
-                    u => u.x == pos.x && u.y == pos.y)).par
-                bun_update.tasksupport = new ForkJoinTaskSupport(
-                    new scala.concurrent.forkjoin.ForkJoinPool(8))
-                val centering = new Waypoint( 0.5, 0.5 )
-                for (bunny <- bun_update) {
-                    bunny.path.path = new JPS(
-                        (bunny.pos + centering).toInt,
-                        bunny.bunnyend).run().get
-                    bunny.path.reset
-                    bunny.bunnyend = bunny.path.last.toInt
-                }
+                strategy.updatestrategy.placing(selected_tower.get, Player.id)
             }
             else
                 println("Not enough money! Current money = " + Player.gold.toString)

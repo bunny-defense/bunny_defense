@@ -9,6 +9,7 @@ import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
 import game_mechanics.utilitaries._
+import game_mechanics.path._
 import tcp._
 import gui._
 import gui.animations._
@@ -91,6 +92,7 @@ class ServerStrategy extends Strategy {
             }
         }
         def lost_hp(bunny : Bunny) = {}
+        def placing(tower : TowerType, pos : CellPos, id : Int) {}
     }
 
     class ConnStrategy {
@@ -154,6 +156,9 @@ class ClientStrategy extends Strategy {
            ClientThread.add(("removed", bunny.id, bunny.player_id))
            ClientThread.add(("lost", bunny.damage, Player.id))
         }
+       def placing(tower : TowerType, pos: CellPos,  id : Int) {
+           ClientThread.add(("placing", "tower", pos, id))
+       }
     }
 
         class ConnStrategy {

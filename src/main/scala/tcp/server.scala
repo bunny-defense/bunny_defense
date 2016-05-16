@@ -10,6 +10,7 @@ import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
 import game_mechanics.utilitaries._
+import game_mechanics.path._
 
 object Server {
     def main(args : Array[String]) : Unit = {
@@ -54,8 +55,32 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
         def receive() : Any = {
             in.readObject() match {
                 case ("removed", d: Int, p: Int) => {
-                Towerdefense.gamestate.players[p].remove_hp(d)
-                add(("removed", d, p))
+                    val toRemove = TowerDefense.gamestate.bunnies.find(
+                        _.id == d && _.player_id = p)
+                    if (!toRemove.isEmpty) {
+                        TowerDefense.gamestate.bunnies -= toRemove.get
+                    }
+                    add(("removed", d, p))
+                }
+                case ("lost", d: Int, pid: Int) => {
+                    TowerDefense.gamestate.players(pid).remove_hp(d)
+                    add(("lost", d, pid))
+                }
+                case ("placing", t : TowerType, pos : CellPos, id : Int) => {
+                    TowerDefense.gamestate += new Tower(t, pos, id)
+                    var bun_update = TowerDefense.gamestate.bunnies.filter( t => t.path.path.exists(
+                        u => u.x == pos.x && u.y == pos.y)).par
+                    bun_update.tasksupport = new ForkJoinTaskSupport(
+                        new scala.concurrent.forkjoin.ForkJoinPool(8))
+                    val centering = new Waypoint( 0.5, 0.5 )
+                    for (bunny <- bun_update) {
+                        bunny.path.path = new JPS(
+                            (bunny.pos + centering).toInt,
+                            bunny.bunnyend).run().get
+                        bunny.path.reset
+                        bunny.bunnyend = bunny.path.last.toInt
+                    }
+                    ServerThread.add("placing", t,p,id)
                 }
             }
         }

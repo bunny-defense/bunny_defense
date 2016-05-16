@@ -25,10 +25,14 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
             new DataInputStream(socket.getInputStream()))
         val out = new ObjectOutputStream(
             new DataOutputStream(socket.getOutputStream()))
+        val queue  = new Queue[Any]()
 
         out.writeObject("New Client")
         out.flush()
 
+        def add(arg : Any): Unit = {
+            queue.enqueue(arg)
+        }
 
         def send(arg : Any) : Unit = {
             out.writeObject(arg)
@@ -59,6 +63,31 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                 case (l: String, (x:Int, y:Int), id: Int) => if (("(T|t)ower".r findAllIn l) != None) {
                     TowerDefense.gamestate.tower += new Tower(Class.forName(l), new CellPos(x,y),id)
                 }
+                case ("removed", d: Int, p: Int) => {
+                    val toRemove = TowerDefense.gamestate.bunnies.find(
+                        _.id == d && _.player_id = p)
+                    if (!toRemove.isEmpty) {
+                        TowerDefense.gamestate.bunnies -= toRemove.get
+                    }
+                }
+                case ("lost", d: Int, pid: Int) => {
+                    TowerDefense.gamestate.players[pid].remove_hp(d)
+                }
+                case ("placing", t : TowerType, pos : CellPos, id : Int) => {
+                    TowerDefense.gamestate += new Tower(t, pos, id)
+                    var bun_update = TowerDefense.gamestate.bunnies.filter( t => t.path.path.exists(
+                        u => u.x == pos.x && u.y == pos.y)).par
+                    bun_update.tasksupport = new ForkJoinTaskSupport(
+                        new scala.concurrent.forkjoin.ForkJoinPool(8))
+                    val centering = new Waypoint( 0.5, 0.5 )
+                    for (bunny <- bun_update) {
+                        bunny.path.path = new JPS(
+                            (bunny.pos + centering).toInt,
+                            bunny.bunnyend).run().get
+                        bunny.path.reset
+                        bunny.bunnyend = bunny.path.last.toInt
+                    }
+                }
             }
         }
 
@@ -66,6 +95,14 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
             out.close()
             in.close()
             socket.close()
+        }
+
+        def run(): Unit = {
+            while(true) {
+                if (!queue.isEmpty) {
+                    send(queue.dequeue())
+                }
+            }
         }
     }
     catch {
