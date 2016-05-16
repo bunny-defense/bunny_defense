@@ -41,11 +41,64 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
 
         def receive() : Any = {
             in.readObject() match {
-                case (l:ListBuffer[Bunny]) => { TowerDefense.gamestate.bunnies = l }
-                case (l:ListBuffer[Tower]) => {TowerDefense.gamestate.towers  = l}
-                case (l:ListBuffer[Projectile]) => {TowerDefense.gamestate.projectiles = l}
-                case (l:ListBuffer[Updatable])  => {TowerDefense.gamestate.updatables = l}
-                case (l:ListBuffer[Utilitary])=> {TowerDefense.gamestate.utilitaries = l}
+                case (l:ListBuffer[Bunny]) => {
+                    for (bunny <- l) {
+                        val bunch = TowerDefense.gamestate.bunnies.find(
+                            x => x.id == bunny.id && x.player == bunny.player)
+                        if (bunch == None)
+                        {
+                            TowerDefense.gamestate += bunny
+                        }
+                        else
+                        {
+                            TowerDefense.gamestate -= bunch.get
+                            TowerDefense.gamestate += bunny
+                        }
+                    }
+                    for (bunny <- TowerDefense.gamestate.bunnies.filter(x=> (l.filter(
+                        y => y.id == x.id && y.player == y.player)).isEmpty)) {
+                        TowerDefense.gamestate -= bunny
+                    }
+                }
+                case ListBuffer[Tower] => {
+                    for (tower <- l) {
+                        val bunch = TowerDefense.gamestate.towers.find(
+                            x => x.player == tower.player && x.id == tower.id)
+                        if (bunch == None)
+                        {
+                            TowerDefense.gamestate += tower
+                        }
+                        else
+                        {
+                            TowerDefense.gamestate -= bunch.get
+                            TowerDefense.gamestate += tower
+                        }
+                    }
+                    for (tower <- TowerDefense.gamestate.towers.filter(x=> (l.filter(
+                        y => y.id == x.id && y.player == y.player)).isEmpty)) {
+                        TowerDefense.gamestate -= tower
+                    }
+                }
+                case (l:ListBuffer[Projectile]) => {}
+                case (l:ListBuffer[Utilitary])=> {
+                    for (utilitary <- l) {
+                        val bunch = TowerDefense.gamestate.utilitaries.find(
+                            x => x.player == utilitary.player && x.id == utilitary.id)
+                        if (bunch == None)
+                        {
+                            TowerDefense.gamestate += utilitary
+                        }
+                        else
+                        {
+                            TowerDefense.gamestate -= bunch.get
+                            TowerDefense.gamestate += utilitary
+                        }
+                    }
+                    for (tower <- TowerDefense.gamestate.utilitaries.filter(x=> (l.filter(
+                        y => y.id == x.id && y.player == y.player)).isEmpty)) {
+                        TowerDefense.gamestate -= utilitaries
+                    }
+                }
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
                     val obunny = TowerDefense.gamestate.bunnies.find(t => ((t.player == y )&&(t.id == x)))
                     if (!obunny.isEmpty) {

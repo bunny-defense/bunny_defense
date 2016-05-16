@@ -37,7 +37,6 @@ class GameState(strategy_init : Strategy) extends State with Publisher
     val projectiles  = new ListBuffer[Projectile]
     val towers       = new ListBuffer[Tower]
     val animations   = new ListBuffer[Animatable]
-    val updatables   = new ListBuffer[Updatable]
     val utilitaries  = new ListBuffer[Utilitary]
     val players      = new ListBuffer[Int]
     var wave_counter = 1
@@ -229,8 +228,6 @@ class GameState(strategy_init : Strategy) extends State with Publisher
         scroll(dt)
         /* Update animations */
         animations.foreach( _.update(dt) )
-        /* Update misc items */
-        updatables.foreach( _.update(dt) )
         /* Update projectiles */
         projectiles.foreach( _.update(dt) )
         /* Update towers */
@@ -346,14 +343,6 @@ class GameState(strategy_init : Strategy) extends State with Publisher
         animations -= animation
     }
 
-    /* MISC ITEMS */
-    def +=(updatable: Updatable): Unit = {
-        updatables += updatable
-    }
-
-    def -=(updatable: Updatable): Unit = {
-        updatables -= updatable
-    }
 
     def +=(utilitary: Utilitary): Unit = {
         utilitaries += utilitary
