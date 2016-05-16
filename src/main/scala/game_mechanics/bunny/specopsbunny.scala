@@ -12,7 +12,10 @@ import gui.animations.{GoldAnimation,SmokeAnimation}
 
 /* Spec Op Bunny */
 
-case class SpecOpBunny(player_id: Int, bunny_id: Int, pos: CellPos, arrival: CellPos) extends Bunny
+case class SpecOpBunny(
+    gamestate: GameState,
+    player_id: Int, bunny_id: Int, pos: CellPos, arrival: CellPos)
+extends Bunny
 {
     override val id            = bunny_id
     override val player        = player_id
@@ -28,16 +31,15 @@ case class SpecOpBunny(player_id: Int, bunny_id: Int, pos: CellPos, arrival: Cel
             getClass().getResource("/mobs/ninja.png").getPath()))
     override val law           = new Random()
     override val price         = 200
+    var jumping                = false
 
 	override def update(dt: Double): Unit = {
         if ( this.path.reached ) {
             TowerDefense.gamestate.strategy.updatestrategy.lost_hp(this)
         }
-        if ( !this.alive ) {
-            TowerDefense.gamestate.strategy.updatestrategy.on_death(this)
-            return
-        }
         /* Bunny jump */
-       TowerDefense.gamestate.strategy.updatestrategy.spec_jump(this,dt)
+        TowerDefense.gamestate.strategy.updatestrategy.spec_jump(this,dt)
+        if( !jumping )
+            move(dt)
     }
 }

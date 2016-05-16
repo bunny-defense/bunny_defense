@@ -9,7 +9,8 @@ import gui._
 
 /* This animation creates a short flash that simulates thunder */
 
-class ThunderflashAnimation extends Animatable
+class ThunderflashAnimation(gamestate: ClientGameState)
+extends Animatable(gamestate)
 {
     val duration = 0.5
     timer = duration
@@ -20,7 +21,7 @@ class ThunderflashAnimation extends Animatable
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) )
         g.fillRect( 0, 0,
-            TowerDefense.gamestate.map_panel.map.width  * MapPanel.cellsize,
-            TowerDefense.gamestate.map_panel.map.height * MapPanel.cellsize )
+            gamestate.map.width  * MapPanel.cellsize,
+            gamestate.map.height * MapPanel.cellsize )
     }
 }

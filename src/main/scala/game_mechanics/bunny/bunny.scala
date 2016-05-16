@@ -66,7 +66,7 @@ trait Bunny extends Purchasable {
 
     def on_death(): Unit = {}
 
-    def remove_hp(dmg: Double): Unit = {
+    def remove_hp(dmg: Double, player: Player): Unit = {
         this.hp -= dmg * (1.0 - this.shield/10.0)
     }
 

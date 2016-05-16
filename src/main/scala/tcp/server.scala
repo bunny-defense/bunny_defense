@@ -26,9 +26,13 @@ class Server {
     }
 }
 
-class ServerThread(socket : Socket) extends Thread("ServerThread") {
-
-    try {
+class ServerThread(
+    gamestate: GameState,
+    socket : Socket)
+extends Thread("ServerThread")
+{
+    try
+    {
         val out = new ObjectOutputStream(
             new DataOutputStream(socket.getOutputStream()))
         val in  = new ObjectInputStream(
@@ -54,10 +58,10 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
         def receive() : Any = {
             in.readObject() match {
                 case ("removed", d: Int, p: Int) => {
-                    val toRemove = TowerDefense.gamestate.bunnies.find(
+                    val toRemove = gamestate.bunnies.find(
                         x => ((x.id == d) && (x.player == p)))
                     if (!toRemove.isEmpty) {
-                        TowerDefense.gamestate.bunnies -= toRemove.get
+                        gamestate.bunnies -= toRemove.get
                     }
                     add(("removed", d, p))
                 }
@@ -65,8 +69,8 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
                     add(("lost", d, pid))
                 }
                 case ("placing", t : TowerType, pos : CellPos, id : Int) => {
-                    TowerDefense.gamestate += new Tower(t, pos, id)
-                    var bun_update = TowerDefense.gamestate.bunnies.filter( t => t.path.path.exists(
+                    gamestate += new Tower(t, pos, id)
+                    var bun_update = gamestate.bunnies.filter( t => t.path.path.exists(
                         u => u.x == pos.x && u.y == pos.y)).par
                     bun_update.tasksupport = new ForkJoinTaskSupport(
                         new scala.concurrent.forkjoin.ForkJoinPool(8))
@@ -93,9 +97,9 @@ class ServerThread(socket : Socket) extends Thread("ServerThread") {
 
         def sync(): Unit = {
             out.flush()
-            out.writeObject(("sync_towers", TowerDefense.gamestate.towers))
-            out.writeObject(("sync_bunnies", TowerDefense.gamestate.bunnies))
-            out.writeObject(("sync_utilitaries", TowerDefense.gamestate.utilitaries))
+            out.writeObject(("sync_towers", gamestate.towers))
+            out.writeObject(("sync_bunnies", gamestate.bunnies))
+            out.writeObject(("sync_utilitaries", gamestate.utilitaries))
         }
     }
     catch {

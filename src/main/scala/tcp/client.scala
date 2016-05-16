@@ -17,9 +17,12 @@ import gui.animations._
 
 import scala.collection.mutable.{ListBuffer,Queue}
 
-class ClientThread(domain : String) extends Thread("Client Thread"){
-
-    try {
+class ClientThread(
+    gamestate: GameState, domain : String)
+extends Thread("Client Thread")
+{
+    try
+    {
         val socket = new Socket(InetAddress.getByName(domain),9999)
         val in = new ObjectInputStream(
             new DataInputStream(socket.getInputStream()))
@@ -43,91 +46,91 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
             in.readObject() match {
                 case ("sync_bunnies", l: ListBuffer[Bunny]) => {
                     for (bunny <- l) {
-                        val bunch = TowerDefense.gamestate.bunnies.find(
+                        val bunch = gamestate.bunnies.find(
                             x => x.id == bunny.id && x.player == bunny.player)
                         if (bunch == None)
                         {
-                            TowerDefense.gamestate += bunny
+                            gamestate += bunny
                         }
                         else
                         {
-                            TowerDefense.gamestate -= bunch.get
-                            TowerDefense.gamestate += bunny
+                            gamestate -= bunch.get
+                            gamestate += bunny
                         }
                     }
-                    for (bunny <- TowerDefense.gamestate.bunnies.filter(x=> (l.filter(
+                    for (bunny <- gamestate.bunnies.filter(x=> (l.filter(
                         y => y.id == x.id && y.player == y.player)).isEmpty)) {
-                        TowerDefense.gamestate -= bunny
+                        gamestate -= bunny
                     }
                 }
                 case ("sync_towers", l: ListBuffer[Tower]) => {
                     for (tower <- l) {
-                        val bunch = TowerDefense.gamestate.towers.find(
+                        val bunch = gamestate.towers.find(
                             x => x.player == tower.player && x.id == tower.id)
                         if (bunch == None)
                         {
-                            TowerDefense.gamestate += tower
+                            gamestate += tower
                         }
                         else
                         {
-                            TowerDefense.gamestate -= bunch.get
-                            TowerDefense.gamestate += tower
+                            gamestate -= bunch.get
+                            gamestate += tower
                         }
                     }
-                    for (tower <- TowerDefense.gamestate.towers.filter(x=> (l.filter(
+                    for (tower <- gamestate.towers.filter(x=> (l.filter(
                         y => y.id == x.id && y.player == y.player)).isEmpty)) {
-                        TowerDefense.gamestate -= tower
+                        gamestate -= tower
                     }
                 }
                 case ("sync_utilitaries", l: ListBuffer[Utilitary]) => {
                     for (utilitary <- l) {
-                        val bunch = TowerDefense.gamestate.utilitaries.find(
+                        val bunch = gamestate.utilitaries.find(
                             x => x.player == utilitary.player && x.id == utilitary.id)
                         if (bunch == None)
                         {
-                            TowerDefense.gamestate += utilitary
+                            gamestate += utilitary
                         }
                         else
                         {
-                            TowerDefense.gamestate -= bunch.get
-                            TowerDefense.gamestate += utilitary
+                            gamestate -= bunch.get
+                            gamestate += utilitary
                         }
                     }
-                    for (utilitary <- TowerDefense.gamestate.utilitaries.filter(x=> (l.filter(
+                    for (utilitary <- gamestate.utilitaries.filter(x=> (l.filter(
                         y => y.id == x.id && y.player == y.player)).isEmpty)) {
-                        TowerDefense.gamestate -= utilitary
+                        gamestate -= utilitary
                     }
                 }
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
-                    val obunny = TowerDefense.gamestate.bunnies.find(t => ((t.player == y )&&(t.id == x)))
+                    val obunny = gamestate.bunnies.find(t => ((t.player == y )&&(t.id == x)))
                     if (!obunny.isEmpty) {
                         val bunny = obunny.get
-                        TowerDefense.gamestate -= bunny
+                        gamestate -= bunny
                         val anim = new SmokeAnimation(bunny.pos)
                         anim and_then { () =>
                             bunny.pos = p
-                            TowerDefense.gamestate += bunny
-                            TowerDefense.gamestate += new SmokeAnimation(bunny.pos)
+                            gamestate += bunny
+                            gamestate += new SmokeAnimation(bunny.pos)
                         }
-                        TowerDefense.gamestate += anim
+                        gamestate += anim
                     }
                 }
                 case (l: TowerType, (x:Int, y:Int), id: Int) => {
-                    TowerDefense.gamestate += new Tower(l, new CellPos(x,y),id)
+                    gamestate += new Tower(l, new CellPos(x,y),id)
                 }
                 case ("removed", d: Int, p: Int) => {
-                    val toRemove = TowerDefense.gamestate.bunnies.find(
+                    val toRemove = gamestate.bunnies.find(
                         x => (x.id == d) && (x.player == p))
                     if (!toRemove.isEmpty) {
-                        TowerDefense.gamestate.bunnies -= toRemove.get
+                        gamestate.bunnies -= toRemove.get
                     }
                 }
                 case ("lost", d: Int, pid: Int) => {
-                    TowerDefense.gamestate.players(pid).remove_hp(d)
+                    gamestate.players(pid).remove_hp(d)
                 }
                 case ("placing", t : TowerType, pos : CellPos, id : Int) => {
-                    TowerDefense.gamestate += new Tower(t, pos, id)
-                    var bun_update = TowerDefense.gamestate.bunnies.filter( t => t.path.path.exists(
+                    gamestate += new Tower(t, pos, id)
+                    var bun_update = gamestate.bunnies.filter( t => t.path.path.exists(
                         u => u.x == pos.x && u.y == pos.y)).par
                     bun_update.tasksupport = new ForkJoinTaskSupport(
                         new scala.concurrent.forkjoin.ForkJoinPool(8))

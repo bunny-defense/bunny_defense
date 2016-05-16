@@ -12,7 +12,8 @@ import runtime.TowerDefense
 import gui._
 import utils.Continuable
 
-class SplashAnimation extends Animatable
+class SplashAnimation(gamestate: ClientGameState)
+extends Animatable(gamestate)
 {
     val height = 100
     val duration = 3.0
@@ -20,9 +21,9 @@ class SplashAnimation extends Animatable
 
     val origin = new Waypoint(
         0,
-        TowerDefense.gamestate.map_panel.size.y / 2 )
+        map_panel.size.y / 2 )
     val target = origin + new Waypoint(
-        TowerDefense.gamestate.map_panel.size.x,
+        map_panel.size.x,
         0 )
 
     override def draw(g: Graphics2D): Unit = {
@@ -38,8 +39,8 @@ class SplashAnimation extends Animatable
         g.setColor( Colors.darkred )
         g.fillRect(
             0,
-            TowerDefense.gamestate.map_panel.size.y / 2 - height / 2,
-            TowerDefense.gamestate.map_panel.size.x,
+            map_panel.size.y / 2 - height / 2,
+            map_panel.size.x,
             height)
         g.setColor( Colors.yellow )
         g.drawString( string,

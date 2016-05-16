@@ -73,7 +73,7 @@ extends TDComponent(parent)
 
     def paintPath(g: Graphics2D): Unit = {
         val path = new ListBuffer[Path]()
-        for (bunny <- TowerDefense.gamestate.bunnies) {
+        for (bunny <- gamestate.bunnies) {
             path += bunny.path.path
         }
         for (j <- path ) {
@@ -102,7 +102,7 @@ extends TDComponent(parent)
         /* Drawing tower effects */
         val translate_transform = g.getTransform()
         /* Drawing ghost tower */
-        TowerDefense.gamestate.selected_tower match {
+        gamestate.selected_tower match {
             case None => {}
             case Some(tower) => {
                 // PAINT NO-PLACE ZONE
@@ -136,7 +136,7 @@ extends TDComponent(parent)
                 g.drawOval( circlex, circley, 2 * range, 2 * range )
             }
         }
-        for( tower <- TowerDefense.gamestate.towers )
+        for( tower <- gamestate.towers )
         {
             val x = tower.pos.x * cellsize + cellsize / 2
             val y = tower.pos.y * cellsize + cellsize / 2
@@ -147,14 +147,14 @@ extends TDComponent(parent)
                 AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
         }
         /* Drawing the towers */
-        for( tower <- TowerDefense.gamestate.towers )
+        for( tower <- gamestate.towers )
         {
             val x = tower.pos.x * cellsize
             val y = tower.pos.y * cellsize
             g.drawImage( tower.graphic, x.toInt, y.toInt, null )
         }
         /* Drawing the bunnies */
-        for( bunny <- TowerDefense.gamestate.bunnies )
+        for( bunny <- gamestate.bunnies )
         {
             val x = bunny.pos.x * cellsize
             val y = bunny.pos.y * cellsize
@@ -174,7 +174,7 @@ extends TDComponent(parent)
             g.setColor( Colors.black )
         }
         /* Drawing projectiles */
-        for( projectile <- TowerDefense.gamestate.projectiles )
+        for( projectile <- gamestate.projectiles )
         {
             val x = projectile.pos.x * cellsize
             val y = projectile.pos.y * cellsize
@@ -195,14 +195,14 @@ extends TDComponent(parent)
         g.fillRect( 0, 0, map.width * cellsize, map.height * cellsize )
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
-        for( animation <- TowerDefense.gamestate.animations)
+        for( animation <- gamestate.animations)
         {
             animation.draw(g)
             // Resetting the alpha composite
             g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) )
         }
         /* Drawing selected tower */
-        TowerDefense.gamestate.selected_cell match {
+        gamestate.selected_cell match {
             case None => {}
             case Some(tower) => {
                 g.setColor(Colors.black)

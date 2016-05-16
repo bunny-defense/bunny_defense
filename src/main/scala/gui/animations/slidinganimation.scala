@@ -23,7 +23,8 @@ object SlidingAnimation
     val image_origin_y : Int = background.getHeight() / 2
 }
 
-class SlidingAnimation(text_callback : () => String) extends Animatable
+class SlidingAnimation(gamestate: ClientGameState, text_callback : () => String)
+extends Animatable(gamestate)
 {
     import SlidingAnimation._
 
@@ -32,9 +33,9 @@ class SlidingAnimation(text_callback : () => String) extends Animatable
 
     val origin = new Waypoint(
         -image_origin_x.toDouble,
-        TowerDefense.gamestate.map_panel.size.y / 2 )
+        map_panel.size.y / 2 )
     val target = origin + new Waypoint(
-        TowerDefense.gamestate.map_panel.size.x + image_origin_x.toDouble,
+        map_panel.size.x + image_origin_x.toDouble,
         0 )
 
     override def draw(g: Graphics2D): Unit = {

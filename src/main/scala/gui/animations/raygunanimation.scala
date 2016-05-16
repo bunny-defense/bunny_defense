@@ -20,7 +20,8 @@ object RaygunAnimation
     val max_darkness   = 0.7
 }
 
-class RaygunAnimation(tower_pos: CellPos) extends Animatable
+class RaygunAnimation(gamestate: ClientGameState, tower_pos: CellPos)
+extends Animatable(gamestate)
 {
     import RaygunAnimation._
     val origin         = tower_pos.toDouble
@@ -32,7 +33,7 @@ class RaygunAnimation(tower_pos: CellPos) extends Animatable
     override def draw(g: Graphics2D): Unit = {
         // Screen darkening
         val interp = (1.0 - timer / duration) * max_darkness
-        TowerDefense.gamestate.map_panel.darkness = interp.toFloat
+        map_panel.darkness = interp.toFloat
         // Particle spawning
         while( particles.length < ((duration - timer) / particle_delay).toInt &&
             particles.length < 10)

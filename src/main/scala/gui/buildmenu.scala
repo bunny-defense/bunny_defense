@@ -19,7 +19,9 @@ object BuildMenu
     val buttonSize = 64
 }
 
-class BuildMenu (parent: Option[TDComponent], cols: Int, rows: Int)
+class BuildMenu (
+    parent: Option[TDComponent], gamestate: ClientGameState,
+    cols: Int, rows: Int)
 extends TDComponent(parent) with Reactor
 {
     import BuildMenu._
@@ -50,7 +52,7 @@ extends TDComponent(parent) with Reactor
                         case None => x
                         case Some(towertype) =>
                         {
-                            if( towertype.unlock_wave == TowerDefense.gamestate.wave_counter )
+                            if( towertype.unlock_wave == gamestate.wave_counter )
                                 x
                             else
                                 None
@@ -61,7 +63,7 @@ extends TDComponent(parent) with Reactor
                 {
                     val anim = new UnlockAnimation(towertype)
                     anim and_then chain
-                    TowerDefense.gamestate += anim
+                    gamestate += anim
                 }
             }
             towertypes.foldLeft(()=>())(chain_anims)()
@@ -80,7 +82,7 @@ extends TDComponent(parent) with Reactor
                     g.setColor( Colors.white )
                     g.fillRect( 0, 0, buttonSize, buttonSize )
                 case Some(tower) =>
-                    var ratio = TowerDefense.gamestate.player.gold.toDouble / tower.price.toDouble
+                    var ratio = gamestate.player.gold.toDouble / tower.price.toDouble
                     if( ratio > 1.0 )
                         ratio = 1.0
                     /* BACKGROUND */
@@ -111,12 +113,12 @@ extends TDComponent(parent) with Reactor
                     /* PRICE */
                     g.drawString( string,
                         buttonSize / 2 - strwidth / 2, strheight )
-                    if( TowerDefense.gamestate.wave_counter < tower.unlock_wave )
+                    if( gamestate.wave_counter < tower.unlock_wave )
                     {
                         g.setColor( Colors.transparent_grey )
                         g.fillRect( 0, 0, buttonSize, buttonSize )
                         g.setColor( Colors.yellow )
-                        val waves_left = tower.unlock_wave - TowerDefense.gamestate.wave_counter
+                        val waves_left = tower.unlock_wave - gamestate.wave_counter
                         val wave_string = waves_left.toString
                         val wave_string_width =
                             g.getFontMetrics().stringWidth(wave_string)
@@ -146,8 +148,8 @@ extends TDComponent(parent) with Reactor
                         case None => ()
                         case Some(tower) =>
                         {
-                            if( TowerDefense.gamestate.wave_counter >= tower.unlock_wave )
-                                TowerDefense.gamestate.selected_tower = tower_type
+                            if( gamestate.wave_counter >= tower.unlock_wave )
+                                gamestate.selected_tower = tower_type
                         }
                     }
                 }

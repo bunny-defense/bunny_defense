@@ -14,7 +14,7 @@ object InfoPanel
     val default_size = new CellPos( 200, 100 )
 }
 
-class InfoPanel(parent: Option[TDComponent])
+class InfoPanel(parent: Option[TDComponent], gamestate: ClientGameState)
 extends TDComponent(parent)
 {
     import InfoPanel._
@@ -24,16 +24,14 @@ extends TDComponent(parent)
         super.draw(g)
         val xm = size.x
         val ym = size.y
-        g.drawString("Wave : " + (TowerDefense.gamestate.wave_counter.toString),
+        g.drawString("Wave : " + (gamestate.wave_counter.toString),
             (xm/2-85),ym/6+5)
-        g.drawString("Remaining Bunnies :"+ (SpawnScheduler.spawn_queue.length),
+        g.drawString("Gold : " + (gamestate.player.gold.toString),
             (xm-2/85),2*ym/6+5)
-        g.drawString("Gold : " + (TowerDefense.gamestate.player.gold.toString),
+        g.drawString("Lives : " + ((Math.max(gamestate.player.hp, 0)).toString),
             (xm/2-85),3*ym/6+5)
-        g.drawString("Lives : " + ((Math.max(TowerDefense.gamestate.player.hp, 0)).toString),
+        g.drawString("Bunnies slaughtered : "+ (gamestate.player.killcount.toString),
             (xm/2-85),4*ym/6+5)
-        g.drawString("Bunnies slaughtered : "+ (TowerDefense.gamestate.player.killcount.toString),
-            (xm/2-85), 5*ym/6+5)
         /* If other entries are added in the menu :
          Let n be the number of entries, the coordinates of the k-th entry is
          (xm/2)-34, (k*ym/(n+1))+5 */
