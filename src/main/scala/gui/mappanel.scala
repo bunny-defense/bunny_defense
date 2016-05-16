@@ -25,11 +25,11 @@ object MapPanel
 }
 
 /* Represents the map on the screen */
-class MapPanel(parent: Option[TDComponent], map0: GameMap)
+class MapPanel(parent: Option[TDComponent], gamestate: ClientGameState)
 extends TDComponent(parent)
 {
     import MapPanel._
-    val map      = map0
+    val map      = gamestate.map
     val rows     = map.height
     val cols     = map.width
     val width    = map.width  * MapPanel.cellsize
@@ -46,12 +46,29 @@ extends TDComponent(parent)
                 val mousey = p.y - loc.y
                 if( mousex >= 0 && mousey >= 0 &&
                     mousex < size.x && mousey < size.y )
-                    TowerDefense.gamestate.on_cell_clicked(
-                        mousex / cellsize,
-                        mousey / cellsize )
+                    on_cell_clicked( new CellPos(
+                        mousex / cellsize, mousey / cellsize ) )
             }
             case _ => {}
         }
+    }
+    def on_cell_clicked( pos: CellPos ) : Unit = {
+        // Placing a new tower
+        if( gamestate.selected_tower != None &&
+            map.valid(pos) )
+        {
+            if( gamestate.player.remove_gold(selected_tower.get.price) )
+                gamestate.notify_server_new_tower(selected_tower.get)
+        }
+        // Selecting a placed tower
+        else
+        {
+            if( selected_tower == None )
+                selected_cell = towers.find( _.pos == pos )
+        }
+        // Building multiple towers
+        if( !TowerDefense.keymap(Key.Shift) )
+            selected_tower = None
     }
 
     def paintPath(g: Graphics2D): Unit = {

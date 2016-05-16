@@ -24,12 +24,12 @@ abstract class MenuState extends State
     }
 }
 
-class MainMenuState extends MenuState
+object MainMenuState extends MenuState
 {
     new gui.WideButton( 50, "Play" )
     {
         override def action() : Unit = {
-            StateManager.set_state( new PlayMenuState() )
+            StateManager.set_state( PlayMenuState )
         }
     }
     new gui.WideButton( 120, "Quit" )
@@ -40,29 +40,29 @@ class MainMenuState extends MenuState
     }
 }
 
-class PlayMenuState extends MenuState
+object PlayMenuState extends MenuState
 {
     new gui.WideButton( 50, "Singleplayer" )
     {
         override def action() : Unit = {
-            StateManager.set_state( TowerDefense.gamestate)
+            StateManager.set_state( new ClientServerGameState() )
         }
     }
     new gui.WideButton( 120, "Multiplayer" )
     {
         override def action() : Unit = {
-            StateManager.set_state( new MultiplayerMenuState() )
+            StateManager.set_state( MultiplayerMenuState )
         }
     }
     new gui.WideButton( 190, "Back" )
     {
         override def action() : Unit = {
-            StateManager.set_state( new MainMenuState() )
+            StateManager.set_state( MainMenuState )
         }
     }
 }
 
-class MultiplayerMenuState extends MenuState
+object MultiplayerMenuState extends MenuState
 {
     new gui.WideButton( 50, "Join" )
     {
@@ -73,22 +73,20 @@ class MultiplayerMenuState extends MenuState
     new gui.WideButton( 120, "Host & Play" )
     {
         override def action() : Unit = {
-            val serverthread = new Server()
-            val clientthread = new ClientThread("localhost")
-            StateManager.set_state( new ServerConnectionMenu() )
+            StateManager.set_state( new ClientServerGameState() )
         }
     }
 
     new gui.WideButton( 190, "Host" )
     {
         override def action() : Unit = {
-            val serverthread = new Server()
+            StateManager.set_state( new ServerLobby() )
         }
     }
     new gui.WideButton( 260, "Back" )
     {
         override def action() : Unit = {
-            StateManager.set_state( new PlayMenuState() )
+            StateManager.set_state( PlayMenuState )
         }
     }
 }
@@ -105,9 +103,9 @@ class ServerConnectionMenu extends MenuState
     {
         override def action() : Unit = {
             if (!(hostname_field.text == "")) {
-                val clientthread = new ClientThread(hostname_field.text)
-                clientthread.start()
-                StateManager.set_state( new Lobby() )
+                val connection = new ClientThread(hostname_field.text)
+                connection.start()
+                StateManager.set_state( new ClientLobby(connection) )
             }
         }
     }
@@ -128,3 +126,6 @@ class Lobby extends MenuState
         }
     }
 }
+
+class ServerLobby extends Lobby
+class ClientLobby(connection: ClientThread) extends Lobby
