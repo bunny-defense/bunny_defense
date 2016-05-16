@@ -13,14 +13,22 @@ import game_mechanics.Purchasable
 import gui.animations.SpreadAnimation
 
 
+object Utilitary {
+    var id = 0
+    var player  = 1
+}
+
 /* The class of a utilitary purchasable item */
 class Utilitary(origin_pos: Waypoint) extends Purchasable {
+    import Utilitary._
     var speed         = 1.0
     var damage        = 5.0
     var pos           = origin_pos
     val hitradius     = 0.7
     val radius        = 5
     val price         = 15
+    val id            = Utilitary.id
+    val player        = Utilitary.player
 
     def on_hit(target : Option[Bunny]): Unit = {
         val targets = TowerDefense.gamestate.bunnies

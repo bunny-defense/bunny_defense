@@ -7,7 +7,7 @@ import javax.imageio.ImageIO
 import runtime.TowerDefense
 
 /* A badass bunny, really strong, will become the "default" mob in late game */
-class BadassBunny(player_id: Int, bunny_id: Int) extends Bunny
+case class BadassBunny(player_id: Int, bunny_id: Int) extends Bunny
 {
   override val id          = bunny_id
   override val player      = player_id

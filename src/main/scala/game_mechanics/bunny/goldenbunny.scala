@@ -6,7 +6,7 @@ import javax.imageio.ImageIO
 
 
 /* Rare golden bunny worth a lot of money */
-class GoldenBunny(player_id: Int, bunny_id : Int) extends Bunny
+case class GoldenBunny(player_id: Int, bunny_id : Int) extends Bunny
 {
     override val id            = bunny_id
     override val player        = player_id

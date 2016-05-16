@@ -82,7 +82,7 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                 case l: ListBuffer[Projectile] => {}
                 case l: ListBuffer[Utilitary]=> {
                     for (utilitary <- l) {
-                        val bunch = TowerDefense.gamestate.utilitaries.find(
+                        val bunch = TowerDefense.gamestate.utilitary.find(
                             x => x.player == utilitary.player && x.id == utilitary.id)
                         if (bunch == None)
                         {
@@ -94,9 +94,9 @@ class ClientThread(domain : String) extends Thread("Client Thread"){
                             TowerDefense.gamestate += utilitary
                         }
                     }
-                    for (tower <- TowerDefense.gamestate.utilitaries.filter(x=> (l.filter(
+                    for (utilitary <- TowerDefense.gamestate.utilitaries.filter(x=> (l.filter(
                         y => y.id == x.id && y.player == y.player)).isEmpty)) {
-                        TowerDefense.gamestate -= utilitaries
+                        TowerDefense.gamestate -= utilitary
                     }
                 }
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
