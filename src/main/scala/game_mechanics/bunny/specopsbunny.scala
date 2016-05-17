@@ -21,7 +21,7 @@ class SpecOpBunny(player_id: Int) extends Bunny
     override val law           = new Random()
     override val price         = 200
 
-	override def update(dt: Double): Unit = {
+    override def update(dt: Double): Unit = {
         if ( this.path.reached ) {
             Player.remove_hp( this.damage )
             Controller -= this

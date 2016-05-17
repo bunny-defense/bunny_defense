@@ -61,7 +61,7 @@ object Spawner_SpawnRateUpgrade extends UpgradeTree
 
 object Spawner_BunniesSpeedUpgrade extends UpgradeTree
 {
-    override val name = "Genetically engineered bunnies"
+    override val name = "'Flour' coated carrots"
     override val description = "Spawned bunnies speed * 1.5"
     override def effect(tower : Tower)
     {
@@ -77,6 +77,17 @@ object Spawner_AddHeavyBunnyUpgrade extends UpgradeTree
     override def effect(tower : Tower)
     {
         tower.bunnies_spawning = tower.bunnies_spawning ::: List(BunnyFactory.HEAVY_BUNNY)
+        tower.upgrades = this.children
+    }
+}
+
+object Spawner_HealthUpgrade extends UpgradeTree
+{
+    override val name = "Genetically engineered bunnies"
+    override val description = "Increases the HP of created bunnies"
+    override def effect(tower : Tower)
+    {
+        /* TO DO */
         tower.upgrades = this.children
     }
 }
