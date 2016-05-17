@@ -10,7 +10,6 @@ import game_mechanics._
 import game_mechanics.tower._
 import game_mechanics.bunny._
 import game_mechanics.path._
-import game_mechanics.utilitaries._
 import gui._
 import gui.animations._
 import tcp._
@@ -154,26 +153,6 @@ extends GameState(map)
                         this -= tower
                     }
                 }
-                case ("sync_utilitaries", l: ListBuffer[Utilitary]) => {
-                    for (utilitary <- l) {
-                        val bunch = utilitaries.find(
-                            x => x.owner == utilitary.owner &&
-                            x.id == utilitary.id)
-                        if (bunch == None)
-                        {
-                            this += utilitary
-                        }
-                        else
-                        {
-                            this -= bunch.get
-                            this += utilitary
-                        }
-                    }
-                    for (utilitary <- utilitaries.filter(x=> (l.filter(
-                        y => y.id == x.id && y.owner == y.owner)).isEmpty)) {
-                        this -= utilitary
-                    }
-                }
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
                     val obunny = bunnies.find(t => ((t.owner == y )&&(t.id == x)))
                     if (!obunny.isEmpty) {
@@ -241,6 +220,4 @@ extends GameState(map)
     override  def supp_buff_tower_animation_strategy(tower: Tower) : Unit = {}
     override  def supp_slow_tower_animation_strategy(tower: Tower) : Unit = {}
 
-    // UTLITARIES
-    override def mine_hit_strategy(util: Utilitary) : Unit = {}
 }

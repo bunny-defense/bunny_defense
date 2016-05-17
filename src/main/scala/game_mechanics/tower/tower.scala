@@ -30,17 +30,24 @@ class Tower(
      * @param pos0      : The position of the tower
      */
     val id : Int       = current_id
+    var bunnies_spawning  = tower_type.bunnies_spawning
+
     current_id += 1
     val owner : Player = _owner
     val pos            = pos0
     /* Cooldown counter */
-    var cooldown       = 0.0
-    val towertype      = tower_type
-    var base_damage    = tower_type.base_damage
-    var damage         = tower_type.damage
-    var base_range     = tower_type.base_range
-    var range          = tower_type.range
-    var sell_cost      = tower_type.sell_cost
+    var cooldown        = 0.0
+    var throw_cooldown  = tower_type.throw_cooldown
+    val towertype       = tower_type
+    var base_damage     = tower_type.base_damage
+    var damage          = tower_type.damage
+    var range           = tower_type.range
+    var base_range      = tower_type.base_range
+    var sell_cost       = tower_type.sell_cost
+    var speed_modifier  = 1.0
+    var health_modifier = 1.0
+
+
     var upgrades : Option[UpgradeTree] = tower_type.upgrades
     def allied_effect(tower : Tower) {
         tower_type.allied_effect(tower)
@@ -49,15 +56,6 @@ class Tower(
         tower_type.enemy_effect(bunny)
     }
 
-    // ===========================
-    // ++++ UPGRADE MECHANICS ++++
-    // ===========================
-    tower_type match
-    {
-        case BaseTower  => upgrades = Some(BaseTowerUpgrades)
-        case QuickTower => upgrades = Some(QuickTowerUpgrades)
-        case _          => upgrades = Some(BaseTowerUpgrades)
-    }
 
     // ==========================
     // ++++ FIRING MECHANICS ++++

@@ -22,14 +22,14 @@ extends Purchasable {
     val id : Int
     val owner : Player  = _owner
     var hp              = 10.0
-    val initial_hp      = 10.0
+    var initial_hp      = 10.0
     val law             = new Random()
     var path :  Progress
     var bunnyend        = path.last.toInt
     var pos : Waypoint  = path.path.head
     val base_shield     = 1.0
     var shield          = 1.0
-    val base_speed      = 2.0
+    var base_speed      = 2.0
     var speed           = 2.0
     val spread          = (Waypoint.random() * 2 - new Waypoint(1,1)) / MapPanel.cellsize * 2
     val bunny_graphic =

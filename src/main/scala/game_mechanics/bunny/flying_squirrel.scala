@@ -29,10 +29,10 @@ extends Bunny(_owner,gamestate)
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/Flying_Squirrel.png").getPath()))
-    override val initial_hp  = 5.0
+    initial_hp               = 5.0
     override val base_shield = 0.0
     shield                   = 0.0
-    override val base_speed  = 5.0
+    base_speed               = 5.0
     speed                    = 5.0
     override val price       = 150
 }

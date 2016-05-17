@@ -1,6 +1,7 @@
 package game_mechanics
 import game_mechanics._
 import game_mechanics.tower._
+import game_mechanics.bunny._
 import Math._
 
 trait UpgradeTree
@@ -14,7 +15,7 @@ trait UpgradeTree
     val children : Option[UpgradeTree] = None /* TO DO */
 }
 
-object BaseTowerUpgrades extends UpgradeTree
+object DamageUpgrade extends UpgradeTree
 {
     override val name = "Heavy carrots"
     override val description = "Damage +5"
@@ -25,13 +26,68 @@ object BaseTowerUpgrades extends UpgradeTree
     }
 }
 
-object QuickTowerUpgrades extends UpgradeTree
+object RangeUpgrade extends UpgradeTree
 {
     override val name = "Ballistic carrots"
     override val description = "Range + 2"
     override def effect(tower : Tower)
     {
         tower.base_range = tower.base_range + 2
+        tower.upgrades = this.children
+    }
+}
+
+object FireRateUpgrade extends UpgradeTree
+{
+    override val name = "Fully automatic carrot rifle"
+    override val description = "Fire rate * 1.5"
+    override def effect(tower : Tower)
+    {
+        tower.throw_cooldown = tower.throw_cooldown * 2/3
+        tower.upgrades = this.children
+    }
+}
+
+object Spawner_SpawnRateUpgrade extends UpgradeTree
+{
+    override val name = "Bunnies mate quickly"
+    override val description = "Spawn rate * 1.5"
+    override def effect(tower : Tower)
+    {
+        tower.throw_cooldown = tower.throw_cooldown * 2/3
+        tower.upgrades = this.children
+    }
+}
+
+object Spawner_BunniesSpeedUpgrade extends UpgradeTree
+{
+    override val name = "'Flour' coated carrots"
+    override val description = "Spawned bunnies speed * 1.5"
+    override def effect(tower : Tower)
+    {
+        tower.speed_modifier = tower.speed_modifier * 1.5
+        tower.upgrades = this.children
+    }
+}
+
+object Spawner_AddHeavyBunnyUpgrade extends UpgradeTree
+{
+    override val name = "Heavytisation"
+    override val description = "Regularly creates a heavy bunny"
+    override def effect(tower : Tower)
+    {
+        tower.bunnies_spawning = tower.bunnies_spawning ::: List(BunnyFactory.HEAVY_BUNNY)
+        tower.upgrades = this.children
+    }
+}
+
+object Spawner_HealthUpgrade extends UpgradeTree
+{
+    override val name = "Genetically engineered bunnies"
+    override val description = "Increases the HP of created bunnies"
+    override def effect(tower : Tower)
+    {
+        tower.health_modifier = tower.health_modifier * 2.0
         tower.upgrades = this.children
     }
 }

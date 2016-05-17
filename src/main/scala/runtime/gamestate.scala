@@ -15,7 +15,6 @@ import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
 import game_mechanics.bunny._
-import game_mechanics.utilitaries._
 import gui._
 import gui.animations._
 import tcp._
@@ -37,7 +36,6 @@ extends State with Publisher
     val projectiles   = new ListBuffer[Projectile]
     val towers        = new ListBuffer[Tower]
     val animations    = new ListBuffer[Animatable]
-    val utilitaries   = new ListBuffer[Utilitary]
     val players       = new ListBuffer[Player]
     var wave_counter  = 1
     val framerate     = 1.0/60.0 * 1000
@@ -180,15 +178,6 @@ extends State with Publisher
         animations -= animation
     }
 
-
-    def +=(utilitary: Utilitary): Unit = {
-        utilitaries += utilitary
-    }
-
-    def -=(utilitary: Utilitary): Unit = {
-        utilitaries -= utilitary
-    }
-
     /* ==================== STRATEGIES ==================== */
 
     // BUNNIES
@@ -204,6 +193,4 @@ extends State with Publisher
     def supp_buff_tower_animation_strategy(tower: Tower) : Unit
     def supp_slow_tower_animation_strategy(tower: Tower) : Unit
 
-    // UTLITARIES
-    def mine_hit_strategy(util: Utilitary) : Unit
 }

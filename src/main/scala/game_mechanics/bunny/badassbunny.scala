@@ -31,10 +31,10 @@ extends Bunny(_owner,gamestate)
           case Some(p) => p
       }
       )
-  override val initial_hp  = 30.0
+  initial_hp               = 30.0
   override val base_shield = 2.0
   shield                   = 2.0
-  override val base_speed  = 1.5
+  base_speed               = 1.5
   speed                    = 1.5
   override val price       = 50
   override def reward      = atan_variation(15,3,15)

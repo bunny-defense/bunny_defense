@@ -22,7 +22,7 @@ trait TowerType extends Purchasable
      */
     val name = "Tower"
     val desc = "Tower tower tower"
-    var upgrades : Option[UpgradeTree] = Some(BaseTowerUpgrades)
+    var upgrades : Option[UpgradeTree] = None
     val tower_graphic  =
         ImageIO.read(
             new File(
@@ -32,6 +32,7 @@ trait TowerType extends Purchasable
             new File(
                 getClass().getResource("/projectiles/carrot1.png").getPath()))
     val size           = 1      /* Size in tiles */
+    var bunnies_spawning = List[Int]()
     var base_damage    = 5
     var damage         = 5      /* Damage dealt to bunnies */
     var base_range     = 5

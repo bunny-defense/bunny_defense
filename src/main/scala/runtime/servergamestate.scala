@@ -7,7 +7,6 @@ import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
 import game_mechanics.path._
-import game_mechanics.utilitaries._
 import gui._
 import tcp._
 
@@ -53,7 +52,6 @@ extends GameState(_map)
     def sync(): Unit = {
         server.broadcast(("sync_towers", towers))
         server.broadcast(("sync_bunnies", bunnies))
-        server.broadcast(("sync_utilitaries", utilitaries))
     }
     /* ==================== STRATEGIES ==================== */
 
@@ -75,6 +73,4 @@ extends GameState(_map)
     override  def supp_buff_tower_animation_strategy(tower: Tower) : Unit = {}
     override  def supp_slow_tower_animation_strategy(tower: Tower) : Unit = {}
 
-    // UTLITARIES
-    override def mine_hit_strategy(util: Utilitary) : Unit = {}
 }
