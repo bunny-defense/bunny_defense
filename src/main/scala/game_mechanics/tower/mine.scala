@@ -19,6 +19,14 @@ import gui.animations.SpreadAnimation
 class Utilitary(_owner: Player, origin_pos: Waypoint)  extends TowerType{
     override val name  = "Mine"
     override val desc  = "A little mine"
+    override val tower_graphic =
+        ImageIO.read(
+            new File(
+                getClass().getResource("towers/trap.gif").getPath()))
+    override val throw_graphic =
+        ImageIO.read(
+            new File(
+                getClass().getResource("projectiles/potato-image.png").getPath()))
     damage             = 5
     base_damage        = 5
     var pos            = origin_pos
