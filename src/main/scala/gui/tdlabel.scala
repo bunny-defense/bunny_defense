@@ -12,6 +12,6 @@ extends TDComponent(parent)
         val center = g.getFontMetrics().stringWidth( text ) / 2
         g.setColor( color )
         g.drawString( text,
-            pos.x - center, pos.y )
+            -center, 0 )
     }
 }

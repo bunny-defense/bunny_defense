@@ -2,6 +2,7 @@
 package runtime
 
 import gui._
+import game_mechanics.path.CellPos
 import tcp._
 
 class Lobby extends MenuState
@@ -17,6 +18,10 @@ class Lobby extends MenuState
 class ServerLobby extends Lobby
 {
     val list = new TDTextList(Some(gui))
+    {
+        pos = new CellPos( TowerDefense.gui_size.width / 2, 50 )
+    }
+    list += "Players"
     val server = new Server()
     {
         override def on_connect(peer: ServerThread) : Unit = {

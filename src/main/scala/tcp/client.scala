@@ -68,7 +68,7 @@ extends Thread("Client Thread")
 
     override def run(): Unit = {
         new Receiver().start()
-        send(("player_name","Gus"))
+        send(("player_info","RaptorBunny1234"))
         while(true) {
             if (!queue.isEmpty) {
                 send(queue.dequeue())

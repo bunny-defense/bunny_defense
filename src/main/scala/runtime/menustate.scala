@@ -138,7 +138,7 @@ extends MenuState
     new TDLabel(Some(gui), error)
     {
         pos = new CellPos(
-            TowerDefense.gui_size.width / 4, // What in the fuck ?
+            TowerDefense.gui_size.width / 2, // What in the fuck ?
             50 )
     }
     new gui.WideButton( TowerDefense.gui_size.height - 100, "Back" )

@@ -19,8 +19,8 @@ extends TDComponent(parent)
             val text = text_list(index)
             val center = g.getFontMetrics().stringWidth( text ) / 2
             g.drawString( text,
-                pos.x - center,
-                pos.y + 20 * index )
+                -center,
+                20 * index )
         }
     }
     def +=(text: String) : Unit = {
