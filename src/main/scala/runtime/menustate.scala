@@ -4,10 +4,7 @@ package runtime
 import swing._
 import swing.event._
 
-import gui.MainMenu
-import gui.TDTextField
-import gui.TDButton
-import gui.TextButton
+import gui._
 import game_mechanics.path.CellPos
 import tcp._
 
@@ -97,9 +94,19 @@ class ServerConnectionMenu extends MenuState
 {
     def connect() : Unit = {
         if (!(hostname_field.text == "")) {
-            val connection = new ClientThread(hostname_field.text)
-            connection.start()
-            StateManager.set_state( new ClientLobby(connection) )
+            try
+            {
+                val connection = new ClientThread(hostname_field.text)
+                connection.start()
+                StateManager.set_state( new ClientLobby(connection) )
+            }
+            catch
+            {
+                case e : Exception =>
+                    StateManager.set_state(
+                        new ErrorMenuState( e.toString,
+                            MultiplayerMenuState ))
+            }
         }
     }
     val hostname_field = new TDTextField(Some(gui))
@@ -121,6 +128,23 @@ class ServerConnectionMenu extends MenuState
     {
         override def action() : Unit = {
             StateManager.set_state( MultiplayerMenuState )
+        }
+    }
+}
+
+class ErrorMenuState(error: String, previous_state: State)
+extends MenuState
+{
+    new TDLabel(Some(gui), error)
+    {
+        pos = new CellPos(
+            TowerDefense.gui_size.width / 4, // What in the fuck ?
+            50 )
+    }
+    new gui.WideButton( TowerDefense.gui_size.height - 100, "Back" )
+    {
+        override def action() : Unit = {
+            StateManager.set_state( previous_state )
         }
     }
 }

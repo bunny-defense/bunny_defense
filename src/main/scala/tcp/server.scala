@@ -89,6 +89,7 @@ extends Thread("ServerThread")
     def on_disconnect(peer: ServerThread) : Unit
 
     override def run(): Unit = {
+        send(("player_name","Gus"))
         while (true) {
             if (!queue.isEmpty) {
                 send(queue.dequeue())

@@ -39,7 +39,12 @@ extends Thread("Client Thread")
         out.flush()
     }
 
-    var handle : Any => Unit = { packet => () }
+    var handle : Any => Unit = { packet =>
+        packet match {
+            case ("player_name",name: String) =>
+                println( "His name is " + name )
+        }
+    }
 
     def receive() : Unit = {
         handle(in.readObject())
