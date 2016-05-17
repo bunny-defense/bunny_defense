@@ -45,6 +45,13 @@ extends Thread("Client Thread")
         handle(in.readObject())
     }
 
+    class Receiver extends Thread("ServerReceiver")
+    {
+        override def run() : Unit = {
+            receive()
+        }
+    }
+
     def close() = {
         out.close()
         in.close()
@@ -52,6 +59,8 @@ extends Thread("Client Thread")
     }
 
     override def run(): Unit = {
+        new Receiver().start()
+        send(("player_name","Gus"))
         while(true) {
             if (!queue.isEmpty) {
                 send(queue.dequeue())

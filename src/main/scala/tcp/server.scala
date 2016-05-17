@@ -90,10 +90,20 @@ extends Thread("ServerThread")
         handle(this, in.readObject())
     }
 
+    class Receiver extends Thread("ClientReceiver")
+    {
+        override def run() : Unit = {
+            while(true)
+            {
+                receive()
+            }
+        }
+    }
+
     def on_disconnect(peer: ServerThread) : Unit
 
     override def run(): Unit = {
-        send(("player_name","Gus"))
+        new Receiver().start()
         while (true) {
             if (!queue.isEmpty) {
                 send(queue.dequeue())
