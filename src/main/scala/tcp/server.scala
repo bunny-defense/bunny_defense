@@ -78,8 +78,12 @@ extends Thread("ServerThread")
         queue.enqueue(arg)
     }
 
-    var handle : (ServerThread,Any) => Unit = {
-        (peer, packer) => ()
+    var handle : (ServerThread,Any) => Unit = { (peer, packet) =>
+        println( packet )
+        packet match {
+            case ("player_name",name: String) =>
+                println( "His name is " + name )
+        }
     }
 
     def receive() : Any = {
