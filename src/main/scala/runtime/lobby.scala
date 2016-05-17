@@ -1,6 +1,7 @@
 
 package runtime
 
+import gui._
 import tcp._
 
 class Lobby extends MenuState
@@ -15,13 +16,16 @@ class Lobby extends MenuState
 
 class ServerLobby extends Lobby
 {
+    val list = new TDTextList(Some(gui))
     val server = new Server()
     {
         override def on_connect(peer: ServerThread) : Unit = {
             println( "Client connected !" )
+            list += peer.player_name
         }
         override def on_disconnect(peer: ServerThread) : Unit = {
             println( "Client disconnected !" )
+            list -= peer.player_name
         }
     }
 }

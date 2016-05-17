@@ -29,12 +29,14 @@ abstract class Server extends Thread("AcceptanceThread") {
             {
                 val new_peer = new ServerThread(listener.accept())
                 {
+                    override def on_connect(peer: ServerThread) : Unit = {
+                        on_connect(peer)
+                    }
                     override def on_disconnect(peer: ServerThread) : Unit = {
                         on_disconnect(peer)
                     }
                 }
                 peers += new_peer
-                on_connect(new_peer)
                 new_peer.start()
             }
             listener.close()
@@ -62,36 +64,35 @@ extends Thread("ServerThread")
     val in  = new ObjectInputStream(
         new DataInputStream(socket.getInputStream()))
     val queue = new Queue[Any]()
-    val running = true
+    var running = true
+    var player_name = "Unnamed"
 
     def close() : Unit = {
         out.close()
         in.close()
         socket.close()
     }
-
     def send(arg : Any): Unit = {
         out.writeObject(arg)
         out.flush()
     }
-
     def add(arg: Any): Unit = {
         queue.enqueue(arg)
     }
-
     var handle : (ServerThread,Any) => Unit = { (peer, packet) =>
         println( packet )
         packet match {
-            case ("player_name",name: String) =>
+            case ("player_info",name: String) => {
                 println( "His name is " + name )
+                player_name = name
+                on_connect(this)
+            }
             case _ => ()
         }
     }
-
     def receive() : Any = {
         handle(this, in.readObject())
     }
-
     class Receiver extends Thread("ClientReceiver")
     {
         override def run() : Unit = {
@@ -104,15 +105,16 @@ extends Thread("ServerThread")
             }
             catch
             {
+                case _: java.io.EOFException =>
+                    running = false
                 case e: Exception =>
                     StateManager.set_state( new ErrorMenuState( e.toString,
                         MultiplayerMenuState ) )
             }
         }
     }
-
+    def on_connect(peer: ServerThread) : Unit
     def on_disconnect(peer: ServerThread) : Unit
-
     override def run(): Unit = {
         new Receiver().start()
         while (running) {
@@ -120,6 +122,7 @@ extends Thread("ServerThread")
                 send(queue.dequeue())
             }
         }
+        println( "Client disconnected" )
         on_disconnect(this)
     }
 
