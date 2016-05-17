@@ -1,0 +1,58 @@
+
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+
+\title{Projet programmation 2\\Phase 3}
+\author{R\'emi Oudin, Alexis Laouar, K\'evin Le Run}
+\date{}
+
+\begin{document}
+
+\maketitle
+\section{Améliorations de l'interface graphique}
+
+L'organisation des menus a été totalement réécrite. Ceci avait pour but principal
+de pouvoir créer des menus et de naviguer entre ceux-cis. Pour ce faire
+nous avons utilisé une \emph{state machine}. Chaque menu représente un état de
+la \emph{state machine}, et le jeu n'est plus qu'un état de la \emph{state machine}.
+
+De plus, l'organisation dans chaque menu se fait de manière arborescente. Chaque
+bouton, champ,\dots est un fils de la \emph{gui}.
+
+\lstinputlisting{menu.scala}
+
+\section{Mise en place d'un réseau}
+
+\subsection{Le réseau}
+Désormais, le jeu se déroule en réseau. Celui-ci est un réseau de type Client-Serveur,
+c'est-à-dire que certaines communications sont gérées entre les clients et le
+serveur qui sert de relais pour transmettre des informations telles que "Player $i$
+a posé une tour $t$ en position $(x,y)$. De plus, le serveur effectue une synchronisation
+toutes les 5 secondes, pendant laquelle le serveur envoie toutes les informations
+nécessaires au jeu à tous les clients. Pendant cette étape, il est maître, c'est-à-dire
+que les clients ne remettront pas en cause les données qu'il envoie. Pendant le reste du temps,
+le serveur va laisser les clients prédire l'évolution du jeu.
+
+\subsection{Les nouvelles mécaniques de jeu}
+
+Nous avons créé un système de stratégies pour que le client et le serveur aient quasiment
+le même code. Celle-ci sont des fonctions de l'état \emph{GameState} et permettent
+de modifier les quelques morceaux de code qui diffèrent, c'est-à-dire lorsque les
+joueurs ont des informations à faire transiter.\\
+De plus, le jeu se déroule de manière symétrique. Chaque joueur va devoir défendre
+sa zone, et attaquer les autres joueurs grâce à des ennemis et des spawners qu'il va
+pouvoir acheter.
+
+\section{Les spawners}
+
+Les spawners sont des tours qui ont comme mécanique d'attaque le spawn d'ennemis.
+Ils utilisent un équivalent de structure de liste chaînée pour pouvoir boucler à
+l'infini.
+
+\end{document}
