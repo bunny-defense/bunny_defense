@@ -16,9 +16,13 @@ class SpawnerTower() extends TowerType
      * The class that defines the methods of all spawners
       */
     val law = new Random()
+    /* The following are stats modifiers that apply to spawned bunnies */
     override def attack_from(tower : Tower): () => Boolean = {
         def get_right_type(): Boolean = {
             var new_bunny = BunnyFactory.create(tower.bunnies_spawning.head,0)
+            new_bunny.base_speed = new_bunny.base_speed * tower.speed_modifier
+            new_bunny.hp = new_bunny.initial_hp * tower.health_modifier
+            new_bunny.initial_hp = new_bunny.initial_hp * tower.health_modifier
             new_bunny.path = new Progress(
                 new JPS(tower.pos,
                     new CellPos(TowerDefense.map_panel.map.width,

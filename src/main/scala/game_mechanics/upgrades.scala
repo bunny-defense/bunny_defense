@@ -65,7 +65,7 @@ object Spawner_BunniesSpeedUpgrade extends UpgradeTree
     override val description = "Spawned bunnies speed * 1.5"
     override def effect(tower : Tower)
     {
-        /* TO DO */
+        tower.speed_modifier = tower.speed_modifier * 1.5
         tower.upgrades = this.children
     }
 }
@@ -87,7 +87,7 @@ object Spawner_HealthUpgrade extends UpgradeTree
     override val description = "Increases the HP of created bunnies"
     override def effect(tower : Tower)
     {
-        /* TO DO */
+        tower.health_modifier = tower.health_modifier * 2.0
         tower.upgrades = this.children
     }
 }

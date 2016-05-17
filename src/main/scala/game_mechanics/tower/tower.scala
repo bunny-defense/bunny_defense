@@ -33,6 +33,9 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     /* The next two are the max cooldown inherited by the tower type */
     var base_throw_cooldown = tower_type.base_throw_cooldown
     var throw_cooldown      = tower_type.throw_cooldown
+    /* The next two are stat modifiers for spawner towers that apply to spawned bunnies */
+    var speed_modifier      = 1.0
+    var health_modifier     = 1.0
     var sell_cost           = tower_type.sell_cost
     var upgrades : Option[UpgradeTree] = tower_type.upgrades
     def allied_effect(tower : Tower) {
