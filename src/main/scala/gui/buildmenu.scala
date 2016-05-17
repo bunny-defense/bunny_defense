@@ -41,35 +41,6 @@ extends TDComponent(parent) with Reactor
     //towerlist(7) = Some(RaygunTower)
     towerlist(15) = Some(Wall)
 
-    listenTo(SpawnScheduler)
-
-    reactions += {
-        case WaveEnded =>
-        {
-            val towertypes = towerlist.collect( Function.unlift( x =>
-                    x match
-                    {
-                        case None => x
-                        case Some(towertype) =>
-                        {
-                            if( towertype.unlock_wave == gamestate.wave_counter )
-                                x
-                            else
-                                None
-                        }
-                    }) )
-            def chain_anims(chain : () => Unit, towertype : TowerType) : () => Unit = {
-                () =>
-                {
-                    val anim = new UnlockAnimation(towertype)
-                    anim and_then chain
-                    gamestate += anim
-                }
-            }
-            towertypes.foldLeft(()=>())(chain_anims)()
-        }
-    }
-
     class BuyButton(towertype: Option[TowerType])
     extends TDButton(Some(this))
     {

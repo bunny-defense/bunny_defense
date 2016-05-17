@@ -6,7 +6,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.TowerDefense
-import runtime.GameState._
+import runtime.GameState
 import game_mechanics.{Projectile}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
@@ -38,7 +38,8 @@ object ScarecrowTower extends TowerType
         def fire_at(bunny : Bunny) : Unit = {
             val target_pos = bunny.pos +
                 (Waypoint.random() * 2 - new Waypoint( 1, 1 )) * spread
-            val projectile = new Projectile( target_pos, tower.pos.toDouble, this)
+            val projectile = new Projectile(
+                tower.owner, target_pos, tower.pos.toDouble, this, gamestate)
             projectile.speed = throw_speed
             projectile.damage = tower.damage
             gamestate += projectile

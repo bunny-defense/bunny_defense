@@ -7,6 +7,7 @@ import java.awt.AlphaComposite
 import collection.mutable.ListBuffer
 import util.Random
 
+import runtime.ClientGameState
 import game_mechanics.path.{Waypoint,CellPos}
 import gui._
 
@@ -17,7 +18,8 @@ object SnowAnimation
     val rng = new Random()
 }
 
-class SnowAnimation( pos : CellPos, radius : Double ) extends Animatable
+class SnowAnimation(pos : CellPos, radius : Double, gamestate: ClientGameState)
+extends Animatable(gamestate)
 {
     /** This is the snow animation played around slowing towers */
     import SnowAnimation._

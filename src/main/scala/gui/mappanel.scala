@@ -10,7 +10,8 @@ import java.awt.MouseInfo
 import java.io.File
 import javax.imageio.ImageIO
 
-import runtime.{TowerDefense,Spawner}
+import runtime.TowerDefense
+import runtime.ClientGameState
 import game_mechanics.GameMap
 import game_mechanics.path.{Waypoint,Path,CellPos}
 import collection.mutable.ListBuffer
@@ -57,18 +58,21 @@ extends TDComponent(parent)
         if( gamestate.selected_tower != None &&
             map.valid(pos) )
         {
-            if( gamestate.player.remove_gold(selected_tower.get.price) )
-                gamestate.notify_server_new_tower(selected_tower.get)
+            if( gamestate.player.remove_gold(
+                gamestate.selected_tower.get.price) )
+                gamestate.notify_server_new_tower(
+                    gamestate.selected_tower.get,
+                    pos)
         }
         // Selecting a placed tower
         else
         {
-            if( selected_tower == None )
-                selected_cell = towers.find( _.pos == pos )
+            if( gamestate.selected_tower == None )
+                gamestate.selected_cell = gamestate.towers.find( _.pos == pos )
         }
         // Building multiple towers
         if( !TowerDefense.keymap(Key.Shift) )
-            selected_tower = None
+            gamestate.selected_tower = None
     }
 
     def paintPath(g: Graphics2D): Unit = {

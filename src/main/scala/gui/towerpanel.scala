@@ -42,14 +42,14 @@ extends TDComponent(parent)
                 if( x >= 0 && x < button_width &&
                     y >= 0 && y < size.y )
                 {
-                    gamestate.on_fastforward_button()
+                    //gamestate.on_fastforward_button()
                 }
                 if (x >= size.x - button_width &&
                     x < size.x &&
                     y >= size.y / 2 && y < size.y &&
                     !gamestate.selected_cell.isEmpty)
                 {
-                    gamestate.upgrade_tower()
+                    gamestate.upgrade_tower(gamestate.selected_cell.get)
                 }
             }
             case MousePressed(_,_,_,_,_)  =>
@@ -201,8 +201,7 @@ extends TDComponent(parent)
         g.fill( ff_button_rect )
         g.setColor( Colors.black )
         g.draw( ff_button_rect )
-        val ff_text = "Fast forward: " +
-            (if( gamestate.is_accelerated ) "ON" else "OFF")
+        val ff_text = "Fast forward: NOPE"
         val ff_text_width = g.getFontMetrics().stringWidth( ff_text )
         g.drawString( ff_text,
             button_width / 2 - ff_text_width / 2,

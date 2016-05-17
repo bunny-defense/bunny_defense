@@ -6,6 +6,7 @@ import javax.imageio.ImageIO
 import util.Random
 
 import runtime.TowerDefense
+import runtime.GameState
 import game_mechanics.path._
 import game_mechanics.{Player,JPS}
 import gui.animations.{GoldAnimation,SmokeAnimation}
@@ -13,14 +14,16 @@ import gui.animations.{GoldAnimation,SmokeAnimation}
 /* Spec Op Bunny */
 
 case class SpecOpBunny(
-    gamestate: GameState,
-    player_id: Int, bunny_id: Int, pos: CellPos, arrival: CellPos)
-extends Bunny
+    _owner: Player,
+    bunny_id: Int,
+    start: CellPos,
+    arrival: CellPos,
+    gamestate: GameState)
+extends Bunny(_owner,gamestate)
 {
     override val id            = bunny_id
-    override val player        = player_id
-    override val path = new Progress(
-        new JPS(pos, arrival).run()
+    override var path = new Progress(
+        new JPS(start, arrival, gamestate).run()
                     match {
                         case None    => throw new Exception()
                         case Some(p) => p
@@ -35,10 +38,11 @@ extends Bunny
 
 	override def update(dt: Double): Unit = {
         if ( this.path.reached ) {
-            TowerDefense.gamestate.strategy.updatestrategy.lost_hp(this)
+            gamestate -= this
+            gamestate.bunny_reach_goal_strategy(this)
         }
         /* Bunny jump */
-        TowerDefense.gamestate.strategy.updatestrategy.spec_jump(this,dt)
+        gamestate.spec_ops_jump_strategy(this)
         if( !jumping )
             move(dt)
     }

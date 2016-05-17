@@ -11,17 +11,16 @@ import game_mechanics.{Player, JPS, Purchasable}
 import gui.MapPanel
 import gui.animations.GoldAnimation
 import runtime.TowerDefense
-import runtime.GameState._
+import runtime.GameState
 import util.Random
-import strategy._
 
-
-trait Bunny extends Purchasable {
+abstract class Bunny(_owner: Player, gamestate: GameState)
+extends Purchasable {
     /**
      * Bunny superclass from which every ennemy is derived.
      */
-    val player          = 0
     val id : Int
+    val owner : Player  = _owner
     var hp              = 10.0
     val initial_hp      = 10.0
     val law             = new Random()
@@ -41,6 +40,7 @@ trait Bunny extends Purchasable {
     def allied_effect(bunny: Bunny): Unit = {}
     val damage          = 1
     val price           = 10
+    var last_damager : Option[Player] = None
 
 
     def atan_variation (
@@ -69,6 +69,7 @@ trait Bunny extends Purchasable {
 
     def remove_hp(dmg: Double, player: Player): Unit = {
         this.hp -= dmg * (1.0 - this.shield/10.0)
+        last_damager = Some(player)
     }
 
     def alive() : Boolean = {
@@ -81,23 +82,18 @@ trait Bunny extends Purchasable {
         pos = path.get_position + spread
     }
 
-	def update(dt: Double, gamestate: GameState): Unit = {
+	def update(dt: Double): Unit = {
         if ( !this.alive ) {
             this.on_death()
-            gamestate += new GoldAnimation(
-                bunny.reward(gamestate.wave_counter),
-                bunny.pos.clone()
-            )
-            gamestate.player.add_gold(
-                bunny.reward(gamestate.wave_counter))
-            gamestate -= bunny
-            gamestate.player.killcount += 1
+            gamestate.bunny_death_render_strategy(this)
+            last_damager.get.add_gold(reward(gamestate.wave_counter))
+            gamestate -= this
+            last_damager.get.killcount += 1
         }
         this.move(dt)
         if ( this.path.reached ) {
-            gamestate -= bunny
-            ClientThread.add(("removed", bunny.id, bunny.player_id))
-            ClientThread.add(("lost", bunny.damage, player.id))
+            gamestate -= this
+            gamestate.bunny_reach_goal_strategy(this)
         }
     }
 

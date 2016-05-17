@@ -8,14 +8,18 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.TowerDefense
-import runtime.GameState._
+import runtime.GameState
 import game_mechanics.tower.TowerType
 import game_mechanics.path.Waypoint
 import game_mechanics.bunny.Bunny
 import gui.animations.DamageAnimation
 
 /* The class of a projectile */
-class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType) {
+class Projectile(
+    owner: Player,
+    targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType,
+    gamestate: GameState)
+{
     var speed    = 1.0
     var damage   = 5.0
     var pos      = origin
@@ -33,21 +37,21 @@ class Projectile (targetpos: Waypoint, origin: Waypoint, firing_tower: TowerType
     }
 
     /* Executed when the projectile hits (the ground or an ennemy) */
-    def on_hit(hit_target : Option[Bunny], gamestate : GameState): Unit = {
+    def on_hit(hit_target : Option[Bunny]): Unit = {
         hit_target match {
             case None => ()
-            case Some(bunny) => bunny.remove_hp( damage )
+            case Some(bunny) => bunny.remove_hp(damage, owner)
         }
         gamestate -= this
     }
 
     /* One step of progress */
-    def update(dt: Double, gamestate : GameState): Unit = {
+    def update(dt: Double): Unit = {
         move(dt)
         gamestate.bunnies.find( x => x.pos.distance_to(pos) < hitradius ) match
         {
             case None => ()
-            case Some(bunny) => on_hit( Some(bunny) )
+            case Some(bunny) => on_hit(Some(bunny))
         }
         if( hit ) { on_hit( None ) }
     }

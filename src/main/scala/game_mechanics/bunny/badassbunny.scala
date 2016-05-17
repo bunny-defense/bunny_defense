@@ -5,31 +5,32 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import game_mechanics.path._
+import game_mechanics.Player
 import game_mechanics.JPS
 
 import runtime.TowerDefense
-import runtime.GameState._
+import runtime.GameState
 
 /* A badass bunny, really strong, will become the "default" mob in late game */
 case class BadassBunny(
-    player_id: Int,
+    _owner: Player,
     bunny_id: Int,
-    pos: CellPos,
-    arrival : CellPos,
-    gamestate: GameState) extends Bunny
+    start: CellPos,
+    arrival: CellPos,
+    gamestate: GameState)
+extends Bunny(_owner,gamestate)
 {
   override val id          = bunny_id
-  override val player      = player_id
   override val bunny_graphic =
     ImageIO.read(
       new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
-  override val path = new Progress(
-        new JPS(pos, arrival).run(gamestate)
-                    match {
-                        case None    => throw new Exception()
-                        case Some(p) => p
-                    }
-                    )
+  override var path = new Progress(
+      new JPS(start, arrival, gamestate).run()
+      match {
+          case None    => throw new Exception()
+          case Some(p) => p
+      }
+      )
   override val initial_hp  = 30.0
   override val base_shield = 2.0
   shield                   = 2.0
@@ -42,9 +43,10 @@ case class BadassBunny(
       {
           val newbunny = BunnyFactory.create(
               BunnyFactory.NORMAL_BUNNY,
-              player,
+              owner,
               this.path.get_position().toInt,
-              this.path.path.last.toInt
+              this.path.path.last.toInt,
+              this.gamestate
           )
           gamestate += newbunny
       }

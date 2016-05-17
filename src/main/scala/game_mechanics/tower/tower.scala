@@ -1,7 +1,8 @@
 
 package game_mechanics.tower
 
-import runtime.{TowerDefense,Spawner}
+import runtime.TowerDefense
+import runtime.GameState
 import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.bunny._
@@ -12,14 +13,25 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
+object Tower
+{
+    var current_id = 0
+}
+class Tower(
+    _owner: Player,
+    tower_type: TowerType,
+    pos0: CellPos,
+    gamestate: GameState)
+{
+    import Tower._
     /**
      * Tower superclass from which evey special tower is derived
      * @param tower_type: The type of the tower
      * @param pos0      : The position of the tower
      */
-    val id : Int
-    val player         = player_id
+    val id : Int       = current_id
+    current_id += 1
+    val owner : Player = _owner
     val pos            = pos0
     /* Cooldown counter */
     var cooldown       = 0.0
@@ -51,7 +63,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     // ++++ FIRING MECHANICS ++++
     // ==========================
 
-    val attack : () => Boolean = tower_type.attack_from( this )
+    val attack : () => Boolean = tower_type.attack_from( this, gamestate )
 
     // ========================
     // ++++ UPDATING LOGIC ++++
@@ -92,6 +104,6 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     }
 
     def clone_at(newpos: CellPos): Tower = {
-        return new Tower(tower_type, newpos, player)
+        return new Tower(owner, tower_type, newpos, gamestate)
     }
 }

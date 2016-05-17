@@ -6,7 +6,8 @@ import Math._
 
 import game_mechanics.Player._
 import game_mechanics.path.CellPos
-import runtime.{TowerDefense,SpawnScheduler}
+import runtime.TowerDefense
+import runtime.ClientGameState
 
 /* An info panel that shows the current gold, HP and wave number */
 object InfoPanel

@@ -8,7 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.TowerDefense
-import runtime.GameState._
+import runtime.GameState
 import gui.{Colors,MapPanel}
 import gui.animations.BuffAnimation
 import game_mechanics.bunny.Bunny
@@ -32,14 +32,18 @@ object SuppBuffTower extends TowerType
     override val price       = 6000
     sell_cost                   = 4800
     override val unlock_wave    = 25
-    override def attack_from(tower : Tower, gamestate: GameState): () => Boolean = {
-        def new_buff_anim(): Unit = {
-            val anim = new BuffAnimation( tower.pos, tower.range )
-            anim and_then new_buff_anim
-            gamestate += anim
-        }
-        new_buff_anim
-        () => true
+    override def attack_from(
+        tower: Tower, gamestate: GameState): () => Boolean = {
+            gamestate.supp_buff_tower_animation_strategy(tower)
+            /*
+            def new_buff_anim(): Unit = {
+                val anim = new BuffAnimation( tower.pos, tower.range )
+                anim and_then new_buff_anim
+                gamestate += anim
+            }
+            new_buff_anim
+            */
+            () => true
     }
     override def allied_effect(tower : Tower) {
         /* The argument is the tower ON WHICH the effect is cast */

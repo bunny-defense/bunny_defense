@@ -4,6 +4,7 @@ package gui.animations
 import java.awt.Graphics2D
 
 import runtime.TowerDefense
+import runtime.ClientGameState
 import gui._
 import utils.Continuable
 

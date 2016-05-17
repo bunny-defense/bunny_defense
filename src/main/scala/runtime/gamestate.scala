@@ -18,7 +18,6 @@ import game_mechanics.bunny._
 import game_mechanics.utilitaries._
 import gui._
 import gui.animations._
-import strategy._
 import tcp._
 
 case object SelectedCell extends Event
@@ -26,38 +25,40 @@ case object NoSelectedCell extends Event
 case object FastForwOn extends Event
 case object FastForwOff extends Event
 
-abstract class GameState extends State with Publisher
+abstract class GameState(_map: GameMap)
+extends State with Publisher
 {
     /**
      * The main controller.
      * It manages the main loop, the graphics, everything
      */
-    val bunnies      = new ListBuffer[Bunny]
-    val projectiles  = new ListBuffer[Projectile]
-    val towers       = new ListBuffer[Tower]
-    val animations   = new ListBuffer[Animatable]
-    val utilitaries  = new ListBuffer[Utilitary]
-    val players      = new ListBuffer[Player]
-    var wave_counter = 1
-    val framerate    = 1.0/60.0 * 1000
-    var started      = false
-    var dt: Double   = 0.0
-    var raining      = false
-    var rng          = new Random
+    def map : GameMap = _map
+    val bunnies       = new ListBuffer[Bunny]
+    val projectiles   = new ListBuffer[Projectile]
+    val towers        = new ListBuffer[Tower]
+    val animations    = new ListBuffer[Animatable]
+    val utilitaries   = new ListBuffer[Utilitary]
+    val players       = new ListBuffer[Player]
+    var wave_counter  = 1
+    val framerate     = 1.0/60.0 * 1000
+    var started       = false
+    var dt: Double    = 0.0
+    var raining       = false
+    var rng           = new Random
 
     /* GUI */
     val gui : TDComponent
 
     /* ==================== CALLBACKS ==================== */
 
-    def upgrade_tower(): Unit = {
-       this.selected_cell.get.upgrades match
+    def upgrade_tower(tower: Tower): Unit = {
+       tower.upgrades match
        {
            case None            => {}
            case Some(upgrade)   => {
-               if (player.remove_gold(upgrade.cost)) {
-                   upgrade.effect(selected_cell.get)
-                   selected_cell.get.sell_cost += ((0.8 * upgrade.cost).toInt)
+               if (tower.owner.remove_gold(upgrade.cost)) {
+                   upgrade.effect(tower)
+                   tower.sell_cost += ((0.8 * upgrade.cost).toInt)
                }
                else {
                    println("Not enough money, you noob !")
@@ -160,13 +161,13 @@ abstract class GameState extends State with Publisher
          */
         towers += tower
         tower.towertype.amount += 1
-        map_panel.map += tower
+        map += tower
     }
 
     def -=(tower: Tower): Unit = {
         towers -= tower
         tower.towertype.amount -= 1
-        map_panel.map -= tower
+        map -= tower
     }
 
     /* ANIMATIONS */
@@ -187,4 +188,22 @@ abstract class GameState extends State with Publisher
     def -=(utilitary: Utilitary): Unit = {
         utilitaries -= utilitary
     }
+
+    /* ==================== STRATEGIES ==================== */
+
+    // BUNNIES
+    def bunny_death_render_strategy(bunny: Bunny) : Unit
+    def bunny_reach_goal_strategy(bunny: Bunny) : Unit
+    def spec_ops_jump_strategy(bunny: Bunny) : Unit
+
+    // PROJECTILES
+    def splash_projectile_hit_strategy(projectile: Projectile) : Unit
+
+    // TOWER
+    def tower_fire_strategy(tower: Tower) : Unit
+    def supp_buff_tower_animation_strategy(tower: Tower) : Unit
+    def supp_slow_tower_animation_strategy(tower: Tower) : Unit
+
+    // UTLITARIES
+    def mine_hit_strategy(util: Utilitary) : Unit
 }

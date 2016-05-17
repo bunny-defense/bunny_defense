@@ -8,6 +8,7 @@ import javax.imageio.ImageIO
 
 import game_mechanics.path.Waypoint
 import runtime.TowerDefense
+import runtime.ClientGameState
 import gui._
 import utils.Continuable
 
@@ -18,7 +19,10 @@ object SpreadAnimation
             getClass().getResource("/projectiles/potato-image.png").getPath()))
 }
 
-class SpreadAnimation(pos: Waypoint, radius_init: Int, dir: Waypoint) extends Animatable {
+class SpreadAnimation(
+    pos: Waypoint, radius_init: Int, dir: Waypoint, gamestate: ClientGameState)
+extends Animatable(gamestate)
+{
     import SpreadAnimation._
     val origin = pos.toInt * MapPanel.cellsize
     val radius = radius_init * MapPanel.cellsize

@@ -18,8 +18,6 @@ import utils._
 import game_mechanics._
 import game_mechanics.path._
 import game_mechanics.tower._
-import strategy._
-
 
 object TowerDefense extends SimpleSwingApplication
 {
@@ -27,8 +25,7 @@ object TowerDefense extends SimpleSwingApplication
         override def default(key: Key.Value) = false
     }
     val gui_size = new Dimension(
-        gamestate.map_panel.size.x + gamestate.build_menu.size.x,
-        gamestate.map_panel.size.y + gamestate.tower_panel.size.y )
+        1280, 720 )
     val framerate    = 1.0/60.0 * 1000
     def top = new MainFrame
     {
@@ -36,7 +33,6 @@ object TowerDefense extends SimpleSwingApplication
             getLines().toArray
         title = titles(Random.nextInt(titles.length))
         Parameters.load()
-        gamestate.player.reset()
         contents = StateManager.render_surface
         size = gui_size
         resizable = false
@@ -44,7 +40,7 @@ object TowerDefense extends SimpleSwingApplication
     }
     override def main(args: Array[String]): Unit = {
         super.main(args)
-        StateManager.set_state( new MainMenuState() )
+        StateManager.set_state( MainMenuState )
         StateManager.run()
         top.close()
         sys.exit(0)

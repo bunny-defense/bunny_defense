@@ -9,6 +9,7 @@ import javax.imageio.ImageIO
 
 import game_mechanics.path.Waypoint
 import runtime.TowerDefense
+import runtime.ClientGameState
 import gui._
 import utils.Continuable
 

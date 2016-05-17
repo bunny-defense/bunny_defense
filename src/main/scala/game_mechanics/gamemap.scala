@@ -2,6 +2,8 @@
 package game_mechanics
 
 import io.Source
+import util.Random
+import collection.mutable.ListBuffer
 
 import java.awt.image.BufferedImage
 import java.io.File
@@ -10,12 +12,12 @@ import javax.imageio.ImageIO
 import utils.Landscape
 import game_mechanics.tower.Tower
 import game_mechanics.path.CellPos
-import runtime.{Spawner,TowerDefense}
-import runtime.GameState._
+import game_mechanics.bunny.Bunny
+import runtime.TowerDefense
+import runtime.GameState
 import gui.MapPanel
-import util.Random
 
-class GameMap(width0: Int, height0: Int)
+class GameMap(width0: Int, height0: Int, gamestate: GameState)
 {
     val law = new Random()
     val width           = width0
@@ -65,17 +67,23 @@ class GameMap(width0: Int, height0: Int)
         if( !obstruction_map(tower.pos.x)(tower.pos.y) )
         {
             obstruction_map(tower.pos.x)(tower.pos.y) = true
-            val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend)
-            jps.run() match
+            for( player <- gamestate.players )
             {
-                case Some(path) => {
-                    return true
-                }
-                case None => {
-                    obstruction_map(tower.pos.x)(tower.pos.y) = false
-                    println( "You are blocking the way" )
+                val jps = new JPS(
+                    player.base,
+                    tower.owner.base,
+                    gamestate)
+                jps.run() match
+                {
+                    case Some(path) => {}
+                    case None => {
+                        obstruction_map(tower.pos.x)(tower.pos.y) = false
+                        println( "You are blocking the way" )
+                        return false
+                    }
                 }
             }
+            return true
         }
         return false
     }
@@ -98,9 +106,9 @@ class GameMap(width0: Int, height0: Int)
         obstruction_map(x)(y)
     }
 
-    def valid( pos : CellPos, bunnies : ListBuffer[Bunny]): Boolean = {
+    def valid(pos : CellPos): Boolean = {
         // Cannot place tower on top of bunnies
-        if( bunnies.count( _.pos.toInt == pos ) > 0 )
+        if( gamestate.bunnies.count( _.pos.toInt == pos ) > 0 )
             return false
         // Out of bounds
         if( pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height )
@@ -109,12 +117,22 @@ class GameMap(width0: Int, height0: Int)
         if( obstruction_map( pos.x )( pos.y ) )
             return false
         obstruction_map( pos.x )( pos.y ) = true
-        val jps = new JPS( Spawner.bunnystart, Spawner.bunnyend )
-        val result = jps.run() match {
-            case None    => false
-            case Some(_) => true
+        var result = false
+        for( player <- gamestate.players )
+        {
+            val jps = new JPS(
+                player.base,
+                gamestate.players(0).base,
+                gamestate )
+            jps.run() match {
+                case None    => {
+                    obstruction_map( pos.x )( pos.y ) = false
+                    return false
+                }
+                case Some(_) => {}
+            }
         }
         obstruction_map( pos.x )( pos.y ) = false
-        return result
+        return true
     }
 }

@@ -31,8 +31,7 @@ extends TDButton(parent) with Reactor
     override def action() : Unit = {
         focused = true
     }
-    override def draw(g: Graphics2D) : Unit = {
-        super.draw(g)
+    override def draw_contents(g: Graphics2D) : Unit = {
         g.setColor( background_color )
         g.fillRect( 0, 0, size.x, size.y )
         g.setColor(text_color)

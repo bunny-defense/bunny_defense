@@ -4,6 +4,7 @@ import swing._
 import swing.event._
 
 import game_mechanics._
+import game_mechanics.path.CellPos
 import utils.Parameters
 
 case object MoneyChanged extends Event
@@ -19,6 +20,7 @@ class Player extends Publisher {
     var hp   = Parameters.player_initial_life
     var gold = Parameters.player_initial_gold
     var killcount = 0
+    var base = new CellPos( 0, 0 )
 
     def reset(): Unit = {
         hp   = Parameters.player_initial_life

@@ -1,7 +1,8 @@
 package game_mechanics.bunny
 
+import runtime.GameState
+import game_mechanics.Player
 import game_mechanics.path._
-import runtime.GameState._
 
 object BunnyFactory
 {
@@ -16,27 +17,30 @@ object BunnyFactory
     val FLYING_SQUIRREL = 7
     val SHIELD_BUNNY    = 8
 
-    def create(bunny_type : Int, player_id: Int, pos: CellPos, arrival: CellPos): Bunny = {
+    def create(bunny_type : Int,
+        owner: Player,
+        pos: CellPos, arrival: CellPos,
+        gamestate: GameState): Bunny = {
         bunny_id += 1
         bunny_type match {
             case NORMAL_BUNNY    =>
-                new NormalBunny(player_id, bunny_id, pos, arrival, gamestate)
+                new NormalBunny(owner, bunny_id, pos, arrival, gamestate)
             case HEAVY_BUNNY     =>
-                new HeavyBunny(player_id, bunny_id, pos, arrival, gamestate)
+                new HeavyBunny(owner, bunny_id, pos, arrival, gamestate)
             case HARE_           =>
-                new Hare(player_id, bunny_id, pos, arrival, gamestate)
+                new Hare(owner, bunny_id, pos, arrival, gamestate)
             case OTTER_          =>
-                new Otter(player_id, bunny_id, pos, arrival, gamestate)
+                new Otter(owner, bunny_id, pos, arrival, gamestate)
             case GOLDEN_BUNNY    =>
-                new GoldenBunny(player_id, bunny_id, pos, arrival, gamestate)
+                new GoldenBunny(owner, bunny_id, pos, arrival, gamestate)
             case BADASS_BUNNY    =>
-                new BadassBunny(player_id, bunny_id, pos, arrival, gamestate)
+                new BadassBunny(owner, bunny_id, pos, arrival, gamestate)
             case SPECOP_BUNNY    =>
-                new SpecOpBunny(player_id, bunny_id, pos, arrival, gamestate)
+                new SpecOpBunny(owner, bunny_id, pos, arrival, gamestate)
             case FLYING_SQUIRREL =>
-                new FlyingSquirrel(player_id, bunny_id, pos, arrival, gamestate)
+                new FlyingSquirrel(owner, bunny_id, pos, arrival, gamestate)
             case SHIELD_BUNNY    =>
-                new ShieldBunny(player_id, bunny_id, pos, arrival, gamestate)
+                new ShieldBunny(owner, bunny_id, pos, arrival, gamestate)
         }
     }
 }

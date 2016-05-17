@@ -6,8 +6,8 @@ import collection.mutable.ListBuffer
 import game_mechanics.{Projectile,ProjectileFactory}
 import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
-import runtime.{Spawner,TowerDefense}
-import runtime.GameState._
+import runtime.TowerDefense
+import runtime.GameState
 import gui.animations.MuzzleflashAnimation
 
 class ShooterTower(projectile_type : Int) extends TowerType
@@ -19,14 +19,19 @@ class ShooterTower(projectile_type : Int) extends TowerType
     override def attack_from(tower : Tower, gamestate: GameState): () => Boolean = {
         def in_range(bunny : Bunny) : Boolean = {
             return ((bunny.pos - tower.pos).norm <= tower.range &&
-                     tower.player != bunny.player)
+                     tower.owner != bunny.owner)
         }
 
         def fire_at(bunny: Bunny): Unit = {
-            gamestate += new MuzzleflashAnimation(tower.pos.toDouble)
+            gamestate.tower_fire_strategy(tower)
+            // gamestate += new MuzzleflashAnimation(tower.pos.toDouble)
             val target_pos = bunny.pos + (Waypoint.random() * 2 - new Waypoint( 1, 1 )) * spread
             var throw_carrot    = ProjectileFactory.create(
-                projectile_type, target_pos, tower.pos.toDouble, this)
+                projectile_type,
+                tower.owner,
+                target_pos,
+                tower.pos.toDouble, this,
+                gamestate)
             throw_carrot.speed  = throw_speed
             throw_carrot.damage = tower.damage
             gamestate += throw_carrot
@@ -49,7 +54,7 @@ class ShooterTower(projectile_type : Int) extends TowerType
         }
 
         def get_target() : Option[Bunny] = {
-            return closest_to( Spawner.bunnyend.toDouble )
+            return closest_to( tower.owner.base.toDouble )
         }
 
         def attack(): Boolean = {

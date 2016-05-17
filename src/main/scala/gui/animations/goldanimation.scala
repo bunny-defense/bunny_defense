@@ -6,11 +6,13 @@ import java.awt.Graphics2D
 
 import game_mechanics.path.Waypoint
 import gui._
+import runtime.ClientGameState
 import utils.Continuable
 
 
 
-class GoldAnimation(amount: Int,origin: Waypoint) extends Animatable
+class GoldAnimation(amount: Int,origin: Waypoint, gamestate: ClientGameState)
+extends Animatable(gamestate)
 {
     /* Creates nice animations when bunnies die */
     timer = 2.0

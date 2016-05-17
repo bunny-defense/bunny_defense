@@ -1,14 +1,15 @@
 
 package gui.animations
 
+import collection.mutable.ListBuffer
+import util.Random
+
 import java.awt.Graphics2D
 import java.awt.AlphaComposite
 
-import collection.mutable.ListBuffer
-import gui._
-import util.Random
-
+import runtime.ClientGameState
 import game_mechanics.path.{Waypoint,CellPos}
+import gui._
 
 /* Buff tower animation (floating plusses) */
 
@@ -17,7 +18,8 @@ object BuffAnimation
     val rng = new Random()
 }
 
-class BuffAnimation( pos : CellPos, radius : Double ) extends Animatable
+class BuffAnimation(pos : CellPos, radius : Double, gamestate: ClientGameState)
+extends Animatable(gamestate)
 {
     import BuffAnimation._
     val size            = MapPanel.cellsize.toDouble

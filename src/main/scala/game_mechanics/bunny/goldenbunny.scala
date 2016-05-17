@@ -1,25 +1,25 @@
 
 package game_mechanics.bunny
 
+import runtime.GameState
 import java.io.File
 import javax.imageio.ImageIO
 import game_mechanics.path._
+import game_mechanics.Player
 import game_mechanics.JPS
-import runtime.GameState._
-
 
 /* Rare golden bunny worth a lot of money */
 case class GoldenBunny(
-    player_id : Int,
+    _owner: Player,
     bunny_id : Int,
-    pos: CellPos,
+    start: CellPos,
     arrival: CellPos,
-    gamestate : GameState) extends Bunny
+    gamestate : GameState)
+extends Bunny(_owner,gamestate)
 {
     override val id            = bunny_id
-    override val player        = player_id
-    path = new Progress(
-        new JPS(pos, arrival).run(gamestate)
+    override var path = new Progress(
+        new JPS(start, arrival, gamestate).run()
                     match {
                         case None    => throw new Exception()
                         case Some(p) => p

@@ -1,16 +1,22 @@
 
 package game_mechanics.bunny
 
-import game_mechanics.path._
+import runtime.GameState
 import game_mechanics.JPS
+import game_mechanics.Player
+import game_mechanics.path._
 
-
-case class NormalBunny(player_id: Int, bunny_id: Int, pos: CellPos, arrival: CellPos) extends Bunny
+case class NormalBunny(
+    _owner: Player,
+    bunny_id: Int,
+    start: CellPos,
+    arrival: CellPos,
+    gamestate: GameState)
+extends Bunny(_owner,gamestate)
 {
     override val id     = bunny_id
-    override val player = player_id
-    override val path = new Progress(
-        new JPS(pos, arrival).run()
+    override var path = new Progress(
+        new JPS(start, arrival, gamestate).run()
                     match {
                         case None    => throw new Exception()
                         case Some(p) => p

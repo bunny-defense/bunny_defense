@@ -5,9 +5,11 @@ import java.awt.Graphics2D
 
 import game_mechanics.path.Waypoint
 import gui._
+import runtime.ClientGameState
 
 /* An animation that creates a muzzle flash when turrets shoot */
-class MuzzleflashAnimation(origin : Waypoint) extends Animatable
+class MuzzleflashAnimation(origin : Waypoint, gamestate: ClientGameState)
+extends Animatable(gamestate)
 {
     val duration = 0.1
     timer        = duration

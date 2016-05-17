@@ -6,21 +6,21 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.TowerDefense
-import runtime.GameState._
+import runtime.GameState
 import game_mechanics.tower.TowerType
 import game_mechanics.path.Waypoint
 import game_mechanics.bunny.Bunny
 import game_mechanics.Purchasable
+import game_mechanics.Player
 import gui.animations.SpreadAnimation
 
 
 object Utilitary {
     var id = 0
-    var player  = 1
 }
 
 /* The class of a utilitary purchasable item */
-class Utilitary(origin_pos: Waypoint) extends Purchasable {
+class Utilitary(_owner: Player, origin_pos: Waypoint) extends Purchasable {
     import Utilitary._
     var speed         = 1.0
     var damage        = 5.0
@@ -29,12 +29,15 @@ class Utilitary(origin_pos: Waypoint) extends Purchasable {
     val radius        = 5
     val price         = 15
     val id            = Utilitary.id
-    val player        = Utilitary.player
+    val owner         = _owner
 
     def on_hit(target : Option[Bunny], gamestate : GameState): Unit = {
         val targets = gamestate.bunnies
             .filter( bunny => pos.distance_to( bunny.pos ) < radius )
-        targets.foreach( _.remove_hp( damage ) )
+        targets.foreach( _.remove_hp(damage, owner) )
+        gamestate.mine_hit_strategy(this)
+        gamestate -= this
+        /*
         for (dir <- 0 to 12) {
             gamestate.animations += new SpreadAnimation(
                 pos,
@@ -42,7 +45,7 @@ class Utilitary(origin_pos: Waypoint) extends Purchasable {
                 new Waypoint (Math.cos(dir.toDouble *360.0/8.0),Math.sin(dir.toDouble*360.0/8))
             )
         }
-        gamestate -= this
+        */
     }
 
     /* One step of progress */
@@ -50,7 +53,7 @@ class Utilitary(origin_pos: Waypoint) extends Purchasable {
         gamestate.bunnies.find( x => x.pos.distance_to(pos) < hitradius ) match
         {
             case None => ()
-            case Some(bunny) => on_hit( Some(bunny) )
+            case Some(bunny) => on_hit(Some(bunny), gamestate)
         }
     }
 /*
