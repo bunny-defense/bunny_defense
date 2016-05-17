@@ -18,14 +18,9 @@ class SpecOpBunny(player_id: Int) extends Bunny
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/ninja.png").getPath()))
-    override val law           = new Random()
     override val price         = 200
 
     override def update(dt: Double): Unit = {
-        if ( this.path.reached ) {
-            Player.remove_hp( this.damage )
-            Controller -= this
-        }
         if ( !this.alive ) {
             Controller += new GoldAnimation(
                 this.reward(Controller.wave_counter),
@@ -44,13 +39,17 @@ class SpecOpBunny(player_id: Int) extends Bunny
                 this.path.random_choice
                 this.pos = this.path.get_position()
                 println(this.path.toString)
-                Controller += this 
+                Controller += this
                 Controller += new SmokeAnimation(this.pos)
             }
             Controller += anim
         }
         else {
             this.move(dt)
+            if ( this.path.reached ) {
+                Player.remove_hp( this.damage )
+                Controller -= this
+            }
         }
     }
 }

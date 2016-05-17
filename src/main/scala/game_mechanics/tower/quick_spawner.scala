@@ -13,7 +13,7 @@ object QuickSpawnerTower extends SpawnerTower()
 {
     override val name = "Ninja barn"
     override val desc = "Creates sneaky bunnies"
-    bunnies_spawning  = List(BunnyFactory.FLYING_SQUIRREL, BunnyFactory.FLYING_SQUIRREL, BunnyFactory.SPECOP_BUNNY)
+    bunnies_spawning  = List(BunnyFactory.FLYING_SQUIRREL, BunnyFactory.FLYING_SQUIRREL,BunnyFactory.SPECOP_BUNNY)
     override val tower_graphic =
         ImageIO.read(
             new File(
