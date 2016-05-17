@@ -95,20 +95,26 @@ object MultiplayerMenuState extends MenuState
 
 class ServerConnectionMenu extends MenuState
 {
+    def connect() : Unit = {
+        if (!(hostname_field.text == "")) {
+            val connection = new ClientThread(hostname_field.text)
+            connection.start()
+            StateManager.set_state( new ClientLobby(connection) )
+        }
+    }
     val hostname_field = new TDTextField(Some(gui))
     {
-        pos         = new CellPos( 50, 50 )
-        size        = new CellPos( 400, 50 )
+        pos         = new CellPos( TowerDefense.gui_size.width / 4, 50 )
+        size        = new CellPos( TowerDefense.gui_size.width / 2, 50 )
         placeholder = "Host name"
+        override def on_enter() : Unit = {
+            connect()
+        }
     }
-    new TextButton(Some(gui), "Connect")
+    new gui.WideButton( 120, "Connect")
     {
         override def action() : Unit = {
-            if (!(hostname_field.text == "")) {
-                val connection = new ClientThread(hostname_field.text)
-                connection.start()
-                StateManager.set_state( new ClientLobby(connection) )
-            }
+            connect()
         }
     }
     new gui.WideButton( 260, "Back" )
@@ -118,16 +124,3 @@ class ServerConnectionMenu extends MenuState
         }
     }
 }
-
-class Lobby extends MenuState
-{
-    new gui.WideButton( 50, "Back" )
-    {
-        override def action() : Unit = {
-            StateManager.set_state( PlayMenuState )
-        }
-    }
-}
-
-class ServerLobby extends Lobby
-class ClientLobby(connection: ClientThread) extends Lobby

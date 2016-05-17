@@ -13,20 +13,37 @@ import game_mechanics.tower._
 import game_mechanics.utilitaries._
 import game_mechanics.path._
 
-class Server {
+object Server
+{
+    val default_port = 1234
+}
+abstract class Server extends Thread("AcceptanceThread") {
+    import Server._
     val peers = new ListBuffer[ServerThread]
-    try {
-        val listener = new ServerSocket(9999)
-        while (true) { val new_peer = new ServerThread(listener.accept())
-            peers += new_peer
-            new_peer.start()
+    def on_connect(peer: ServerThread) : Unit
+    def on_disconnect(peer: ServerThread) : Unit
+    override def run() : Unit = {
+        try {
+            val listener = new ServerSocket(default_port)
+            while (true)
+            {
+                val new_peer = new ServerThread(listener.accept())
+                {
+                    override def on_disconnect(peer: ServerThread) : Unit = {
+                        on_disconnect(peer)
+                    }
+                }
+                peers += new_peer
+                on_connect(new_peer)
+                new_peer.start()
+            }
+            listener.close()
         }
-        listener.close()
-    }
-    catch {
-        case e: IOException =>
-            System.err.println("Could not listen on port: 9999.")
-            System.exit(1)
+        catch {
+            case e: IOException =>
+                System.err.println("Could not listen on port: 9999.")
+                System.exit(1)
+        }
     }
     def send(peer: ServerThread, packet: Any) : Unit = {
         peer.add(packet)
@@ -34,9 +51,10 @@ class Server {
     def broadcast(packet: Any) : Unit = {
         peers.foreach( _.add(packet) )
     }
+    this.start()
 }
 
-class ServerThread(socket : Socket)
+abstract class ServerThread(socket : Socket)
 extends Thread("ServerThread")
 {
     val out = new ObjectOutputStream(
@@ -68,12 +86,15 @@ extends Thread("ServerThread")
         handle(this, in.readObject())
     }
 
+    def on_disconnect(peer: ServerThread) : Unit
+
     override def run(): Unit = {
         while (true) {
             if (!queue.isEmpty) {
                 send(queue.dequeue())
             }
         }
+        on_disconnect(this)
     }
 
         /*

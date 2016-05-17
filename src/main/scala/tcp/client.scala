@@ -20,7 +20,7 @@ import scala.collection.mutable.{ListBuffer,Queue}
 class ClientThread(domain : String)
 extends Thread("Client Thread")
 {
-    val socket = new Socket(InetAddress.getByName(domain),9999)
+    val socket = new Socket(InetAddress.getByName(domain),Server.default_port)
     val in = new ObjectInputStream(
         new DataInputStream(socket.getInputStream()))
     val out = new ObjectOutputStream(
