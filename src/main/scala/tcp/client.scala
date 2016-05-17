@@ -48,7 +48,16 @@ extends Thread("Client Thread")
     class Receiver extends Thread("ServerReceiver")
     {
         override def run() : Unit = {
-            receive()
+            try {
+                while(true)
+                    receive()
+            }
+            catch
+            {
+                case e : Exception =>
+                    StateManager.set_state( new ErrorMenuState(
+                        e.toString, MultiplayerMenuState ) )
+            }
         }
     }
 

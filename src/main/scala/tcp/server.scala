@@ -62,6 +62,7 @@ extends Thread("ServerThread")
     val in  = new ObjectInputStream(
         new DataInputStream(socket.getInputStream()))
     val queue = new Queue[Any]()
+    val running = true
 
     def close() : Unit = {
         out.close()
@@ -83,6 +84,7 @@ extends Thread("ServerThread")
         packet match {
             case ("player_name",name: String) =>
                 println( "His name is " + name )
+            case _ => ()
         }
     }
 
@@ -93,9 +95,18 @@ extends Thread("ServerThread")
     class Receiver extends Thread("ClientReceiver")
     {
         override def run() : Unit = {
-            while(true)
+            try
             {
-                receive()
+                while(true)
+                {
+                    receive()
+                }
+            }
+            catch
+            {
+                case e: Exception =>
+                    StateManager.set_state( new ErrorMenuState( e.toString,
+                        MultiplayerMenuState ) )
             }
         }
     }
@@ -104,7 +115,7 @@ extends Thread("ServerThread")
 
     override def run(): Unit = {
         new Receiver().start()
-        while (true) {
+        while (running) {
             if (!queue.isEmpty) {
                 send(queue.dequeue())
             }
