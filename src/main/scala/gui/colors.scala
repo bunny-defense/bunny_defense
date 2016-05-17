@@ -20,6 +20,7 @@ object Colors {
     val red        = new Color( 255,   0,   0 )
     val lightred   = new Color( 255, 200, 200 )
 
+    val darkgreen  = new Color(   0, 127,   0 )
     val green      = new Color(   0, 255,   0 )
     val lightgreen = new Color( 200, 255, 200 )
 

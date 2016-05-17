@@ -111,7 +111,7 @@ class ServerConnectionMenu extends MenuState
             }
         }
     }
-    new gui.WideButton( 50, "Back" )
+    new gui.WideButton( 260, "Back" )
     {
         override def action() : Unit = {
             StateManager.set_state( MultiplayerMenuState )

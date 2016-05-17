@@ -28,6 +28,7 @@ object StateManager extends Reactor
                 TowerDefense.keymap += (key -> false)
             }
         }
+        focusable = true
 
         preferredSize = TowerDefense.gui_size
 
@@ -38,11 +39,10 @@ object StateManager extends Reactor
     }
 
     listenTo( render_surface.mouse.clicks )
+    listenTo( render_surface.keys )
     reactions += {
-        case e : Event => {
-            println( e.getClass.getName )
+        case e : Event =>
             current_state.on_event(e)
-        }
     }
 
    /* Changes the current state and discards the old one */
