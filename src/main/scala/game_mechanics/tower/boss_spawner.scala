@@ -14,10 +14,6 @@ object OtterSpawnerTower extends SpawnerTower()
     override val name = "Otter barn"
     override val desc = "Otters don't live in barns, duh"
     bunnies_spawning  = List(BunnyFactory.OTTER_)
-    override val tower_graphic =
-        ImageIO.read(
-            new File(
-                getClass().getResource("/towers/tank.png").getPath()))
     base_range                 = 4
     range                      = 4
     override val throw_speed   = 15.0

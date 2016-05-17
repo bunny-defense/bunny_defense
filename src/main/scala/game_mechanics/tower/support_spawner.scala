@@ -14,10 +14,6 @@ object SupportSpawnerTower extends SpawnerTower()
     override val name = "Support barn"
     override val desc = "Creates bunnies that shield allies"
     bunnies_spawning  = List(BunnyFactory.SHIELD_BUNNY)
-    override val tower_graphic =
-        ImageIO.read(
-            new File(
-                getClass().getResource("/towers/tank.png").getPath()))
     base_range                 = 4
     range                      = 4
     override val throw_speed   = 15.0

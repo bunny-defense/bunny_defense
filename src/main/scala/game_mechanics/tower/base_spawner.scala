@@ -14,10 +14,6 @@ object BaseSpawnerTower extends SpawnerTower()
     override val name = "Bunny barn"
     override val desc = "Creates base bunnies"
     bunnies_spawning  = List(BunnyFactory.NORMAL_BUNNY, BunnyFactory.NORMAL_BUNNY)
-    override val tower_graphic =
-        ImageIO.read(
-            new File(
-                getClass().getResource("/towers/tank.png").getPath()))
     base_range                 = 4
     range                      = 4
     override val throw_speed   = 15.0

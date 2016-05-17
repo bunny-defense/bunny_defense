@@ -3,6 +3,10 @@ package game_mechanics.tower
 
 import collection.mutable.ListBuffer
 
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
+
 import game_mechanics._
 import game_mechanics.path._
 import runtime.{Spawner,Controller,TowerDefense}
@@ -16,6 +20,10 @@ class SpawnerTower() extends TowerType
      * The class that defines the methods of all spawners
       */
     val law = new Random()
+    override val tower_graphic =
+        ImageIO.read(
+            new File(
+                getClass().getResource("/towers/barn.png").getPath()))
     /* The following are stats modifiers that apply to spawned bunnies */
     override def attack_from(tower : Tower): () => Boolean = {
         def get_right_type(): Boolean = {

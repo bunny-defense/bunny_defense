@@ -14,10 +14,6 @@ object HeavySpawnerTower extends SpawnerTower()
     override val name = "Heavy barn"
     override val desc = "Creates slower, but stronger bunnies"
     bunnies_spawning  = List(BunnyFactory.HEAVY_BUNNY, BunnyFactory.HEAVY_BUNNY, BunnyFactory.BADASS_BUNNY)
-    override val tower_graphic =
-        ImageIO.read(
-            new File(
-                getClass().getResource("/towers/tank.png").getPath()))
     base_range                 = 4
     range                      = 4
     override val throw_speed   = 15.0
