@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-import game_mechanics.ProjectileFactory
+import game_mechanics._
 
 object QuickTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
 {
@@ -22,12 +22,13 @@ object QuickTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     base_range                  = 5
     range                       = 5
     override val spread         = 1.0
-    override val throw_cooldown = 0.2
+    base_throw_cooldown         = 0.2
     override val throw_speed    = 20.0
     base_damage                 = 1
     damage                      = 1
     override val price          = 75
     sell_cost                   = 60
     override val unlock_wave    = 1
+    upgrades                    = Some(RangeUpgrade)
 }
 

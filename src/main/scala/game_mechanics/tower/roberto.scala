@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-import game_mechanics.ProjectileFactory
+import game_mechanics._
 
 /* Human commando in a fishtank who uses phychic powers to continuouly hurt
 nearby rabbits (metal as hell) */
@@ -26,9 +26,10 @@ object Roberto extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     range                       = 6
     base_damage                 = 1
     damage                      = 1
-    override val price       = 3000
+    override val price          = 3000
     sell_cost                   = 2400
     override val throw_speed    = 100.0
-    override val throw_cooldown = 0.05
+    base_throw_cooldown         = 0.05
     override val unlock_wave    = 20
+    upgrades                    = Some(RangeUpgrade)
 }

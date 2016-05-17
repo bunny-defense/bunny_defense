@@ -212,9 +212,10 @@ object Controller extends Publisher with Reactor
         projectiles.foreach( _.update(dt) )
         /* Update towers */
 
-        /* Reinitialize the damage and range of all towers */
+        /* Reinitialize the damage, range and cooldown of all towers */
         towers.foreach (x => x.damage = x.base_damage)
         towers.foreach (x => x.range = x.base_range)
+        towers.foreach (x => x.throw_cooldown = x.base_throw_cooldown)
         /* Apply all tower effects to towers*/
         towers.foreach( tower =>
             towers.foreach( x => if( (x.pos - tower.pos).norm <= tower.range )

@@ -5,10 +5,15 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+import game_mechanics._
+import game_mechanics.bunny._
+import runtime.{Spawner,Controller,TowerDefense}
+
 object BaseSpawnerTower extends SpawnerTower()
 {
-    override val name = "Base spawner"
-    override val desc = "Expected : 2 normal bunnies, 1 ninja bunny"
+    override val name = "Bunny barn"
+    override val desc = "Creates base bunnies"
+    bunnies_spawning  = List(BunnyFactory.NORMAL_BUNNY, BunnyFactory.NORMAL_BUNNY)
     override val tower_graphic =
         ImageIO.read(
             new File(
@@ -21,4 +26,5 @@ object BaseSpawnerTower extends SpawnerTower()
     override val price         = 1
     sell_cost                  = 75
     override val unlock_wave   = 1
+    upgrades                   = Some(Spawner_AddHeavyBunnyUpgrade)
 }

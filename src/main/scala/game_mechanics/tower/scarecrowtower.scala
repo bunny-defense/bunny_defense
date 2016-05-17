@@ -6,7 +6,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.Controller
-import game_mechanics.{Projectile}
+import game_mechanics._
 import game_mechanics.bunny.Bunny
 import game_mechanics.path.Waypoint
 
@@ -15,6 +15,7 @@ object ScarecrowTower extends TowerType
 {
     override val name = "Scarecrow"
     override val desc = "Shoots carrots at all nearby enemies"
+    upgrades          = Some(FireRateUpgrade)
     override val tower_graphic =
         ImageIO.read(
             new File(

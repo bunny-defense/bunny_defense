@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-import game_mechanics.ProjectileFactory
+import game_mechanics._
 
 object HeavyTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
 {
@@ -23,5 +23,6 @@ object HeavyTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     override val price         = 150
     sell_cost                  = 75
     override val unlock_wave   = 3
+    upgrades                   = Some(FireRateUpgrade)
 }
 

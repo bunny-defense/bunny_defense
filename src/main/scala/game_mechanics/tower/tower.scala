@@ -19,32 +19,27 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
      * @param tower_type: The type of the tower
      * @param pos0      : The position of the tower
      */
-    val player         = player_id
-    val pos            = pos0
+    val player              = player_id
+    val pos                 = pos0
     /* Cooldown counter */
-    var cooldown       = 0.0
-    val towertype      = tower_type
-    var base_damage    = tower_type.base_damage
-    var damage         = tower_type.damage
-    var base_range     = tower_type.base_range
-    var range          = tower_type.range
-    var sell_cost      = tower_type.sell_cost
+    var cooldown            = 0.0
+    val towertype           = tower_type
+    /* The next list is only used by spawner towers */
+    var bunnies_spawning    = tower_type.bunnies_spawning
+    var base_damage         = tower_type.base_damage
+    var damage              = tower_type.damage
+    var base_range          = tower_type.base_range
+    var range               = tower_type.range
+    /* The next two are the max cooldown inherited by the tower type */
+    var base_throw_cooldown = tower_type.base_throw_cooldown
+    var throw_cooldown      = tower_type.throw_cooldown
+    var sell_cost           = tower_type.sell_cost
     var upgrades : Option[UpgradeTree] = tower_type.upgrades
     def allied_effect(tower : Tower) {
         tower_type.allied_effect(tower)
     }
     def enemy_effect(bunny : Bunny) {
         tower_type.enemy_effect(bunny)
-    }
-
-    // ===========================
-    // ++++ UPGRADE MECHANICS ++++
-    // ===========================
-    tower_type match
-    {
-        case BaseTower  => upgrades = Some(BaseTowerUpgrades)
-        case QuickTower => upgrades = Some(QuickTowerUpgrades)
-        case _          => upgrades = Some(BaseTowerUpgrades)
     }
 
     // ==========================
@@ -61,7 +56,7 @@ class Tower(tower_type : TowerType, pos0 : CellPos, player_id: Int) {
     def update(dt: Double): Unit = {
         if( cooldown <= 0 && attack() )
             /* Resetting the cooldown */
-            cooldown = tower_type.throw_cooldown
+            cooldown = this.throw_cooldown
         else
             cooldown -= dt
     }

@@ -10,7 +10,7 @@ import javax.imageio.ImageIO
 
 import runtime.{Controller,Spawner}
 import game_mechanics.{Projectile}
-import game_mechanics.bunny.Bunny
+import game_mechanics.bunny._
 import game_mechanics.path._
 import game_mechanics._
 
@@ -21,7 +21,7 @@ trait TowerType extends Purchasable
      */
     val name = "Tower"
     val desc = "Tower tower tower"
-    var upgrades : Option[UpgradeTree] = Some(BaseTowerUpgrades)
+    var upgrades : Option[UpgradeTree] = None
     val tower_graphic  =
         ImageIO.read(
             new File(
@@ -30,17 +30,20 @@ trait TowerType extends Purchasable
         ImageIO.read(
             new File(
                 getClass().getResource("/projectiles/carrot1.png").getPath()))
-    val size           = 1      /* Size in tiles */
-    var base_damage    = 5
-    var damage         = 5      /* Damage dealt to bunnies */
-    var base_range     = 5
-    var range          = 5      /* Range in tiles */
-    val spread         = 0.0    /* Amount of bullet spread */
-    val throw_speed    = 10.0   /* Speed of the shot projectile */
-    val throw_cooldown = 1.0    /* Cooldown time in seconds */
-    val price          = 50     /* Gold needed to buy one */
-    var sell_cost      = 25     /* Gold earned when sold */
-    val unlock_wave    = 1      /* First round of apparition */
+    /* The following is only used for spawner towers */
+    var bunnies_spawning = List(BunnyFactory.NORMAL_BUNNY, BunnyFactory.NORMAL_BUNNY, BunnyFactory.GOLDEN_BUNNY)
+    val size                = 1      /* Size in tiles */
+    var base_damage         = 5
+    var damage              = 5      /* Damage dealt to bunnies */
+    var base_range          = 5
+    var range               = 5      /* Range in tiles */
+    val spread              = 0.0    /* Amount of bullet spread */
+    val throw_speed         = 10.0   /* Speed of the shot projectile */
+    var base_throw_cooldown = 1.0
+    var throw_cooldown      = 1.0    /* Cooldown time in seconds */
+    val price               = 50     /* Gold needed to buy one */
+    var sell_cost           = 25     /* Gold earned when sold */
+    val unlock_wave         = 1      /* First round of apparition */
     def allied_effect(tower : Tower) : Unit = { } /* Applies the tower's effect on allied towers */
     def enemy_effect(bunny : Bunny) : Unit = { } /* Applies the tower's effect on enemy bunnies */
 
