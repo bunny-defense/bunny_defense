@@ -21,6 +21,7 @@ abstract class Server extends Thread("AcceptanceThread") {
     val peers = new ListBuffer[ServerThread]
     def on_connect(peer: ServerThread) : Unit
     def on_disconnect(peer: ServerThread) : Unit
+    val nadine = this
     override def run() : Unit = {
         try {
             val listener = new ServerSocket(default_port)
@@ -29,7 +30,7 @@ abstract class Server extends Thread("AcceptanceThread") {
                 val new_peer = new ServerThread(listener.accept())
                 {
                     override def on_connect(peer: ServerThread) : Unit = {
-                        on_connect(peer)
+                        nadine.on_connect(peer)
                     }
                     override def on_disconnect(peer: ServerThread) : Unit = {
                         on_disconnect(peer)
