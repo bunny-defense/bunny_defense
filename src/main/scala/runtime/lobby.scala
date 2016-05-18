@@ -7,7 +7,7 @@ import tcp._
 
 class Lobby extends MenuState
 {
-    new gui.WideButton( TowerDefense.gui_size.height - 100, "Back" )
+    new gui.WideButton( TowerDefense.gui_size.height - 200, "Back" )
     {
         override def action() : Unit = {
             StateManager.set_state( PlayMenuState )

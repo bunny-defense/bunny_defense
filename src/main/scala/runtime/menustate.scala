@@ -21,6 +21,12 @@ abstract class MenuState extends State
     override def on_event(event: Event) : Unit = {
         gui.on_event(event)
     }
+    new gui.WideButton( 600, "Quit" )
+    {
+        override def action() : Unit = {
+            TowerDefense.quit()
+        }
+    }
 }
 
 object MainMenuState extends MenuState
@@ -31,18 +37,13 @@ object MainMenuState extends MenuState
             StateManager.set_state( PlayMenuState )
         }
     }
-    new gui.WideButton( 120, "Quit" )
-    {
-        override def action() : Unit = {
-            TowerDefense.quit()
-        }
-    }
 }
 
 object PlayMenuState extends MenuState
 {
     new gui.WideButton( 50, "Singleplayer" )
     {
+        color = Colors.darkGrey
         override def action() : Unit = {
             //StateManager.set_state( new ClientServerGameState() )
         }
@@ -111,6 +112,7 @@ class ServerConnectionMenu extends MenuState
     }
     val hostname_field = new TDTextField(Some(gui))
     {
+        focused     = true
         pos         = new CellPos( TowerDefense.gui_size.width / 4, 50 )
         size        = new CellPos( TowerDefense.gui_size.width / 2, 50 )
         placeholder = "Host name"
@@ -138,7 +140,7 @@ extends MenuState
     new TDLabel(Some(gui), error)
     {
         pos = new CellPos(
-            TowerDefense.gui_size.width / 2, // What in the fuck ?
+            TowerDefense.gui_size.width / 2,
             50 )
     }
     new gui.WideButton( TowerDefense.gui_size.height - 100, "Back" )
