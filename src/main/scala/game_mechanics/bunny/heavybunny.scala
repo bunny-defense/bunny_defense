@@ -24,6 +24,7 @@ extends Bunny(_owner,gamestate)
                         case Some(p) => p
                     }
                     )
+    pos = path.path.head
     initial_hp               = 20.0
     override val base_shield = 1.5
     shield                   = 1.5

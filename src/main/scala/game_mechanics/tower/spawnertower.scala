@@ -30,8 +30,9 @@ class SpawnerTower extends TowerType
         tower : Tower,
         gamestate: GameState): () => Boolean = {
         def choose_target() : Player = {
+            println(gamestate.players.toString)
             val available = gamestate.players.filter(_.id != tower.owner.id)
-            return available(law.nextInt(available.length))
+            return available.apply(law.nextInt(available.length))
         }
 
 

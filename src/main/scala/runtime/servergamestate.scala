@@ -47,10 +47,9 @@ extends GameState(_map)
                 for (bunny <- bun_update) {
                     bunny.path.path = new JPS(
                         (bunny.pos + centering).toInt,
-                        bunny.bunnyend,
+                        bunny.path.last.toInt,
                         this).run().get
                     bunny.path.reset
-                    bunny.bunnyend = bunny.path.last.toInt
                 }
             }
         }

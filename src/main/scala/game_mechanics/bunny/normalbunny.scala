@@ -23,4 +23,5 @@ extends Bunny(_owner,gamestate)
                         case Some(p) => p
                     }
                     )
+    pos = path.path.head
 }

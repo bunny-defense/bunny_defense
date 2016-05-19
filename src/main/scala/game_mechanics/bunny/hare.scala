@@ -20,6 +20,7 @@ extends Bunny(_owner,gamestate)
 {
     override val id          = bunny_id
     override val target      = _target
+    println(target.base.toString + "\n" +target)
     override var path = new Progress(
         new JPS(start, target.base, gamestate).run()
                     match {
@@ -27,6 +28,7 @@ extends Bunny(_owner,gamestate)
                         case Some(p) => p
                     }
                     )
+    pos = path.path.head
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/hare_alt1.png").getPath()))
