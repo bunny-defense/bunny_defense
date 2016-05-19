@@ -53,8 +53,8 @@ object Landscape
             }
             for( player <- 0 until players )
             {
-                var x = 2
-                val y = player / 2 / players
+                var x = 2 + (width - 5) * (player % 2)
+                val y = (player / 2 + 1) * height / (players / 2 + 1)
                 if( player % 2 == 0 )
                     x = width - 3
                 bases(player) = new CellPos(x,y)

@@ -28,9 +28,6 @@ extends Thread("Client Thread")
     val queue  = new Queue[Any]()
     val player = new Player("Unamed")
 
-    out.writeObject("New Client")
-    out.flush()
-
     def add(arg : Any): Unit = {
         queue.enqueue(arg)
     }

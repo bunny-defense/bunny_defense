@@ -31,6 +31,7 @@ abstract class MenuState extends State
     }
 }
 
+/* The main menu, the first one that will be seen */
 object MainMenuState extends MenuState
 {
     new gui.WideButton( 50, "Play" )
@@ -41,6 +42,7 @@ object MainMenuState extends MenuState
     }
 }
 
+/* [SP] [MP] [<-] */
 object PlayMenuState extends MenuState
 {
     new gui.WideButton( 50, "Singleplayer" )
@@ -64,6 +66,7 @@ object PlayMenuState extends MenuState
     }
 }
 
+/* Joint & Host */
 object MultiplayerMenuState extends MenuState
 {
     new gui.WideButton( 50, "Join" )
@@ -93,6 +96,7 @@ object MultiplayerMenuState extends MenuState
     }
 }
 
+/* The menu that shows up before joining a server */
 class ServerConnectionMenu extends MenuState
 {
     def connect() : Unit = {
@@ -109,23 +113,33 @@ class ServerConnectionMenu extends MenuState
             }
         }
     }
-    val hostname_field = new TDTextField(Some(gui))
+    val player_name_field = new TDTextField(Some(gui))
     {
         focused     = true
-        pos         = new CellPos( TowerDefense.gui_size.width / 4, 50 )
+        pos         = new CellPos( TowerDefense.gui_size.width / 4, 120 )
+        size        = new CellPos( TowerDefense.gui_size.width / 2, 50 )
+        placeholder = "Player name"
+        override def on_enter() : Unit = {
+            focused = false
+            hostname_field.focused = true
+        }
+    }
+    val hostname_field = new TDTextField(Some(gui))
+    {
+        pos         = new CellPos( TowerDefense.gui_size.width / 4, 190 )
         size        = new CellPos( TowerDefense.gui_size.width / 2, 50 )
         placeholder = "Host name"
         override def on_enter() : Unit = {
             connect()
         }
     }
-    new gui.WideButton( 120, "Connect")
+    new gui.WideButton( 260, "Connect")
     {
         override def action() : Unit = {
             connect()
         }
     }
-    new gui.WideButton( 260, "Back" )
+    new gui.WideButton( 330, "Back" )
     {
         override def action() : Unit = {
             StateManager.set_state( MultiplayerMenuState )
@@ -133,6 +147,7 @@ class ServerConnectionMenu extends MenuState
     }
 }
 
+/* This "menu" is shown when an error is caught */
 class ErrorMenuState(error: String, previous_state: State)
 extends MenuState
 {
