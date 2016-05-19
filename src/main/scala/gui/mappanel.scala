@@ -36,7 +36,7 @@ extends TDComponent(parent)
     val width    = map.width  * MapPanel.cellsize
     var viewpos : Waypoint = new Waypoint(0,0)
     var darkness = 0f
-    size = new CellPos( cols * cellsize, rows * cellsize )
+    size = new CellPos( 30 * cellsize, 25 * cellsize )
 
     override def on_event(event: Event) : Unit = {
         super.on_event(event)
@@ -97,6 +97,8 @@ extends TDComponent(parent)
 
     /* Drawing on the map */
     override def draw(g: Graphics2D): Unit = {
+        val clip = g.getClip()
+        g.clipRect( 0, 0, size.x, size.y )
         /* Drawing the map */
         g.drawImage( map.map_image,
             -viewpos.x.toInt,
@@ -218,5 +220,6 @@ extends TDComponent(parent)
                     tower.range*cellsize*2 )
             }
         }
+        g.setClip(clip)
     }
 }
