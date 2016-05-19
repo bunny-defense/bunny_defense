@@ -10,13 +10,14 @@ case class NormalBunny(
     _owner: Player,
     bunny_id: Int,
     start: CellPos,
-    arrival: CellPos,
+    _target : Player,
     gamestate: GameState)
 extends Bunny(_owner,gamestate)
 {
     override val id     = bunny_id
+    override val target = _target
     override var path = new Progress(
-        new JPS(start, arrival, gamestate).run()
+        new JPS(start, target.base, gamestate).run()
                     match {
                         case None    => throw new Exception()
                         case Some(p) => p

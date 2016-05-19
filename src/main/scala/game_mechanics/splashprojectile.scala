@@ -31,14 +31,5 @@ extends Projectile(
         targets.foreach( _.remove_hp( damage, owner ) )
         gamestate.splash_projectile_hit_strategy(this)
         gamestate -= this
-        /*
-        for (dir <- 0 to 12) {
-            gamestate.animations += new SpreadAnimation(
-                targetpos,
-                radius,
-                new Waypoint (Math.cos(dir.toDouble *360.0/8.0),Math.sin(dir.toDouble*360.0/8))
-            )
-        }
-        */
     }
 }

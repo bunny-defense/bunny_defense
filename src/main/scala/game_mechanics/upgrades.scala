@@ -61,7 +61,7 @@ object Spawner_SpawnRateUpgrade extends UpgradeTree
 
 object Spawner_BunniesSpeedUpgrade extends UpgradeTree
 {
-    override val name = "'Flour' coated carrots"
+    override val name = " Very quick bunnies coated carrots"
     override val description = "Spawned bunnies speed * 1.5"
     override def effect(tower : Tower)
     {

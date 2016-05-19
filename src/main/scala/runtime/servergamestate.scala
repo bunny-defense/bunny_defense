@@ -49,6 +49,23 @@ extends GameState(_map)
             }
         }
     }
+
+    override def update(dt: Double) : Unit = {
+        /* Random chance of rain or thunder */
+        if (rng.nextDouble < (dt/200) && !raining)
+        {
+            raining = true
+            val time = 30 + rng.nextDouble * 120
+            if (rng.nextDouble < 0.5) {
+                server.broadcast(("Thunder", time))
+            }
+            else {
+                server.broadcast(("Rain", time))
+            }
+        }
+        super.update(dt)
+    }
+
     def sync(): Unit = {
         server.broadcast(("sync_towers", towers))
         server.broadcast(("sync_bunnies", bunnies))
@@ -62,11 +79,20 @@ extends GameState(_map)
         server.broadcast(("removed", bunny.id, bunny.owner.id))
         server.broadcast(("lost", bunny.damage, bunny.owner.id))
     }
-    override def spec_ops_jump_strategy(bunny: Bunny) : Unit = {}
+    override def spec_ops_jump_strategy(bunny: SpecOpBunny) : Unit = {
+        if( rng.nextDouble < 1.0/180.0) {
+            bunny.jumping = true
+            this -= bunny
+            bunny.path.random_choice
+            bunny.pos = bunny.path.get_position
+            server.broadcast(("jumped", bunny.id, bunny.owner.id, bunny.pos))
+            this += bunny
+        }
+    }
 
     // PROJECTILES
     override def splash_projectile_hit_strategy(
-        projectile: Projectile) : Unit = {}
+        projectile: SplashProjectile) : Unit = {}
 
     // TOWER
     override  def tower_fire_strategy(tower: Tower) : Unit = {}

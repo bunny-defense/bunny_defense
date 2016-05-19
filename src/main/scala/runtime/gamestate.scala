@@ -96,24 +96,6 @@ extends State with Publisher
                 { bunny.allied_effect(x) })
         )
         bunnies.foreach( _.update(dt) )
-        /* MOVE THIS TO ServerGameState */
-        /* Random chance of rain */
-        /*
-        if( rng.nextDouble < (dt / 200) && !raining )
-        {
-            raining = true
-            val anim = if(rng.nextDouble < 0.5)
-                new ThunderstormAnimation( 30 + rng.nextDouble * 120 )
-            else
-                new RainAnimation( 30 + rng.nextDouble * 120 )
-            anim and_then { () => this.raining = false }
-            this += anim
-        }
-        if ( TowerDefense.keymap(Key.Escape)) {
-            selected_tower = None
-            selected_cell  = None
-        }
-        */
     }
 
     override def update(dt: Double) : Unit = {
@@ -183,10 +165,10 @@ extends State with Publisher
     // BUNNIES
     def bunny_death_render_strategy(bunny: Bunny) : Unit
     def bunny_reach_goal_strategy(bunny: Bunny) : Unit
-    def spec_ops_jump_strategy(bunny: Bunny) : Unit
+    def spec_ops_jump_strategy(bunny: SpecOpBunny) : Unit
 
     // PROJECTILES
-    def splash_projectile_hit_strategy(projectile: Projectile) : Unit
+    def splash_projectile_hit_strategy(projectile: SplashProjectile) : Unit
 
     // TOWER
     def tower_fire_strategy(tower: Tower) : Unit

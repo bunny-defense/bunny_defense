@@ -14,13 +14,14 @@ case class Otter(
     _owner: Player,
     bunny_id: Int,
     start: CellPos,
-    arrival: CellPos,
+    _target : Player,
     gamestate: GameState)
 extends Bunny(_owner,gamestate)
 {
     override val id            = bunny_id
+    override val target        = _target
     override var path = new Progress(
-        new JPS(start, arrival, gamestate).run()
+        new JPS(start, target.base, gamestate).run()
                     match {
                         case None    => throw new Exception()
                         case Some(p) => p
@@ -35,6 +36,5 @@ extends Bunny(_owner,gamestate)
     base_speed                 = 1.0
     speed                      = 1.0
     override val damage        = 5
-    override val price         = 500
     override def reward        = atan_variation(100,15,25)
 }

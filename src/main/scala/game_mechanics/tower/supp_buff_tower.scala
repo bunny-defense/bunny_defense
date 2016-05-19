@@ -35,14 +35,6 @@ object SuppBuffTower extends TowerType
     override def attack_from(
         tower: Tower, gamestate: GameState): () => Boolean = {
             gamestate.supp_buff_tower_animation_strategy(tower)
-            /*
-            def new_buff_anim(): Unit = {
-                val anim = new BuffAnimation( tower.pos, tower.range )
-                anim and_then new_buff_anim
-                gamestate += anim
-            }
-            new_buff_anim
-            */
             () => true
     }
     override def allied_effect(tower : Tower) {

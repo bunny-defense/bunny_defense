@@ -12,7 +12,7 @@ object SplashTower extends ShooterTower(ProjectileFactory.SPLASH_PROJECTILE)
     override val desc        = "Turnips cause splash damage"
     override val unlock_wave = 10
     override val throw_graphic =
-        ImageIO.read(
+       ImageIO.read(
             new File(
                 getClass().getResource("/projectiles/Red-Turnip-icon.png").getPath()))
     override val price       = 2500

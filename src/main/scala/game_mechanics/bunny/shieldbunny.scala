@@ -14,13 +14,14 @@ case class ShieldBunny(
     _owner: Player,
     bunny_id: Int,
     start: CellPos,
-    arrival: CellPos,
+    _target : Player,
     gamestate: GameState)
 extends Bunny(_owner,gamestate)
 {
     override val id           = bunny_id
+    override val target       = _target
     override var path = new Progress(
-        new JPS(start, arrival, gamestate).run()
+        new JPS(start, target.base, gamestate).run()
                     match {
                         case None    => throw new Exception()
                         case Some(p) => p
@@ -31,7 +32,6 @@ extends Bunny(_owner,gamestate)
             new File(getClass().getResource("/mobs/shield_bunny.png").getPath()))
     override val effect_range = 2
     val shield_increase       = 1.5
-    override val  price       = 50
     override def allied_effect(bunny: Bunny): Unit = {
         bunny.shield *= 1.5
     }
