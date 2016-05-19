@@ -16,16 +16,17 @@ case class BadassBunny(
     _owner: Player,
     bunny_id: Int,
     start: CellPos,
-    arrival: CellPos,
+    _target: Player,
     gamestate: GameState)
 extends Bunny(_owner,gamestate)
 {
   override val id          = bunny_id
+  override val target      = _target
   override val bunny_graphic =
     ImageIO.read(
       new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
   override var path = new Progress(
-      new JPS(start, arrival, gamestate).run()
+      new JPS(start, target.base, gamestate).run()
       match {
           case None    => throw new Exception()
           case Some(p) => p
@@ -36,7 +37,6 @@ extends Bunny(_owner,gamestate)
   shield                   = 2.0
   base_speed               = 1.5
   speed                    = 1.5
-  override val price       = 50
   override def reward      = atan_variation(15,3,15)
   override def on_death(): Unit = {
       for( i <- 0 until 4 )
@@ -45,7 +45,7 @@ extends Bunny(_owner,gamestate)
               BunnyFactory.NORMAL_BUNNY,
               owner,
               this.path.get_position().toInt,
-              this.path.path.last.toInt,
+              target,
               this.gamestate
           )
           gamestate += newbunny

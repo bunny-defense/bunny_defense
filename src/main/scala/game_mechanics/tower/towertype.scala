@@ -15,7 +15,7 @@ import game_mechanics.bunny.Bunny
 import game_mechanics.path._
 import game_mechanics._
 
-trait TowerType extends Purchasable
+trait TowerType
 {
     /** A trait that defines the type of a tower. Every tower type inherits this
      *  trait, which gives the default attributes, and specific methods

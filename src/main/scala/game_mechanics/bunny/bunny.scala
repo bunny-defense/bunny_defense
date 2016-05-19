@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage
 import Math._
 
 import game_mechanics.path._
-import game_mechanics.{Player, JPS, Purchasable}
+import game_mechanics.{Player, JPS}
 import gui.MapPanel
 import gui.animations.GoldAnimation
 import runtime.TowerDefense
@@ -15,12 +15,13 @@ import runtime.GameState
 import util.Random
 
 abstract class Bunny(_owner: Player, gamestate: GameState)
-extends Purchasable {
+{
     /**
      * Bunny superclass from which every ennemy is derived.
      */
     val id : Int
     val owner : Player  = _owner
+    val target : Player
     var hp              = 10.0
     var initial_hp      = 10.0
     val law             = new Random()
@@ -39,7 +40,6 @@ extends Purchasable {
 
     def allied_effect(bunny: Bunny): Unit = {}
     val damage          = 1
-    val price           = 10
     var last_damager : Option[Player] = None
 
 

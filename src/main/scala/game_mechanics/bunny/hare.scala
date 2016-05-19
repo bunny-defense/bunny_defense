@@ -14,13 +14,14 @@ class Hare(
     _owner: Player,
     bunny_id : Int,
     start: CellPos,
-    arrival: CellPos,
+    _target: Player,
     gamestate: GameState)
 extends Bunny(_owner,gamestate)
 {
     override val id          = bunny_id
+    override val target      = _target
     override var path = new Progress(
-        new JPS(start, arrival, gamestate).run()
+        new JPS(start, target.base, gamestate).run()
                     match {
                         case None    => throw new Exception()
                         case Some(p) => p
@@ -34,5 +35,4 @@ extends Bunny(_owner,gamestate)
     shield                   = 0.0
     base_speed               = 4.0
     speed                    = 4.0
-    override val price       = 100
 }

@@ -11,7 +11,6 @@ import runtime.TowerDefense
 import runtime.GameState
 import game_mechanics.bunny.Bunny
 import gui.{Colors,MapPanel}
-import gui.animations.SnowAnimation
 
 object SuppSlowTower extends TowerType
 {
@@ -34,14 +33,6 @@ object SuppSlowTower extends TowerType
     override val unlock_wave    = 25
     override def attack_from(tower: Tower, gamestate: GameState): () => Boolean = {
         gamestate.supp_slow_tower_animation_strategy(tower)
-        /*
-        def new_snow_anim() : Unit = {
-            val snow_anim = new SnowAnimation( tower.pos, tower.range )
-            snow_anim and_then new_snow_anim
-            gamestate += snow_anim
-        }
-        new_snow_anim()
-        */
         () => true
     }
     override def enemy_effect(bunny : Bunny) {

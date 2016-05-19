@@ -112,6 +112,10 @@ extends GameState(map)
     override def update(dt: Double) : Unit = {
         update_gui(dt)
         super.update(dt)
+        if (TowerDefense.keymap(Key.Escape)) {
+            selected_cell  = None
+            selected_tower = None
+        }
     }
     val handle : Any => Unit = {
         packet => {
@@ -210,15 +214,41 @@ extends GameState(map)
             this)
     }
     override def bunny_reach_goal_strategy(bunny: Bunny) : Unit = {}
-    override def spec_ops_jump_strategy(bunny: Bunny) : Unit = {}
+    override def spec_ops_jump_strategy(bunny: SpecOpBunny) : Unit = {}
 
     // PROJECTILES
     override def splash_projectile_hit_strategy(
-        projectile: Projectile) : Unit = {}
+        projectile: SplashProjectile) : Unit = {
+            for (dir <- 0 to 12) {
+                this += new SpreadAnimation(
+                    projectile.target_pos,
+                    projectile.radius,
+                    new Waypoint (Math.cos(dir.toDouble*360.0/12.0),
+                                  Math.sin(dir.toDouble*360.0/12.0)),
+                    this
+                )
+            }
+    }
 
     // TOWER
-    override  def tower_fire_strategy(tower: Tower) : Unit = {}
-    override  def supp_buff_tower_animation_strategy(tower: Tower) : Unit = {}
-    override  def supp_slow_tower_animation_strategy(tower: Tower) : Unit = {}
+    override  def tower_fire_strategy(tower: Tower) : Unit = {
+        this += new MuzzleflashAnimation(tower.pos.toDouble, this)
+    }
+    override  def supp_buff_tower_animation_strategy(tower: Tower) : Unit = {
+        def new_buff_anim() : Unit = {
+            val anim = new BuffAnimation( tower.pos, tower.range, this)
+            anim and_then new_buff_anim
+            this += anim
+        }
+        new_buff_anim
+    }
 
+    override  def supp_slow_tower_animation_strategy(tower: Tower) : Unit = {
+        def new_snow_anim() : Unit = {
+            val snow_anim = new SnowAnimation( tower.pos, tower.range, this)
+            snow_anim and_then new_snow_anim
+            this += snow_anim
+        }
+        new_snow_anim
+    }
 }
