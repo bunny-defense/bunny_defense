@@ -27,6 +27,7 @@ extends GameState(_map)
     init()
     val handle : (ServerThread, Any) => Unit = {
         (peer, packet) => {
+            println("GameState")
             println(packet)
             packet match {
                 case ("removed", d: Int, p: Int) => {
