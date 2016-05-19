@@ -43,7 +43,7 @@ class Utilitary(_owner: Player, origin_pos: Waypoint)  extends TowerType{
         def fire_at(targets : ListBuffer[Bunny]): Unit = {
             targets.foreach( _.remove_hp(damage, owner) )
             gamestate.tower_fire_strategy(tower)
-            gamestate -= tower 
+            gamestate -= tower
         }
         def in_radius(bunny : Bunny) : Boolean = {
             return((bunny.pos - tower.pos).norm <= tower.range &&
@@ -59,6 +59,7 @@ class Utilitary(_owner: Player, origin_pos: Waypoint)  extends TowerType{
         }
         return attack
     }
+    override def serialize() : Int = -1
 }
 
 

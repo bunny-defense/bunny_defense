@@ -27,6 +27,7 @@ extends GameState(_map)
     init()
     val handle : (ServerThread, Any) => Unit = {
         (peer, packet) => {
+            println(packet)
             packet match {
                 case ("removed", d: Int, p: Int) => {
                     val toRemove = bunnies.find(
@@ -39,8 +40,12 @@ extends GameState(_map)
                 case ("lost", d: Int, pid: Int) => {
                     server.send(peer, ("lost", d, pid))
                 }
-                case ("placing", t : TowerType, pos : CellPos, id : Int) => {
-                    this += new Tower(players(id), t, pos, this)
+                case PlacingTower(towertype, pos) => {
+                    val t = TowerType.deserialize(towertype)
+                    // TODO Check if the tower placement is OK
+                    this += new Tower(peer.player, t, pos, this)
+                    server.broadcast(
+                        PlacedTower(towertype, pos, peer.player.id))
                     var bun_update = bunnies.filter( t => t.path.path.exists(
                         u => u.x == pos.x && u.y == pos.y)).par
                     bun_update.tasksupport = new ForkJoinTaskSupport(
@@ -54,7 +59,6 @@ extends GameState(_map)
                         bunny.path.reset
                         bunny.bunnyend = bunny.path.last.toInt
                     }
-                    server.send(peer, ("placing", t, pos, id))
                 }
             }
         }

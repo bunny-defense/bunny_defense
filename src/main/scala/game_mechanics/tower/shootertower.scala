@@ -66,5 +66,6 @@ class ShooterTower(projectile_type : Int) extends TowerType
         }
         return attack
     }
+    override def serialize() : Int = -1
 }
 

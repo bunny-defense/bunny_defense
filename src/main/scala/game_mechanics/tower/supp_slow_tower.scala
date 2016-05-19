@@ -47,5 +47,6 @@ object SuppSlowTower extends TowerType
         val maprange = range * MapPanel.cellsize
         g.fillOval( -maprange, -maprange, maprange * 2, maprange * 2 )
     }
+    override def serialize() : Int = TowerType.SUPP_SLOW_TOWER
 }
 

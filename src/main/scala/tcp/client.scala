@@ -59,7 +59,6 @@ extends Thread("Client Thread")
                     new ClientGameState(players(player.id),
                         players, map, this) )
             }
-            case _ => ()
         }
     }
 

@@ -23,5 +23,6 @@ object HeavyTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     override val price         = 150
     sell_cost                  = 75
     override val unlock_wave   = 3
+    override def serialize() : Int = TowerType.HEAVY_TOWER
 }
 

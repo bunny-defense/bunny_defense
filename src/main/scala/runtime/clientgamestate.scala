@@ -13,14 +13,17 @@ import game_mechanics.path._
 import gui._
 import gui.animations._
 import tcp._
+import tcp.packets._
 
 class ClientGameState(
     _player: Player,
     players: ListBuffer[Player],
     map: Array[Array[Boolean]],
-    server: ClientThread)
+    _server: ClientThread)
 extends GameState(map)
 {
+    /* The server this client is connected to */
+    val server = _server
     /* The player associated to this client */
     val player = _player
     /* The tower type selected for construction */
@@ -117,9 +120,18 @@ extends GameState(map)
             selected_tower = None
         }
     }
+
+    /* ==================== SERVER COM ==================== */
+
     val handle : Any => Unit = {
         packet => {
+            println(packet)
             packet match {
+                case PlacedTower(towertype, pos, player_id) =>
+                    val t = TowerType.deserialize(towertype)
+                    this += new Tower(
+                        players(player_id),
+                        t, pos, this)
                 case ("sync_bunnies", l: ListBuffer[Bunny]) => {
                     for (bunny <- l) {
                         val bunch = bunnies.find(
@@ -182,28 +194,10 @@ extends GameState(map)
                 case ("lost", d: Int, pid: Int) => {
                     players(pid).remove_hp(d)
                 }
-                case ("placing", t : TowerType, pos : CellPos, id : Int) => {
-                    this += new Tower(players(id), t, pos, this)
-                    var bun_update = bunnies.filter( t => t.path.path.exists(
-                        u => u.x == pos.x && u.y == pos.y)).par
-                    bun_update.tasksupport = new ForkJoinTaskSupport(
-                        new scala.concurrent.forkjoin.ForkJoinPool(8))
-                    val centering = new Waypoint( 0.5, 0.5 )
-                    for (bunny <- bun_update) {
-                        bunny.path.path = new JPS(
-                            (bunny.pos + centering).toInt,
-                            bunny.bunnyend,
-                            this).run().get
-                        bunny.path.reset
-                        bunny.bunnyend = bunny.path.last.toInt
-                    }
-                }
             }
         }
     }
-    def notify_server_new_tower(tower_type: TowerType, pos: CellPos) : Unit = {
-        server.add(("placing", tower_type, pos, player.id))
-    }
+    server.handle = this.handle
     /* ==================== STRATEGIES ==================== */
 
     // BUNNIES

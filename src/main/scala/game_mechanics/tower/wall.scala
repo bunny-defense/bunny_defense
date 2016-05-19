@@ -15,5 +15,5 @@ object Wall extends TowerType {
 
     override val price = 5
     sell_cost = 0
-
+    override def serialize() : Int = TowerType.WALL
 }

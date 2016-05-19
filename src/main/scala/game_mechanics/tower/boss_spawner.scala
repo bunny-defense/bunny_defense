@@ -24,4 +24,5 @@ object OtterSpawnerTower extends SpawnerTower()
     sell_cost                   = 75
     override val unlock_wave    = 1
     upgrades                    = Some(Spawner_SpawnRateUpgrade)
+    override def serialize() : Int = TowerType.OTTER_SPAWNER
 }

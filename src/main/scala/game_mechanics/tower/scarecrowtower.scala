@@ -55,5 +55,5 @@ object ScarecrowTower extends TowerType
         }
         attack
     }
-
+    override def serialize() : Int = TowerType.SCARECROW
 }

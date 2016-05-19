@@ -31,4 +31,5 @@ object Roberto extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     override val throw_speed    = 100.0
     override val throw_cooldown = 0.05
     override val unlock_wave    = 20
+    override def serialize() : Int = TowerType.ROBERTO
 }

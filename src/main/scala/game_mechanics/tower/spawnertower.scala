@@ -64,5 +64,6 @@ class SpawnerTower extends TowerType
         }
         return get_right_type
     }
+    override def serialize() : Int = -1
 }
 

@@ -44,6 +44,7 @@ abstract class Server extends Thread("AcceptanceThread") {
         peer.add(packet)
     }
     def broadcast(packet: Any) : Unit = {
+        println( "Broadcasting " + packet.toString )
         peers.foreach( _.send(packet) )
     }
     this.start()
@@ -99,7 +100,6 @@ extends Thread("ServerThread")
                         new ServerGameState( map, server ) )
                 }
             }
-            case _ => ()
         }
     }
     def receive() : Any = {

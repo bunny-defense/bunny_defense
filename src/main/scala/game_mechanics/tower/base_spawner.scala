@@ -23,4 +23,5 @@ object BaseSpawnerTower extends SpawnerTower()
     sell_cost                  = 75
     override val unlock_wave   = 1
     upgrades                   = Some(Spawner_AddHeavyBunnyUpgrade)
+    override def serialize() : Int = TowerType.BASE_SPAWNER
 }

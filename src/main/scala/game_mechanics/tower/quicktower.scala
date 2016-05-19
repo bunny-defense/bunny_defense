@@ -29,5 +29,5 @@ object QuickTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     override val price          = 75
     sell_cost                   = 60
     override val unlock_wave    = 1
+    override def serialize() : Int = TowerType.QUICK_TOWER
 }
-

@@ -49,5 +49,6 @@ object SuppBuffTower extends TowerType
         val maprange = range * MapPanel.cellsize
         g.fillOval( -maprange, -maprange, maprange * 2, maprange * 2 )
     }
+    override def serialize() : Int = TowerType.SUPP_BUFF_TOWER
 }
 

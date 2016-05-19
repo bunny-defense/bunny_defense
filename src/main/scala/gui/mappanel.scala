@@ -15,6 +15,7 @@ import runtime.ClientGameState
 import game_mechanics.GameMap
 import game_mechanics.path.{Waypoint,Path,CellPos}
 import collection.mutable.ListBuffer
+import tcp.packets._
 
 object MapPanel
 {
@@ -60,9 +61,8 @@ extends TDComponent(parent)
         {
             if( gamestate.player.remove_gold(
                 gamestate.selected_tower.get.price) )
-                gamestate.notify_server_new_tower(
-                    gamestate.selected_tower.get,
-                    pos)
+                gamestate.server.send(PlacingTower(
+                    gamestate.selected_tower.get.serialize(),pos))
         }
         // Selecting a placed tower
         else
