@@ -74,8 +74,9 @@ extends Thread("ServerThread")
     def add(arg: Any): Unit = {
         queue.enqueue(arg)
     }
-    var handle : (ServerThread,Any) => Unit = { (peer, packet) =>
-        println( packet )
+    var handle : (ServerThread, Any) => Unit = (peer, packet) => {
+        println("Lobby")
+        println(packet)
         packet match {
             case PlayerInfoPacket(name) => {
                 println( "His name is " + name )
@@ -96,14 +97,14 @@ extends Thread("ServerThread")
                         .generate( 30, 30, server.peers.size )
                     for( player <- 0 until server.peers.size )
                         server.peers(player).player.base = bases(player)
-                    StateManager.set_state(
-                        new ServerGameState( map, server ) )
+                    StateManager.set_state(new ServerGameState( map, server ))
                 }
             }
         }
     }
     def receive() : Any = {
-        handle(this, in.readObject())
+        val packet = in.readObject()
+        handle(this, packet)
     }
     class Receiver extends Thread("ClientReceiver")
     {

@@ -17,57 +17,44 @@ extends GameState(_map)
 {
     override val gui = new MainMenu(None)
     val server = _server
-    for( peer <- server.peers )
-        players += peer.player
-    def init(): Unit = {
-        val serplayers = new ListBuffer[(Int,String,CellPos)]
-        players.foreach( x => serplayers += ((x.id,x.name,x.base)) )
-        server.broadcast(GameStartPacket(_map, serplayers))
-    }
-    init()
-    val handle : (ServerThread, Any) => Unit = {
-        (peer, packet) => {
-            println("GameState")
-            println(packet)
-            packet match {
-                case ("removed", d: Int, p: Int) => {
-                    val toRemove = bunnies.find(
-                        x => ((x.id == d) && (x.owner == p)))
-                    if (!toRemove.isEmpty) {
-                        bunnies -= toRemove.get
-                    }
-                    server.send(peer, ("removed", d, p))
+    server.peers.foreach( players += _.player )
+    server.peers.foreach( _.handle = (peer, packet) => {
+        println("GameState")
+        println(packet)
+        packet match {
+            case ("removed", d: Int, p: Int) => {
+                val toRemove = bunnies.find(
+                    x => ((x.id == d) && (x.owner == p)))
+                if (!toRemove.isEmpty) {
+                    bunnies -= toRemove.get
                 }
-                case ("lost", d: Int, pid: Int) => {
-                    server.send(peer, ("lost", d, pid))
-                }
-                case PlacingTower(towertype, pos) => {
-                    val t = TowerType.deserialize(towertype)
-                    // TODO Check if the tower placement is OK
-                    this += new Tower(peer.player, t, pos, this)
-                    server.broadcast(
-                        PlacedTower(towertype, pos, peer.player.id))
-                    var bun_update = bunnies.filter( t => t.path.path.exists(
-                        u => u.x == pos.x && u.y == pos.y)).par
-                    bun_update.tasksupport = new ForkJoinTaskSupport(
-                        new scala.concurrent.forkjoin.ForkJoinPool(8))
-                    val centering = new Waypoint( 0.5, 0.5 )
-                    for (bunny <- bun_update) {
-                        bunny.path.path = new JPS(
-                            (bunny.pos + centering).toInt,
-                            bunny.bunnyend,
-                            this).run().get
-                        bunny.path.reset
-                        bunny.bunnyend = bunny.path.last.toInt
-                    }
+                server.send(peer, ("removed", d, p))
+            }
+            case ("lost", d: Int, pid: Int) => {
+                server.send(peer, ("lost", d, pid))
+            }
+            case PlacingTower(towertype, pos) => {
+                val t = TowerType.deserialize(towertype)
+                // TODO Check if the tower placement is OK
+                this += new Tower(peer.player, t, pos, this)
+                server.broadcast(
+                    PlacedTower(towertype, pos, peer.player.id))
+                var bun_update = bunnies.filter( t => t.path.path.exists(
+                    u => u.x == pos.x && u.y == pos.y)).par
+                bun_update.tasksupport = new ForkJoinTaskSupport(
+                    new scala.concurrent.forkjoin.ForkJoinPool(8))
+                val centering = new Waypoint( 0.5, 0.5 )
+                for (bunny <- bun_update) {
+                    bunny.path.path = new JPS(
+                        (bunny.pos + centering).toInt,
+                        bunny.bunnyend,
+                        this).run().get
+                    bunny.path.reset
+                    bunny.bunnyend = bunny.path.last.toInt
                 }
             }
         }
-    }
-    for( peer <- server.peers )
-    {
-        peer.handle = handle
-    }
+    } )
     override def update(dt: Double) : Unit = {
         /* Random chance of rain or thunder */
         if (rng.nextDouble < (dt/200) && !raining)
@@ -115,5 +102,10 @@ extends GameState(_map)
     override  def tower_fire_strategy(tower: Tower) : Unit = {}
     override  def supp_buff_tower_animation_strategy(tower: Tower) : Unit = {}
     override  def supp_slow_tower_animation_strategy(tower: Tower) : Unit = {}
-
+    def init(): Unit = {
+        val serplayers = new ListBuffer[(Int,String,CellPos)]
+        players.foreach( x => serplayers += ((x.id,x.name,x.base)) )
+        server.broadcast(GameStartPacket(_map, serplayers))
+    }
+    init()
 }
