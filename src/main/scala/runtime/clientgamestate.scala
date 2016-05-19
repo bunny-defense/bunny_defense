@@ -195,6 +195,14 @@ extends GameState(map)
                 case ("lost", d: Int, pid: Int) => {
                     players(pid).remove_hp(d)
                 }
+                case ("Thunder", time : Double) => {
+                    val anim = new ThunderstormAnimation( time, this )
+                    this += anim
+                }
+                case ("Rain", time : Double) => {
+                    val anim = new RainAnimation( time, this )
+                    this += anim
+                }
             }
         }
     }

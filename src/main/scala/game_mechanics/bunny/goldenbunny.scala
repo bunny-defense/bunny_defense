@@ -26,6 +26,7 @@ extends Bunny(_owner,gamestate)
                         case Some(p) => p
                     }
                     )
+    pos = path.path.head
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/goldenbunny_alt1.png").getPath()))

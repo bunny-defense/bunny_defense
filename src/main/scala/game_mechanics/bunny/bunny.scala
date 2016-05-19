@@ -26,8 +26,7 @@ abstract class Bunny(_owner: Player, gamestate: GameState)
     var initial_hp      = 10.0
     val law             = new Random()
     var path :  Progress
-    var bunnyend        = path.last.toInt
-    var pos : Waypoint  = path.path.head
+    var pos : Waypoint  = new Waypoint(0,0)
     val base_shield     = 1.0
     var shield          = 1.0
     var base_speed      = 2.0
