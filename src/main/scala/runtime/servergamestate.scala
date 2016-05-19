@@ -28,10 +28,10 @@ extends GameState(_map)
                 if (!toRemove.isEmpty) {
                     bunnies -= toRemove.get
                 }
-                server.add(peer, ("removed", d, p))
+                server.send(peer, ("removed", d, p))
             }
             case ("lost", d: Int, pid: Int) => {
-                server.add(peer, ("lost", d, pid))
+                server.send(peer, ("lost", d, pid))
             }
             case PlacingTower(towertype, pos) => {
                 val t = TowerType.deserialize(towertype)
