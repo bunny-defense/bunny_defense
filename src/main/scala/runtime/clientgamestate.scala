@@ -26,6 +26,7 @@ extends GameState(map)
     val server = _server
     /* The player associated to this client */
     val player = _player
+    players = _players
     /* The tower type selected for construction */
     var selected_tower          : Option[TowerType] = None
     /* The tower currently selected */
