@@ -15,13 +15,14 @@ import gui.animations._
 import tcp._
 
 class ClientGameState(
+    _player: Player,
     players: ListBuffer[Player],
-    map: GameMap,
+    map: Array[Array[Boolean]],
     server: ClientThread)
 extends GameState(map)
 {
     /* The player associated to this client */
-    val player = new Player
+    val player = _player
     /* The tower type selected for construction */
     var selected_tower          : Option[TowerType] = None
     /* The tower currently selected */

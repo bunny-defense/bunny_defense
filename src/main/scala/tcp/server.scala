@@ -11,6 +11,8 @@ import game_mechanics._
 import game_mechanics.bunny._
 import game_mechanics.tower._
 import game_mechanics.path._
+import tcp.packets._
+import utils.Landscape
 
 object Server
 {
@@ -21,21 +23,12 @@ abstract class Server extends Thread("AcceptanceThread") {
     val peers = new ListBuffer[ServerThread]
     def on_connect(peer: ServerThread) : Unit
     def on_disconnect(peer: ServerThread) : Unit
-    val nadine = this
     override def run() : Unit = {
         try {
             val listener = new ServerSocket(default_port)
             while (true)
             {
-                val new_peer = new ServerThread(listener.accept())
-                {
-                    override def on_connect(peer: ServerThread) : Unit = {
-                        nadine.on_connect(peer)
-                    }
-                    override def on_disconnect(peer: ServerThread) : Unit = {
-                        on_disconnect(peer)
-                    }
-                }
+                val new_peer = new ServerThread(listener.accept(), this)
                 peers += new_peer
                 new_peer.start()
             }
@@ -51,12 +44,12 @@ abstract class Server extends Thread("AcceptanceThread") {
         peer.add(packet)
     }
     def broadcast(packet: Any) : Unit = {
-        peers.foreach( _.add(packet) )
+        peers.foreach( _.send(packet) )
     }
     this.start()
 }
 
-abstract class ServerThread(socket : Socket)
+class ServerThread(socket: Socket, server: Server)
 extends Thread("ServerThread")
 {
     val out = new ObjectOutputStream(
@@ -65,7 +58,8 @@ extends Thread("ServerThread")
         new DataInputStream(socket.getInputStream()))
     val queue = new Queue[Any]()
     var running = true
-    var player_name = "Unnamed"
+    val player = new Player("Unamed")
+    var isready = false
 
     def close() : Unit = {
         out.close()
@@ -82,10 +76,28 @@ extends Thread("ServerThread")
     var handle : (ServerThread,Any) => Unit = { (peer, packet) =>
         println( packet )
         packet match {
-            case ("player_info",name: String) => {
+            case PlayerInfoPacket(name) => {
                 println( "His name is " + name )
-                player_name = name
-                on_connect(this)
+                player.name = name
+                send(PlayerIdPacket(player.id))
+                server.on_connect(this)
+            }
+            case PlayerReadyPacket(ready) => {
+                isready = ready
+                if( ready )
+                    println( "Player ready" )
+                else
+                    println( "Player not ready" )
+                if( server.peers.forall( _.isready ) )
+                {
+                    println( "All players ready" )
+                    val (map,bases) = Landscape
+                        .generate( 30, 30, server.peers.size )
+                    for( player <- 0 until server.peers.size )
+                        server.peers(player).player.base = bases(player)
+                    StateManager.set_state(
+                        new ServerGameState( map, server ) )
+                }
             }
             case _ => ()
         }
@@ -113,8 +125,6 @@ extends Thread("ServerThread")
             }
         }
     }
-    def on_connect(peer: ServerThread) : Unit
-    def on_disconnect(peer: ServerThread) : Unit
     override def run(): Unit = {
         new Receiver().start()
         while (running) {
@@ -123,7 +133,7 @@ extends Thread("ServerThread")
             }
         }
         println( "Client disconnected" )
-        on_disconnect(this)
+        server.on_disconnect(this)
     }
 
         /*

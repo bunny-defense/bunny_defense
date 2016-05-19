@@ -13,6 +13,7 @@ import game_mechanics.tower._
 import game_mechanics.path._
 import gui._
 import gui.animations._
+import tcp.packets._
 
 import scala.collection.mutable.{ListBuffer,Queue}
 
@@ -25,6 +26,7 @@ extends Thread("Client Thread")
     val out = new ObjectOutputStream(
         new DataOutputStream(socket.getOutputStream()))
     val queue  = new Queue[Any]()
+    val player = new Player("Unamed")
 
     out.writeObject("New Client")
     out.flush()
@@ -38,7 +40,28 @@ extends Thread("Client Thread")
         out.flush()
     }
 
-    var handle : Any => Unit = { packet => () }
+    var handle : Any => Unit = { packet =>
+        println(packet)
+        packet match {
+            case PlayerIdPacket(id) => {
+                player.id = id
+            }
+            case GameStartPacket(map,serplayers) => {
+                val players = new ListBuffer[Player]
+                for( (id,name,base) <- serplayers )
+                {
+                    val ply = new Player(name)
+                    ply.id = id
+                    ply.base = base
+                    players += ply
+                }
+                StateManager.set_state(
+                    new ClientGameState(players(player.id),
+                        players, map, this) )
+            }
+            case _ => ()
+        }
+    }
 
     def receive() : Unit = {
         handle(in.readObject())
@@ -53,7 +76,7 @@ extends Thread("Client Thread")
             }
             catch
             {
-                case e : Exception =>
+                case e : IOException =>
                     StateManager.set_state( new ErrorMenuState(
                         e.toString, MultiplayerMenuState ) )
             }
@@ -68,7 +91,7 @@ extends Thread("Client Thread")
 
     override def run(): Unit = {
         new Receiver().start()
-        send(("player_info","RaptorBunny1234"))
+        send(PlayerInfoPacket("RaptorBunny1234"))
         while(true) {
             if (!queue.isEmpty) {
                 send(queue.dequeue())

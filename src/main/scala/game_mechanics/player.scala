@@ -11,11 +11,12 @@ case object MoneyChanged extends Event
 
 object Player
 {
-    var id_counter = 1
+    var id_counter = 0
 }
-class Player extends Publisher {
+class Player(_name: String) extends Publisher {
     import Player._
     var id   = id_counter
+    var name = _name
     id_counter += 1
     var hp   = Parameters.player_initial_life
     var gold = Parameters.player_initial_gold

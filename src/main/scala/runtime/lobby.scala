@@ -4,10 +4,11 @@ package runtime
 import gui._
 import game_mechanics.path.CellPos
 import tcp._
+import tcp.packets._
 
 class Lobby extends MenuState
 {
-    new gui.WideButton( TowerDefense.gui_size.height - 200, "Back" )
+    new gui.WideButton( TowerDefense.gui_size.height - 100, "Back" )
     {
         override def action() : Unit = {
             StateManager.set_state( PlayMenuState )
@@ -26,13 +27,26 @@ class ServerLobby extends Lobby
     {
         override def on_connect(peer: ServerThread) : Unit = {
             println( "Client connected !" )
-            list += peer.player_name
+            list += peer.player.name
         }
         override def on_disconnect(peer: ServerThread) : Unit = {
             println( "Client disconnected !" )
-            list -= peer.player_name
+            list -= peer.player.name
         }
     }
 }
 
-class ClientLobby(connection: ClientThread) extends Lobby
+class ClientLobby(hostname: String) extends Lobby
+{
+    val connection = new ClientThread(hostname)
+    connection.start()
+    new TDToggleButton(Some(gui), "Ready")
+    {
+        pos  = new CellPos( 10, 10 )
+        size = new CellPos( 100, 50 )
+        override def action() : Unit = {
+            super.action()
+            connection.send(PlayerReadyPacket(toggled))
+        }
+    }
+}

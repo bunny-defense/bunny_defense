@@ -4,6 +4,8 @@ package runtime
 import swing._
 import swing.event._
 
+import java.io.IOException
+
 import gui._
 import game_mechanics.path.CellPos
 import tcp._
@@ -96,14 +98,11 @@ class ServerConnectionMenu extends MenuState
     def connect() : Unit = {
         if (!(hostname_field.text == "")) {
             try
-            {
-                val connection = new ClientThread(hostname_field.text)
-                connection.start()
-                StateManager.set_state( new ClientLobby(connection) )
-            }
+                StateManager.set_state( new ClientLobby(hostname_field.text) )
             catch
             {
-                case e : Exception =>
+                case e : IOException =>
+                    println( e.isInstanceOf[IOException] )
                     StateManager.set_state(
                         new ErrorMenuState( e.toString,
                             MultiplayerMenuState ))

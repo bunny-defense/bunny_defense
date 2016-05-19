@@ -17,19 +17,18 @@ import runtime.TowerDefense
 import runtime.GameState
 import gui.MapPanel
 
-class GameMap(width0: Int, height0: Int, gamestate: GameState)
+class GameMap(
+    data: Array[Array[Boolean]],
+    gamestate: GameState)
 {
     val law = new Random()
-    val width           = width0
-    val height          = height0
+    val width           = data.size
+    val height          = data(0).size
     val graphic_map     = Array.ofDim[BufferedImage](width,height)
-    val obstruction_map = Array.ofDim[Boolean](width,height)
+    val obstruction_map = data
     val base_ground_image =
         ImageIO.read(
             new File(getClass().getResource("/ground/rock1.png").getPath()))
-
-    val landscape_top    = Landscape.generate( width, height / 3 )
-    val landscape_bottom = Landscape.generate( width, height / 3 )
 
     val map_image = new BufferedImage(
         width * MapPanel.cellsize,
@@ -37,9 +36,7 @@ class GameMap(width0: Int, height0: Int, gamestate: GameState)
 
     for( x <- 0 until width ) {
         for( y <- 0 until height ) {
-            obstruction_map(x)(y) = false
-            if( y < landscape_top(width - 1 - x)
-                || height - y - 1 < landscape_bottom(x) )
+            if( obstruction_map(x)(y) )
             {
                 val ground_id = law.nextInt(4)+1
                 val ground_image =
@@ -48,7 +45,6 @@ class GameMap(width0: Int, height0: Int, gamestate: GameState)
                 map_image.getGraphics().drawImage( ground_image,
                     x * MapPanel.cellsize, y * MapPanel.cellsize, null )
                 graphic_map(x)(y) = ground_image
-                obstruction_map(x)(y) = true
             }
             else
             {

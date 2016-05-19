@@ -2,6 +2,7 @@
 package runtime
 
 import collection.parallel._
+import collection.mutable.ListBuffer
 
 import game_mechanics._
 import game_mechanics.bunny._
@@ -9,12 +10,21 @@ import game_mechanics.tower._
 import game_mechanics.path._
 import gui._
 import tcp._
+import tcp.packets._
 
-class ServerGameState(_map: GameMap, _server: Server)
+class ServerGameState(_map: Array[Array[Boolean]], _server: Server)
 extends GameState(_map)
 {
     override val gui = new MainMenu(None)
     val server = _server
+    for( peer <- server.peers )
+        players += peer.player
+    def init(): Unit = {
+        val serplayers = new ListBuffer[(Int,String,CellPos)]
+        players.foreach( x => serplayers += ((x.id,x.name,x.base)) )
+        server.broadcast(GameStartPacket(_map, serplayers))
+    }
+    init()
     val handle : (ServerThread, Any) => Unit = {
         (peer, packet) => {
             packet match {
@@ -48,6 +58,10 @@ extends GameState(_map)
                 }
             }
         }
+    }
+    for( peer <- server.peers )
+    {
+        peer.handle = handle
     }
     def sync(): Unit = {
         server.broadcast(("sync_towers", towers))

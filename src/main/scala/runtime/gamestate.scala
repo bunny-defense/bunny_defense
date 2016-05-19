@@ -24,14 +24,14 @@ case object NoSelectedCell extends Event
 case object FastForwOn extends Event
 case object FastForwOff extends Event
 
-abstract class GameState(_map: GameMap)
+abstract class GameState(map_data: Array[Array[Boolean]])
 extends State with Publisher
 {
     /**
      * The main controller.
      * It manages the main loop, the graphics, everything
      */
-    def map : GameMap = _map
+    def map : GameMap = new GameMap(map_data,this)
     val bunnies       = new ListBuffer[Bunny]
     val projectiles   = new ListBuffer[Projectile]
     val towers        = new ListBuffer[Tower]

@@ -3,47 +3,12 @@ package utils
 
 import util.Random
 
+import game_mechanics.path.CellPos
+
 object Landscape
 {
     val rng = new Random()
-
-/*
-    def generate(width: Int, max_height: Int): Array[Int] = {
-        val power = (Math.log(width.toDouble)/Math.log(2.0)).toInt + 1
-        val newwidth = Math.pow( 2, power.toDouble ).toInt // Why is there no integer exponentiation in Scala ? :(
-        val array = new Array[Int](newwidth)
-        def get(i: Int): Int = {
-            try{
-                array(i)
-            } catch {
-                case e : IndexOutOfBoundsException => 0
-            }
-        }
-        array(1) = 0
-        array(newwidth/2) = rng.nextInt( max_height + 1 )
-        var d = newwidth / 4
-        while( d > 0 )
-        {
-            var i = 1
-            for( i <- 0 until (newwidth / (2 * d)) )
-            {
-                val a = array(2 * i * d)
-                val b = get(2 * (i+1) * d)
-                val mid = a + b / 2
-                array( d + 2 * i * d ) = mid - 1 + rng.nextInt( 3 )
-            }
-            d /= 2
-        }
-        val result = new Array[Int](width)
-        var i = 0
-        for( i <- 0 until width - 1 )
-        {
-            result(i) = array( (i.toDouble / (width-1) * (newwidth-1)).toInt )
-        }
-        return result
-    }
-*/
-    def generate(width: Int, max_height: Int): Array[Int] = {
+    def random_zigzag(width: Int, max_height: Int): Array[Int] = {
         val array = new Array[Int](width)
         array(0) = rng.nextInt( 2 )
         var i = 0
@@ -61,5 +26,39 @@ object Landscape
             }
         }
         return array
+    }
+    def old_generate(width: Int, height: Int): Array[Array[Boolean]] = {
+        val data   = Array.ofDim[Boolean](width, height)
+        val top    = random_zigzag(width, height / 3)
+        val bottom = random_zigzag(width, height / 3)
+        for( x <- 0 until width )
+            for( y <- 0 until height )
+                data(x)(y) =
+                    ( y < top(width - 1 - x) || height - y - 1 < bottom(x) )
+        return data
+    }
+    def generate(width: Int, height: Int,
+        players: Int): (Array[Array[Boolean]], Array[CellPos]) = {
+            val data = Array.ofDim[Boolean](width, height)
+            val bases = Array.ofDim[CellPos](players)
+            for( x <- 0 until width )
+            {
+                data(x)(0) = true
+                data(x)(height - 1) = true
+            }
+            for( y <- 0 until height )
+            {
+                data(0)(y) = true
+                data(width - 1)(y) = true
+            }
+            for( player <- 0 until players )
+            {
+                var x = 2
+                val y = player / 2 / players
+                if( player % 2 == 0 )
+                    x = width - 3
+                bases(player) = new CellPos(x,y)
+            }
+            return (data,bases)
     }
 }
