@@ -40,12 +40,12 @@ abstract class Server extends Thread("AcceptanceThread") {
                 System.exit(1)
         }
     }
-    def send(peer: ServerThread, packet: Any) : Unit = {
+    def add(peer: ServerThread, packet: Any) : Unit = {
         peer.add(packet)
     }
     def broadcast(packet: Any) : Unit = {
         println( "Broadcasting " + packet.toString )
-        peers.foreach( _.send(packet) )
+        peers.foreach( _.add(packet) )
     }
     this.start()
 }
@@ -81,7 +81,7 @@ extends Thread("ServerThread")
             case PlayerInfoPacket(name) => {
                 println( "His name is " + name )
                 player.name = name
-                send(PlayerIdPacket(player.id))
+                add(PlayerIdPacket(player.id))
                 server.on_connect(this)
             }
             case PlayerReadyPacket(ready) => {
@@ -95,6 +95,8 @@ extends Thread("ServerThread")
                     println( "All players ready" )
                     val (map,bases) = Landscape
                         .generate( 30, 30, server.peers.size )
+                    for( base <- bases )
+                        println(base)
                     for( player <- 0 until server.peers.size )
                         server.peers(player).player.base = bases(player)
                     StateManager.set_state(new ServerGameState( map, server ))
