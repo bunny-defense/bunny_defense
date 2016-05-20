@@ -51,37 +51,38 @@ class SpawnerTower extends TowerType
             def get_right_type(): Boolean = {
                 if( torecompute )
                     paths = compute_paths()
-                var new_bunny =
-                    target match
+                val new_bunny = target match
+                {
+                    case Some(target1) =>
                     {
-                        case Some(target1) =>
-                        {
-                            val path = paths(target1.id)
-                            val prog = new Progress(path)
-                            BunnyFactory.create(
-                                tower.bunnies_spawning.head,
-                                tower.owner,
-                                prog,
-                                gamestate)
-                        }
-                        case None =>
-                        {
-                            val target2 = choose_target()
-                            val path = paths(target2.id)
-                            val prog = new Progress(path)
-                            BunnyFactory.create(
-                                tower.bunnies_spawning.head,
-                                tower.owner,
-                                prog,
-                                gamestate)
-                        }
+                        val path = new Path()
+                        path.Path( paths(target1.id) )
+                        val prog = new Progress(path)
+                        BunnyFactory.create(
+                            tower.bunnies_spawning.head,
+                            tower.owner,
+                            prog,
+                            gamestate)
                     }
-                    new_bunny.base_speed = new_bunny.base_speed * tower.speed_modifier
-                    new_bunny.hp = new_bunny.initial_hp * tower.health_modifier
-                    new_bunny.initial_hp = new_bunny.initial_hp * tower.health_modifier
-                    gamestate += new_bunny
-                    tower.bunnies_spawning = tower.bunnies_spawning.tail ::: List(tower.bunnies_spawning.head)
-                    return true
+                    case None =>
+                    {
+                        val target2 = choose_target()
+                        val path = new Path()
+                        path.Path( paths(target2.id) )
+                        val prog = new Progress(path)
+                        BunnyFactory.create(
+                            tower.bunnies_spawning.head,
+                            tower.owner,
+                            prog,
+                            gamestate)
+                    }
+                }
+                new_bunny.base_speed = new_bunny.base_speed * tower.speed_modifier
+                new_bunny.hp = new_bunny.initial_hp * tower.health_modifier
+                new_bunny.initial_hp = new_bunny.initial_hp * tower.health_modifier
+                gamestate += new_bunny
+                tower.bunnies_spawning = tower.bunnies_spawning.tail ::: List(tower.bunnies_spawning.head)
+                return true
             }
             return get_right_type
     }

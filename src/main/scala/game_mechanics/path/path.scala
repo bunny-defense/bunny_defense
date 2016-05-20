@@ -8,9 +8,7 @@ class Path {
   var waypoints = new Stack[Waypoint]()
 
   def Path( p:Path ) = {
-    for( wp <- p.waypoints ) {
-      waypoints.push(wp)
-    }
+    waypoints = p.waypoints.clone()
   }
   def +=(wp: Waypoint): Unit = {
     waypoints.push(wp)
