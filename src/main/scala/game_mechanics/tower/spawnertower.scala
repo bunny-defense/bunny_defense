@@ -57,20 +57,22 @@ class SpawnerTower extends TowerType
                         case Some(target1) =>
                         {
                             val path = paths(target1.id)
+                            val prog = new Progress(path)
                             BunnyFactory.create(
                                 tower.bunnies_spawning.head,
                                 tower.owner,
-                                new Progress(path),
+                                prog,
                                 gamestate)
                         }
                         case None =>
                         {
                             val target2 = choose_target()
                             val path = paths(target2.id)
+                            val prog = new Progress(path)
                             BunnyFactory.create(
                                 tower.bunnies_spawning.head,
                                 tower.owner,
-                                new Progress(path),
+                                prog,
                                 gamestate)
                         }
                     }
