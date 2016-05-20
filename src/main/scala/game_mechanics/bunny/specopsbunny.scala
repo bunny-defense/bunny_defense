@@ -16,20 +16,11 @@ import gui.animations.{GoldAnimation,SmokeAnimation}
 case class SpecOpBunny(
     _owner: Player,
     bunny_id: Int,
-    start: CellPos,
-    _target : Player,
+    _path: Progress,
     gamestate: GameState)
-extends Bunny(_owner,gamestate)
+extends Bunny(_owner, _path, gamestate)
 {
     override val id            = bunny_id
-    override val target        = _target
-    override var path = new Progress(
-        new JPS(start, target.base, gamestate).run()
-                    match {
-                        case None    => throw new Exception()
-                        case Some(p) => p
-                    }
-                    )
     pos = path.path.head
     override val bunny_graphic =
         ImageIO.read(new File(

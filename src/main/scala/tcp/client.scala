@@ -43,8 +43,7 @@ extends Thread("Client Thread")
     }
 
     var handle : Any => Unit = { packet =>
-        println("Lobby")
-        println(packet)
+        println("Lobby received " + packet.toString)
         packet match {
             case PlayerIdPacket(id) => {
                 player.id = id

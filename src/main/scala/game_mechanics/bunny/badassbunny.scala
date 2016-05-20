@@ -15,23 +15,14 @@ import runtime.GameState
 case class BadassBunny(
     _owner: Player,
     bunny_id: Int,
-    start: CellPos,
-    _target: Player,
+    _path: Progress,
     gamestate: GameState)
-extends Bunny(_owner,gamestate)
+extends Bunny(_owner, _path, gamestate)
 {
   override val id          = bunny_id
-  override val target      = _target
   override val bunny_graphic =
     ImageIO.read(
       new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
-  override var path = new Progress(
-      new JPS(start, target.base, gamestate).run()
-      match {
-          case None    => throw new Exception()
-          case Some(p) => p
-      }
-      )
   pos = path.path.head
   initial_hp               = 30.0
   override val base_shield = 2.0
@@ -42,11 +33,16 @@ extends Bunny(_owner,gamestate)
   override def on_death(): Unit = {
       for( i <- 0 until 4 )
       {
+          val path = new JPS(this.path.get_position().toInt,
+              this.path.last.toInt, gamestate)
+              .run() match {
+                  case Some(p) => p
+                  case None => throw new Exception()
+              }
           val newbunny = BunnyFactory.create(
               BunnyFactory.NORMAL_BUNNY,
               owner,
-              this.path.get_position().toInt,
-              target,
+              new Progress( path ),
               this.gamestate
           )
           gamestate += newbunny

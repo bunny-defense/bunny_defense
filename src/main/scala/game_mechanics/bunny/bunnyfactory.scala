@@ -19,28 +19,28 @@ object BunnyFactory
 
     def create(bunny_type : Int,
         owner: Player,
-        pos: CellPos, target: Player,
+        path: Progress,
         gamestate: GameState): Bunny = {
         bunny_id += 1
         bunny_type match {
             case NORMAL_BUNNY    =>
-                new NormalBunny(owner, bunny_id, pos, target, gamestate)
+                new NormalBunny(owner, bunny_id, path, gamestate)
             case HEAVY_BUNNY     =>
-                new HeavyBunny(owner, bunny_id, pos, target, gamestate)
+                new HeavyBunny(owner, bunny_id, path, gamestate)
             case HARE_           =>
-                new Hare(owner, bunny_id, pos, target, gamestate)
+                new Hare(owner, bunny_id, path, gamestate)
             case OTTER_          =>
-                new Otter(owner, bunny_id, pos, target, gamestate)
+                new Otter(owner, bunny_id, path, gamestate)
             case GOLDEN_BUNNY    =>
-                new GoldenBunny(owner, bunny_id, pos, target, gamestate)
+                new GoldenBunny(owner, bunny_id, path, gamestate)
             case BADASS_BUNNY    =>
-                new BadassBunny(owner, bunny_id, pos, target, gamestate)
+                new BadassBunny(owner, bunny_id, path, gamestate)
             case SPECOP_BUNNY    =>
-                new SpecOpBunny(owner, bunny_id, pos, target, gamestate)
+                new SpecOpBunny(owner, bunny_id, path, gamestate)
             case FLYING_SQUIRREL =>
-                new FlyingSquirrel(owner, bunny_id, pos, target, gamestate)
+                new FlyingSquirrel(owner, bunny_id, path, gamestate)
             case SHIELD_BUNNY    =>
-                new ShieldBunny(owner, bunny_id, pos, target, gamestate)
+                new ShieldBunny(owner, bunny_id, path, gamestate)
         }
     }
 }

@@ -126,7 +126,7 @@ extends GameState(map)
 
     val handle : Any => Unit = {
         packet => {
-            println(packet)
+            println("GameState received " + packet.toString)
             packet match {
                 case PlacedTower(towertype, pos, player_id) =>
                     val t = TowerType.deserialize(towertype)

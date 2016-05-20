@@ -41,11 +41,11 @@ abstract class Server extends Thread("AcceptanceThread") {
         }
     }
     def send(peer: ServerThread, packet: Any) : Unit = {
-        peer.send(packet)
+        peer.add(packet)
     }
     def broadcast(packet: Any) : Unit = {
         println( "Broadcasting " + packet.toString )
-        peers.foreach( _.send(packet) )
+        peers.foreach( _.add(packet) )
     }
     this.start()
 }

@@ -88,7 +88,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
     val diag_dist = Math.sqrt(2)
     var all_list: ListMap[CellPosed,Double] = new ListMap()
 
-    /*Priority queues in scala are shitty */
+    /*Priority queues in scala are -shitty +verbose */
    var queue =
        new PriorityQueue[(Double,CellPosed,Double)]()(Ordering.by
        {case(d1,c,d2) => (-d1,((-c.cell.x,-c.cell.y),(-c.dir._1,-c.dir._2)),-d2)})
@@ -439,9 +439,10 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
         /** Runs the algorithm. It returns Some(path) if the path exists,
          *  None if not
          */
+        val outtime = System.currentTimeMillis
         map.synchronized {
+            val intime = System.currentTimeMillis
             while (true) {
-                val time = System.currentTimeMillis
                 var (total, pd, dist) = this.get_open()
                 if (total.isEmpty) {
                     return None
@@ -452,7 +453,6 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
                     //println("Path found")
                     return Some(this.toPath(pd_bis.get))
                 }
-                //println( System.currentTimeMillis - time )
             }
         }
         return None
