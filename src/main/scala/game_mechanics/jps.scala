@@ -119,7 +119,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
        dist: Double): CellPosed = {
            val pd = new CellPosed(new CellPos(x,y),dir.get)
            val current  = this.all_list.get(pd)
-           println(current, dist,x,y)
+           //println(current, dist,x,y)
            if ( current.isEmpty || current.get > dist) {
                val total = dist + this.estimate(pd.cell.x, pd.cell.y,dir)
                this.all_list.update(pd,dist)
@@ -153,7 +153,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
             val (total,pd,dist) = this.queue.dequeue
             val current = this.all_list.get(pd)
             if (dist == current.get) {
-                println( "Trying with", total, pd, dist )
+                //println( "Trying with", total, pd, dist )
                 return ((Some(total),Some(pd),Some(dist)))
             }
         }
@@ -177,10 +177,10 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
 
         while (true) {
             var x1 = x0 + hor_dir
-            println( "Horizontal movement to " + x1.toString + "," + y0.toString )
+            //println( "Horizontal movement to " + x1.toString + "," + y0.toString )
             /* The cell is obstructed */
            if (map.obstructed(x1,y0)) {
-               println( x1, y0, "is obstructed" )
+               //println( x1, y0, "is obstructed" )
                return (new ListBuffer[CellPosed]())
            }
            /* The cell is the core objective, we return the last point of
@@ -200,13 +200,13 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
           /* Choose the nodes to explore */
          if (map.obstructed(x1,y0-1) &&
              !map.obstructed(x2,y0-1)) {
-                 println( "Jump point !" )
+                 //println( "Jump point !" )
                  nodes += this.add_node(x1, y0, Some(hor_dir,-1), dist)
              }
 
              if (map.obstructed(x1,y0+1) &&
                  !map.obstructed(x2,y0+1)) {
-                     println( "Jump point !" )
+                     //println( "Jump point !" )
                      nodes += this.add_node(x1, y0, Some(hor_dir,1), dist)
                  }
 
@@ -237,7 +237,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
 
         while (true) {
             var y1 = y0 + vert_dir
-            println( "Vertical movement to " + x0.toString + "," + y1.toString )
+            //println( "Vertical movement to " + x0.toString + "," + y1.toString )
             /* The cell is obstructed */
            if (map.obstructed(x0,y1)){
                return (new ListBuffer[CellPosed]())
@@ -245,7 +245,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
            /* The cell is the core objective, we return the last point of
             * the path */
            if ((new CellPos(x0,y1))== objective ) {
-               println("objective reached")
+               //println("objective reached")
                val res = new ListBuffer[CellPosed]()
                res += this.add_node(x0, y1, Some((0,0)), dist + horvert_dist)
                return res
@@ -417,7 +417,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
             node.set_parent(elem)
             this.all_list.update(node, dist)
         }
-        println( System.currentTimeMillis - time )
+        //println( System.currentTimeMillis - time )
 
         return None
     }
@@ -449,10 +449,10 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
 
                 var pd_bis = this.step(dist.get, pd.get)
                 if (!pd_bis.isEmpty) {
-                    println("Path found")
+                    //println("Path found")
                     return Some(this.toPath(pd_bis.get))
                 }
-                println( System.currentTimeMillis - time )
+                //println( System.currentTimeMillis - time )
             }
         }
         return None
