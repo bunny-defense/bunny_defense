@@ -37,6 +37,8 @@ extends TDComponent(parent)
     val width    = map.width  * MapPanel.cellsize
     var viewpos : Waypoint = new Waypoint(0,0)
     var darkness = 0f
+    val bases = new ListBuffer[CellPos]
+    gamestate.players.foreach( bases += _.base )
     size = new CellPos( 30 * cellsize, 25 * cellsize )
 
     override def on_event(event: Event) : Unit = {
@@ -226,6 +228,12 @@ extends TDComponent(parent)
                     tower.range*cellsize*2,
                     tower.range*cellsize*2 )
             }
+        }
+        for( base <- bases )
+        {
+            g.setColor( new Color( 200, 200, 200, 100 ) )
+            g.fillRect( base.x * cellsize, base.y * cellsize,
+                cellsize, cellsize )
         }
         g.setClip(clip)
     }
