@@ -133,6 +133,18 @@ extends GameState(map)
                     this += new Tower(
                         players(player_id),
                         t, pos, this)
+                var bun_update = bunnies.filter( t => t.path.path.exists(
+                    u => u.x == pos.x && u.y == pos.y)).par
+                bun_update.tasksupport = new ForkJoinTaskSupport(
+                    new scala.concurrent.forkjoin.ForkJoinPool(8))
+                val centering = new Waypoint( 0.5, 0.5 )
+                for (bunny <- bun_update) {
+                    bunny.path.path = new JPS(
+                        (bunny.pos + centering).toInt,
+                        bunny.path.last.toInt,
+                        this).run().get
+                    bunny.path.reset
+                }
                 case ("sync_bunnies", l: ListBuffer[Bunny]) => {
                     for (bunny <- l) {
                         val bunch = bunnies.find(
