@@ -63,7 +63,7 @@ class GameMap(
         if( !obstruction_map(tower.pos.x)(tower.pos.y) )
         {
             obstruction_map(tower.pos.x)(tower.pos.y) = true
-/*            for( player <- gamestate.players )
+            for( player <- gamestate.players )
             {
                 val jps = new JPS(
                     player.base,
@@ -78,7 +78,7 @@ class GameMap(
                         return false
                     }
                 }
-            } */
+            }
             return true
         }
         return false
