@@ -19,8 +19,8 @@ object QuickSpawnerTower extends SpawnerTower()
     override val throw_speed   = 15.0
     base_damage                = 9
     damage                     = 9
-    override val price         = 1
-    sell_cost                  = 75
+    override val price         = 200
+    sell_cost                  = 100
     override val unlock_wave   = 1
     upgrades                   = Some(Spawner_BunniesSpeedUpgrade)
     override def serialize() : Int = TowerType.QUICK_SPAWNER

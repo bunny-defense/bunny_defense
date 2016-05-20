@@ -19,7 +19,7 @@ object BaseSpawnerTower extends SpawnerTower()
     override val throw_speed   = 15.0
     base_damage                = 9
     damage                     = 9
-    override val price         = 1
+    override val price         = 100
     sell_cost                  = 75
     override val unlock_wave   = 1
     upgrades                   = Some(Spawner_AddHeavyBunnyUpgrade)
