@@ -33,8 +33,11 @@ extends Thread("Client Thread")
     }
 
     def send(arg : Any) : Unit = {
-        out.writeObject(arg)
-        out.flush()
+        this.synchronized {
+            println("Sending " + arg.toString)
+            out.writeObject(arg)
+            out.flush()
+        }
     }
 
     var handle : Any => Unit = { packet =>
@@ -94,6 +97,7 @@ extends Thread("Client Thread")
             if (!queue.isEmpty) {
                 send(queue.dequeue())
             }
+            Thread.sleep(1000L)
         }
     }
         /*

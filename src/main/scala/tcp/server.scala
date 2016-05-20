@@ -41,7 +41,7 @@ abstract class Server extends Thread("AcceptanceThread") {
         }
     }
     def send(peer: ServerThread, packet: Any) : Unit = {
-        peer.add(packet)
+        peer.send(packet)
     }
     def broadcast(packet: Any) : Unit = {
         println( "Broadcasting " + packet.toString )
@@ -68,9 +68,11 @@ extends Thread("ServerThread")
         socket.close()
     }
     def send(arg : Any): Unit = {
-        println("Sending " + arg.toString)
-        out.writeObject(arg)
-        out.flush()
+        this.synchronized {
+            println("Sending " + arg.toString)
+            out.writeObject(arg)
+            out.flush()
+        }
     }
     def add(arg: Any): Unit = {
         queue.enqueue(arg)
@@ -133,6 +135,7 @@ extends Thread("ServerThread")
             if (!queue.isEmpty) {
                 send(queue.dequeue())
             }
+            Thread.sleep(1000L)
         }
         println( "Client disconnected" )
         server.on_disconnect(this)
