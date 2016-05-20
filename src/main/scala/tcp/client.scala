@@ -61,7 +61,8 @@ extends Thread("Client Thread")
     }
 
     def receive() : Unit = {
-        handle(in.readObject())
+        val packet = in.readObject()
+        handle(packet)
     }
 
     class Receiver extends Thread("ServerReceiver")

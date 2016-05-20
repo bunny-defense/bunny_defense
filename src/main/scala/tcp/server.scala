@@ -4,8 +4,8 @@ import java.net._
 import java.io._
 import scala.io._
 import collection.parallel._
+import collection.mutable.{ListBuffer,Queue}
 
-import scala.collection.mutable.{ListBuffer,Queue}
 import runtime._
 import game_mechanics._
 import game_mechanics.bunny._
@@ -68,6 +68,7 @@ extends Thread("ServerThread")
         socket.close()
     }
     def send(arg : Any): Unit = {
+        println("Sending " + arg.toString)
         out.writeObject(arg)
         out.flush()
     }
