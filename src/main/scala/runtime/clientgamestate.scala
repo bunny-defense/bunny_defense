@@ -184,7 +184,7 @@ extends GameState(map)
                     }
                 }
                 case ("jumped", x: Int, y: Int, p: Waypoint) => {
-                    val obunny = bunnies.find(t => ((t.owner == y )&&(t.id == x)))
+                    val obunny = bunnies.find(t => ((t.owner.id == y )&&(t.id == x)))
                     if (!obunny.isEmpty) {
                         val bunny = obunny.get
                         this -= bunny
