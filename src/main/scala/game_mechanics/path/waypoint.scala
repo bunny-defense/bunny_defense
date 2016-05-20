@@ -13,7 +13,7 @@ object Waypoint {
 
 }
 
-class Waypoint(x0: Double, y0: Double) {
+class Waypoint(x0: Double, y0: Double) extends Serializable {
     /** 2D Point (double) */
     import Waypoint._
     var x = x0
