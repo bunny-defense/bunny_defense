@@ -41,8 +41,9 @@ extends TDComponent(parent) with Reactor
     towerlist(8) = Some(BaseSpawnerTower)
     towerlist(9) = Some(QuickSpawnerTower)
     towerlist(10)= Some(HareSpawnerTower)
-    towerlist(11)= Some(SupportSpawnerTower)
-    towerlist(12)= Some(OtterSpawnerTower)
+    towerlist(11)= Some(HeavySpawnerTower)
+    towerlist(12)= Some(SupportSpawnerTower)
+    towerlist(13)= Some(OtterSpawnerTower)
 
     //towerlist(7) = Some(RaygunTower)
     towerlist(15) = Some(Wall)
