@@ -53,7 +53,7 @@ abstract class Server extends Thread("AcceptanceThread") {
 class ServerThread(socket: Socket, server: Server)
 extends Thread("ServerThread")
 {
-    set_priority( Thread.MIN_PRIORITY )
+    setPriority( Thread.MIN_PRIORITY )
     val out = new ObjectOutputStream(
         new DataOutputStream(socket.getOutputStream()))
     val in  = new ObjectInputStream(

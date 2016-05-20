@@ -436,16 +436,18 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
         /** Runs the algorithm. It returns Some(path) if the path exists,
          *  None if not
          */
-        while (true) {
-            var (total, pd, dist) = this.get_open()
-            if (total.isEmpty) {
-                return None
-            }
+        gamestate.map.synchronized {
+            while (true) {
+                var (total, pd, dist) = this.get_open()
+                if (total.isEmpty) {
+                    return None
+                }
 
-            var pd_bis = this.step(dist.get, pd.get)
-            if (!pd_bis.isEmpty) {
-                println("Path found")
-                return Some(this.toPath(pd_bis.get))
+                var pd_bis = this.step(dist.get, pd.get)
+                if (!pd_bis.isEmpty) {
+                    println("Path found")
+                    return Some(this.toPath(pd_bis.get))
+                }
             }
         }
         return None
