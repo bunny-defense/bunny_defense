@@ -39,7 +39,7 @@ class ServerLobby extends Lobby
 class ClientLobby(hostname: String) extends Lobby
 {
     val connection = new ClientThread(hostname)
-    connection.start()
+    //connection.start()
     new TDToggleButton(Some(gui), "Ready")
     {
         pos  = new CellPos( 10, 10 )

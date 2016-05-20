@@ -120,7 +120,7 @@ class GameMap(
         }
         obstruction_map( pos.x )( pos.y ) = true
         var result = false
-        /* for( player <- gamestate.players )
+        for( player <- gamestate.players )
         {
             val jps = new JPS(
                 player.base,
@@ -133,7 +133,7 @@ class GameMap(
                 }
                 case Some(_) => {println("found a way to player "+player.id.toString)}
             }
-        } */
+        }
         obstruction_map( pos.x )( pos.y ) = false
         return true
     }

@@ -56,16 +56,19 @@ extends TDComponent(parent)
     }
     def on_cell_clicked( pos: CellPos ) : Unit = {
         // Placing a new tower
-        if( gamestate.selected_tower != None &&
-            map.valid(pos) )
+        if( gamestate.selected_tower != None )
         {
-            if( gamestate.player.remove_gold(
-                gamestate.selected_tower.get.price) )
-                { println("Placing Tower")
-                gamestate.server.send(PlacingTower(
-                    gamestate.selected_tower.get.serialize(),pos))
-                println("Sent tower")
-                }
+            gamestate.server.running = false
+            if( map.valid(pos) )
+            {
+                if( gamestate.player.remove_gold(
+                    gamestate.selected_tower.get.price) )
+                    { println("Placing Tower")
+                    gamestate.server.send(PlacingTower(
+                        gamestate.selected_tower.get.serialize(),pos))
+                    println("Sent tower")
+                    }
+            }
 
         }
         // Selecting a placed tower

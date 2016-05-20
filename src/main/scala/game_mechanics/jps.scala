@@ -83,6 +83,23 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
      * @param objective: The objective of the JPS Algorithm
      */
 
+    val map = gamestate.map.obstruction_map.clone()
+    val map_width = map.length
+    val map_height = map(0).length
+    def on_map(x:Int, y: Int) : Boolean = {
+        -1 <= x && x <= map_width && 0 <= y && y < map_height
+    }
+
+    def obstructed(x: Int, y: Int) : Boolean = {
+        if (!on_map(x,y)) {
+            return true
+        }
+        if( x == -1 || x == map_width ) {
+            return false
+        }
+        map(x)(y)
+    }
+
     val horvert_dist = 1.0
     val diag_dist = Math.sqrt(2)
     var all_list: ListMap[CellPosed,Double] = new ListMap()
@@ -178,7 +195,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
             var x1 = x0 + hor_dir
             println( "Horizontal movement to " + x1.toString + "," + y0.toString )
             /* The cell is obstructed */
-           if (gamestate.map.obstructed(x1,y0)) {
+           if (obstructed(x1,y0)) {
                println( x1, y0, "is obstructed" )
                return (new ListBuffer[CellPosed]())
            }
@@ -197,14 +214,14 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
           var nodes = new ListBuffer[CellPosed]()
 
           /* Choose the nodes to explore */
-         if (gamestate.map.obstructed(x1,y0-1) &&
-             !gamestate.map.obstructed(x2,y0-1)) {
+         if (obstructed(x1,y0-1) &&
+             !obstructed(x2,y0-1)) {
                  println( "Jump point !" )
                  nodes += this.add_node(x1, y0, Some(hor_dir,-1), dist)
              }
 
-             if (gamestate.map.obstructed(x1,y0+1) &&
-                 !gamestate.map.obstructed(x2,y0+1)) {
+             if (obstructed(x1,y0+1) &&
+                 !obstructed(x2,y0+1)) {
                      println( "Jump point !" )
                      nodes += this.add_node(x1, y0, Some(hor_dir,1), dist)
                  }
@@ -238,7 +255,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
             var y1 = y0 + vert_dir
             println( "Vertical movement to " + x0.toString + "," + y1.toString )
             /* The cell is obstructed */
-           if (gamestate.map.obstructed(x0,y1)){
+           if (obstructed(x0,y1)){
                return (new ListBuffer[CellPosed]())
            }
            /* The cell is the core objective, we return the last point of
@@ -257,13 +274,13 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
           var nodes = new ListBuffer[CellPosed]()
 
           /* Choose the nodes to explore */
-         if (gamestate.map.obstructed(x0-1,y1) &&
-             !gamestate.map.obstructed(x0-1,y2)) {
+         if (obstructed(x0-1,y1) &&
+             !obstructed(x0-1,y2)) {
                  nodes += this.add_node(x0, y1, Some(-1,vert_dir), dist)
              }
 
-             if (gamestate.map.obstructed(x0+1,y1) &&
-                 !gamestate.map.obstructed(x0+1,y2)) {
+             if (obstructed(x0+1,y1) &&
+                 !obstructed(x0+1,y2)) {
                      nodes += this.add_node(x0, y1, Some(1,vert_dir), dist)
                  }
 
@@ -297,9 +314,9 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
             var x1 = x0 + hor_dir
             var y1 = y0 + vert_dir
             /* The cell is obstructed */
-           if (gamestate.map.obstructed(x1,y1) || (
-               gamestate.map.obstructed(x1,y0) &&
-           gamestate.map.obstructed(x0,y1) ) ) {
+           if (obstructed(x1,y1) || (
+               obstructed(x1,y0) &&
+           obstructed(x0,y1) ) ) {
                return (new ListBuffer[CellPosed]())
            }
            /* The cell is the core objective, we return the last point of
@@ -316,13 +333,13 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
           var y2 = y1 + vert_dir
           var nodes: ListBuffer[CellPosed] = new ListBuffer()
 
-          if (gamestate.map.obstructed(x0,y1) &&
-              !gamestate.map.obstructed(x0,y2)) {
+          if (obstructed(x0,y1) &&
+              !obstructed(x0,y2)) {
                   nodes += add_node(x1, y1, Some(-hor_dir, vert_dir), dist)
               }
 
-              if (gamestate.map.obstructed(x1,y0) &&
-                  !gamestate.map.obstructed(x2,y0)) {
+              if (obstructed(x1,y0) &&
+                  !obstructed(x2,y0)) {
                       nodes += add_node(x1, y1, Some(hor_dir, -vert_dir), dist)
                   }
 
@@ -376,6 +393,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
         /** Performs a step of the algorithm, id est it finds the next
          *  jump point. It don't return none iff the jump point is the objective
          */
+        val time = System.currentTimeMillis
         if ((elem.cell.x, elem.cell.y) == (this.objective.x,this.objective.y)) {
             return Some(elem)
         }
@@ -415,6 +433,7 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
             node.set_parent(elem)
             this.all_list.update(node, dist)
         }
+        println( System.currentTimeMillis - time )
 
         return None
     }
@@ -436,19 +455,19 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
         /** Runs the algorithm. It returns Some(path) if the path exists,
          *  None if not
          */
-        gamestate.map.synchronized {
-            while (true) {
-                var (total, pd, dist) = this.get_open()
-                if (total.isEmpty) {
-                    return None
-                }
-
-                var pd_bis = this.step(dist.get, pd.get)
-                if (!pd_bis.isEmpty) {
-                    println("Path found")
-                    return Some(this.toPath(pd_bis.get))
-                }
+        while (true) {
+            val time = System.currentTimeMillis
+            var (total, pd, dist) = this.get_open()
+            if (total.isEmpty) {
+                return None
             }
+
+            var pd_bis = this.step(dist.get, pd.get)
+            if (!pd_bis.isEmpty) {
+                println("Path found")
+                return Some(this.toPath(pd_bis.get))
+            }
+            println( System.currentTimeMillis - time )
         }
         return None
     }

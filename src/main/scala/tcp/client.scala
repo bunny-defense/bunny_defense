@@ -28,6 +28,7 @@ extends Thread("Client Thread")
         new DataOutputStream(socket.getOutputStream()))
     val queue  = new Queue[Any]()
     val player = new Player("Unamed")
+    var running = true
 
     def add(arg : Any): Unit = {
         queue.enqueue(arg)
@@ -71,6 +72,7 @@ extends Thread("Client Thread")
 
     class Receiver extends Thread("ServerReceiver")
     {
+        setPriority( Thread.MIN_PRIORITY )
         override def run() : Unit = {
             try {
                 while(true)
@@ -92,15 +94,14 @@ extends Thread("Client Thread")
     }
 
     override def run(): Unit = {
-        new Receiver().start()
         send(PlayerInfoPacket("RaptorBunny1234"))
-        while(true) {
+        while(running) {
             if (!queue.isEmpty) {
                 send(queue.dequeue())
             }
-            Thread.sleep(1000L)
         }
     }
+    new Receiver().start()
         /*
     }
     catch {
