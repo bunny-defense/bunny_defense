@@ -37,6 +37,7 @@ extends GameState(_map)
                 val t = TowerType.deserialize(towertype)
                 // TODO Check if the tower placement is OK
                 this += new Tower(peer.player, t, pos, this)
+                println("Tower Placed")
                 server.broadcast(
                     PlacedTower(towertype, pos, peer.player.id))
                 var bun_update = bunnies.filter( t => t.path.path.exists(

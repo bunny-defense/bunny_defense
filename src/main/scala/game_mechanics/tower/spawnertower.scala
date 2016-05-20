@@ -39,6 +39,7 @@ class SpawnerTower extends TowerType
         def get_right_type(): Boolean = {
             var new_bunny =
                 if (!target.isEmpty) {
+                    println(target.toString)
                     BunnyFactory.create(
                         tower.bunnies_spawning.head,
                         tower.owner,
@@ -48,11 +49,14 @@ class SpawnerTower extends TowerType
                     )
                 }
             else {
+                val target2 = choose_target()
+                println(target2.toString + "    " + target2.base.toString)
+                println(tower.owner.base.toString)
                 BunnyFactory.create(
                     tower.bunnies_spawning.head,
                     tower.owner,
                     tower.pos,
-                    choose_target(),
+                    target2,
                     gamestate
                 )
             }

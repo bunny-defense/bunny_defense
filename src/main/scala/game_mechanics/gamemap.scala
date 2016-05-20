@@ -63,7 +63,7 @@ class GameMap(
         if( !obstruction_map(tower.pos.x)(tower.pos.y) )
         {
             obstruction_map(tower.pos.x)(tower.pos.y) = true
-            for( player <- gamestate.players )
+/*            for( player <- gamestate.players )
             {
                 val jps = new JPS(
                     player.base,
@@ -78,7 +78,7 @@ class GameMap(
                         return false
                     }
                 }
-            }
+            } */
             return true
         }
         return false
@@ -104,17 +104,23 @@ class GameMap(
 
     def valid(pos : CellPos): Boolean = {
         // Cannot place tower on top of bunnies
-        if( gamestate.bunnies.count( _.pos.toInt == pos ) > 0 )
+        if( gamestate.bunnies.count( _.pos.toInt == pos ) > 0 ) {
+           println("Bunnied")
             return false
+        }
         // Out of bounds
-        if( pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height )
+        if( pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height ) {
+            println("Out of bounds")
             return false
+        }
         // Obstructed
-        if( obstruction_map( pos.x )( pos.y ) )
+        if( obstruction_map( pos.x )( pos.y ) ) {
+            println("Obstructed")
             return false
+        }
         obstruction_map( pos.x )( pos.y ) = true
         var result = false
-        for( player <- gamestate.players )
+        /* for( player <- gamestate.players )
         {
             val jps = new JPS(
                 player.base,
@@ -125,9 +131,9 @@ class GameMap(
                     obstruction_map( pos.x )( pos.y ) = false
                     return false
                 }
-                case Some(_) => {}
+                case Some(_) => {println("found a way to player "+player.id.toString)}
             }
-        }
+        } */
         obstruction_map( pos.x )( pos.y ) = false
         return true
     }
