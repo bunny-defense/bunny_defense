@@ -40,7 +40,7 @@ class ClientLobby(hostname: String, name : String) extends Lobby
 {
     val connection = new ClientThread(hostname, name)
     connection.send(PlayerInfoPacket(name))
-    //connection.start()
+    connection.start()
     new TDToggleButton(Some(gui), "Ready")
     {
         pos  = new CellPos( 10, 10 )
