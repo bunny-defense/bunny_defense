@@ -53,6 +53,7 @@ abstract class Server extends Thread("AcceptanceThread") {
 class ServerThread(socket: Socket, server: Server)
 extends Thread("ServerThread")
 {
+    set_priority( Thread.MIN_PRIORITY )
     val out = new ObjectOutputStream(
         new DataOutputStream(socket.getOutputStream()))
     val in  = new ObjectInputStream(
@@ -111,6 +112,7 @@ extends Thread("ServerThread")
     }
     class Receiver extends Thread("ClientReceiver")
     {
+        setPriority( Thread.MIN_PRIORITY )
         override def run() : Unit = {
             try
             {

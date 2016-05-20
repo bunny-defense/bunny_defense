@@ -20,6 +20,7 @@ import scala.collection.mutable.{ListBuffer,Queue}
 class ClientThread(domain : String)
 extends Thread("Client Thread")
 {
+    setPriority( Thread.MIN_PRIORITY )
     val socket = new Socket(InetAddress.getByName(domain),Server.default_port)
     val in = new ObjectInputStream(
         new DataInputStream(socket.getInputStream()))
