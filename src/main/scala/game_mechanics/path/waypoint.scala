@@ -4,7 +4,7 @@ package game_mechanics.path
 import Math._
 import util.Random
 
-object Waypoint extends Serializable {
+object Waypoint {
     val rng = new Random()
 
     def random() : Waypoint = {
@@ -13,7 +13,7 @@ object Waypoint extends Serializable {
 
 }
 
-class Waypoint(x0: Double, y0: Double) {
+class Waypoint(x0: Double, y0: Double) extends Serializable {
     /** 2D Point (double) */
     import Waypoint._
     var x = x0
