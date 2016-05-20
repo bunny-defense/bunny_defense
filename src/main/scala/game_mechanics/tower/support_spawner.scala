@@ -19,8 +19,8 @@ object SupportSpawnerTower extends SpawnerTower()
     override val throw_speed   = 15.0
     base_damage                = 9
     damage                     = 9
-    override val price         = 1
-    sell_cost                  = 75
+    override val price         = 250
+    sell_cost                  = 125
     override val unlock_wave   = 1
     upgrades                   = Some(Spawner_HealthUpgrade)
     override def serialize() : Int = TowerType.SUPPORT_SPAWNER

@@ -20,8 +20,8 @@ object HeavySpawnerTower extends SpawnerTower()
     base_damage                 = 9
     damage                      = 9
     override val throw_cooldown = 2.0
-    override val price          = 1
-    sell_cost                   = 75
+    override val price          = 200
+    sell_cost                   = 100
     override val unlock_wave    = 1
     upgrades                    = Some(Spawner_HealthUpgrade)
     override def serialize() : Int = TowerType.HEAVY_SPAWNER
