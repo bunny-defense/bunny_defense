@@ -61,8 +61,12 @@ extends TDComponent(parent)
         {
             if( gamestate.player.remove_gold(
                 gamestate.selected_tower.get.price) )
+                { println("Placing Tower")
                 gamestate.server.send(PlacingTower(
                     gamestate.selected_tower.get.serialize(),pos))
+                println("Sent tower")
+                }
+
         }
         // Selecting a placed tower
         else
