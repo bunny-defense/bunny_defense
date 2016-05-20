@@ -33,9 +33,8 @@ class SpawnerTower extends TowerType
     override def attack_from(
         tower: Tower,
         gamestate: GameState): () => Boolean = {
-            val available = gamestate.players.filter(_.id != tower.owner.id)
             def compute_paths() : ListBuffer[Path] = {
-                available.map( player => {
+                gamestate.players.map( player => {
                     val path = new JPS( tower.pos, player.base, gamestate )
                         .run() match {
                             case Some(p) => p
@@ -45,6 +44,7 @@ class SpawnerTower extends TowerType
                 })
             }
             var paths = compute_paths()
+            val available = gamestate.players.filter(_.id != tower.owner.id)
             def choose_target() : Player = {
                 return available.apply(law.nextInt(available.length))
             }
