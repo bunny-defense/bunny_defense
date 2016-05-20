@@ -21,6 +21,10 @@ class SpawnerTower extends TowerType
       */
     val law = new Random()
     val target : Option[Player] = None
+    var torecompute = false
+    def recompute() : Unit = {
+        torecompute = true
+    }
     override val tower_graphic =
         ImageIO.read(
             new File(
@@ -30,41 +34,44 @@ class SpawnerTower extends TowerType
         tower: Tower,
         gamestate: GameState): () => Boolean = {
             val available = gamestate.players.filter(_.id != tower.owner.id)
+            def compute_paths() : ListBuffer[Path] = {
+                available.map( player => {
+                    val path = new JPS( tower.pos, player.base, gamestate )
+                        .run() match {
+                            case Some(p) => p
+                            case None => throw new Exception()
+                        }
+                    path
+                })
+            }
+            var paths = compute_paths()
             def choose_target() : Player = {
                 return available.apply(law.nextInt(available.length))
             }
             def get_right_type(): Boolean = {
+                if( torecompute )
+                    paths = compute_paths()
                 var new_bunny =
-                    target match {
-                        case Some(target1) => {
-                            val path = new JPS( tower.pos, target1.base, gamestate)
-                                .run() match {
-                                    case Some(p) => p
-                                    case None => throw new Exception()
-                                }
-                                println(target.toString)
-                                BunnyFactory.create(
-                                    tower.bunnies_spawning.head,
-                                    tower.owner,
-                                    new Progress(path),
-                                    gamestate
-                                )
+                    target match
+                    {
+                        case Some(target1) =>
+                        {
+                            val path = paths(target1.id)
+                            BunnyFactory.create(
+                                tower.bunnies_spawning.head,
+                                tower.owner,
+                                new Progress(path),
+                                gamestate)
                         }
-                        case None => {
+                        case None =>
+                        {
                             val target2 = choose_target()
-                            val path = new JPS( tower.pos, target2.base, gamestate)
-                                    .run() match {
-                                        case Some(p) => p
-                                        case None => throw new Exception()
-                                    }
-                                    println(target2.toString + "    " + target2.base.toString)
-                                    println(tower.owner.base.toString)
-                                    BunnyFactory.create(
-                                        tower.bunnies_spawning.head,
-                                        tower.owner,
-                                        new Progress(path),
-                                        gamestate
-                                    )
+                            val path = paths(target2.id)
+                            BunnyFactory.create(
+                                tower.bunnies_spawning.head,
+                                tower.owner,
+                                new Progress(path),
+                                gamestate)
                         }
                     }
                     new_bunny.base_speed = new_bunny.base_speed * tower.speed_modifier
