@@ -70,7 +70,6 @@ extends Thread("ClientThread")
 
     class Receiver extends Thread("ServerReceiver")
     {
-        setPriority( Thread.MIN_PRIORITY )
         override def run() : Unit = {
             try {
                 while(true)
