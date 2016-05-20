@@ -14,18 +14,20 @@ import runtime.TowerDefense
 import runtime.GameState
 import util.Random
 
-abstract class Bunny(_owner: Player, gamestate: GameState)
+abstract class Bunny(
+    _owner: Player,
+    _path: Progress,
+    gamestate: GameState)
 {
     /**
      * Bunny superclass from which every ennemy is derived.
      */
     val id : Int
     val owner : Player  = _owner
-    val target : Player
     var hp              = 10.0
     var initial_hp      = 10.0
     val law             = new Random()
-    var path :  Progress
+    var path            = _path
     var pos : Waypoint  = new Waypoint(0,0)
     val base_shield     = 1.0
     var shield          = 1.0

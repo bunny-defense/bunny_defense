@@ -80,8 +80,8 @@ extends GameState(_map)
     override def bunny_death_render_strategy(bunny: Bunny) : Unit = {
     }
     override def bunny_reach_goal_strategy(bunny: Bunny) : Unit = {
-        server.broadcast(("removed", bunny.id, bunny.owner.id))
-        server.broadcast(("lost", bunny.damage, bunny.owner.id))
+        //server.broadcast(("removed", bunny.id, bunny.owner.id))
+        //server.broadcast(("lost", bunny.damage, bunny.owner.id))
     }
     override def spec_ops_jump_strategy(bunny: SpecOpBunny) : Unit = {
         if( rng.nextDouble < 1.0/180.0) {
