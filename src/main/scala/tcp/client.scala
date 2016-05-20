@@ -17,17 +17,15 @@ import tcp.packets._
 
 import scala.collection.mutable.{ListBuffer,Queue}
 
-class ClientThread(domain : String)
-extends Thread("Client Thread")
+class ClientThread(domain : String, name: String)
 {
-    setPriority( Thread.MIN_PRIORITY )
     val socket = new Socket(InetAddress.getByName(domain),Server.default_port)
     val in = new ObjectInputStream(
         new DataInputStream(socket.getInputStream()))
     val out = new ObjectOutputStream(
         new DataOutputStream(socket.getOutputStream()))
     val queue  = new Queue[Any]()
-    val player = new Player("Unamed")
+    val player = new Player(name)
     var running = true
 
     def add(arg : Any): Unit = {
@@ -93,14 +91,6 @@ extends Thread("Client Thread")
         socket.close()
     }
 
-    override def run(): Unit = {
-        send(PlayerInfoPacket("RaptorBunny1234"))
-        while(running) {
-            if (!queue.isEmpty) {
-                send(queue.dequeue())
-            }
-        }
-    }
     new Receiver().start()
         /*
     }

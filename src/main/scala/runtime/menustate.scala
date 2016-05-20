@@ -100,9 +100,11 @@ object MultiplayerMenuState extends MenuState
 class ServerConnectionMenu extends MenuState
 {
     def connect() : Unit = {
-        if (!(hostname_field.text == "")) {
+        if (!(hostname_field.text == "" &&
+            !(player_name_field.text == ""))) {
             try
-                StateManager.set_state( new ClientLobby(hostname_field.text) )
+                StateManager.set_state( new ClientLobby(hostname_field.text,
+                                                        player_name_field.text) )
             catch
             {
                 case e : IOException =>
