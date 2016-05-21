@@ -11,3 +11,13 @@ case class GameStartPacket(
     map: Array[Array[Boolean]],
     players: ListBuffer[(Int,String,CellPos)])
 extends Packet
+
+object GameStartPacket
+{
+    def serialize() : Array[Byte] = {
+        throw new Exception("Not implemented")
+    }
+    def deserialize(data: Array[Byte]) : GameStartPacket = {
+        throw new Exception("Not implemented")
+    }
+}
