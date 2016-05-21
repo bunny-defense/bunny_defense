@@ -84,7 +84,7 @@ extends GameState(_map)
         //server.broadcast(("lost", bunny.damage, bunny.owner.id))
     }
     override def spec_ops_jump_strategy(bunny: SpecOpBunny) : Unit = {
-        if( rng.nextDouble < 1.0/180.0) {
+        if( rng.nextDouble < 1.0/720.0) {
             bunny.jumping = true
             this -= bunny
             bunny.path.random_choice
