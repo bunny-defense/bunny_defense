@@ -72,7 +72,7 @@ extends GameState(map)
     }
     /* Scrolls the map view */
     def scroll(dt: Double): Unit = {
-        val scroll_speed = 128
+        val scroll_speed = 512
         /* Handling input */
         if( TowerDefense.keymap(Key.J) )
         {

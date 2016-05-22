@@ -24,6 +24,9 @@ object MapPanel
         ImageIO.read(
             new File(
                 getClass().getResource("/UI/Blocked_Cell.png").getPath()))
+    val default_size = new CellPos(
+        TowerDefense.gui_size.width - 4 * BuildMenu.buttonSize,
+        TowerDefense.gui_size.height - TowerInfoPanel.default_size.y )
 }
 
 /* Represents the map on the screen */
@@ -38,16 +41,16 @@ extends TDComponent(parent)
     var viewpos : Waypoint = new Waypoint(0,0)
     var darkness = 0f
     val bases = new ListBuffer[CellPos]
+    val background_color = Colors.black
     gamestate.players.foreach( bases += _.base )
-    size = new CellPos( 30 * cellsize, 25 * cellsize )
+    size = default_size
 
     override def on_event(event: Event) : Unit = {
         super.on_event(event)
         event match {
             case MouseClicked (_,p,_,_,_) => {
-                val loc = locationOnScreen
-                val mousex = p.x - loc.x
-                val mousey = p.y - loc.y
+                val mousex = p.x
+                val mousey = p.y
                 if( mousex >= 0 && mousey >= 0 &&
                     mousex < size.x && mousey < size.y )
                     on_cell_clicked( new CellPos(
@@ -108,6 +111,8 @@ extends TDComponent(parent)
     override def draw(g: Graphics2D): Unit = {
         val clip = g.getClip()
         g.clipRect( 0, 0, size.x, size.y )
+        g.setColor( background_color )
+        g.fillRect( 0, 0, size.x, size.y )
         /* Drawing the map */
         g.drawImage( map.map_image,
             -viewpos.x.toInt,

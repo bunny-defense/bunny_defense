@@ -15,11 +15,16 @@ import game_mechanics.path.CellPos
 
 /* An info Panel that shows information on the selected tower */
 
+object TowerInfoPanel
+{
+    val default_size = new CellPos( 200, 100 )
+}
 class TowerInfoPanel(parent: Option[TDComponent], gamestate: ClientGameState)
 extends TDComponent(parent)
 {
+    import TowerInfoPanel._
     //background = Colors.lightGrey
-    size = new CellPos( 200, 100 )
+    size = default_size
     val button_width = 200
     var clicked = false
 
