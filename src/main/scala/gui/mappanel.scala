@@ -11,11 +11,10 @@ import java.io.File
 import javax.imageio.ImageIO
 
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import game_mechanics.GameMap
 import game_mechanics.path.{Waypoint,Path,CellPos}
 import collection.mutable.ListBuffer
-import tcp.packets._
 
 object MapPanel
 {
@@ -30,7 +29,7 @@ object MapPanel
 }
 
 /* Represents the map on the screen */
-class MapPanel(parent: Option[TDComponent], gamestate: ClientGameState)
+class MapPanel(parent: Option[TDComponent], gamestate: GuiGameState)
 extends TDComponent(parent)
 {
     import MapPanel._
@@ -63,15 +62,12 @@ extends TDComponent(parent)
         // Placing a new tower
         if( gamestate.selected_tower != None )
         {
-            gamestate.server.running = false
             if( map.valid(pos) )
             {
                 if( gamestate.player.remove_gold(
                     gamestate.selected_tower.get.price) )
                     { println("Placing Tower")
-                    gamestate.server.send(PlacingTower(
-                        gamestate.selected_tower.get.serialize(),pos))
-                    println("Sent tower")
+                        gamestate.new_tower_strategy(gamestate.selected_tower.get, pos)
                     }
             }
 

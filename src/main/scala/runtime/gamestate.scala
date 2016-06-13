@@ -37,7 +37,6 @@ extends State with Publisher
     val towers        = new ListBuffer[Tower]
     val animations    = new ListBuffer[Animatable]
     val players       = new ListBuffer[Player]
-    var wave_counter  = 1
     val framerate     = 1.0/60.0 * 1000
     var started       = false
     var dt: Double    = 0.0

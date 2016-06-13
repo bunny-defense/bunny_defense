@@ -4,7 +4,7 @@ package gui.animations
 import util.Random
 
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 
 /* This animations adds thunder flashes to the rain animation */
 
@@ -13,7 +13,7 @@ object ThunderstormAnimation
     val rng = new Random
 }
 
-class ThunderstormAnimation(duration: Double, gamestate: ClientGameState)
+class ThunderstormAnimation(duration: Double, gamestate: GuiGameState)
 extends RainAnimation(duration, gamestate)
 {
     import ThunderstormAnimation._

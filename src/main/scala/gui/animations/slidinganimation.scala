@@ -9,7 +9,7 @@ import javax.imageio.ImageIO
 
 import game_mechanics.path.Waypoint
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import gui._
 import utils.Continuable
 
@@ -24,7 +24,7 @@ object SlidingAnimation
     val image_origin_y : Int = background.getHeight() / 2
 }
 
-class SlidingAnimation(text_callback : () => String, gamestate: ClientGameState)
+class SlidingAnimation(text_callback : () => String, gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     import SlidingAnimation._
@@ -55,5 +55,5 @@ extends Animatable(gamestate)
     }
 }
 
-class WaveAnimation(wave_number : Int, gamestate: ClientGameState)
+class WaveAnimation(wave_number : Int, gamestate: GuiGameState)
 extends SlidingAnimation( () => "Wave " + gamestate.wave_counter.toString, gamestate )

@@ -27,7 +27,7 @@ object Landscape
         }
         return array
     }
-    def old_generate(width: Int, height: Int): Array[Array[Boolean]] = {
+    def generate_alone(width: Int, height: Int): Array[Array[Boolean]] = {
         val data   = Array.ofDim[Boolean](width, height)
         val top    = random_zigzag(width, height / 3)
         val bottom = random_zigzag(width, height / 3)

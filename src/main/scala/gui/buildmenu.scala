@@ -20,7 +20,7 @@ object BuildMenu
 }
 
 class BuildMenu (
-    parent: Option[TDComponent], gamestate: ClientGameState,
+    parent: Option[TDComponent], gamestate: GuiGameState,
     cols: Int, rows: Int)
 extends TDComponent(parent) with Reactor
 {
