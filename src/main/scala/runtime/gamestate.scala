@@ -42,6 +42,8 @@ extends State with Publisher
     var dt: Double    = 0.0
     var raining       = false
     var rng           = new Random
+    var wave_counter  = 1
+
 
     /* GUI */
     val gui : TDComponent

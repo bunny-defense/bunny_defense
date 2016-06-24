@@ -20,8 +20,6 @@ class Spawner(id: Int) {
     var spawn_scheduler = new Queue[(Double,Int)]
     var has_boss = false
 
-    val law = new Random()
-
     val mappage: Map[String, Int] = Map(
         "Bunny"          -> BunnyFactory.NORMAL_BUNNY,
         "HeavyBunny"     -> BunnyFactory.HEAVY_BUNNY,

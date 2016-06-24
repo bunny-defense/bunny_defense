@@ -138,7 +138,7 @@ extends GuiGameState(_player, map)
     // BUNNIES
     override def bunny_death_render_strategy(bunny: Bunny) : Unit = {
         this += new GoldAnimation(
-            bunny.reward(this.wave_counter),
+            bunny.reward(1),
             bunny.pos.clone(),
             this)
     }

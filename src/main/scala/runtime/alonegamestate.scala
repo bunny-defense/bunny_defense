@@ -18,7 +18,6 @@ class AloneGameState(
     map: Array[Array[Boolean]])
 extends GuiGameState( _player, map )
 {
-    var wave_counter  = 1
     val state         = this
 
     override def update(dt: Double) : Unit = {
