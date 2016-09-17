@@ -24,6 +24,7 @@ extends GuiGameState(_player, map)
 {
     /* The server this client is connected to */
     val server = _server
+    val multiplayer = true
     /* The player associated to this client */
     override val players = _players
 

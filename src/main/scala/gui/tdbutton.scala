@@ -57,6 +57,8 @@ extends TDButton(parent)
     override def draw_contents(g: Graphics2D) : Unit = {
         g.setColor( color )
         g.fillRect( 0, 0, size.x, size.y )
+        g.setColor( Colors.black )
+        g.drawRect( 0, 0, size.x, size.y )
         g.setColor( text_color )
         val stringwidth = g.getFontMetrics().stringWidth( text )
         g.drawString( text,

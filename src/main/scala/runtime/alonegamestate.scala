@@ -13,15 +13,29 @@ import game_mechanics.path._
 import gui._
 import gui.animations._
 
+
 class AloneGameState(
     _player: Player,
     map: Array[Array[Boolean]])
 extends GuiGameState( _player, map )
 {
     val state         = this
+    val multiplayer   = false
+    val enemy         = new Player("Enemy")
+
+    listenTo(SpawnScheduler)
+    reactions += {
+      case WaveEnded => {
+        wave_counter += 1
+        play_button.enabled = true
+        play_button.color = Colors.green
+      }
+      case _ => {}
+    }
 
     override def update(dt: Double) : Unit = {
         update_gui(dt)
+        SpawnScheduler.update(dt, state)
         super.update(dt)
         if (TowerDefense.keymap(Key.Escape)) {
             selected_cell  = None
@@ -31,25 +45,29 @@ extends GuiGameState( _player, map )
     /* ====================    GUI     ==================== */
 
    val play_button = new TextButton(Some(gui), "Play") {
-       color = Colors.green
-       text_color = Colors.black
-       override def action() : Unit = {
-           this.enabled = false
-           val spawner       = new Spawner(wave_counter)
-           val spawnschedule = spawner.create()
-           SpawnScheduler.set_schedule(spawnschedule)
-           val anim = new WaveAnimation(wave_counter, state )
-           anim and_then SpawnScheduler.start
-           if( spawner.has_boss )
-           {
-               val splash_anim = new SplashAnimation( state )
-               splash_anim and_then { () => state += anim }
-               state += splash_anim
-           } else {
-               state += anim
-
-           }
+     pos = new CellPos(1040, 630)
+     size = new CellPos(220, 60)
+     println("Bouton créé")
+     color = Colors.green
+     text_color = Colors.black
+     override def action() : Unit = {
+       this.enabled = false
+       color = Colors.lightGrey
+       val spawner       = new Spawner(wave_counter)
+       val spawnschedule = spawner.create()
+       SpawnScheduler.set_schedule(spawnschedule)
+       val anim = new WaveAnimation(wave_counter, state )
+       anim and_then {
+         if (spawner.has_boss) {
+           val splash_anim = new SplashAnimation( state )
+           splash_anim and_then { () => state += anim }
+           state += splash_anim
+         } else {
+           state += anim
+         }
+         SpawnScheduler.start
        }
+     }
    }
 
    /* ==================== STRATEGIES ==================== */

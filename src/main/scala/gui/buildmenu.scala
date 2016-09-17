@@ -38,15 +38,16 @@ extends TDComponent(parent) with Reactor
     towerlist(5) = Some(Roberto)
     towerlist(6) = Some(SuppBuffTower)
     towerlist(7) = Some(SuppSlowTower)
-    towerlist(8) = Some(BaseSpawnerTower)
-    towerlist(9) = Some(QuickSpawnerTower)
-    towerlist(10)= Some(HareSpawnerTower)
-    towerlist(11)= Some(HeavySpawnerTower)
-    towerlist(12)= Some(SupportSpawnerTower)
-    towerlist(13)= Some(OtterSpawnerTower)
-
-    //towerlist(7) = Some(RaygunTower)
+    if (gamestate.multiplayer) {
+      towerlist(8) = Some(BaseSpawnerTower)
+      towerlist(9) = Some(QuickSpawnerTower)
+      towerlist(10)= Some(HareSpawnerTower)
+      towerlist(11)= Some(HeavySpawnerTower)
+      towerlist(12)= Some(SupportSpawnerTower)
+      towerlist(13)= Some(OtterSpawnerTower)
+    }
     towerlist(15) = Some(Wall)
+    //towerlist(7) = Some(RaygunTower)
 
     class BuyButton(towertype: Option[TowerType])
     extends TDButton(Some(this))

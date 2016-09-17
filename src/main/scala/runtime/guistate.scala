@@ -15,6 +15,7 @@ abstract class GuiGameState(
 extends GameState(map) {
 
     val player = _player
+    val multiplayer: Boolean
     var selected_tower          : Option[TowerType] = None
     /* The tower currently selected */
     private var _selected_cell  : Option[Tower]     = None

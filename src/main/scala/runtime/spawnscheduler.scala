@@ -14,7 +14,8 @@ import game_mechanics.bunny._
 case object WaveStarted extends Event
 case object WaveEnded   extends Event
 
-/* The spawn scheduler takes care of spawning ennemies in the order and timing set */
+/* The spawn scheduler takes care of spawning ennemies in the order and timing
+ * set */
 object SpawnScheduler extends Publisher
 {
     var started     = false
@@ -28,7 +29,7 @@ object SpawnScheduler extends Publisher
         publish( WaveStarted )
     }
 
-    def update(dt: Double, gamestate : GuiGameState): Unit = {
+    def update(dt: Double, gamestate : AloneGameState): Unit = {
         if( started )
         {
             spent_time += dt
@@ -44,16 +45,15 @@ object SpawnScheduler extends Publisher
                 }
                 gamestate += BunnyFactory.create(
                     spawn_queue.dequeue._2,
-                    gamestate.player,
+                    gamestate.enemy,
                     path,
                     gamestate
                     )
-                if( spawn_queue.isEmpty && gamestate.bunnies.isEmpty )
-                {
-                    started = false
-                    gamestate.wave_counter += 1
-                    publish( WaveEnded )
-                }
+            }
+            if( spawn_queue.isEmpty && gamestate.bunnies.isEmpty )
+            {
+              started = false
+              publish( WaveEnded )
             }
         }
     }
