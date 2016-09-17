@@ -1,0 +1,13 @@
+This file describes the protocol used for the game.
+It is a design document.
+
+States:
+Connected
+Enlisted
+Playing
+
+TCP handshake -> Connected
+* Enlist request packet:        Connected -> Enlisted
+* Unenlist request packet:      Enlisted -> Connected
+* Game start:                   Enlisted -> Playing
+* Game end:                     Playing -> Enlisted

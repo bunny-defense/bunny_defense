@@ -1,0 +1,17 @@
+package network.packets
+
+object Lol
+{
+	def unserialize(data: Array[Byte]): Lol = {
+	}
+}
+
+class Lol(x: Int, y: Int, name: String)
+extends Packets
+{
+	def serialize(): Array[Byte] = {
+		Serialize.int(x)
+		++ Serialize.int(y)
+		++ Serialize.string(name)
+	}
+}
