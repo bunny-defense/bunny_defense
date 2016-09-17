@@ -9,11 +9,11 @@ import javax.imageio.ImageIO
 
 import game_mechanics.path.Waypoint
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import gui._
 import utils.Continuable
 
-class SplashAnimation(gamestate: ClientGameState)
+class SplashAnimation(gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     val height = 100

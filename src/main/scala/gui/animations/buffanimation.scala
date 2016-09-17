@@ -7,7 +7,7 @@ import util.Random
 import java.awt.Graphics2D
 import java.awt.AlphaComposite
 
-import runtime.ClientGameState
+import runtime.GuiGameState
 import game_mechanics.path.{Waypoint,CellPos}
 import gui._
 
@@ -18,7 +18,7 @@ object BuffAnimation
     val rng = new Random()
 }
 
-class BuffAnimation(pos : CellPos, radius : Double, gamestate: ClientGameState)
+class BuffAnimation(pos : CellPos, radius : Double, gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     import BuffAnimation._

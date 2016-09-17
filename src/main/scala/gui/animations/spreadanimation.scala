@@ -8,7 +8,7 @@ import javax.imageio.ImageIO
 
 import game_mechanics.path.Waypoint
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import gui._
 import utils.Continuable
 
@@ -20,7 +20,7 @@ object SpreadAnimation
 }
 
 class SpreadAnimation(
-    pos: Waypoint, radius_init: Int, dir: Waypoint, gamestate: ClientGameState)
+    pos: Waypoint, radius_init: Int, dir: Waypoint, gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     import SpreadAnimation._

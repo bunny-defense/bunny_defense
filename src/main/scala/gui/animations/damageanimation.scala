@@ -7,12 +7,12 @@ import java.awt.Graphics2D
 import game_mechanics.path.Waypoint
 import gui._
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import utils.Continuable
 
 class DamageAnimation(
     amount: Double, origin: Waypoint,
-    gamestate: ClientGameState)
+    gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     var pos    = origin

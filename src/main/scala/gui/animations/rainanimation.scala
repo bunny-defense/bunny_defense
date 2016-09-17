@@ -8,7 +8,7 @@ import java.awt.Graphics2D
 import java.awt.AlphaComposite
 
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import game_mechanics.path.Waypoint
 import gui._
 
@@ -23,7 +23,7 @@ object RainAnimation
     val speed              = 500
 }
 
-class RainAnimation(duration : Double, gamestate: ClientGameState)
+class RainAnimation(duration : Double, gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     import RainAnimation._

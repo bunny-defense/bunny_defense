@@ -8,7 +8,7 @@ import java.awt.Graphics2D
 import java.awt.AlphaComposite
 
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import gui._
 import game_mechanics.path.{Waypoint,CellPos}
 
@@ -21,7 +21,7 @@ object RaygunAnimation
     val max_darkness   = 0.7
 }
 
-class RaygunAnimation(tower_pos: CellPos, gamestate: ClientGameState)
+class RaygunAnimation(tower_pos: CellPos, gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     import RaygunAnimation._

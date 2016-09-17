@@ -5,12 +5,12 @@ import java.awt.Graphics2D
 import java.awt.AlphaComposite
 
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import gui._
 
 /* This animation creates a short flash that simulates thunder */
 
-class ThunderflashAnimation(gamestate: ClientGameState)
+class ThunderflashAnimation(gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     val duration = 0.5

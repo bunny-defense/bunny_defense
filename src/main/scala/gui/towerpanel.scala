@@ -19,7 +19,7 @@ object TowerInfoPanel
 {
     val default_size = new CellPos( 200, 100 )
 }
-class TowerInfoPanel(parent: Option[TDComponent], gamestate: ClientGameState)
+class TowerInfoPanel(parent: Option[TDComponent], gamestate: GuiGameState)
 extends TDComponent(parent)
 {
     import TowerInfoPanel._

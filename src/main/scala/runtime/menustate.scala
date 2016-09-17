@@ -6,8 +6,10 @@ import swing.event._
 
 import java.io.IOException
 
+import utils.Landscape
 import gui._
 import game_mechanics.path.CellPos
+import game_mechanics.Player
 import tcp._
 
 /** Represents a menu state, for a specific menu **/
@@ -47,9 +49,10 @@ object PlayMenuState extends MenuState
 {
     new gui.WideButton( 50, "Singleplayer" )
     {
-        color = Colors.darkGrey
         override def action() : Unit = {
-            //StateManager.set_state( new ClientServerGameState() )
+        StateManager.set_state( new AloneGameState(
+            new Player("Unamed"),
+            Landscape.generate_alone(30,30)) )
         }
     }
     new gui.WideButton( 120, "Multiplayer" )

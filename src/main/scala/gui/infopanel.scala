@@ -7,7 +7,7 @@ import Math._
 import game_mechanics.Player._
 import game_mechanics.path.CellPos
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 
 /* An info panel that shows the current gold, HP and wave number */
 object InfoPanel
@@ -15,7 +15,7 @@ object InfoPanel
     val default_size = new CellPos( 200, 100 )
 }
 
-class InfoPanel(parent: Option[TDComponent], gamestate: ClientGameState)
+class InfoPanel(parent: Option[TDComponent], gamestate: GuiGameState)
 extends TDComponent(parent)
 {
     import InfoPanel._

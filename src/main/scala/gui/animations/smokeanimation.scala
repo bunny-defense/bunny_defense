@@ -6,11 +6,11 @@ import util.Random
 
 import java.awt.Graphics2D
 
-import runtime.ClientGameState
+import runtime.GuiGameState
 import game_mechanics.path.Waypoint
 import gui._
 
-class SmokeAnimation(origin: Waypoint, gamestate: ClientGameState)
+class SmokeAnimation(origin: Waypoint, gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     /** This is the smoke animation the ninja bunnies (specopsbunnies) do

@@ -8,7 +8,7 @@ import java.awt.Graphics2D
 import java.awt.AlphaComposite
 
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import gui._
 import game_mechanics.path.{Waypoint,CellPos}
 
@@ -21,7 +21,7 @@ object RaygunShootAnimation
 }
 
 class RaygunShootAnimation(
-    tower_pos: CellPos, direction : Waypoint, gamestate: ClientGameState)
+    tower_pos: CellPos, direction : Waypoint, gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
     import RaygunShootAnimation._

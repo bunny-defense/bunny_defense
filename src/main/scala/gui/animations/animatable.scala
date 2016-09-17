@@ -4,12 +4,12 @@ package gui.animations
 import java.awt.Graphics2D
 
 import runtime.TowerDefense
-import runtime.ClientGameState
+import runtime.GuiGameState
 import gui._
 import utils.Continuable
 
 
-abstract class Animatable(gamestate: ClientGameState)
+abstract class Animatable(gamestate: GuiGameState)
 extends Continuable
 {
     /** Animation superclass */

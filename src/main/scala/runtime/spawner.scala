@@ -11,9 +11,6 @@ import game_mechanics.path._
 object Spawner
 {
     val law        = new Random()
-    val bunnystart = new CellPos( -1, TowerDefense.gamestate.map_panel.map.height/2)
-    val bunnyend   = new CellPos( TowerDefense.gamestate.map_panel.map.width,
-                                  TowerDefense.gamestate.map_panel.map.height/2)
 }
 
 class Spawner(id: Int) {
@@ -22,8 +19,6 @@ class Spawner(id: Int) {
     val iter = src.getLines().filter( _ != "" ).map(_.split(","))
     var spawn_scheduler = new Queue[(Double,Int)]
     var has_boss = false
-
-    val law = new Random()
 
     val mappage: Map[String, Int] = Map(
         "Bunny"          -> BunnyFactory.NORMAL_BUNNY,
