@@ -17,6 +17,7 @@ extends GameState(map) {
     val player = _player
     val multiplayer: Boolean
     var selected_tower          : Option[TowerType] = None
+    var acceleration = 1
     /* The tower currently selected */
     private var _selected_cell  : Option[Tower]     = None
 
@@ -55,7 +56,7 @@ extends GameState(map) {
     }
     val tower_panel = new TowerInfoPanel(Some(gui), this)
     {
-        size = new CellPos( map_panel.size.x, size.y )
+        size = new CellPos( map_panel.size.x, gui.size.y - map_panel.size.y )
         pos  = new CellPos( 0, map_panel.size.y )
     }
     /* Scrolls the map view */

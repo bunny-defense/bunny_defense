@@ -66,6 +66,11 @@ extends State with Publisher
        }
     }
 
+    def sell_tower(tower: Tower): Unit = {
+      tower.owner.add_gold(tower.sell_cost)
+      towers -= tower
+    }
+
     /* ==================== MAIN LOOP ==================== */
     /* Update the game for dt time */
     def step(dt: Double): Unit = {
@@ -175,5 +180,4 @@ extends State with Publisher
     def tower_fire_strategy(tower: Tower) : Unit
     def supp_buff_tower_animation_strategy(tower: Tower) : Unit
     def supp_slow_tower_animation_strategy(tower: Tower) : Unit
-
 }
