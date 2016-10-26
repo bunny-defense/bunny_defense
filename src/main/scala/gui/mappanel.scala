@@ -53,7 +53,8 @@ extends TDComponent(parent)
                 if( mousex >= 0 && mousey >= 0 &&
                     mousex < size.x && mousey < size.y )
                     on_cell_clicked( new CellPos(
-                        mousex / cellsize, mousey / cellsize ) )
+                        (mousex + viewpos.x.toInt) / cellsize,
+                        (mousey + viewpos.y.toInt) / cellsize ) )
             }
             case _ => {}
         }
@@ -87,6 +88,30 @@ extends TDComponent(parent)
             gamestate.selected_tower = None
     }
 
+    def drawLine(g: Graphics2D, x1: Int, y1: Int, x2: Int, y2: Int): Unit = {
+        g.drawLine(x1 - viewpos.x.toInt, y1 - viewpos.y.toInt,
+                   x2 - viewpos.x.toInt, y2 - viewpos.y.toInt)
+    }
+
+    def drawRect(g: Graphics2D, x: Int, y: Int, w: Int, h: Int): Unit = {
+        g.drawRect(x - viewpos.x.toInt, y - viewpos.y.toInt, w, h)
+    }
+
+    def drawOval(g: Graphics2D, x: Int, y: Int, w: Int, h: Int): Unit = {
+        g.drawOval(x - viewpos.x.toInt, y - viewpos.y.toInt, w, h)
+    }
+
+    def drawImage(g: Graphics2D, image: BufferedImage, x: Int, y: Int): Unit = {
+        g.drawImage(image,
+            x - viewpos.x.toInt,
+            y - viewpos.y.toInt,
+            null)
+    }
+
+    def fillRect(g: Graphics2D, x: Int, y: Int, w: Int, h: Int): Unit = {
+        g.fillRect(x - viewpos.x.toInt, y - viewpos.y.toInt, w, h)
+    }
+
     def paintPath(g: Graphics2D): Unit = {
         val path = new ListBuffer[Path]()
         for (bunny <- gamestate.bunnies) {
@@ -97,7 +122,7 @@ extends TDComponent(parent)
             {
                 val prev = j.at(i-1)
                 val curr = j.at(i)
-                g.drawLine(
+                drawLine(g,
                     prev.x.toInt * cellsize + cellsize / 2,
                     prev.y.toInt * cellsize + cellsize / 2,
                     curr.x.toInt * cellsize + cellsize / 2,
@@ -106,21 +131,15 @@ extends TDComponent(parent)
         }
     }
 
-
     /* Drawing on the map */
     override def draw(g: Graphics2D): Unit = {
         val clip = g.getClip()
         g.clipRect( 0, 0, size.x, size.y )
         g.setColor( background_color )
-        g.fillRect( 0, 0, size.x, size.y )
+        g.fillRect(0, 0, size.x, size.y)
         /* Drawing the map */
-        g.drawImage( map.map_image,
-            -viewpos.x.toInt,
-            -viewpos.y.toInt,
-            null )
+        drawImage(g, map.map_image, 0, 0)
         paintPath(g)
-        /* Drawing tower effects */
-        val translate_transform = g.getTransform()
         /* Drawing ghost tower */
         gamestate.selected_tower match {
             case None => {}
@@ -134,9 +153,9 @@ extends TDComponent(parent)
                     {
                         if( map.obstructed(x,y) )
                         {
-                            g.drawImage( blocked_cell_image,
+                            drawImage(g, blocked_cell_image,
                                 x * cellsize,
-                                y * cellsize, null )
+                                y * cellsize)
                         }
                     }
                 }
@@ -146,20 +165,24 @@ extends TDComponent(parent)
                 // PAINT TOWER AND RANGE
                 val mousepos  = MouseInfo.getPointerInfo().getLocation()
                 val windowpos = locationOnScreen
-                val snapx     = (mousepos.x - windowpos.x) / cellsize * cellsize
-                val snapy     = (mousepos.y - windowpos.y) / cellsize * cellsize
-                g.drawRect( snapx, snapy, cellsize, cellsize )
-                g.drawImage( tower.tower_graphic, snapx, snapy, null )
+                val snapx     = (mousepos.x + viewpos.x.toInt - windowpos.x) /
+                                cellsize * cellsize
+                val snapy     = (mousepos.y + viewpos.y.toInt - windowpos.y) /
+                                cellsize * cellsize
+                drawRect(g, snapx, snapy, cellsize, cellsize )
+                drawImage(g, tower.tower_graphic, snapx, snapy)
                 val range   = tower.range * cellsize
                 val circlex = snapx + cellsize / 2 - range
                 val circley = snapy + cellsize / 2 - range
-                g.drawOval( circlex, circley, 2 * range, 2 * range )
+                drawOval(g, circlex, circley, 2 * range, 2 * range )
             }
         }
+        /* Drawing tower effects */
+        val translate_transform = g.getTransform()
         for( tower <- gamestate.towers )
         {
-            val x = tower.pos.x * cellsize + cellsize / 2
-            val y = tower.pos.y * cellsize + cellsize / 2
+            val x = tower.pos.x * cellsize + cellsize / 2 - viewpos.x.toInt
+            val y = tower.pos.y * cellsize + cellsize / 2 - viewpos.y.toInt
             g.translate( x, y )
             tower.towertype.draw_effect(g)
             g.setTransform( translate_transform )
@@ -171,33 +194,34 @@ extends TDComponent(parent)
         {
             val x = tower.pos.x * cellsize
             val y = tower.pos.y * cellsize
-            g.drawImage( tower.graphic, x.toInt, y.toInt, null )
+            drawImage(g, tower.graphic, x.toInt, y.toInt)
         }
         /* Drawing the bunnies */
         for( bunny <- gamestate.bunnies )
         {
             val x = bunny.pos.x * cellsize
             val y = bunny.pos.y * cellsize
-            g.drawImage( bunny.graphic, x.toInt, y.toInt, null )
+            drawImage(g, bunny.graphic, x.toInt, y.toInt)
             // Health bar
             if( bunny.hp != bunny.initial_hp )
             {
                 val health_ratio = bunny.hp / bunny.initial_hp
                 g.setColor( Colors.black )
-                g.drawRect( x.toInt - 1, y.toInt - 4,
+                drawRect(g, x.toInt - 1, y.toInt - 4,
                     cellsize + 2, 5 )
                 g.setColor( Colors.transparent_grey )
-                g.fillRect( x.toInt, y.toInt - 3, cellsize, 3 )
+                fillRect(g, x.toInt, y.toInt - 3, cellsize, 3)
                 g.setColor( Colors.green )
-                g.fillRect( x.toInt, y.toInt - 3, (health_ratio * cellsize).toInt, 3 )
+                fillRect(g, x.toInt, y.toInt - 3,
+                         (health_ratio * cellsize).toInt, 3)
             }
             g.setColor( Colors.black )
         }
         /* Drawing projectiles */
         for( projectile <- gamestate.projectiles )
         {
-            val x = projectile.pos.x * cellsize
-            val y = projectile.pos.y * cellsize
+            val x = projectile.pos.x * cellsize - viewpos.x.toInt
+            val y = projectile.pos.y * cellsize - viewpos.y.toInt
             val angle = Math.atan2(
                 projectile.direction.y,
                 projectile.direction.x ) - Math.PI / 4
@@ -205,14 +229,14 @@ extends TDComponent(parent)
             g.rotate( angle,
                 x + cellsize / 2,
                 y + cellsize / 2 )
-            g.drawImage( projectile.graphic, x.toInt, y.toInt, null )
+            g.drawImage(projectile.graphic, x.toInt, y.toInt, null)
             g.setTransform( prev_transform )
         }
         /* Darkness level */
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, darkness ) )
         g.setColor( Colors.black )
-        g.fillRect( 0, 0, map.width * cellsize, map.height * cellsize )
+        fillRect(g, 0, 0, map.width * cellsize, map.height * cellsize)
         g.setComposite(
             AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )
         for( animation <- gamestate.animations)
@@ -226,10 +250,13 @@ extends TDComponent(parent)
             case None => {}
             case Some(tower) => {
                 g.setColor(Colors.black)
-                g.drawOval(tower.pos.x.toInt * cellsize - tower.range * cellsize
+                drawOval(g,
+                    tower.pos.x.toInt * cellsize
+                    - tower.range * cellsize
                     + cellsize/2,
-                    tower.pos.y.toInt * cellsize - tower.range * cellsize
-                        + cellsize/2,
+                    tower.pos.y.toInt * cellsize
+                    - tower.range * cellsize
+                    + cellsize/2,
                     tower.range*cellsize*2,
                     tower.range*cellsize*2 )
             }
@@ -237,8 +264,8 @@ extends TDComponent(parent)
         for( base <- bases )
         {
             g.setColor( new Color( 200, 200, 200, 100 ) )
-            g.fillRect( base.x * cellsize, base.y * cellsize,
-                cellsize, cellsize )
+            fillRect(g, base.x * cellsize, base.y * cellsize,
+                cellsize, cellsize)
         }
         g.setClip(clip)
     }
