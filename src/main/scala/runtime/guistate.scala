@@ -56,7 +56,10 @@ extends GameState(map) {
     }
     val tower_panel = new TowerInfoPanel(Some(gui), this)
     {
-        size = new CellPos( map_panel.size.x, gui.size.y - map_panel.size.y )
+        size = new CellPos(
+          map_panel.size.x,
+          TowerDefense.gui_size.height - map_panel.size.y
+        )
         pos  = new CellPos( 0, map_panel.size.y )
     }
     /* Scrolls the map view */
