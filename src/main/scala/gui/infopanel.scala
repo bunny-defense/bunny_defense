@@ -28,7 +28,7 @@ extends TDComponent(parent)
         g.drawString("Wave : " + (gamestate.wave_counter.toString),
             (xm/2-85),ym/6+5)
         g.drawString("Gold : " + (gamestate.player.gold.toString),
-            (xm-2/85),2*ym/6+5)
+            (xm/2-85),2*ym/6+5)
         g.drawString("Lives : " + ((Math.max(gamestate.player.hp, 0)).toString),
             (xm/2-85),3*ym/6+5)
         g.drawString("Bunnies slaughtered : "+ (gamestate.player.killcount.toString),
