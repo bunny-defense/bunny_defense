@@ -17,6 +17,7 @@ extends GameState(map) {
     val player = _player
     val multiplayer: Boolean
     var selected_tower          : Option[TowerType] = None
+    var acceleration = 1
     /* The tower currently selected */
     private var _selected_cell  : Option[Tower]     = None
 
@@ -55,7 +56,10 @@ extends GameState(map) {
     }
     val tower_panel = new TowerInfoPanel(Some(gui), this)
     {
-        size = new CellPos( map_panel.size.x, size.y )
+        size = new CellPos(
+          map_panel.size.x,
+          TowerDefense.gui_size.height - map_panel.size.y
+        )
         pos  = new CellPos( 0, map_panel.size.y )
     }
     /* Scrolls the map view */
@@ -105,9 +109,9 @@ extends GameState(map) {
         update_gui(dt)
         super.update(dt)
         if (TowerDefense.keymap(Key.Escape)) {
-            selected_cell  = None
-            selected_tower = None
+          tower_panel.update_selection(false)
         }
     }
+
     def new_tower_strategy(tower : TowerType , pos: CellPos) : Unit = {}
 }

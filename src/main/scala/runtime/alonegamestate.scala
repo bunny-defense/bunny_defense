@@ -29,25 +29,27 @@ extends GuiGameState( _player, map )
         wave_counter += 1
         play_button.enabled = true
         play_button.color = Colors.green
+        acceleration = 1
       }
       case _ => {}
     }
 
     override def update(dt: Double) : Unit = {
+      for (i<-1 to acceleration) {
         update_gui(dt)
         SpawnScheduler.update(dt, state)
         super.update(dt)
         if (TowerDefense.keymap(Key.Escape)) {
-            selected_cell  = None
-            selected_tower = None
+          selected_cell  = None
+          selected_tower = None
         }
+      }
     }
     /* ====================    GUI     ==================== */
 
    val play_button = new TextButton(Some(gui), "Play") {
      pos = new CellPos(1040, 630)
      size = new CellPos(220, 60)
-     println("Bouton créé")
      color = Colors.green
      text_color = Colors.black
      override def action() : Unit = {
