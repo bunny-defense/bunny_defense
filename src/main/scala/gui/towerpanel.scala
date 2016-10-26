@@ -16,6 +16,9 @@ import game_mechanics.path.CellPos
 
 /* An info Panel that shows information on the selected tower */
 
+case object SelectedCell extends Event
+case object NoSelectedCell extends Event
+
 object TowerInfoPanel {
   val default_size = new CellPos(1024,100)
 }
@@ -73,7 +76,7 @@ extends TDComponent(parent) {
     override def action() : Unit = {
       val tower = gamestate.selected_cell.get
       gamestate.sell_tower(tower)
-      gamestate.selected_cell = None
+      update_selection(false)
     }
   }
 
@@ -104,5 +107,22 @@ extends TDComponent(parent) {
       }
     }
   }
+
+  def update_selection(selected : Boolean): Unit = {
+    if (selected) {
+      sell_button.color = Colors.green
+      sell_button.enabled = true
+      upgrade_button.color = Colors.green
+      upgrade_button.enabled = true
+    } else {
+      gamestate.selected_cell = None
+      gamestate.selected_tower = None
+      sell_button.color = Colors.red
+      sell_button.enabled = false
+      upgrade_button.color = Colors.red
+      upgrade_button.enabled = false
+    }
+  }
+
 }
 

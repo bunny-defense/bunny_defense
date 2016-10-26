@@ -75,8 +75,12 @@ extends TDComponent(parent)
         // Selecting a placed tower
         else
         {
-            if( gamestate.selected_tower == None )
-                gamestate.selected_cell = gamestate.towers.find( _.pos == pos )
+          gamestate.selected_cell = gamestate.towers.find( _.pos == pos )
+          if (gamestate.selected_cell != None) {
+            gamestate.tower_panel.update_selection(true)
+          } else {
+            gamestate.tower_panel.update_selection(false)
+          }
         }
         // Building multiple towers
         if( !TowerDefense.keymap(Key.Shift) )

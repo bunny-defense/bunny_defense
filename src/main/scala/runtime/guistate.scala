@@ -109,9 +109,9 @@ extends GameState(map) {
         update_gui(dt)
         super.update(dt)
         if (TowerDefense.keymap(Key.Escape)) {
-            selected_cell  = None
-            selected_tower = None
+          tower_panel.update_selection(false)
         }
     }
+
     def new_tower_strategy(tower : TowerType , pos: CellPos) : Unit = {}
 }
