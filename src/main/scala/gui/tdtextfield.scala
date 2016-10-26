@@ -8,6 +8,7 @@ import java.awt.Graphics2D
 
 import runtime.StateManager
 
+/* A text field component, allowing the input of text for forms */
 class TDTextField(parent: Option[TDComponent])
 extends TDButton(parent) with Reactor
 {

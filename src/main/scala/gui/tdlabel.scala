@@ -3,6 +3,7 @@ package gui
 
 import java.awt.Graphics2D
 
+/* A simple label component holding text */
 class TDLabel(parent: Option[TDComponent], text: String)
 extends TDComponent(parent)
 {

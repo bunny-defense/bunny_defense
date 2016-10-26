@@ -10,6 +10,7 @@ import java.awt.Graphics2D
 import runtime.StateManager
 import game_mechanics.path.CellPos
 
+/* Base component class of the TDGui library */
 class TDComponent(parent: Option[TDComponent])
 {
     parent match {
@@ -18,12 +19,15 @@ class TDComponent(parent: Option[TDComponent])
         case None => {}
     }
     private val self = this
+    /* Position of the component, relative to parent */
     var pos = new CellPos( 0, 0 )
+    /* pos setter */
     def set_pos( posx: Int, posy: Int ) : Unit = {
         pos = new CellPos( posx, posy )
     }
 
     var size : CellPos = new CellPos( 0, 0 )
+    /* The component's children. Gui is a tree structure */
     val children = new ListBuffer[TDComponent]()
 
     def update(dt: Double) : Unit = {}
@@ -52,6 +56,6 @@ class TDComponent(parent: Option[TDComponent])
         }
     }
     def on_event( event: Event ) : Unit = {
-        children.foreach( _.on_event(event) )
+        children.foreach( _.on_event(event) ) // Propagate event to children
     }
 }
