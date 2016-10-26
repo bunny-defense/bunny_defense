@@ -68,35 +68,43 @@ extends GameState(map) {
         /* Handling input */
         if( TowerDefense.keymap(Key.J) )
         {
-            val scroll_distance = Math.min(
-                map_panel.rows * MapPanel.cellsize -
-                    map_panel.size.y,
-                map_panel.viewpos.y + dt * scroll_speed )
-            map_panel.viewpos =
-                new Waypoint(0, scroll_distance)
+            if(map_panel.rows * MapPanel.cellsize > map_panel.size.y)
+            {
+                val scroll_distance = Math.min(
+                    map_panel.rows * MapPanel.cellsize -
+                        map_panel.size.y,
+                    map_panel.viewpos.y + dt * scroll_speed )
+                map_panel.viewpos =
+                    new Waypoint(map_panel.viewpos.x, scroll_distance)
+            }
         }
         if( TowerDefense.keymap(Key.K) )
         {
             val scroll_distance = Math.max( 0,
                 map_panel.viewpos.y - dt * scroll_speed )
             map_panel.viewpos =
-                new Waypoint(0, scroll_distance)
+                new Waypoint(map_panel.viewpos.x, scroll_distance)
         }
         if( TowerDefense.keymap(Key.H) )
         {
             val scroll_distance = Math.max( 0,
                 map_panel.viewpos.x - dt * scroll_speed )
             map_panel.viewpos =
-                new Waypoint(scroll_distance, 0)
+                new Waypoint(scroll_distance, map_panel.viewpos.y)
         }
         if( TowerDefense.keymap(Key.L) )
         {
-            val scroll_distance = Math.min(
-                map_panel.cols * MapPanel.cellsize -
-                    map_panel.size.x,
-                map_panel.viewpos.x + dt * scroll_speed )
-            map_panel.viewpos =
-                new Waypoint(scroll_distance, 0)
+            if(map_panel.cols * MapPanel.cellsize > map_panel.size.x)
+            {
+                val scroll_distance = Math.min(map_panel.cols
+                                               * MapPanel.cellsize
+                                               - map_panel.size.x,
+                                               map_panel.viewpos.x
+                                               + dt
+                                               * scroll_speed )
+                map_panel.viewpos =
+                    new Waypoint(scroll_distance, map_panel.viewpos.y)
+            }
         }
     }
     def update_gui(dt: Double) : Unit = {
