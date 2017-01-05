@@ -16,4 +16,6 @@ notifications:
     irc:
         channels:
             - irc.crans.org#The_TD
+        template:
+            - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
         nick: tower_defense_ci
