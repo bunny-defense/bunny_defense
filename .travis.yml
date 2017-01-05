@@ -7,5 +7,5 @@ scala:
     - 2.11.7
 
 script:
-    # Does the project builds ?
+    # Does the project build ?
     - sbt clean compile
