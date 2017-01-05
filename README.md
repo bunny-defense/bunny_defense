@@ -1,6 +1,10 @@
 
-# Projet Programmation 2 : Tower Defense
+# Bunny Defense
 [![Build Status](https://travis-ci.org/Stenodyon/bunny_defense.svg?branch=master)](https://travis-ci.org/Stenodyon/bunny_defense)
+
+This game was a software engineering project assignment. It is now open source
+and sparsely developped and maintained by the three-person team it originated
+from. It is a tower defense where you need to defend against killer bunnies.
 
 ## Warning
 
