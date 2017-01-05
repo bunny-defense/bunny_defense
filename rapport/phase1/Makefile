@@ -1,3 +1,0 @@
-
-default:
-	pdflatex rapport.tex
