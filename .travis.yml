@@ -9,3 +9,8 @@ scala:
 script:
     # Does the project build ?
     - sbt clean compile
+
+notifications:
+    email:
+        - stenodyon@gmail.com
+    irc: irc.crans.org#The_TD
