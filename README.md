@@ -1,5 +1,6 @@
 
 # Projet Programmation 2 : Tower Defense
+[![Build Status](https://travis-ci.org/Stenodyon/bunny_defense.svg?branch=master)](https://travis-ci.org/Stenodyon/bunny_defense)
 
 ## Warning
 
