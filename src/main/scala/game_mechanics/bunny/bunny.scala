@@ -14,14 +14,17 @@ import runtime.TowerDefense
 import runtime.GameState
 import util.Random
 
+/**
+ Bunny superclass from which every ennemy is derived.
+ @param _owner The player who owns the bunny
+ @param _path The path the bunny has to take
+ @param gamestate The state of the game
+ */
 abstract class Bunny(
     _owner: Player,
     _path: Progress,
     gamestate: GameState)
 {
-    /**
-     * Bunny superclass from which every ennemy is derived.
-     */
     val id : Int
     val owner : Player  = _owner
     var hp              = 10.0
@@ -44,16 +47,16 @@ abstract class Bunny(
     var last_damager : Option[Player] = None
 
 
-    def atan_variation (
-        init_val : Int,
-        final_val : Int,
-        inflex_point : Int) : (Int => Int) = {
     /** Computes the reward value according to the wave counter
      * @param init_val     : initial val of the atan variation
      * @param final_val    : final val of the atan variation
      * @param inflex_point : inflexion point of the atan
      * The following takes three values : init_val, final_val and inflex_point,
      */
+    def atan_variation (
+        init_val : Int,
+        final_val : Int,
+        inflex_point : Int) : (Int => Int) = {
         def res (nwave : Int) : Int = {
             (1.25*(1.57 + atan(4*(inflex_point - nwave)/inflex_point))*
             ((init_val - final_val)/(3.1416)) + final_val).toInt
@@ -78,7 +81,7 @@ abstract class Bunny(
     }
 
     /* Moves the bunny along the path */
-    def move(dt: Double): Unit = {
+    protected def move(dt: Double): Unit = {
         path.move( dt * this.speed )
         pos = path.get_position + spread
     }
