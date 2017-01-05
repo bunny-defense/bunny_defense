@@ -3,18 +3,21 @@ package network
 import collection.mutable.HashMap
 import java.net._
 
+/** The PlayerManager associates player ids with IP addresses */
 class PlayerManager
 {
-    /// Maps player address to player id
-    val playerMap = new HashMap[InetAddress, Int]
+    /** Maps player address to player id
+     */
+    private val playerMap = new HashMap[InetAddress, Int]
 
-    /// Incremented for each new player id, this way all player ids are unique
-    var playerIdCounter = 0
+    /** Incremented for each new player id, this way all player ids are unique
+     */
+    private var playerIdCounter = 0
 
     /** Generates a new player id
      @return A unique player id
      */
-    def newPlayerId() : Int = {
+    private def newPlayerId() : Int = {
         val newId = playerIdCounter
         playerIdCounter += 1;
         return newId
