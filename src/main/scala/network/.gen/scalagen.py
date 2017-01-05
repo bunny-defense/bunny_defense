@@ -88,9 +88,9 @@ class Function():
             arguments.append("%s: %s" % (name, t))
         arguments = ", ".join(arguments)
         out = []
-        out.append(tab(depth) + "def %s(%s): %s" % (self.name, arguments,
+        out.append(tab(depth) + "def %s(%s): %s = {" % (self.name, arguments,
             self.type))
-        out.append(tab(depth) + "{")
+        #out.append(tab(depth) + "{")
         for child in self.children:
             out.append(child.gen(depth+1))
         out.append(tab(depth) + "}")

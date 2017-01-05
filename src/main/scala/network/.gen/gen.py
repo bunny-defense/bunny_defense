@@ -1,6 +1,12 @@
 import scalagen as sg
 import re
 
+def uncapitalize(s):
+    if s:
+        return s[:1].lower() + s[1:]
+    else:
+        return ""
+
 class Packet():
     def __init__(self, name, types):
         self.name  = name
@@ -13,7 +19,7 @@ class Packet():
             if i == 0:
                 prefix = ""
             name, t = self.types[i]
-            code.append(prefix + "Serialize.%s(%s)" % (t.lower(), name))
+            code.append(prefix + "Serialize.%s(%s)" % (uncapitalize(t), name))
         return code
 
     def gen(self):
@@ -22,7 +28,7 @@ class Packet():
         obj = root.add_object(self.name)
         obj.add_function("unserialize", [("data", "Array[Byte]")], self.name)
         c = root.add_class(self.name, self.types, "Packet")
-        ser = c.add_function("serialize", self.types, "Array[Byte]")
+        ser = c.add_function("serialize", [], "Array[Byte]")
         ser.add_code(self.serialization_code())
         return root.gen()
 
