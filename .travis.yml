@@ -13,4 +13,7 @@ script:
 notifications:
     email:
         - stenodyon@gmail.com
-    irc: irc.crans.org#The_TD
+    irc:
+        channels:
+            - irc.crans.org#The_TD
+        nick: tower_defense_ci
