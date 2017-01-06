@@ -28,8 +28,8 @@ object Roberto extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     damage                      = 1
     override val price       = 3000
     sell_cost                   = 2400
-    override val throw_speed    = 100.0
-    override val throw_cooldown = 0.05
+    override val fire_speed    = 100.0
+    override val fire_cooldown = 0.05
     override val unlock_wave    = 20
     override def serialize() : Int = TowerType.ROBERTO
 }

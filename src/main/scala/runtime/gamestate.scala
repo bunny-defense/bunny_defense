@@ -147,13 +147,13 @@ extends State with Publisher
         bunnies.foreach( x => if((x.pos - tower.pos).norm <= tower.range) {tower.enemy_effect(x)})
          */
         towers += tower
-        tower.towertype.amount += 1
+        tower.tower_type.amount += 1
         map += tower
     }
 
     def -=(tower: Tower): Unit = {
         towers -= tower
-        tower.towertype.amount -= 1
+        tower.tower_type.amount -= 1
         map -= tower
     }
 

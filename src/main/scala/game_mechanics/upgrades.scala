@@ -21,7 +21,7 @@ object DamageUpgrade extends UpgradeTree
     override val description = "Damage +5"
     override def effect(tower : Tower)
     {
-        tower.base_damage +=  5
+        tower.base_damage += 5
         tower.upgrades = this.children
     }
 }
@@ -32,7 +32,7 @@ object RangeUpgrade extends UpgradeTree
     override val description = "Range + 2"
     override def effect(tower : Tower)
     {
-        tower.base_range = tower.base_range + 2
+        tower.base_range += 2
         tower.upgrades = this.children
     }
 }
@@ -43,7 +43,7 @@ object FireRateUpgrade extends UpgradeTree
     override val description = "Fire rate * 1.5"
     override def effect(tower : Tower)
     {
-        tower.throw_cooldown = tower.throw_cooldown * 2/3
+        tower.fire_cooldown *= 2/3
         tower.upgrades = this.children
     }
 }
@@ -54,7 +54,7 @@ object Spawner_SpawnRateUpgrade extends UpgradeTree
     override val description = "Spawn rate * 1.5"
     override def effect(tower : Tower)
     {
-        tower.throw_cooldown = tower.throw_cooldown * 2/3
+        tower.fire_cooldown *= 2/3
         tower.upgrades = this.children
     }
 }

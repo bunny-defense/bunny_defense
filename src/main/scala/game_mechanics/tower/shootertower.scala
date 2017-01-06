@@ -32,7 +32,7 @@ class ShooterTower(projectile_type : Int) extends TowerType
                 target_pos,
                 tower.pos.toDouble, this,
                 gamestate)
-            throw_carrot.speed  = throw_speed
+            throw_carrot.speed  = fire_speed
             throw_carrot.damage = tower.damage
             gamestate += throw_carrot
         }

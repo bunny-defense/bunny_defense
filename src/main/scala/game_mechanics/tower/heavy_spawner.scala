@@ -16,10 +16,10 @@ object HeavySpawnerTower extends SpawnerTower()
     bunnies_spawning  = List(BunnyFactory.HEAVY_BUNNY, BunnyFactory.HEAVY_BUNNY, BunnyFactory.BADASS_BUNNY)
     base_range                  = 4
     range                       = 4
-    override val throw_speed    = 15.0
+    override val fire_speed    = 15.0
     base_damage                 = 9
     damage                      = 9
-    override val throw_cooldown = 2.0
+    override val fire_cooldown = 2.0
     override val price          = 200
     sell_cost                   = 100
     override val unlock_wave    = 1

@@ -16,7 +16,7 @@ object HareSpawnerTower extends SpawnerTower()
     bunnies_spawning  = List(BunnyFactory.HARE_, BunnyFactory.HARE_)
     base_range                 = 4
     range                      = 4
-    override val throw_speed   = 15.0
+    override val fire_speed   = 15.0
     base_damage                = 9
     damage                     = 9
     override val price         = 125

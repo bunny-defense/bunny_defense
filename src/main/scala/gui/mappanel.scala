@@ -184,7 +184,7 @@ extends TDComponent(parent)
             val x = tower.pos.x * cellsize + cellsize / 2 - viewpos.x.toInt
             val y = tower.pos.y * cellsize + cellsize / 2 - viewpos.y.toInt
             g.translate( x, y )
-            tower.towertype.draw_effect(g)
+            tower.tower_type.draw_effect(g)
             g.setTransform( translate_transform )
             g.setComposite(
                 AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) )

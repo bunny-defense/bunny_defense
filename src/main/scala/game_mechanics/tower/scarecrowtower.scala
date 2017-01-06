@@ -40,7 +40,7 @@ object ScarecrowTower extends TowerType
                 (Waypoint.random() * 2 - new Waypoint( 1, 1 )) * spread
             val projectile = new Projectile(
                 tower.owner, target_pos, tower.pos.toDouble, this, gamestate)
-            projectile.speed = throw_speed
+            projectile.speed = fire_speed
             projectile.damage = tower.damage
             gamestate += projectile
         }

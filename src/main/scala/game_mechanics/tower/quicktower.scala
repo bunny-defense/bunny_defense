@@ -22,8 +22,8 @@ object QuickTower extends ShooterTower(ProjectileFactory.BASE_PROJECTILE)
     base_range                  = 5
     range                       = 5
     override val spread         = 1.0
-    override val throw_cooldown = 0.2
-    override val throw_speed    = 20.0
+    override val fire_cooldown = 0.2
+    override val fire_speed    = 20.0
     base_damage                 = 1
     damage                      = 1
     override val price          = 75

@@ -16,8 +16,8 @@ object OtterSpawnerTower extends SpawnerTower()
     bunnies_spawning  = List(BunnyFactory.OTTER_)
     base_range                  = 4
     range                       = 4
-    override val throw_speed    = 15.0
-    override val throw_cooldown = 10.0
+    override val fire_speed    = 15.0
+    override val fire_cooldown = 10.0
     base_damage                 = 9
     damage                      = 9
     override val price          = 2000

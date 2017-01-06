@@ -46,13 +46,13 @@ extends TDComponent(parent) {
       case None =>  {}
       case Some(tower) => {
         g.setFont(g.getFont().deriveFont(Font.BOLD))
-        g.drawString(tower.towertype.name,
+        g.drawString(tower.tower_type.name,
           button_width + xm / 10,
           ym/5 +5)
         g.drawString("Range :" + tower.range,
           button_width + 10,
           2 * ym / 4 -5)
-        g.drawString("Projectile speed :" + tower.throw_speed,
+        g.drawString("Projectile speed :" + tower.fire_speed,
           button_width + 2 * xm / 12,
           2 * ym / 4 -5)
         g.drawString("Damage :" + tower.damage,
