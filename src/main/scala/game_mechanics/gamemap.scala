@@ -118,22 +118,20 @@ class GameMap(
             return false
         }
         obstruction_map( pos.x )( pos.y ) = true
-        var result = false
-        for( player <- gamestate.players )
+        for(player <- gamestate.players)
         {
             val jps = new JPS(
-                player.base,
                 gamestate.players(0).base,
+                player.base,
                 gamestate.map)
             jps.run() match {
                 case None    => {
                     obstruction_map( pos.x )( pos.y ) = false
                     return false
                 }
-                case Some(_) => {println("found a way to player "+player.id.toString)}
+                case Some(path) => {}
             }
         }
-        obstruction_map( pos.x )( pos.y ) = false
         return true
     }
 }

@@ -22,6 +22,10 @@ extends GuiGameState( _player, _map )
     val state         = this
     val multiplayer   = false
     val enemy         = new Player("Enemy")
+    /* Default base of the enemy */
+    enemy.set_base(map.width, map.height / 2)
+    this.players += _player
+    this.players +=  enemy
 
     listenTo(SpawnScheduler)
     reactions += {

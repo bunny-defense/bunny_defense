@@ -148,7 +148,6 @@ extends State with Publisher
          */
         towers += tower
         tower.tower_type.amount += 1
-        map += tower
     }
 
     def -=(tower: Tower): Unit = {

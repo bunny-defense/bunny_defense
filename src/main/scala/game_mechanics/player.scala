@@ -51,4 +51,8 @@ class Player(_name: String) extends Publisher {
         else
             return false
     }
+
+    def set_base(x: Int, y: Int): Unit = {
+        base = new CellPos(x, y)
+    }
 }
