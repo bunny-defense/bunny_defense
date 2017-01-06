@@ -13,6 +13,8 @@ exceptions.
 
 ## Building
 
+### Using the makefile
+
 How to compile:
 
 ```bash
@@ -25,8 +27,10 @@ How to run: (also compiles)
 make run
 ```
 
-How to package in a (kinda executable) .jar:
+### Using sbt
 
-```bash
-make package
+```
+sbt
+> compile
+> run
 ```
