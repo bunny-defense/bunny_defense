@@ -13,11 +13,12 @@ object Waypoint {
 
 }
 
-class Waypoint(x0: Double, y0: Double) extends Serializable {
+class Waypoint(
+    var x: Double,
+    var y: Double)
+extends Serializable {
     /** 2D Point (double) */
     import Waypoint._
-    var x = x0
-    var y = y0
 
     def ==(other: Waypoint): Boolean = {
         return x == other.x && y == other.y
