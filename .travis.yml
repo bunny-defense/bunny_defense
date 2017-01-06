@@ -9,6 +9,8 @@ scala:
 script:
     # Does the project build ?
     - sbt clean compile
+    # Do the tests pass ?
+    - sbt clean test
 
 notifications:
     email:
