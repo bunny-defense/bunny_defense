@@ -1,15 +1,25 @@
+
+# Text editor lock files
 *~
-project
+\#*
 *.swp
+
+# Compiled/binaries
 *.class
 *.jar
+
+# Doc
 *.xml
-target
-target
-\#*
 *.aux
 *.log
 *.nav
 *.pdf
 *.toc
+
+# Build folders
+project
+target
+
+# Misc
 log
+java.hprof.txt

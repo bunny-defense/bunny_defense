@@ -9,7 +9,7 @@ import swing.event._
  This represents a state in the program's state machine
  (Managed by the StateManager)
 
- **/
+ */
 abstract class State extends Reactor
 {
     def update(dt: Double) : Unit
