@@ -8,19 +8,19 @@ import runtime._
 /* Scala imports */
 import Math._
 import scala.util.control.Breaks._
-import collection.mutable.{ListBuffer,ListMap,PriorityQueue, Stack}
+import collection.mutable.{ArrayBuffer,HashMap,PriorityQueue, Stack}
 /* Needed for PriorityQueue */
 import scala.math.Ordering.Implicits._
 
 
+/**
+ * Jump point, it is a cell with a possible parent and a direction
+ * @param cell: the cell
+ * @param parent: the parent or nothing
+ * @param dir: the direction of the next jump point
+ */
 class CellPosed(cell_init: CellPos, dir_init : (Int,Int))
 {
-    /**
-     * Jump point, it is a cell with a possible parent and a direction
-     * @param cell: the cell
-     * @param parent: the parent or nothing
-     * @param dir: the direction of the next jump point
-     */
     var cell = cell_init
     var dir  = dir_init
     var parent: Option[CellPosed] = None
@@ -73,6 +73,11 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int))
             return this.cell == that.cell && this.dir == that.dir
         case _ => false
     }
+
+    override def hashCode(): Int = {
+        return this.cell.x.hashCode() ^ this.cell.y.hashCode() ^
+        this.dir._1.hashCode() ^ this.dir._2.hashCode()
+    }
 }
 
 class JPS(
@@ -88,7 +93,7 @@ class JPS(
 
     val horvert_dist = 1.0
     val diag_dist = Math.sqrt(2)
-    var all_list: ListMap[CellPosed,Double] = new ListMap()
+    var all_list: HashMap[CellPosed,Double] = new HashMap()
 
     /*Priority queues in scala are -shitty +verbose */
    var queue =
@@ -165,7 +170,7 @@ class JPS(
     def hor_search(
         pos: (Int,Int),
         hor_dir: Int,
-        dist_init: Double): ListBuffer[CellPosed] =
+        dist_init: Double): ArrayBuffer[CellPosed] =
     {
         /**
          * Manages the horizontal search of jump points
@@ -183,12 +188,12 @@ class JPS(
             /* The cell is obstructed */
            if (map.obstructed(x1,y0)) {
                //println( x1, y0, "is obstructed" )
-               return (new ListBuffer[CellPosed]())
+               return (new ArrayBuffer[CellPosed]())
            }
            /* The cell is the core objective, we return the last point of
             * the path */
            if ((new CellPos(x1,y0)) == objective ) {
-               val res = new ListBuffer[CellPosed]()
+               val res = new ArrayBuffer[CellPosed]()
                res += this.add_node(x1, y0, Some((0,0)), dist+horvert_dist)
                return res
            }
@@ -197,7 +202,7 @@ class JPS(
           dist += horvert_dist
           var x2 = x1+ hor_dir
 
-          var nodes = new ListBuffer[CellPosed]()
+          var nodes = new ArrayBuffer[CellPosed]()
 
           /* Choose the nodes to explore */
          if (map.obstructed(x1,y0-1) &&
@@ -219,14 +224,14 @@ class JPS(
 
                  x0 = x1
         }
-        return (new ListBuffer[CellPosed]())
+        return (new ArrayBuffer[CellPosed]())
     }
 
     /* Same but for vertical search */
     def vert_search(
         pos: (Int,Int),
         vert_dir: Int,
-        dist_init: Double): ListBuffer[CellPosed] =
+        dist_init: Double): ArrayBuffer[CellPosed] =
     {
         /** Manages the horizontal search of jump points
          *  @param pos: current position
@@ -242,13 +247,13 @@ class JPS(
             //println( "Vertical movement to " + x0.toString + "," + y1.toString )
             /* The cell is obstructed */
            if (map.obstructed(x0,y1)){
-               return (new ListBuffer[CellPosed]())
+               return (new ArrayBuffer[CellPosed]())
            }
            /* The cell is the core objective, we return the last point of
             * the path */
            if ((new CellPos(x0,y1))== objective ) {
                //println("objective reached")
-               val res = new ListBuffer[CellPosed]()
+               val res = new ArrayBuffer[CellPosed]()
                res += this.add_node(x0, y1, Some((0,0)), dist + horvert_dist)
                return res
            }
@@ -257,7 +262,7 @@ class JPS(
           dist = dist + horvert_dist
           var y2 = y1 + vert_dir
 
-          var nodes = new ListBuffer[CellPosed]()
+          var nodes = new ArrayBuffer[CellPosed]()
 
           /* Choose the nodes to explore */
          if (map.obstructed(x0-1,y1) &&
@@ -277,14 +282,14 @@ class JPS(
 
                  y0 = y1
         }
-        return (new ListBuffer[CellPosed]())
+        return (new ArrayBuffer[CellPosed]())
     }
 
     def diag_search(
         pos: (Int,Int),
         hor_dir: Int,
         vert_dir: Int,
-        dist_init: Double): ListBuffer[CellPosed] =
+        dist_init: Double): ArrayBuffer[CellPosed] =
     {
         /** Manages the diagonal path search
          *  @param pos: Start position
@@ -303,12 +308,12 @@ class JPS(
            if (map.obstructed(x1,y1) || (
                map.obstructed(x1,y0) &&
            map.obstructed(x0,y1) ) ) {
-               return (new ListBuffer[CellPosed]())
+               return (new ArrayBuffer[CellPosed]())
            }
            /* The cell is the core objective, we return the last point of
             * the path */
            if (new CellPos(x1,y1) == this.objective) {
-               var res = new ListBuffer[CellPosed]()
+               var res = new ArrayBuffer[CellPosed]()
                res += this.add_node(x1,y1, Some((0,0)), dist + diag_dist)
                return res
            }
@@ -317,7 +322,7 @@ class JPS(
           dist  = dist + diag_dist
           var x2 = x1 + hor_dir
           var y2 = y1 + vert_dir
-          var nodes: ListBuffer[CellPosed] = new ListBuffer()
+          var nodes: ArrayBuffer[CellPosed] = new ArrayBuffer()
 
           if (map.obstructed(x0,y1) &&
               !map.obstructed(x0,y2)) {
@@ -372,7 +377,7 @@ class JPS(
                   x0 = x1
                   y0 = y1
         }
-        return (new ListBuffer[CellPosed]())
+        return (new ArrayBuffer[CellPosed]())
     }
 
     def step(dist : Double, elem: CellPosed): Option[CellPosed] = {
@@ -386,7 +391,7 @@ class JPS(
 
         val hor_dir  = elem.dir._1
         val vert_dir = elem.dir._2
-        var nodes = ListBuffer[CellPosed]()
+        var nodes = ArrayBuffer[CellPosed]()
 
         if (hor_dir != 0 && vert_dir != 0) {
             nodes = this.diag_search(
@@ -442,21 +447,21 @@ class JPS(
          *  None if not
          */
         val outtime = System.currentTimeMillis
-        map.synchronized {
-            val intime = System.currentTimeMillis
-            while (true) {
-                var (total, pd, dist) = this.get_open()
-                if (total.isEmpty) {
-                    return None
-                }
+        map.lock.readLock().lock()
+        val intime = System.currentTimeMillis
+        while (true) {
+            var (total, pd, dist) = this.get_open()
+            if (total.isEmpty) {
+                return None
+            }
 
-                var pd_bis = this.step(dist.get, pd.get)
-                if (!pd_bis.isEmpty) {
-                    //println("Path found")
-                    return Some(this.toPath(pd_bis.get))
-                }
+            var pd_bis = this.step(dist.get, pd.get)
+            if (!pd_bis.isEmpty) {
+                //println("Path found")
+                return Some(this.toPath(pd_bis.get))
             }
         }
+        map.lock.readLock().unlock()
         return None
     }
 }

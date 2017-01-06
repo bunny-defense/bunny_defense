@@ -52,7 +52,7 @@ object PlayMenuState extends MenuState
         override def action() : Unit = {
         StateManager.set_state( new AloneGameState(
             new Player("Unamed"),
-            Landscape.generate_alone(30,30)) )
+            Landscape.generate_alone(30,15)) )
         }
     }
     new gui.WideButton( 120, "Multiplayer" )

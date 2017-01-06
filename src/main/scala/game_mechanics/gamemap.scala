@@ -6,6 +6,7 @@ import collection.mutable.ListBuffer
 
 import java.awt.image.BufferedImage
 import java.io.File
+import java.util.concurrent.locks.ReentrantReadWriteLock
 import javax.imageio.ImageIO
 
 import utils.Landscape
@@ -20,6 +21,7 @@ class GameMap(
     data: Array[Array[Boolean]],
     gamestate: GameState)
 {
+    val lock = new ReentrantReadWriteLock()
     val law = new Random()
     val width           = data.size
     val height          = data(0).size
@@ -40,7 +42,9 @@ class GameMap(
                 val ground_id = law.nextInt(4)+1
                 val ground_image =
                     ImageIO.read(
-                        new File(getClass().getResource("/ground/rock" + ground_id.toString + ".png").getPath()))
+                        new File(getClass().getResource("/ground/rock"
+                                                        + ground_id.toString
+                                                        + ".png").getPath()))
                 map_image.getGraphics().drawImage( ground_image,
                     x * MapPanel.cellsize, y * MapPanel.cellsize, null )
                 graphic_map(x)(y) = ground_image
@@ -50,7 +54,9 @@ class GameMap(
                 val grass_id = law.nextInt(8)+1
                 val grass_image  =
                     ImageIO.read(
-                        new File(getClass().getResource("/ground/grass" + grass_id.toString + ".png").getPath()))
+                        new File(getClass().getResource("/ground/grass"
+                                                        + grass_id.toString
+                                                        + ".png").getPath()))
                 map_image.getGraphics().drawImage( grass_image,
                     x * MapPanel.cellsize, y * MapPanel.cellsize, null )
                 graphic_map(x)(y) = grass_image
@@ -59,6 +65,7 @@ class GameMap(
     }
 
     def +=(tower: Tower): Boolean = {
+        lock.writeLock().lock()
         if( !obstruction_map(tower.pos.x)(tower.pos.y) )
         {
             obstruction_map(tower.pos.x)(tower.pos.y) = true
@@ -73,18 +80,23 @@ class GameMap(
                     case Some(path) => {}
                     case None => {
                         obstruction_map(tower.pos.x)(tower.pos.y) = false
+                        lock.writeLock().unlock()
                         println( "You are blocking the way" )
                         return false
                     }
                 }
             }
+            lock.writeLock().unlock()
             return true
         }
+        lock.writeLock().unlock()
         return false
     }
 
     def -=(tower: Tower): Unit = {
+        lock.writeLock().lock()
         obstruction_map(tower.pos.x)(tower.pos.y) = false
+        lock.writeLock().unlock()
     }
 
     def on_map(x:Int, y: Int) : Boolean = {
@@ -113,10 +125,13 @@ class GameMap(
             return false
         }
         // Obstructed
+        lock.readLock().lock()
         if( obstruction_map( pos.x )( pos.y ) ) {
             println("Obstructed")
+            lock.readLock().unlock()
             return false
         }
+        lock.readLock().unlock()
         obstruction_map( pos.x )( pos.y ) = true
         for(player <- gamestate.players)
         {
@@ -126,7 +141,9 @@ class GameMap(
                 gamestate.map)
             jps.run() match {
                 case None    => {
+                    lock.readLock().lock()
                     obstruction_map( pos.x )( pos.y ) = false
+                    lock.readLock().unlock()
                     return false
                 }
                 case Some(path) => {}
