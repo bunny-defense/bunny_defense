@@ -13,6 +13,7 @@ script:
 notifications:
     email:
         - stenodyon@gmail.com
+        - oudin@crans.org
     irc:
         channels:
             - irc.crans.org#The_TD
