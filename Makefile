@@ -27,5 +27,8 @@ log:
 doc:
 	@sbt doc
 
+test:
+  @sbt test
+
 opendoc:
 	xdg-open target/scala-2.10/api/index.html
