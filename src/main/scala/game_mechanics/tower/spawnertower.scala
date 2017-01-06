@@ -62,7 +62,8 @@ class SpawnerTower extends TowerType
                             tower.bunnies_spawning.head,
                             tower.owner,
                             prog,
-                            gamestate)
+                            gamestate,
+                            tower.health_modifier)
                     }
                     case None =>
                     {
@@ -74,12 +75,11 @@ class SpawnerTower extends TowerType
                             tower.bunnies_spawning.head,
                             tower.owner,
                             prog,
-                            gamestate)
+                            gamestate,
+                            tower.health_modifier)
                     }
                 }
                 new_bunny.base_speed = new_bunny.base_speed * tower.speed_modifier
-                new_bunny.hp = new_bunny.initial_hp * tower.health_modifier
-                new_bunny.initial_hp = new_bunny.initial_hp * tower.health_modifier
                 gamestate += new_bunny
                 tower.bunnies_spawning = tower.bunnies_spawning.tail ::: List(tower.bunnies_spawning.head)
                 return true

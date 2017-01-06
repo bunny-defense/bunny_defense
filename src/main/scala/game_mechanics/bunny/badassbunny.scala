@@ -14,22 +14,23 @@ import runtime.GameState
 /* A badass bunny, really strong, will become the "default" mob in late game */
 case class BadassBunny(
     _owner: Player,
-    bunny_id: Int,
+    val bunny_id: Int,
     _path: Progress,
-    gamestate: GameState)
-extends Bunny(_owner, _path, gamestate)
+    _gamestate: GameState,
+    _health_modifier: Double = 1.0)
+extends Bunny(_owner, _path, _gamestate, _health_modifier)
 {
-  override val id          = bunny_id
+  override val id            = bunny_id
   override val bunny_graphic =
     ImageIO.read(
       new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
   pos = path.path.head
-  initial_hp               = 30.0
-  override val base_shield = 2.0
-  shield                   = 2.0
-  base_speed               = 1.5
-  speed                    = 1.5
-  override def reward      = atan_variation(15,3,15)
+  override val base_hp    = 30.0
+  override val base_shield   = 2.0
+  shield                     = 2.0
+  base_speed                 = 1.5
+  speed                      = 1.5
+  override def reward        = atan_variation(15,3,15)
   override def on_death(): Unit = {
       for( i <- 0 until 4 )
       {

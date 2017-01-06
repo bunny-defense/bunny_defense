@@ -9,14 +9,15 @@ import game_mechanics.path._
 /* Large and tough but slow bunny */
 case class HeavyBunny(
     _owner: Player,
-    bunny_id: Int,
+    val bunny_id: Int,
     _path: Progress,
-    gamestate: GameState)
-extends Bunny(_owner, _path, gamestate)
+    _gamestate: GameState,
+    _health_modifier: Double = 1.0)
+extends Bunny(_owner, _path, _gamestate, _health_modifier)
 {
     override val id          = bunny_id
     pos = path.path.head
-    initial_hp               = 20.0
+    override val base_hp  = 20.0
     override val base_shield = 1.5
     shield                   = 1.5
     base_speed               = 1.0
