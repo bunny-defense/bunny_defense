@@ -15,5 +15,6 @@ lazy val root = (project in file(".")).
     libraryDependencies += scalacheck,
     libraryDependencies += scalactic,
     libraryDependencies += scalatest,
-    scalacOptions += "-deprecation"
+    scalacOptions += "-deprecation",
+    javaOptions += "-agentlib:hprof=cpu=samples"
   )

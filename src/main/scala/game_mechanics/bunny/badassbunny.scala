@@ -39,7 +39,7 @@ extends Bunny(
       for( i <- 0 until 4 )
       {
           val path = new JPS(this.path.get_position().toInt,
-              this.path.last.toInt, gamestate)
+              this.path.last.toInt, gamestate.map)
               .run() match {
                   case Some(p) => p
                   case None => throw new Exception()

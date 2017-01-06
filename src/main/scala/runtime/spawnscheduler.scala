@@ -38,7 +38,7 @@ object SpawnScheduler extends Publisher
                     new CellPos (gamestate.map_panel.map.width,
                         law.nextInt(gamestate.map_panel.map.height/2)+
                         gamestate.map_panel.map.height/4),
-                        gamestate).run()
+                        gamestate.map).run()
                 match {
                     case None     => throw new Exception()
                     case Some(p)  => new Progress(p)

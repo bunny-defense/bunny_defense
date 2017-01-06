@@ -18,9 +18,9 @@ import tcp.packets._
 class ClientGameState(
     _player: Player,
     _players: ListBuffer[Player],
-    map: Array[Array[Boolean]],
+    _map: Array[Array[Boolean]],
     _server: ClientThread)
-extends GuiGameState(_player, map)
+extends GuiGameState(_player, _map)
 {
     /* The server this client is connected to */
     val server = _server
@@ -57,7 +57,7 @@ extends GuiGameState(_player, map)
                     bunny.path.path = new JPS(
                         (bunny.pos + centering).toInt,
                         bunny.path.last.toInt,
-                        this).run().get
+                        this.map).run().get
                     bunny.path.reset
                 }
                 case ("sync_bunnies", l: ListBuffer[Bunny]) => {

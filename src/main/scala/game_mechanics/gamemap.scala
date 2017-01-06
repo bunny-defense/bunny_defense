@@ -68,7 +68,7 @@ class GameMap(
                 val jps = new JPS(
                     player.base,
                     tower.owner.base,
-                    gamestate)
+                    gamestate.map)
                 jps.run() match
                 {
                     case Some(path) => {}
@@ -125,7 +125,7 @@ class GameMap(
             val jps = new JPS(
                 player.base,
                 gamestate.players(0).base,
-                gamestate )
+                gamestate.map)
             jps.run() match {
                 case None    => {
                     obstruction_map( pos.x )( pos.y ) = false

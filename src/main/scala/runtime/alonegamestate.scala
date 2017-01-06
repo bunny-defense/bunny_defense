@@ -16,8 +16,8 @@ import gui.animations._
 
 class AloneGameState(
     _player: Player,
-    map: Array[Array[Boolean]])
-extends GuiGameState( _player, map )
+    _map: Array[Array[Boolean]])
+extends GuiGameState( _player, _map )
 {
     val state         = this
     val multiplayer   = false
@@ -146,7 +146,7 @@ extends GuiGameState( _player, map )
           bunny.path.path = new JPS(
               (bunny.pos + centering).toInt,
               bunny.path.last.toInt,
-              this).run().get
+              this.map).run().get
           bunny.path.reset
       }
   }

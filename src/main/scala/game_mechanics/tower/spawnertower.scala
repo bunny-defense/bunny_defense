@@ -35,7 +35,7 @@ class SpawnerTower extends TowerType
         gamestate: GameState): () => Boolean = {
             def compute_paths() : ListBuffer[Path] = {
                 gamestate.players.map( player => {
-                    val path = new JPS( tower.pos, player.base, gamestate )
+                    val path = new JPS(tower.pos, player.base, gamestate.map)
                         .run() match {
                             case Some(p) => p
                             case None => throw new Exception()

@@ -75,7 +75,10 @@ class CellPosed(cell_init: CellPos, dir_init : (Int,Int))
     }
 }
 
-class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
+class JPS(
+    start: CellPos,
+    objective: CellPos,
+    val map: GameMap)
 {
     /**
      * The main class to calculating the JPS Algorithm
@@ -83,7 +86,6 @@ class JPS(start: CellPos, objective: CellPos, gamestate: GameState)
      * @param objective: The objective of the JPS Algorithm
      */
 
-    val map = gamestate.map
     val horvert_dist = 1.0
     val diag_dist = Math.sqrt(2)
     var all_list: ListMap[CellPosed,Double] = new ListMap()

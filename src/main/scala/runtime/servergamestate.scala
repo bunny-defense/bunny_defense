@@ -49,7 +49,7 @@ extends GameState(_map)
                     bunny.path.path = new JPS(
                         (bunny.pos + centering).toInt,
                         bunny.path.last.toInt,
-                        this).run().get
+                        this.map).run().get
                     bunny.path.reset
                 }
             }
