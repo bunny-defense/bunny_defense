@@ -13,11 +13,15 @@ case class HeavyBunny(
     _path: Progress,
     _gamestate: GameState,
     _health_modifier: Double = 1.0)
-extends Bunny(_owner, _path, _gamestate, _health_modifier)
+extends Bunny(
+    _owner,
+    _path,
+    _gamestate,
+    20.0,
+    _health_modifier)
 {
     override val id          = bunny_id
     pos = path.path.head
-    override val base_hp  = 20.0
     override val base_shield = 1.5
     shield                   = 1.5
     base_speed               = 1.0

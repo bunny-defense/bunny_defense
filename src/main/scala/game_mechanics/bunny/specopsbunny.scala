@@ -19,7 +19,11 @@ case class SpecOpBunny(
     _path: Progress,
     _gamestate: GameState,
     _health_modifier: Double = 1.0)
-extends Bunny(_owner, _path, _gamestate, _health_modifier)
+extends Bunny(
+    _owner,
+    _path,
+    _gamestate,
+    _health_modifier)
 {
     override val id            = bunny_id
     pos = path.path.head

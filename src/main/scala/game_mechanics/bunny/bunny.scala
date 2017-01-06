@@ -19,22 +19,23 @@ import util.Random
  @param owner The player who owns the bunny
  @param path The path the bunny has to take
  @param gamestate The state of the game
+ @param base_hp The base health points of the bunny
  @param health_modifier Multiplied to _initial_hp
  */
 abstract class Bunny(
     val owner: Player,
     val path: Progress,
     val gamestate: GameState,
+    val base_hp: Double = 10.0,
     val health_modifier: Double = 1.0)
 {
     /** Unique id associated with that bunny */
     val id : Int
-    /** The base, unmodified, health points amount */
-    protected val base_hp   = 10.0
     /** The initial health points of the bunny */
     private val _initial_hp = base_hp * health_modifier
     /** The current health points of the bunny */
     private var _hp     = _initial_hp
+
     val law             = new Random()
     /** The start position of the bunny */
     var pos : Waypoint  = new Waypoint(0,0)

@@ -16,14 +16,18 @@ class Hare(
     _path: Progress,
     _gamestate: GameState,
     _health_modifier: Double = 1.0)
-extends Bunny(_owner, _path, _gamestate, _health_modifier)
+extends Bunny(
+    _owner,
+    _path,
+    _gamestate,
+    5.0,
+    _health_modifier)
 {
     override val id          = bunny_id
     pos = path.path.head
     override val bunny_graphic =
         ImageIO.read(new File(
             getClass().getResource("/mobs/hare_alt1.png").getPath()))
-    override val base_hp  = 5.0
     override val base_shield = 0.0
     shield                   = 0.0
     base_speed               = 4.0
