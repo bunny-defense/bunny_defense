@@ -69,6 +69,7 @@ extends State with Publisher
     def sell_tower(tower: Tower): Unit = {
       tower.owner.add_gold(tower.sell_cost)
       towers -= tower
+      map -= tower
     }
 
     /* ==================== MAIN LOOP ==================== */

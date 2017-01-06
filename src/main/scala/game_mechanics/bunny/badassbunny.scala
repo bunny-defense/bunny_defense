@@ -25,7 +25,7 @@ extends Bunny(_owner, _path, _gamestate, _health_modifier)
     ImageIO.read(
       new File(getClass().getResource("/mobs/badassbunny.png").getPath()))
   pos = path.path.head
-  override val base_hp    = 30.0
+  override val base_hp       = 30.0
   override val base_shield   = 2.0
   shield                     = 2.0
   base_speed                 = 1.5

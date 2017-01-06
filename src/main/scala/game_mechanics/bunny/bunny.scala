@@ -104,7 +104,7 @@ abstract class Bunny(
      @return true if the bunny is alive, false otherwise
      */
     def alive() : Boolean = {
-        this._hp > 0
+        this._hp > 0.0
     }
 
     /** Moves the bunny along the path
@@ -122,9 +122,10 @@ abstract class Bunny(
         if ( !this.alive ) {
             this.on_death()
             gamestate.bunny_death_render_strategy(this)
-            last_damager.get.add_gold(reward(gamestate.wave_counter))
+            val damager = last_damager.get // If this crashes, it is a bug
+            damager.add_gold(reward(gamestate.wave_counter))
+            damager.killcount += 1
             gamestate -= this
-            last_damager.get.killcount += 1
         }
         this.move(dt)
         if ( this.path.reached ) {
