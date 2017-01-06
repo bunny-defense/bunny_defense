@@ -1,4 +1,3 @@
-
 package game_mechanics.path
 
 import Math._
