@@ -17,12 +17,10 @@ case class SpecOpBunny(
     _owner: Player,
     val bunny_id: Int,
     _path: Progress,
-    _gamestate: GameState,
     _health_modifier: Double = 1.0)
 extends Bunny(
     _owner,
     _path,
-    _gamestate,
     _health_modifier)
 {
     override val id            = bunny_id
@@ -32,15 +30,4 @@ extends Bunny(
             getClass().getResource("/mobs/ninja.png").getPath()))
     override val law           = new Random()
     var jumping                = false
-
-	override def update(dt: Double): Unit = {
-        if ( this.path.reached ) {
-            gamestate -= this
-            gamestate.bunny_reach_goal_strategy(this)
-        }
-        /* Bunny jump */
-        gamestate.spec_ops_jump_strategy(this)
-        if( !jumping )
-            move(dt)
-    }
 }

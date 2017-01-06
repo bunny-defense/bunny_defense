@@ -62,7 +62,6 @@ class SpawnerTower extends TowerType
                             tower.bunnies_spawning.head,
                             tower.owner,
                             prog,
-                            gamestate,
                             tower.health_modifier)
                     }
                     case None =>
@@ -75,7 +74,6 @@ class SpawnerTower extends TowerType
                             tower.bunnies_spawning.head,
                             tower.owner,
                             prog,
-                            gamestate,
                             tower.health_modifier)
                     }
                 }

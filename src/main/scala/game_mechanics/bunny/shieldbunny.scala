@@ -14,12 +14,10 @@ case class ShieldBunny(
     _owner: Player,
     val bunny_id: Int,
     _path: Progress,
-    _gamestate: GameState,
     _health_modifier: Double = 1.0)
 extends Bunny(
     _owner,
     _path,
-    _gamestate,
     _health_modifier)
 {
     override val id           = bunny_id

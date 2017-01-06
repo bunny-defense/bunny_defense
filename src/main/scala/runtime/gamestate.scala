@@ -42,7 +42,7 @@ extends State with Publisher
     var dt: Double    = 0.0
     var raining       = false
     var rng           = new Random
-    var wave_counter  = 1
+    var wave_counter  = 4
 
 
     /* GUI */
@@ -73,6 +73,22 @@ extends State with Publisher
     }
 
     /* ==================== MAIN LOOP ==================== */
+    def update_bunny(dt: Double, bunny: Bunny)
+    {
+        if ( !bunny.alive ) {
+            bunny.on_death()
+            this.bunny_death_render_strategy(bunny)
+            val damager = bunny.last_damager.get // If bunny crashes, it is a bug
+            damager.add_gold(bunny.reward(this.wave_counter))
+            damager.killcount += 1
+            this -= bunny
+        }
+        bunny.move(dt)
+        if ( bunny.path.reached ) {
+            this -= bunny
+            this.bunny_reach_goal_strategy(bunny)
+        }
+    }
     /* Update the game for dt time */
     def step(dt: Double): Unit = {
         /* Update projectiles */
@@ -88,8 +104,8 @@ extends State with Publisher
                 { tower.allied_effect(x)})
         )
         towers.foreach( _.update(dt) )
-        /* Update bunnies */
 
+        /* Update bunnies */
          /* Reinitialize the speed and shield of all bunnies */
         bunnies.foreach (x => x.speed = x.base_speed)
         bunnies.foreach (x => x.shield = x.base_shield)
@@ -102,7 +118,7 @@ extends State with Publisher
                 bunnies.foreach( x => if( (x.pos - bunny.pos).norm <= bunny.effect_range )
                 { bunny.allied_effect(x) })
         )
-        bunnies.foreach( _.update(dt) )
+        bunnies.foreach( update_bunny(dt,_) )
     }
 
     override def update(dt: Double) : Unit = {

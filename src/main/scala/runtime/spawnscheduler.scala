@@ -46,9 +46,7 @@ object SpawnScheduler extends Publisher
                 gamestate += BunnyFactory.create(
                     spawn_queue.dequeue._2,
                     gamestate.enemy,
-                    path,
-                    gamestate
-                    )
+                    path)
             }
             if( spawn_queue.isEmpty && gamestate.bunnies.isEmpty )
             {

@@ -11,12 +11,10 @@ case class HeavyBunny(
     _owner: Player,
     val bunny_id: Int,
     _path: Progress,
-    _gamestate: GameState,
     _health_modifier: Double = 1.0)
 extends Bunny(
     _owner,
     _path,
-    _gamestate,
     20.0,
     _health_modifier)
 {

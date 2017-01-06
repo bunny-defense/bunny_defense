@@ -18,14 +18,12 @@ import util.Random
  Bunny superclass from which every ennemy is derived.
  @param owner The player who owns the bunny
  @param path The path the bunny has to take
- @param gamestate The state of the game
  @param base_hp The base health points of the bunny
  @param health_modifier Multiplied to _initial_hp
  */
 abstract class Bunny(
     val owner: Player,
     val path: Progress,
-    val gamestate: GameState,
     val base_hp: Double = 10.0,
     val health_modifier: Double = 1.0)
 {
@@ -90,7 +88,7 @@ abstract class Bunny(
     def reward: (Int => Int) = atan_variation(5, 1, 10)
 
     /** This function is triggered when the bunny dies */
-    protected def on_death(): Unit = {}
+    def on_death(): Unit = {}
 
     /** This function applies damage to the bunny.
      @param dmg The amount of damaged caused to the bunny
@@ -111,28 +109,9 @@ abstract class Bunny(
     /** Moves the bunny along the path
      @param dt The delta of time that passed since the last update
      */
-    protected def move(dt: Double): Unit = {
+    def move(dt: Double): Unit = {
         path.move( dt * this.speed )
         pos = path.get_position + spread
-    }
-
-    /** Updates the bunny
-     @param dt The delta of time that passed since the last update
-     */
-	def update(dt: Double): Unit = {
-        if ( !this.alive ) {
-            this.on_death()
-            gamestate.bunny_death_render_strategy(this)
-            val damager = last_damager.get // If this crashes, it is a bug
-            damager.add_gold(reward(gamestate.wave_counter))
-            damager.killcount += 1
-            gamestate -= this
-        }
-        this.move(dt)
-        if ( this.path.reached ) {
-            gamestate -= this
-            gamestate.bunny_reach_goal_strategy(this)
-        }
     }
 
     // =================
