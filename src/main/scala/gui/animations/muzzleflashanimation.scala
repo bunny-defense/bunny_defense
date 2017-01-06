@@ -11,6 +11,7 @@ import runtime.GuiGameState
 class MuzzleflashAnimation(origin : Waypoint, gamestate: GuiGameState)
 extends Animatable(gamestate)
 {
+    private def view_pos = gamestate.map_panel.viewpos
     val duration = 0.1
     timer        = duration
     val cellsize = MapPanel.cellsize
@@ -20,8 +21,8 @@ extends Animatable(gamestate)
     override def draw(g: Graphics2D): Unit = {
         g.setColor( Colors.white )
         g.fillOval(
-            pos.x.toInt + cellsize / 2 - size / 2,
-            pos.y.toInt + cellsize / 2 - size / 2,
+            pos.x.toInt + cellsize / 2 - size / 2 - view_pos.x.toInt,
+            pos.y.toInt + cellsize / 2 - size / 2 - view_pos.y.toInt,
             size, size )
     }
 }
