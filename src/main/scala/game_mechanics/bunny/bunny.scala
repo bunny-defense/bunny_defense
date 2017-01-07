@@ -6,6 +6,7 @@ import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 import Math._
 
+import controller.SimpleBunnyController
 import controller.PathBunnyMovementController
 import game_mechanics.path._
 import game_mechanics.{Player, JPS}
@@ -38,6 +39,10 @@ abstract class Bunny(
     // TODO give the BunnyMovementController as an argument
     /** Manages the movement of the bunny (idle or following a path) */
     val movementController = new PathBunnyMovementController(path)
+
+    // TODO give the BunnyController as an argument
+    /** Controls the bunny */
+    val controller = new SimpleBunnyController()
 
     val law             = new Random()
     /** The start position of the bunny */
@@ -94,6 +99,20 @@ abstract class Bunny(
 
     /** This function is triggered when the bunny dies */
     def on_death(): Unit = {}
+
+    /** This function moves the bunny
+     @param dt delta time since last update
+     */
+    def move(dt: Double) : Unit = {
+        this.movementController.move(this, dt)
+    }
+
+    /** This function updates the bunny
+     @param dt delta time since last update
+     */
+    def update(dt: Double) : Unit = {
+        this.controller.update(this, dt)
+    }
 
     /** This function applies damage to the bunny.
      @param dmg The amount of damaged caused to the bunny

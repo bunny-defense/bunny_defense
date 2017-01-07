@@ -17,6 +17,7 @@ import game_mechanics.tower._
 import game_mechanics.bunny._
 import gui._
 import gui.animations._
+import manager.ListBunnyManager
 import tcp._
 
 case object SelectedCell extends Event
@@ -32,6 +33,7 @@ extends State with Publisher
      * It manages the main loop, the graphics, everything
      */
     def map : GameMap = new GameMap(map_data,this)
+    val bunnyManager  = new ListBunnyManager()
     val bunnies       = new ListBuffer[Bunny]
     val projectiles   = new ListBuffer[Projectile]
     val towers        = new ListBuffer[Tower]
@@ -73,22 +75,7 @@ extends State with Publisher
     }
 
     /* ==================== MAIN LOOP ==================== */
-    def update_bunny(dt: Double, bunny: Bunny)
-    {
-        if ( !bunny.alive ) {
-            bunny.on_death()
-            this.bunny_death_render_strategy(bunny)
-            val damager = bunny.last_damager.get // If bunny crashes, it is a bug
-            damager.add_gold(bunny.reward(this.wave_counter))
-            damager.killcount += 1
-            this -= bunny
-        }
-        bunny.movementController.move(bunny, dt)
-        if ( bunny.path.reached ) {
-            this -= bunny
-            this.bunny_reach_goal_strategy(bunny)
-        }
-    }
+
     /* Update the game for dt time */
     def step(dt: Double): Unit = {
         /* Update projectiles */
@@ -118,7 +105,7 @@ extends State with Publisher
                 bunnies.foreach( x => if( (x.pos - bunny.pos).norm <= bunny.effect_range )
                 { bunny.allied_effect(x) })
         )
-        bunnies.foreach( update_bunny(dt,_) )
+        bunnies.foreach(_.update(dt))
     }
 
     override def update(dt: Double) : Unit = {
@@ -134,16 +121,6 @@ extends State with Publisher
     }
 
     /* ==================== COLLECTION-LIKE BEHAVIOR ==================== */
-
-    /* BUNNIES */
-
-    def +=(bunny: Bunny): Unit = {
-        bunnies += bunny
-    }
-
-    def -=(bunny: Bunny): Unit = {
-        bunnies -= bunny
-    }
 
     /* PROJECTILES */
 
