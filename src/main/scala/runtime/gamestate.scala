@@ -83,7 +83,7 @@ extends State with Publisher
             damager.killcount += 1
             this -= bunny
         }
-        bunny.move(dt)
+        bunny.movementController.move(bunny, dt)
         if ( bunny.path.reached ) {
             this -= bunny
             this.bunny_reach_goal_strategy(bunny)

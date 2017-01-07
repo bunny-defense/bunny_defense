@@ -6,6 +6,7 @@ import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 import Math._
 
+import controller.PathBunnyMovementController
 import game_mechanics.path._
 import game_mechanics.{Player, JPS}
 import gui.MapPanel
@@ -33,6 +34,10 @@ abstract class Bunny(
     private val _initial_hp = base_hp * health_modifier
     /** The current health points of the bunny */
     private var _hp     = _initial_hp
+
+    // TODO give the BunnyMovementController as an argument
+    /** Manages the movement of the bunny (idle or following a path) */
+    val movementController = new PathBunnyMovementController(path)
 
     val law             = new Random()
     /** The start position of the bunny */
@@ -104,14 +109,6 @@ abstract class Bunny(
      */
     def alive() : Boolean = {
         this._hp > 0.0
-    }
-
-    /** Moves the bunny along the path
-     @param dt The delta of time that passed since the last update
-     */
-    def move(dt: Double): Unit = {
-        path.move( dt * this.speed )
-        pos = path.get_position + spread
     }
 
     // =================
